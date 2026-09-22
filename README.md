@@ -1,19 +1,37 @@
 # Taller Milenio Operations & Growth Analytics
 
-Toolkit local de Analytics y consultoría agentic para modelar recorridos de particulares, flotillas y grúas; analizar seguimiento, capacidad, servicio, inventario, SLA y cobranza; y producir recomendaciones con evidencia y aprobación humana.
+Toolkit turnkey, local y de solo lectura para Analytics y consultoría: modela recorridos de particulares, flotillas y grúas; analiza seguimiento, capacidad, servicio, inventario, SLA y cobranza; y produce recomendaciones con evidencia y aprobación humana.
 
 **Todo resultado inicial es sintético.** El proceso real de Taller Milenio no ha sido validado. Este repositorio no es una app, CRM, ERP, frontend/backend ni sistema de despacho. No envía mensajes, diagnostica, fija precios, despacha, factura fiscalmente o mueve dinero.
 
 English: [README.en.md](README.en.md).
 
+## Entrega lista para revisar
+
+- [Descargar la versión y el paquete offline para Windows](https://github.com/erickinorganico/taller-milenio-operations-analytics/releases/latest)
+- [Informe de ejemplo](artifacts/demo/reports/administracion.md), [cola de revisión](artifacts/demo/reports/cola_revision.md) y [recibo verificable](artifacts/demo/receipt.json)
+- [Oferta de consultoría](docs/OFERTA-CONSULTORIA.md), [playbook del cliente](docs/CLIENT-PLAYBOOK.md) y [plantillas editables](examples/consulting/)
+- [Pruebas automáticas en Windows y Linux](https://github.com/erickinorganico/taller-milenio-operations-analytics/actions)
+
+El ZIP incluye código, reportes HTML/Markdown, SQLite, CSV y dependencias para Python 3.12 en Windows x64. Extraiga el ZIP, entre a `source/` y ejecute `Setup.ps1 -Offline`; Python debe estar instalado. Abra `artifacts/demo/reports/informe_ejecutivo.html` para revisar el ejemplo o use `Run-Demo.cmd` para generar una corrida nueva.
+
 ## Inicio rápido
 
-Requiere Python 3.12+. La primera instalación en línea descarga y conserva las dependencias; después, la demo funciona sin red.
+Requiere Python 3.12+.
+
+Windows:
 
 ```powershell
-py -3 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -e .
-.\.venv\Scripts\python.exe -m milenio demo --output artifacts/demo
+.\Setup.ps1
+.\.venv\Scripts\python.exe -m milenio demo --output artifacts/my-demo
+```
+
+Linux:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m milenio demo --output artifacts/my-demo
 ```
 
 Para probar una instalación limpia sin red después de preparar el wheelhouse:
@@ -30,6 +48,16 @@ La corrida genera:
 - `reports/informe_ejecutivo.html` y charts PNG/SVG;
 - `proposals.json` con evidencia, aprobación requerida y sin ejecución externa;
 - `receipt.json` con controles, conteos y hashes.
+
+## Reanalizar los CSV exportados
+
+La demo produce un directorio CSV completo que puede volver a entrar al pipeline:
+
+```powershell
+.\.venv\Scripts\python.exe -m milenio analyze --input artifacts/demo/csv --output artifacts/from-csv
+```
+
+Use una ruta de salida nueva. El importador exige el conjunto contractual completo y conserva cobertura histórica como `unknown` cuando los CSV no contienen un historial validado.
 
 ## Verificar
 
@@ -54,6 +82,6 @@ Los tests trabajan sin red ni producción. Una corrida verde verifica el mecanis
 - [Runbook](docs/RUNBOOK.md)
 - [Ruta a exports reales](docs/REAL-DATA.md)
 
-La demo solo admite el corte congelado `2026-09-21T18:00:00Z`; otro corte se rechaza para evitar resultados que aparenten actualidad. Métricas, umbrales y SLA son supuestos de prueba. No publique inputs, bases, secretos o datos reales.
+La demo solo admite el corte congelado `2026-09-21T18:00:00Z`; otro corte se rechaza para evitar resultados que aparenten actualidad. Métricas, umbrales y SLA son supuestos de prueba. El toolkit puede servir como muestra comercial de un servicio de consultoría, pero no demuestra despliegue, adopción o resultados reales. No publique inputs, bases, secretos o datos reales.
 
 Repositorio público autorizado: `erickinorganico/taller-milenio-operations-analytics`. Licencia MIT.

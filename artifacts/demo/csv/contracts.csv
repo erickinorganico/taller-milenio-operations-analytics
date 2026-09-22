@@ -1,0 +1,3 @@
+﻿id,fleet_account_id,name,sla_hours,starts_at,ends_at,approval_ref,status,synthetic
+CT-001,FA-001,SLA demo Norte,48,2026-01-01T00:00:00Z,2026-12-31T23:59:59Z,APP-CT-001,active,true
+CT-002,FA-002,Contrato vencido demo,72,2025-01-01T00:00:00Z,2025-12-31T23:59:59Z,APP-CT-002,expired,true

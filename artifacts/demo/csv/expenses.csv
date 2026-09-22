@@ -1,0 +1,3 @@
+﻿id,description,amount_cents,category,method,paid_at,synthetic
+EXP-001,Compra de consumibles demo,24000,parts,transfer,2026-09-18T18:00:00Z,true
+EXP-002,Servicios del local demo,18000,utilities,cash,2026-09-15T18:00:00Z,true

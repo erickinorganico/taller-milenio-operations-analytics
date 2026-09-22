@@ -1,0 +1,8 @@
+{
+  "case": "stock_overconsumption",
+  "error": "Inventario insuficiente o sobrerreservado",
+  "input_sha256": "b02594216340ca8d1d8784a302a6bae321774627066a75bb017e397ef7f3f92e",
+  "status": "expected_failure_observed",
+  "success_receipt_created": false,
+  "synthetic": true
+}

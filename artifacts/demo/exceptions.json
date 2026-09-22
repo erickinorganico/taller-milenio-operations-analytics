@@ -1,0 +1,268 @@
+[
+  {
+    "action": "Verificar compra y disponibilidad real",
+    "category": "blocked_work",
+    "detail": "Falta filtro",
+    "entity_id": "WO-003",
+    "entity_type": "work_orders",
+    "evidence": [
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "waiting_parts",
+        "version": 1
+      }
+    ],
+    "id": "blocked_work:WO-003",
+    "severity": "high",
+    "title": "Orden detenida"
+  },
+  {
+    "action": "Conciliar pagos y preparar recordatorio",
+    "category": "collections",
+    "detail": "Saldo gerencial pendiente; no es comprobante fiscal",
+    "entity_id": "INV-001",
+    "entity_type": "invoices",
+    "evidence": [
+      {
+        "entity_id": "INV-001",
+        "entity_type": "invoices",
+        "field": "due_at",
+        "value": "2026-09-20T00:00:00Z",
+        "version": 1
+      }
+    ],
+    "id": "collections:INV-001",
+    "severity": "high",
+    "title": "Saldo vencido"
+  },
+  {
+    "action": "Revisar vigencia y preparar borrador",
+    "category": "quote",
+    "detail": "Mantenimiento preventivo demo",
+    "entity_id": "Q-010",
+    "entity_type": "quotes",
+    "evidence": [
+      {
+        "entity_id": "Q-010",
+        "entity_type": "quotes",
+        "field": "status",
+        "value": "sent",
+        "version": 1
+      }
+    ],
+    "id": "quote:Q-010",
+    "severity": "high",
+    "title": "Cotización sin respuesta"
+  },
+  {
+    "action": "Revisar contrato y evidencia del servicio",
+    "category": "sla",
+    "detail": "Evaluado desde recepción con horas del contrato; sin promesa automática",
+    "entity_id": "WO-009",
+    "entity_type": "work_orders",
+    "evidence": [
+      {
+        "entity_id": "WO-009",
+        "entity_type": "work_orders",
+        "field": "contract_id",
+        "value": "CT-001",
+        "version": 1
+      }
+    ],
+    "id": "sla:WO-009",
+    "severity": "high",
+    "title": "SLA: breached"
+  },
+  {
+    "action": "Preparar compra para revisión",
+    "category": "stock",
+    "detail": "Refacción demo 4",
+    "entity_id": "P-004",
+    "entity_type": "parts",
+    "evidence": [
+      {
+        "entity_id": "P-004",
+        "entity_type": "parts",
+        "field": "reorder_point",
+        "value": 2,
+        "version": 1
+      }
+    ],
+    "id": "stock:P-004",
+    "severity": "high",
+    "title": "Revisar reposición"
+  },
+  {
+    "action": "Preparar compra para revisión",
+    "category": "stock",
+    "detail": "Refacción demo 5",
+    "entity_id": "P-005",
+    "entity_type": "parts",
+    "evidence": [
+      {
+        "entity_id": "P-005",
+        "entity_type": "parts",
+        "field": "reorder_point",
+        "value": 2,
+        "version": 1
+      }
+    ],
+    "id": "stock:P-005",
+    "severity": "high",
+    "title": "Revisar reposición"
+  },
+  {
+    "action": "Preparar compra para revisión",
+    "category": "stock",
+    "detail": "Refacción demo 6",
+    "entity_id": "P-006",
+    "entity_type": "parts",
+    "evidence": [
+      {
+        "entity_id": "P-006",
+        "entity_type": "parts",
+        "field": "reorder_point",
+        "value": 2,
+        "version": 1
+      }
+    ],
+    "id": "stock:P-006",
+    "severity": "high",
+    "title": "Revisar reposición"
+  },
+  {
+    "action": "Revisión humana de seguridad, precio, unidad y despacho",
+    "category": "tow",
+    "detail": "Av. Demo 100 → Taller Milenio",
+    "entity_id": "TW-002",
+    "entity_type": "tows",
+    "evidence": [
+      {
+        "entity_id": "TW-002",
+        "entity_type": "tows",
+        "field": "status",
+        "value": "en_route",
+        "version": 1
+      }
+    ],
+    "id": "tow:TW-002",
+    "severity": "high",
+    "title": "Solicitud de grúa abierta"
+  },
+  {
+    "action": "Revisión humana de seguridad, precio, unidad y despacho",
+    "category": "tow",
+    "detail": "Av. Demo 100 → Taller Milenio",
+    "entity_id": "TW-003",
+    "entity_type": "tows",
+    "evidence": [
+      {
+        "entity_id": "TW-003",
+        "entity_type": "tows",
+        "field": "status",
+        "value": "requested",
+        "version": 1
+      }
+    ],
+    "id": "tow:TW-003",
+    "severity": "high",
+    "title": "Solicitud de grúa abierta"
+  },
+  {
+    "action": "Revisar disponibilidad y consentimiento",
+    "category": "appointment",
+    "detail": "Servicio demo",
+    "entity_id": "A-002",
+    "entity_type": "appointments",
+    "evidence": [
+      {
+        "entity_id": "A-002",
+        "entity_type": "appointments",
+        "field": "status",
+        "value": "pending",
+        "version": 1
+      }
+    ],
+    "id": "appointment:A-002",
+    "severity": "medium",
+    "title": "Cita por confirmar"
+  },
+  {
+    "action": "Preparar seguimiento y revisar consentimiento",
+    "category": "follow_up",
+    "detail": "Servicio demo",
+    "entity_id": "L-001",
+    "entity_type": "leads",
+    "evidence": [
+      {
+        "entity_id": "L-001",
+        "entity_type": "leads",
+        "field": "follow_up_at",
+        "value": "2026-09-20T17:00:00Z",
+        "version": 1
+      }
+    ],
+    "id": "follow_up:L-001",
+    "severity": "medium",
+    "title": "Seguimiento pendiente"
+  },
+  {
+    "action": "Preparar propuesta de programación",
+    "category": "maintenance",
+    "detail": "Revisión 10,000 km",
+    "entity_id": "M-001",
+    "entity_type": "maintenance",
+    "evidence": [
+      {
+        "entity_id": "M-001",
+        "entity_type": "maintenance",
+        "field": "due_at",
+        "value": "2026-09-25T18:00:00Z",
+        "version": 1
+      }
+    ],
+    "id": "maintenance:M-001",
+    "severity": "medium",
+    "title": "Mantenimiento próximo"
+  },
+  {
+    "action": "Revisar vigencia y preparar borrador",
+    "category": "quote",
+    "detail": "Mantenimiento preventivo demo",
+    "entity_id": "Q-009",
+    "entity_type": "quotes",
+    "evidence": [
+      {
+        "entity_id": "Q-009",
+        "entity_type": "quotes",
+        "field": "status",
+        "value": "sent",
+        "version": 1
+      }
+    ],
+    "id": "quote:Q-009",
+    "severity": "medium",
+    "title": "Cotización sin respuesta"
+  },
+  {
+    "action": "Preparar compra para revisión",
+    "category": "stock",
+    "detail": "Refacción demo 3",
+    "entity_id": "P-003",
+    "entity_type": "parts",
+    "evidence": [
+      {
+        "entity_id": "P-003",
+        "entity_type": "parts",
+        "field": "reorder_point",
+        "value": 2,
+        "version": 1
+      }
+    ],
+    "id": "stock:P-003",
+    "severity": "medium",
+    "title": "Revisar reposición"
+  }
+]

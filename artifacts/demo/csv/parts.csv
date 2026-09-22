@@ -1,0 +1,7 @@
+﻿id,sku,name,supplier_id,unit_cost_cents,reorder_point,synthetic
+P-001,SKU-001,Refacción demo 1,S-001,1550,2,true
+P-002,SKU-002,Refacción demo 2,S-001,1900,2,true
+P-003,SKU-003,Refacción demo 3,S-002,2250,2,true
+P-004,SKU-004,Refacción demo 4,S-003,2600,2,true
+P-005,SKU-005,Refacción demo 5,S-002,2950,2,true
+P-006,SKU-006,Refacción demo 6,S-003,3300,2,true

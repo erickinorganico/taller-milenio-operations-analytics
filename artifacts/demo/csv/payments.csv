@@ -1,0 +1,3 @@
+﻿id,invoice_id,amount_cents,method,reference,paid_at,synthetic
+PAY-001,INV-001,100000,transfer,DEMO-TRANSFER-001,2026-09-21T15:00:00Z,true
+PAY-002,INV-003,85000,card,DEMO-CARD-002,2026-09-20T22:00:00Z,true

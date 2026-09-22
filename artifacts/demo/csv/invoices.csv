@@ -1,0 +1,5 @@
+﻿id,customer_id,work_order_id,tow_id,amount_cents,due_at,status,synthetic
+INV-001,C-001,WO-001,,185000,2026-09-20T00:00:00Z,issued,true
+INV-002,C-009,WO-009,,300000,2026-10-01T00:00:00Z,issued,true
+INV-003,C-006,,TW-001,85000,2026-10-01T00:00:00Z,issued,true
+INV-004,C-009,,TW-005,125000,2026-10-01T00:00:00Z,issued,true

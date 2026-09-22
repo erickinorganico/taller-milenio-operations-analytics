@@ -1,0 +1,403 @@
+[
+  {
+    "agent": "operations_controller",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "waiting_parts",
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-09728ef3dad36dfca0a1",
+    "rationale": "Verificar compra y disponibilidad real. Borrador sintético: requiere revisión humana; no ejecuta acciones.",
+    "status": "pending",
+    "title": "Orden detenida"
+  },
+  {
+    "agent": "collections_assistant",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "INV-001",
+        "entity_type": "invoices",
+        "field": "due_at",
+        "value": "2026-09-20T00:00:00Z",
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-59ee54b8195734dc0334",
+    "rationale": "Conciliar pagos y preparar recordatorio. Borrador sintético: requiere revisión humana; no ejecuta acciones.",
+    "status": "pending",
+    "title": "Saldo vencido"
+  },
+  {
+    "agent": "intake_admin",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "Q-010",
+        "entity_type": "quotes",
+        "field": "status",
+        "value": "sent",
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-406f4ddf0797941a1ffa",
+    "rationale": "Revisar vigencia y preparar borrador. Borrador sintético: requiere revisión humana; no ejecuta acciones.",
+    "status": "pending",
+    "title": "Cotización sin respuesta"
+  },
+  {
+    "agent": "fleet_sla_watcher",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "WO-009",
+        "entity_type": "work_orders",
+        "field": "contract_id",
+        "value": "CT-001",
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-06d15b6c15eb7f3356e9",
+    "rationale": "Revisar contrato y evidencia del servicio. Borrador sintético: requiere revisión humana; no ejecuta acciones.",
+    "status": "pending",
+    "title": "SLA: breached"
+  },
+  {
+    "agent": "operations_controller",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "P-004",
+        "entity_type": "parts",
+        "field": "reorder_point",
+        "value": 2,
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-42925020eb99f0c76fc7",
+    "rationale": "Preparar compra para revisión. Borrador sintético: requiere revisión humana; no ejecuta acciones.",
+    "status": "pending",
+    "title": "Revisar reposición"
+  },
+  {
+    "agent": "operations_controller",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "P-005",
+        "entity_type": "parts",
+        "field": "reorder_point",
+        "value": 2,
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-59f7fc513ea00d58d242",
+    "rationale": "Preparar compra para revisión. Borrador sintético: requiere revisión humana; no ejecuta acciones.",
+    "status": "pending",
+    "title": "Revisar reposición"
+  },
+  {
+    "agent": "operations_controller",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "P-006",
+        "entity_type": "parts",
+        "field": "reorder_point",
+        "value": 2,
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-a9e76c5d5d2670779f4a",
+    "rationale": "Preparar compra para revisión. Borrador sintético: requiere revisión humana; no ejecuta acciones.",
+    "status": "pending",
+    "title": "Revisar reposición"
+  },
+  {
+    "agent": "tow_dispatch_assistant",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "TW-002",
+        "entity_type": "tows",
+        "field": "status",
+        "value": "en_route",
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-863392fc6025a43022ff",
+    "rationale": "Revisión humana de seguridad, precio, unidad y despacho. Borrador sintético: requiere revisión humana; no ejecuta acciones.",
+    "status": "pending",
+    "title": "Solicitud de grúa abierta"
+  },
+  {
+    "agent": "tow_dispatch_assistant",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "TW-003",
+        "entity_type": "tows",
+        "field": "status",
+        "value": "requested",
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-709efcce31fe944de14d",
+    "rationale": "Revisión humana de seguridad, precio, unidad y despacho. Borrador sintético: requiere revisión humana; no ejecuta acciones.",
+    "status": "pending",
+    "title": "Solicitud de grúa abierta"
+  },
+  {
+    "agent": "intake_admin",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "A-002",
+        "entity_type": "appointments",
+        "field": "status",
+        "value": "pending",
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-bfc740a8da528ea104b3",
+    "rationale": "Revisar disponibilidad y consentimiento. Borrador sintético: requiere revisión humana; no ejecuta acciones.",
+    "status": "pending",
+    "title": "Cita por confirmar"
+  },
+  {
+    "agent": "intake_admin",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "L-001",
+        "entity_type": "leads",
+        "field": "follow_up_at",
+        "value": "2026-09-20T17:00:00Z",
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-ae2fd652d9eb3f3fed91",
+    "rationale": "Preparar seguimiento y revisar consentimiento. Borrador sintético: requiere revisión humana; no ejecuta acciones.",
+    "status": "pending",
+    "title": "Seguimiento pendiente"
+  },
+  {
+    "agent": "maintenance_planner",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "M-001",
+        "entity_type": "maintenance",
+        "field": "due_at",
+        "value": "2026-09-25T18:00:00Z",
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-c153ba512ef2d2b26d81",
+    "rationale": "Preparar propuesta de programación. Borrador sintético: requiere revisión humana; no ejecuta acciones.",
+    "status": "pending",
+    "title": "Mantenimiento próximo"
+  },
+  {
+    "agent": "intake_admin",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "Q-009",
+        "entity_type": "quotes",
+        "field": "status",
+        "value": "sent",
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-c31e084638b45bac5d43",
+    "rationale": "Revisar vigencia y preparar borrador. Borrador sintético: requiere revisión humana; no ejecuta acciones.",
+    "status": "pending",
+    "title": "Cotización sin respuesta"
+  },
+  {
+    "agent": "operations_controller",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "P-003",
+        "entity_type": "parts",
+        "field": "reorder_point",
+        "value": 2,
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-04156ffcba62459677f6",
+    "rationale": "Preparar compra para revisión. Borrador sintético: requiere revisión humana; no ejecuta acciones.",
+    "status": "pending",
+    "title": "Revisar reposición"
+  },
+  {
+    "agent": "fleet_sales_research",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "proposal",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "field": "next_step",
+        "value": "Enviar propuesta",
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-14a6ff6cf12df1342d18",
+    "rationale": "Validar tamaño de flotilla, zona, tipos de unidad, responsables y necesidad mediante fuentes públicas autorizadas. Preparar propuesta; no contactar ni prometer precios. Siguiente paso registrado: Enviar propuesta",
+    "status": "pending",
+    "title": "Preparar investigación: Mantenimiento anual"
+  },
+  {
+    "agent": "fleet_sales_research",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "qualified",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "field": "next_step",
+        "value": "Calificar",
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-bb592fd24bd69886fc5f",
+    "rationale": "Validar tamaño de flotilla, zona, tipos de unidad, responsables y necesidad mediante fuentes públicas autorizadas. Preparar propuesta; no contactar ni prometer precios. Siguiente paso registrado: Calificar",
+    "status": "pending",
+    "title": "Preparar investigación: Servicio de flotilla"
+  },
+  {
+    "agent": "marketing_planner",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "CAM-001",
+        "entity_type": "campaigns",
+        "field": "draft",
+        "value": "Borrador sintético",
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-b200965ae4e021383921",
+    "rationale": "Verificar audiencia, consentimiento y contenido antes de cualquier publicación. Borrador: Borrador sintético",
+    "status": "pending",
+    "title": "Revisar campaña: Recordatorio mantenimiento"
+  },
+  {
+    "agent": "weekly_operator",
+    "approval_required": true,
+    "evidence": [
+      {
+        "entity_id": "WO-001",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "delivered",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-002",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "in_service",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "waiting_parts",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "rework",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-005",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "cancelled",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-006",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "quality_check",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-007",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "received",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-008",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "authorized",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-009",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "delivered",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-010",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "scheduled",
+        "version": 1
+      }
+    ],
+    "external_execution": false,
+    "id": "AP-49e2d0555b03896f6265",
+    "rationale": "Revisar órdenes abiertas, bloqueos y retrabajos de esta muestra sintética. Definir responsables y próximos pasos; no inferir resultados del negocio real.",
+    "status": "pending",
+    "title": "Preparar reunión de operación"
+  }
+]

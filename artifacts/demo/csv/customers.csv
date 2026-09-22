@@ -1,0 +1,11 @@
+﻿id,name,segment,consent,contact,synthetic
+C-001,Demo Ana López,particular,true,c-001@demo.milenio.local,true
+C-002,Demo Bruno Ruiz,particular,true,c-002@demo.milenio.local,true
+C-003,Demo Carla Méndez,particular,false,,true
+C-004,Demo Diego Soto,particular,true,c-004@demo.milenio.local,true
+C-005,Demo Elena Vega,particular,true,c-005@demo.milenio.local,true
+C-006,Demo Fabián Cruz,particular,true,c-006@demo.milenio.local,true
+C-007,Demo Graciela Mora,particular,true,c-007@demo.milenio.local,true
+C-008,Demo Héctor Luna,particular,true,c-008@demo.milenio.local,true
+C-009,Demo Logística Norte SA,fleet,true,c-009@demo.milenio.local,true
+C-010,Demo Servicios Delta,fleet,true,c-010@demo.milenio.local,true

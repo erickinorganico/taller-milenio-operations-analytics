@@ -5,7 +5,7 @@ import json
 import os
 import platform
 import shutil
-import tempfile
+import uuid
 from pathlib import Path
 
 from .agents import run_agents
@@ -40,7 +40,7 @@ def source_manifest():
     return {file.relative_to(root).as_posix(): file_hash(file) for file in files}
 
 
-def run_pipeline(output, dataset=None, history=None, now=DEMO_NOW):
+def run_pipeline(output, dataset=None, history=None, now=DEMO_NOW, input_hashes=None):
     """Build into a new directory. Invalid input never yields a success receipt.
 
     No mutation to source dictionaries/files. Exported JSON is the lossless adapter;
@@ -54,7 +54,11 @@ def run_pipeline(output, dataset=None, history=None, now=DEMO_NOW):
     history = copy.deepcopy(synthetic_history(data, now) if dataset is None and history is None else history or [])
     history_grade = validate_history(data, history, now)
     output.parent.mkdir(parents=True, exist_ok=True)
-    staging = Path(tempfile.mkdtemp(prefix=".milenio-build-", dir=output.parent)).resolve()
+    # Inherit the destination directory's access policy. Windows Python creates
+    # mkdtemp directories with owner-only ACLs, which survive a final rename and
+    # prevent the desktop user from opening reports built by a sandbox identity.
+    staging = (output.parent / (".milenio-build-" + uuid.uuid4().hex)).resolve()
+    staging.mkdir(mode=0o755, exist_ok=False)
     store = None
     try:
         store = Store(staging / "milenio.sqlite")
@@ -91,7 +95,7 @@ def run_pipeline(output, dataset=None, history=None, now=DEMO_NOW):
         write_json(staging / "sql_results.json", sql_results)
         files = {p.relative_to(staging).as_posix(): file_hash(p) for p in sorted(staging.rglob("*")) if p.is_file()}
         receipt = {"status": "pass", "schema_version": SCHEMA_VERSION, "synthetic": True, "as_of": now,
-                   "data_sha256": digest(data), "artifacts_sha256": files, "source_sha256": source_manifest(),
+                   "data_sha256": digest(data), "input_sha256": input_hashes or {}, "artifacts_sha256": files, "source_sha256": source_manifest(),
                    "content_sha256": digest(files), "runtime": {"python": platform.python_version()},
                    "checks": {"domain": "pass", "audit": "pass", "reconciliation": "pass", "agents": "pass", "history": history_grade["status"]},
                    "publication_scope": "Synthetic outputs only. Real business discovery and pilot not validated."}

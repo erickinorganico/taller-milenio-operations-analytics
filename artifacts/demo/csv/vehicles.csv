@@ -1,0 +1,13 @@
+﻿id,customer_id,label,plate,odometer_km,synthetic
+V-001,C-001,Demo unidad 01,DEMO-001,18430,true
+V-002,C-002,Demo unidad 02,DEMO-002,18860,true
+V-003,C-003,Demo unidad 03,DEMO-003,19290,true
+V-004,C-004,Demo unidad 04,DEMO-004,19720,true
+V-005,C-005,Demo unidad 05,DEMO-005,20150,true
+V-006,C-006,Demo unidad 06,DEMO-006,20580,true
+V-007,C-007,Demo unidad 07,DEMO-007,21010,true
+V-008,C-008,Demo unidad 08,DEMO-008,21440,true
+V-009,C-009,Demo unidad 09,DEMO-009,21870,true
+V-010,C-009,Demo unidad 10,DEMO-010,22300,true
+V-011,C-010,Demo unidad 11,DEMO-011,22730,true
+V-012,C-010,Demo unidad 12,DEMO-012,23160,true

@@ -1,0 +1,400 @@
+{
+  "fields": {
+    "appointments": {
+      "customer_id": "ref:customers",
+      "reason": "str",
+      "starts_at": "date",
+      "status": "state",
+      "vehicle_id": "ref:vehicles"
+    },
+    "bays": {
+      "name": "str"
+    },
+    "campaigns": {
+      "audience": "enum:particular,fleet",
+      "draft": "str",
+      "name": "str",
+      "objective": "str",
+      "status": "state"
+    },
+    "contacts": {
+      "consent": "bool",
+      "contact": "str",
+      "fleet_account_id": "ref:fleet_accounts",
+      "name": "str",
+      "role": "str"
+    },
+    "contracts": {
+      "approval_ref": "str?",
+      "ends_at": "date",
+      "fleet_account_id": "ref:fleet_accounts",
+      "name": "str",
+      "sla_hours": "positive",
+      "starts_at": "date",
+      "status": "state"
+    },
+    "customers": {
+      "consent": "bool",
+      "contact": "str?",
+      "name": "str",
+      "segment": "enum:particular,fleet"
+    },
+    "expenses": {
+      "amount_cents": "positive",
+      "category": "enum:parts,rent,payroll,utilities,other",
+      "description": "str",
+      "method": "enum:cash,transfer,card",
+      "paid_at": "date"
+    },
+    "fleet_accounts": {
+      "customer_id": "ref:customers",
+      "fleet_size": "positive",
+      "industry": "str",
+      "owner": "str"
+    },
+    "invoices": {
+      "amount_cents": "money",
+      "customer_id": "ref:customers",
+      "due_at": "date",
+      "status": "state",
+      "tow_id": "ref:tows?",
+      "work_order_id": "ref:work_orders?"
+    },
+    "leads": {
+      "channel": "str",
+      "customer_id": "ref:customers",
+      "follow_up_at": "date",
+      "need": "str",
+      "status": "state",
+      "vehicle_id": "ref:vehicles?"
+    },
+    "maintenance": {
+      "contract_id": "ref:contracts",
+      "due_at": "date",
+      "due_km": "int",
+      "service": "str",
+      "status": "state",
+      "vehicle_id": "ref:vehicles",
+      "work_order_id": "ref:work_orders?"
+    },
+    "opportunities": {
+      "fleet_account_id": "ref:fleet_accounts",
+      "follow_up_at": "date",
+      "next_step": "str",
+      "status": "state",
+      "title": "str",
+      "value_cents": "money"
+    },
+    "parts": {
+      "name": "str",
+      "reorder_point": "int",
+      "sku": "str",
+      "supplier_id": "ref:suppliers",
+      "unit_cost_cents": "money"
+    },
+    "payments": {
+      "amount_cents": "positive",
+      "invoice_id": "ref:invoices",
+      "method": "enum:cash,transfer,card",
+      "paid_at": "date",
+      "reference": "str"
+    },
+    "proposals": {
+      "agent": "str",
+      "approval_required": "bool",
+      "decision_note": "str?",
+      "evidence": "list",
+      "external_execution": "bool",
+      "rationale": "str",
+      "status": "enum:pending,approved,rejected",
+      "title": "str"
+    },
+    "purchases": {
+      "expected_at": "date",
+      "part_id": "ref:parts",
+      "quantity": "positive",
+      "status": "state",
+      "unit_cost_cents": "money"
+    },
+    "quotes": {
+      "amount_cents": "money",
+      "authorization_ref": "str?",
+      "customer_id": "ref:customers",
+      "description": "str",
+      "status": "state",
+      "valid_until": "date",
+      "vehicle_id": "ref:vehicles"
+    },
+    "reservations": {
+      "part_id": "ref:parts",
+      "quantity": "positive",
+      "status": "enum:reserved,consumed,released",
+      "work_order_id": "ref:work_orders"
+    },
+    "stock_moves": {
+      "move_type": "enum:receive,consume,return,adjust",
+      "part_id": "ref:parts",
+      "purchase_id": "ref:purchases?",
+      "quantity": "signed",
+      "reason": "str",
+      "unit_cost_cents": "money",
+      "work_order_id": "ref:work_orders?"
+    },
+    "suppliers": {
+      "contact": "str?",
+      "name": "str"
+    },
+    "technicians": {
+      "name": "str",
+      "specialty": "str"
+    },
+    "tow_units": {
+      "capability": "str",
+      "name": "str"
+    },
+    "tows": {
+      "amount_cents": "money?",
+      "closed_at": "date?",
+      "conditions": "str",
+      "customer_id": "ref:customers",
+      "destination": "str",
+      "due_at": "date",
+      "human_approval_ref": "str?",
+      "pickup": "str",
+      "requested_at": "date",
+      "safety_ref": "str?",
+      "status": "state",
+      "unit_id": "ref:tow_units?",
+      "vehicle_id": "ref:vehicles"
+    },
+    "vehicles": {
+      "customer_id": "ref:customers",
+      "label": "str",
+      "odometer_km": "int",
+      "plate": "str"
+    },
+    "work_orders": {
+      "authorization_ref": "str?",
+      "bay_id": "ref:bays?",
+      "block_reason": "str?",
+      "completed_at": "date?",
+      "contract_id": "ref:contracts?",
+      "customer_id": "ref:customers",
+      "description": "str",
+      "due_at": "date",
+      "inspection": "str?",
+      "opened_at": "date",
+      "qc_ref": "str?",
+      "quote_id": "ref:quotes?",
+      "status": "state",
+      "technician_id": "ref:technicians?",
+      "vehicle_id": "ref:vehicles"
+    }
+  },
+  "flows": {
+    "appointments": {
+      "arrived": [],
+      "cancelled": [],
+      "confirmed": [
+        "arrived",
+        "no_show",
+        "cancelled"
+      ],
+      "no_show": [],
+      "pending": [
+        "confirmed",
+        "cancelled"
+      ]
+    },
+    "campaigns": {
+      "approved": [
+        "archived"
+      ],
+      "archived": [],
+      "draft": [
+        "review",
+        "archived"
+      ],
+      "review": [
+        "approved",
+        "archived"
+      ]
+    },
+    "contracts": {
+      "active": [
+        "expired",
+        "suspended"
+      ],
+      "cancelled": [],
+      "draft": [
+        "active",
+        "cancelled"
+      ],
+      "expired": [],
+      "suspended": [
+        "active",
+        "cancelled"
+      ]
+    },
+    "invoices": {
+      "draft": [
+        "issued",
+        "void"
+      ],
+      "issued": [
+        "void"
+      ],
+      "void": []
+    },
+    "leads": {
+      "lost": [],
+      "new": [
+        "qualified",
+        "lost"
+      ],
+      "qualified": [
+        "quoted",
+        "lost"
+      ],
+      "quoted": [
+        "won",
+        "lost"
+      ],
+      "won": []
+    },
+    "maintenance": {
+      "cancelled": [],
+      "completed": [],
+      "due": [
+        "scheduled",
+        "cancelled"
+      ],
+      "scheduled": [
+        "completed",
+        "cancelled"
+      ]
+    },
+    "opportunities": {
+      "lost": [],
+      "negotiation": [
+        "won",
+        "lost"
+      ],
+      "proposal": [
+        "negotiation",
+        "lost"
+      ],
+      "qualified": [
+        "proposal",
+        "lost"
+      ],
+      "research": [
+        "qualified",
+        "lost"
+      ],
+      "won": []
+    },
+    "purchases": {
+      "cancelled": [],
+      "draft": [
+        "ordered",
+        "cancelled"
+      ],
+      "ordered": [
+        "received",
+        "cancelled"
+      ],
+      "received": []
+    },
+    "quotes": {
+      "accepted": [],
+      "cancelled": [],
+      "draft": [
+        "sent",
+        "cancelled"
+      ],
+      "expired": [],
+      "rejected": [],
+      "sent": [
+        "accepted",
+        "rejected",
+        "expired"
+      ]
+    },
+    "tows": {
+      "accepted": [
+        "en_route",
+        "cancelled"
+      ],
+      "arrived": [
+        "transporting"
+      ],
+      "assessed": [
+        "quoted",
+        "cancelled"
+      ],
+      "assigned": [
+        "accepted",
+        "cancelled"
+      ],
+      "cancelled": [],
+      "closed": [],
+      "en_route": [
+        "arrived"
+      ],
+      "quoted": [
+        "assigned",
+        "cancelled"
+      ],
+      "requested": [
+        "assessed",
+        "cancelled"
+      ],
+      "transporting": [
+        "closed"
+      ]
+    },
+    "work_orders": {
+      "authorized": [
+        "scheduled",
+        "waiting_parts",
+        "cancelled"
+      ],
+      "cancelled": [],
+      "delivered": [],
+      "in_service": [
+        "quality_check",
+        "waiting_parts"
+      ],
+      "inspected": [
+        "authorized",
+        "cancelled"
+      ],
+      "quality_check": [
+        "ready",
+        "rework"
+      ],
+      "ready": [
+        "delivered",
+        "rework"
+      ],
+      "received": [
+        "inspected",
+        "cancelled"
+      ],
+      "rework": [
+        "in_service"
+      ],
+      "scheduled": [
+        "in_service",
+        "waiting_parts",
+        "cancelled"
+      ],
+      "waiting_parts": [
+        "scheduled",
+        "cancelled"
+      ]
+    }
+  },
+  "schema_version": 1
+}

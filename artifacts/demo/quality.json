@@ -1,0 +1,78 @@
+{
+  "agents": {
+    "agents_exercised": [
+      "collections_assistant",
+      "fleet_sales_research",
+      "fleet_sla_watcher",
+      "intake_admin",
+      "maintenance_planner",
+      "marketing_planner",
+      "operations_controller",
+      "tow_dispatch_assistant",
+      "weekly_operator"
+    ],
+    "critical_violations": 0,
+    "disclaimer": "Contract and evidence validation, not a model-quality or business-impact evaluation.",
+    "external_tools": [],
+    "mode": "deterministic_read_only",
+    "proposals": 18,
+    "status": "pass"
+  },
+  "history": {
+    "coverage": 1.0,
+    "events": 156,
+    "limitation": "Demo paths are explicitly fictional; imported snapshots do not imply observed transitions.",
+    "records_with_history": 50,
+    "stateful_records": 50,
+    "status": "complete"
+  },
+  "reconciliation": {
+    "checks": [
+      {
+        "detail": "Invariantes del modelo válidas",
+        "name": "Referencias, stock, capacidad, dinero y contratos",
+        "ok": true
+      },
+      {
+        "detail": "SHA-256 y correspondencia de registros",
+        "name": "Cadena de auditoría y estado actual",
+        "ok": true
+      },
+      {
+        "detail": "Cotizaciones y efectivo se muestran por separado",
+        "name": "Facturación = pagos + saldo",
+        "ok": true
+      }
+    ],
+    "ok": true
+  },
+  "record_counts": {
+    "appointments": 3,
+    "bays": 4,
+    "campaigns": 2,
+    "contacts": 3,
+    "contracts": 2,
+    "customers": 10,
+    "expenses": 2,
+    "fleet_accounts": 2,
+    "invoices": 4,
+    "leads": 6,
+    "maintenance": 3,
+    "opportunities": 2,
+    "parts": 6,
+    "payments": 2,
+    "proposals": 2,
+    "purchases": 3,
+    "quotes": 10,
+    "reservations": 3,
+    "stock_moves": 5,
+    "suppliers": 3,
+    "technicians": 4,
+    "tow_units": 4,
+    "tows": 5,
+    "vehicles": 12,
+    "work_orders": 10
+  },
+  "status": "pass",
+  "synthetic": true
+}

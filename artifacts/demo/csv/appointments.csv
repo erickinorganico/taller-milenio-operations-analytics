@@ -1,0 +1,4 @@
+﻿id,customer_id,vehicle_id,starts_at,reason,status,synthetic
+A-001,C-001,V-001,2026-09-22T16:00:00Z,Servicio demo,arrived,true
+A-002,C-002,V-002,2026-09-22T16:00:00Z,Servicio demo,pending,true
+A-003,C-009,V-009,2026-09-22T16:00:00Z,Servicio demo,cancelled,true

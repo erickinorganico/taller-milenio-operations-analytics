@@ -1,0 +1,1491 @@
+{
+  "action_queue": [
+    {
+      "action": "Verificar compra y disponibilidad real",
+      "category": "blocked_work",
+      "detail": "Falta filtro",
+      "entity_id": "WO-003",
+      "entity_type": "work_orders",
+      "evidence": [
+        {
+          "entity_id": "WO-003",
+          "entity_type": "work_orders",
+          "field": "status",
+          "value": "waiting_parts",
+          "version": 1
+        }
+      ],
+      "id": "blocked_work:WO-003",
+      "severity": "high",
+      "title": "Orden detenida"
+    },
+    {
+      "action": "Conciliar pagos y preparar recordatorio",
+      "category": "collections",
+      "detail": "Saldo gerencial pendiente; no es comprobante fiscal",
+      "entity_id": "INV-001",
+      "entity_type": "invoices",
+      "evidence": [
+        {
+          "entity_id": "INV-001",
+          "entity_type": "invoices",
+          "field": "due_at",
+          "value": "2026-09-20T00:00:00Z",
+          "version": 1
+        }
+      ],
+      "id": "collections:INV-001",
+      "severity": "high",
+      "title": "Saldo vencido"
+    },
+    {
+      "action": "Revisar vigencia y preparar borrador",
+      "category": "quote",
+      "detail": "Mantenimiento preventivo demo",
+      "entity_id": "Q-010",
+      "entity_type": "quotes",
+      "evidence": [
+        {
+          "entity_id": "Q-010",
+          "entity_type": "quotes",
+          "field": "status",
+          "value": "sent",
+          "version": 1
+        }
+      ],
+      "id": "quote:Q-010",
+      "severity": "high",
+      "title": "Cotización sin respuesta"
+    },
+    {
+      "action": "Revisar contrato y evidencia del servicio",
+      "category": "sla",
+      "detail": "Evaluado desde recepción con horas del contrato; sin promesa automática",
+      "entity_id": "WO-009",
+      "entity_type": "work_orders",
+      "evidence": [
+        {
+          "entity_id": "WO-009",
+          "entity_type": "work_orders",
+          "field": "contract_id",
+          "value": "CT-001",
+          "version": 1
+        }
+      ],
+      "id": "sla:WO-009",
+      "severity": "high",
+      "title": "SLA: breached"
+    },
+    {
+      "action": "Preparar compra para revisión",
+      "category": "stock",
+      "detail": "Refacción demo 4",
+      "entity_id": "P-004",
+      "entity_type": "parts",
+      "evidence": [
+        {
+          "entity_id": "P-004",
+          "entity_type": "parts",
+          "field": "reorder_point",
+          "value": 2,
+          "version": 1
+        }
+      ],
+      "id": "stock:P-004",
+      "severity": "high",
+      "title": "Revisar reposición"
+    },
+    {
+      "action": "Preparar compra para revisión",
+      "category": "stock",
+      "detail": "Refacción demo 5",
+      "entity_id": "P-005",
+      "entity_type": "parts",
+      "evidence": [
+        {
+          "entity_id": "P-005",
+          "entity_type": "parts",
+          "field": "reorder_point",
+          "value": 2,
+          "version": 1
+        }
+      ],
+      "id": "stock:P-005",
+      "severity": "high",
+      "title": "Revisar reposición"
+    },
+    {
+      "action": "Preparar compra para revisión",
+      "category": "stock",
+      "detail": "Refacción demo 6",
+      "entity_id": "P-006",
+      "entity_type": "parts",
+      "evidence": [
+        {
+          "entity_id": "P-006",
+          "entity_type": "parts",
+          "field": "reorder_point",
+          "value": 2,
+          "version": 1
+        }
+      ],
+      "id": "stock:P-006",
+      "severity": "high",
+      "title": "Revisar reposición"
+    },
+    {
+      "action": "Revisión humana de seguridad, precio, unidad y despacho",
+      "category": "tow",
+      "detail": "Av. Demo 100 → Taller Milenio",
+      "entity_id": "TW-002",
+      "entity_type": "tows",
+      "evidence": [
+        {
+          "entity_id": "TW-002",
+          "entity_type": "tows",
+          "field": "status",
+          "value": "en_route",
+          "version": 1
+        }
+      ],
+      "id": "tow:TW-002",
+      "severity": "high",
+      "title": "Solicitud de grúa abierta"
+    },
+    {
+      "action": "Revisión humana de seguridad, precio, unidad y despacho",
+      "category": "tow",
+      "detail": "Av. Demo 100 → Taller Milenio",
+      "entity_id": "TW-003",
+      "entity_type": "tows",
+      "evidence": [
+        {
+          "entity_id": "TW-003",
+          "entity_type": "tows",
+          "field": "status",
+          "value": "requested",
+          "version": 1
+        }
+      ],
+      "id": "tow:TW-003",
+      "severity": "high",
+      "title": "Solicitud de grúa abierta"
+    },
+    {
+      "action": "Revisar disponibilidad y consentimiento",
+      "category": "appointment",
+      "detail": "Servicio demo",
+      "entity_id": "A-002",
+      "entity_type": "appointments",
+      "evidence": [
+        {
+          "entity_id": "A-002",
+          "entity_type": "appointments",
+          "field": "status",
+          "value": "pending",
+          "version": 1
+        }
+      ],
+      "id": "appointment:A-002",
+      "severity": "medium",
+      "title": "Cita por confirmar"
+    },
+    {
+      "action": "Preparar seguimiento y revisar consentimiento",
+      "category": "follow_up",
+      "detail": "Servicio demo",
+      "entity_id": "L-001",
+      "entity_type": "leads",
+      "evidence": [
+        {
+          "entity_id": "L-001",
+          "entity_type": "leads",
+          "field": "follow_up_at",
+          "value": "2026-09-20T17:00:00Z",
+          "version": 1
+        }
+      ],
+      "id": "follow_up:L-001",
+      "severity": "medium",
+      "title": "Seguimiento pendiente"
+    },
+    {
+      "action": "Preparar propuesta de programación",
+      "category": "maintenance",
+      "detail": "Revisión 10,000 km",
+      "entity_id": "M-001",
+      "entity_type": "maintenance",
+      "evidence": [
+        {
+          "entity_id": "M-001",
+          "entity_type": "maintenance",
+          "field": "due_at",
+          "value": "2026-09-25T18:00:00Z",
+          "version": 1
+        }
+      ],
+      "id": "maintenance:M-001",
+      "severity": "medium",
+      "title": "Mantenimiento próximo"
+    },
+    {
+      "action": "Revisar vigencia y preparar borrador",
+      "category": "quote",
+      "detail": "Mantenimiento preventivo demo",
+      "entity_id": "Q-009",
+      "entity_type": "quotes",
+      "evidence": [
+        {
+          "entity_id": "Q-009",
+          "entity_type": "quotes",
+          "field": "status",
+          "value": "sent",
+          "version": 1
+        }
+      ],
+      "id": "quote:Q-009",
+      "severity": "medium",
+      "title": "Cotización sin respuesta"
+    },
+    {
+      "action": "Preparar compra para revisión",
+      "category": "stock",
+      "detail": "Refacción demo 3",
+      "entity_id": "P-003",
+      "entity_type": "parts",
+      "evidence": [
+        {
+          "entity_id": "P-003",
+          "entity_type": "parts",
+          "field": "reorder_point",
+          "value": 2,
+          "version": 1
+        }
+      ],
+      "id": "stock:P-003",
+      "severity": "medium",
+      "title": "Revisar reposición"
+    }
+  ],
+  "administracion": {
+    "aging": {
+      "buckets_cents": {
+        "1_30": 85000,
+        "31_60": 0,
+        "61_90": 0,
+        "90_plus": 0,
+        "current": 425000
+      },
+      "issued_with_balance": {
+        "denominator": 4,
+        "numerator": 3,
+        "rate": 0.75,
+        "status": "measured"
+      },
+      "overdue_cents": 85000
+    },
+    "evidence": [
+      {
+        "entity_id": "INV-001",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-002",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-003",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-004",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      }
+    ],
+    "money": {
+      "cash_net_cents": -18000,
+      "expense_cents": 42000,
+      "invoiced_cents": 695000,
+      "note": "pagado es cobro registrado, no ingreso reconocido; gasto es costo gerencial observado",
+      "paid_cents": 185000,
+      "parts_net_standard_cost_cents": 1800,
+      "quotes_cents": 1305500,
+      "receivable_cents": 510000
+    }
+  },
+  "assumptions": [
+    "Los datos son sintéticos y reproducibles.",
+    "Una tasa con denominador cero se informa como unknown.",
+    "Las cotizaciones, facturas, pagos y efectivo son conceptos separados."
+  ],
+  "flotillas": {
+    "commercial": {
+      "account_coverage": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0,
+        "status": "measured"
+      },
+      "open_opportunities": 2,
+      "pipeline_cents": 2030000
+    },
+    "contracted": {
+      "active": 1,
+      "contract_link_coverage": {
+        "denominator": 2,
+        "numerator": 1,
+        "rate": 0.5,
+        "status": "measured"
+      },
+      "delivered": {
+        "denominator": 2,
+        "numerator": 1,
+        "rate": 0.5,
+        "status": "measured"
+      },
+      "median_open_downtime_hours": 74.0,
+      "sla_completed_met": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0.0,
+        "status": "measured"
+      },
+      "sla_eligibility": {
+        "denominator": 1,
+        "numerator": 1,
+        "rate": 1.0,
+        "status": "measured"
+      },
+      "sla_open_at_risk": {
+        "denominator": 0,
+        "numerator": 0,
+        "rate": null,
+        "status": "unknown"
+      },
+      "sla_unknown": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0.0,
+        "status": "measured"
+      }
+    },
+    "evidence": [
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "proposal",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "qualified",
+        "version": 1
+      }
+    ],
+    "maintenance": {
+      "due_within_seven_days_or_mileage": 1,
+      "evidence": [
+        {
+          "entity_id": "M-001",
+          "entity_type": "maintenance",
+          "field": "status",
+          "value": "scheduled",
+          "version": 1
+        },
+        {
+          "entity_id": "M-002",
+          "entity_type": "maintenance",
+          "field": "status",
+          "value": "due",
+          "version": 1
+        },
+        {
+          "entity_id": "M-003",
+          "entity_type": "maintenance",
+          "field": "status",
+          "value": "due",
+          "version": 1
+        }
+      ],
+      "pending": 3
+    },
+    "targeting": [
+      {
+        "fleet_account_id": "FA-001",
+        "heuristic": "Cuenta con oportunidad comercial abierta",
+        "priority": "alta",
+        "sensitivity": "La prioridad cambia si la oportunidad se cierra; no usa tamaño de flotilla como puntaje ni predice compra."
+      },
+      {
+        "fleet_account_id": "FA-002",
+        "heuristic": "Cuenta con oportunidad comercial abierta",
+        "priority": "alta",
+        "sensitivity": "La prioridad cambia si la oportunidad se cierra; no usa tamaño de flotilla como puntaje ni predice compra."
+      }
+    ]
+  },
+  "gruas": {
+    "evidence": [
+      {
+        "entity_id": "TW-001",
+        "entity_type": "tows",
+        "field": "status",
+        "value": "closed",
+        "version": 1
+      },
+      {
+        "entity_id": "TW-002",
+        "entity_type": "tows",
+        "field": "status",
+        "value": "en_route",
+        "version": 1
+      },
+      {
+        "entity_id": "TW-003",
+        "entity_type": "tows",
+        "field": "status",
+        "value": "requested",
+        "version": 1
+      },
+      {
+        "entity_id": "TW-004",
+        "entity_type": "tows",
+        "field": "status",
+        "value": "cancelled",
+        "version": 1
+      },
+      {
+        "entity_id": "TW-005",
+        "entity_type": "tows",
+        "field": "status",
+        "value": "closed",
+        "version": 1
+      }
+    ],
+    "human_review": {
+      "complete_human_refs": {
+        "denominator": 5,
+        "numerator": 3,
+        "rate": 0.6,
+        "status": "measured"
+      },
+      "open_requests": 2,
+      "rule": "Toda solicitud abierta requiere revisión humana; este análisis no asigna ni despacha."
+    },
+    "timing": {
+      "closed": 2,
+      "closed_with_duration": {
+        "denominator": 2,
+        "numerator": 2,
+        "rate": 1.0,
+        "status": "measured"
+      },
+      "median_request_to_close_hours": 4.0,
+      "scope": "duración solicitud→cierre; no mide respuesta ni llegada"
+    }
+  },
+  "meta": {
+    "as_of": "2026-09-21T18:00:00Z",
+    "currency": "MXN cents",
+    "lifecycle_evidence": {
+      "coverage": 1.0,
+      "events": 156,
+      "limitation": "Demo paths are explicitly fictional; imported snapshots do not imply observed transitions.",
+      "records_with_history": 50,
+      "stateful_records": 50,
+      "status": "complete"
+    },
+    "method": "descriptive snapshot; no causal or target claims",
+    "synthetic": true
+  },
+  "particulares": {
+    "coverage": {
+      "customers_without_consent": {
+        "denominator": 4,
+        "numerator": 1,
+        "rate": 0.25,
+        "status": "measured"
+      },
+      "leads_without_vehicle": {
+        "denominator": 4,
+        "numerator": 0,
+        "rate": 0.0,
+        "status": "measured"
+      }
+    },
+    "evidence": [
+      {
+        "entity_id": "L-001",
+        "entity_type": "leads",
+        "field": "status",
+        "value": "new",
+        "version": 1
+      },
+      {
+        "entity_id": "L-002",
+        "entity_type": "leads",
+        "field": "status",
+        "value": "qualified",
+        "version": 1
+      },
+      {
+        "entity_id": "L-003",
+        "entity_type": "leads",
+        "field": "status",
+        "value": "quoted",
+        "version": 1
+      },
+      {
+        "entity_id": "L-004",
+        "entity_type": "leads",
+        "field": "status",
+        "value": "lost",
+        "version": 1
+      }
+    ],
+    "journey": {
+      "leads": 4,
+      "observed_lead_to_quote_conversion": "unknown: no existe llave de atribución lead→quote",
+      "pending_appointments": 1,
+      "qualified_or_later": {
+        "denominator": 4,
+        "numerator": 2,
+        "rate": 0.5,
+        "status": "measured"
+      },
+      "quote_pipeline_cents": 137000,
+      "type": "estado observado; no es un embudo temporal ni conversión atribuida",
+      "won": {
+        "denominator": 4,
+        "numerator": 0,
+        "rate": 0.0,
+        "status": "measured"
+      },
+      "won_with_candidate_quote_match": {
+        "denominator": 0,
+        "numerator": 0,
+        "rate": null,
+        "status": "unknown"
+      }
+    },
+    "workshop_context": {
+      "candidate_quote_match_note": "cliente y vehículo coincidentes; no prueba causalidad",
+      "particular_open_orders": 6
+    }
+  },
+  "source_evidence": {
+    "administracion": [
+      {
+        "entity_id": "Q-001",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-002",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-003",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-004",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-005",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-006",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-007",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-008",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-009",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-010",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-001",
+        "entity_type": "invoices",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-002",
+        "entity_type": "invoices",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-003",
+        "entity_type": "invoices",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-004",
+        "entity_type": "invoices",
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-001",
+        "entity_type": "payments",
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-002",
+        "entity_type": "payments",
+        "version": 1
+      },
+      {
+        "entity_id": "EXP-001",
+        "entity_type": "expenses",
+        "version": 1
+      },
+      {
+        "entity_id": "EXP-002",
+        "entity_type": "expenses",
+        "version": 1
+      },
+      {
+        "entity_id": "SM-001",
+        "entity_type": "stock_moves",
+        "version": 1
+      },
+      {
+        "entity_id": "SM-002",
+        "entity_type": "stock_moves",
+        "version": 1
+      },
+      {
+        "entity_id": "SM-003",
+        "entity_type": "stock_moves",
+        "version": 1
+      },
+      {
+        "entity_id": "SM-004",
+        "entity_type": "stock_moves",
+        "version": 1
+      },
+      {
+        "entity_id": "SM-005",
+        "entity_type": "stock_moves",
+        "version": 1
+      }
+    ],
+    "flotillas": [
+      {
+        "entity_id": "C-001",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-002",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-003",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-004",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-005",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-006",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-007",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-008",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-009",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-010",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "V-001",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-002",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-003",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-004",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-005",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-006",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-007",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-008",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-009",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-010",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-011",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-012",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "FA-001",
+        "entity_type": "fleet_accounts",
+        "version": 1
+      },
+      {
+        "entity_id": "FA-002",
+        "entity_type": "fleet_accounts",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "version": 1
+      },
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "version": 1
+      },
+      {
+        "entity_id": "CT-002",
+        "entity_type": "contracts",
+        "version": 1
+      },
+      {
+        "entity_id": "M-001",
+        "entity_type": "maintenance",
+        "version": 1
+      },
+      {
+        "entity_id": "M-002",
+        "entity_type": "maintenance",
+        "version": 1
+      },
+      {
+        "entity_id": "M-003",
+        "entity_type": "maintenance",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-001",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-002",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-005",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-006",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-007",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-008",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-009",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-010",
+        "entity_type": "work_orders",
+        "version": 1
+      }
+    ],
+    "gruas": [
+      {
+        "entity_id": "TW-001",
+        "entity_type": "tows",
+        "version": 1
+      },
+      {
+        "entity_id": "TW-002",
+        "entity_type": "tows",
+        "version": 1
+      },
+      {
+        "entity_id": "TW-003",
+        "entity_type": "tows",
+        "version": 1
+      },
+      {
+        "entity_id": "TW-004",
+        "entity_type": "tows",
+        "version": 1
+      },
+      {
+        "entity_id": "TW-005",
+        "entity_type": "tows",
+        "version": 1
+      },
+      {
+        "entity_id": "TU-001",
+        "entity_type": "tow_units",
+        "version": 1
+      },
+      {
+        "entity_id": "TU-002",
+        "entity_type": "tow_units",
+        "version": 1
+      },
+      {
+        "entity_id": "TU-003",
+        "entity_type": "tow_units",
+        "version": 1
+      },
+      {
+        "entity_id": "TU-004",
+        "entity_type": "tow_units",
+        "version": 1
+      }
+    ],
+    "particulares": [
+      {
+        "entity_id": "C-001",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-002",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-003",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-004",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-005",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-006",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-007",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-008",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-009",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "C-010",
+        "entity_type": "customers",
+        "version": 1
+      },
+      {
+        "entity_id": "V-001",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-002",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-003",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-004",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-005",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-006",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-007",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-008",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-009",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-010",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-011",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "V-012",
+        "entity_type": "vehicles",
+        "version": 1
+      },
+      {
+        "entity_id": "L-001",
+        "entity_type": "leads",
+        "version": 1
+      },
+      {
+        "entity_id": "L-002",
+        "entity_type": "leads",
+        "version": 1
+      },
+      {
+        "entity_id": "L-003",
+        "entity_type": "leads",
+        "version": 1
+      },
+      {
+        "entity_id": "L-004",
+        "entity_type": "leads",
+        "version": 1
+      },
+      {
+        "entity_id": "L-005",
+        "entity_type": "leads",
+        "version": 1
+      },
+      {
+        "entity_id": "L-006",
+        "entity_type": "leads",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-001",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-002",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-003",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-004",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-005",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-006",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-007",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-008",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-009",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-010",
+        "entity_type": "quotes",
+        "version": 1
+      },
+      {
+        "entity_id": "A-001",
+        "entity_type": "appointments",
+        "version": 1
+      },
+      {
+        "entity_id": "A-002",
+        "entity_type": "appointments",
+        "version": 1
+      },
+      {
+        "entity_id": "A-003",
+        "entity_type": "appointments",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-001",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-002",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-005",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-006",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-007",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-008",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-009",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-010",
+        "entity_type": "work_orders",
+        "version": 1
+      }
+    ],
+    "taller": [
+      {
+        "entity_id": "WO-001",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-002",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-005",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-006",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-007",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-008",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-009",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-010",
+        "entity_type": "work_orders",
+        "version": 1
+      },
+      {
+        "entity_id": "P-001",
+        "entity_type": "parts",
+        "version": 1
+      },
+      {
+        "entity_id": "P-002",
+        "entity_type": "parts",
+        "version": 1
+      },
+      {
+        "entity_id": "P-003",
+        "entity_type": "parts",
+        "version": 1
+      },
+      {
+        "entity_id": "P-004",
+        "entity_type": "parts",
+        "version": 1
+      },
+      {
+        "entity_id": "P-005",
+        "entity_type": "parts",
+        "version": 1
+      },
+      {
+        "entity_id": "P-006",
+        "entity_type": "parts",
+        "version": 1
+      },
+      {
+        "entity_id": "PO-001",
+        "entity_type": "purchases",
+        "version": 1
+      },
+      {
+        "entity_id": "PO-002",
+        "entity_type": "purchases",
+        "version": 1
+      },
+      {
+        "entity_id": "PO-003",
+        "entity_type": "purchases",
+        "version": 1
+      },
+      {
+        "entity_id": "SM-001",
+        "entity_type": "stock_moves",
+        "version": 1
+      },
+      {
+        "entity_id": "SM-002",
+        "entity_type": "stock_moves",
+        "version": 1
+      },
+      {
+        "entity_id": "SM-003",
+        "entity_type": "stock_moves",
+        "version": 1
+      },
+      {
+        "entity_id": "SM-004",
+        "entity_type": "stock_moves",
+        "version": 1
+      },
+      {
+        "entity_id": "SM-005",
+        "entity_type": "stock_moves",
+        "version": 1
+      },
+      {
+        "entity_id": "RS-001",
+        "entity_type": "reservations",
+        "version": 1
+      },
+      {
+        "entity_id": "RS-002",
+        "entity_type": "reservations",
+        "version": 1
+      },
+      {
+        "entity_id": "RS-003",
+        "entity_type": "reservations",
+        "version": 1
+      },
+      {
+        "entity_id": "B-001",
+        "entity_type": "bays",
+        "version": 1
+      },
+      {
+        "entity_id": "B-002",
+        "entity_type": "bays",
+        "version": 1
+      },
+      {
+        "entity_id": "B-003",
+        "entity_type": "bays",
+        "version": 1
+      },
+      {
+        "entity_id": "B-004",
+        "entity_type": "bays",
+        "version": 1
+      },
+      {
+        "entity_id": "T-001",
+        "entity_type": "technicians",
+        "version": 1
+      },
+      {
+        "entity_id": "T-002",
+        "entity_type": "technicians",
+        "version": 1
+      },
+      {
+        "entity_id": "T-003",
+        "entity_type": "technicians",
+        "version": 1
+      },
+      {
+        "entity_id": "T-004",
+        "entity_type": "technicians",
+        "version": 1
+      }
+    ]
+  },
+  "taller": {
+    "evidence": [
+      {
+        "entity_id": "WO-002",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "in_service",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "waiting_parts",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "rework",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-006",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "quality_check",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-007",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "received",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-008",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "authorized",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-010",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "scheduled",
+        "version": 1
+      }
+    ],
+    "parts": {
+      "available_at_or_below_reorder": {
+        "denominator": 6,
+        "numerator": 4,
+        "rate": 0.6667,
+        "status": "measured"
+      },
+      "waiting_order_evidence": [
+        {
+          "entity_id": "WO-003",
+          "entity_type": "work_orders",
+          "field": "block_reason",
+          "value": "Falta filtro",
+          "version": 1
+        }
+      ]
+    },
+    "wip": {
+      "capacity_note": "ocupación instantánea al corte; no es utilización por horas",
+      "median_open_hours": 74.0,
+      "occupied_bays_instant": {
+        "denominator": 4,
+        "numerator": 4,
+        "rate": 1.0,
+        "status": "measured"
+      },
+      "open_orders": 7,
+      "rework": {
+        "denominator": 10,
+        "numerator": 1,
+        "rate": 0.1,
+        "status": "measured"
+      },
+      "waiting_parts": {
+        "denominator": 7,
+        "numerator": 1,
+        "rate": 0.1429,
+        "status": "measured"
+      }
+    }
+  }
+}

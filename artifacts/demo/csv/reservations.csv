@@ -1,0 +1,4 @@
+﻿id,part_id,work_order_id,quantity,status,synthetic
+RS-001,P-001,WO-001,2,consumed,true
+RS-002,P-002,WO-002,1,reserved,true
+RS-003,P-003,WO-003,1,released,true

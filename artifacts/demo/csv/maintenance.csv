@@ -1,0 +1,4 @@
+﻿id,vehicle_id,contract_id,service,due_at,due_km,work_order_id,status,synthetic
+M-001,V-009,CT-001,"Revisión 10,000 km",2026-09-25T18:00:00Z,30000,,scheduled,true
+M-002,V-010,CT-001,"Revisión 10,000 km",2026-09-30T18:00:00Z,30000,,due,true
+M-003,V-011,CT-002,"Revisión 10,000 km",2026-09-30T18:00:00Z,30000,,due,true

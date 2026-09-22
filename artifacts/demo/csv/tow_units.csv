@@ -1,0 +1,5 @@
+﻿id,name,capability,synthetic
+TU-001,Grúa demo 1,plataforma,true
+TU-002,Grúa demo 2,arrastre,true
+TU-003,Grúa demo 3,plataforma,true
+TU-004,Grúa demo 4,rescate,true

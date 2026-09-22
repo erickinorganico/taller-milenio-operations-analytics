@@ -22,7 +22,7 @@ def publication_scan(root=ROOT):
         "private_workstation_path": r"[A-Z]:[\\/]Users[\\/][A-Za-z0-9_.-]+[\\/]",
     }
     files = [p for p in root.iterdir() if p.is_file() and p.suffix in {".md", ".toml", ".txt", ".ps1", ".cmd"}]
-    for folder in ("milenio", "tests", "docs", "examples", "contracts", "queries", ".github"):
+    for folder in ("milenio", "tests", "docs", "examples", "contracts", "queries", "scripts", ".github"):
         files.extend(p for p in (root / folder).rglob("*") if p.is_file() and p.suffix in {".py", ".md", ".json", ".csv", ".sql", ".yml", ".yaml"})
     findings = []
     for path in sorted(files):

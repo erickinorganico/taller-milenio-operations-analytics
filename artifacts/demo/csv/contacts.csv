@@ -1,0 +1,4 @@
+﻿id,fleet_account_id,name,role,contact,consent,synthetic
+CTC-001,FA-001,Contacto 1,Operaciones,contacto1@demo.local,true,true
+CTC-002,FA-001,Contacto 2,Operaciones,contacto2@demo.local,true,true
+CTC-003,FA-002,Contacto 3,Operaciones,contacto3@demo.local,true,true

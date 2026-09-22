@@ -15,5 +15,10 @@ artifacts/runs/
 .runtime/
 .uv-cache/
 .mpl-cache/
-artifacts/verification.json
-artifacts/verification.log
+dist/
+artifacts/*
+!artifacts/demo/
+!artifacts/controlled-failure/
+!artifacts/final-verification.json
+!artifacts/final-verification.xml
+!artifacts/completion.json

@@ -2,11 +2,19 @@
 
 ## Setup
 
-Requiere Python 3.12+ en Windows. La instalación inicial necesita red para resolver/descargar dependencias y preparar el wheelhouse local. Después de esa preparación, la demo no necesita internet, cuentas ni credenciales.
+Requiere Python 3.12+. El toolkit es batch/read-only y no necesita cuentas ni credenciales.
+
+Windows:
 
 ```powershell
-py -3 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -e .
+.\Setup.ps1
+```
+
+Linux:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
 ```
 
 Prueba de setup limpio offline con las ruedas ya preparadas:
@@ -32,6 +40,14 @@ El destino debe ser nuevo. La corrida genera `dataset.json`, CSV por entidad, SQ
 ```
 
 La primera versión admite solo datos sintéticos. El dataset debe contener todas las entidades contractuales. Un contrato roto falla; faltantes analíticos permitidos permanecen `unknown/review` según la definición.
+
+## Reanalizar el directorio CSV de la demo
+
+```powershell
+.\.venv\Scripts\python.exe -m milenio analyze --input artifacts/demo/csv --output artifacts/from-csv
+```
+
+El loader lee un archivo por entidad desde el directorio, exige el conjunto contractual completo y aplica los mismos validadores antes de publicar. Como el CSV es un snapshot sin eventos, la cobertura de transiciones queda `unknown`; no se inventa historial. El destino debe ser nuevo.
 
 ## Verificar y probar el fallo controlado
 
@@ -81,4 +97,4 @@ La versión inicial solo soporta `2026-09-21T18:00:00Z`. Solicitar otro corte de
 
 Archive el directorio completo con `receipt.json`; conservar solo HTML pierde trazabilidad. Mantenga `artifacts/`, inputs, SQLite y exports reales fuera de Git salvo ejemplos sintéticos deliberadamente revisados.
 
-Una corrida verde evidencia que el mecanismo local funcionó con ese input. No prueba salud operacional, adopción, causalidad, seguridad vial, contabilidad fiscal ni desempeño real.
+Una corrida verde evidencia que el mecanismo local funcionó con ese input. El paquete es turnkey para una demo y puede presentar una oferta comercial de consultoría; no prueba un despliegue real, salud operacional, adopción, causalidad, seguridad vial, contabilidad fiscal ni desempeño del negocio.

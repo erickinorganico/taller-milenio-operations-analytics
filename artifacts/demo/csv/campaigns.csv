@@ -1,0 +1,3 @@
+﻿id,name,audience,objective,draft,status,synthetic
+CAM-001,Recordatorio mantenimiento,particular,Recurrencia,Borrador sintético,review,true
+CAM-002,Flotillas septiembre,fleet,Pipeline B2B,Borrador sintético,approved,true

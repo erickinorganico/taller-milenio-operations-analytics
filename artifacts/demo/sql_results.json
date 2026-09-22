@@ -1,0 +1,131 @@
+{
+  "finance": [
+    {
+      "cash_net_cents": -18000,
+      "expenses_cents": 42000,
+      "invoiced_cents": 695000,
+      "paid_cents": 185000,
+      "receivable_cents": 510000
+    }
+  ],
+  "fleet_pipeline": [
+    {
+      "captured_vehicles": 2,
+      "declared_fleet_size": 12,
+      "id": "FA-001",
+      "name": "Demo Logística Norte SA",
+      "open_opportunities": 1,
+      "pipeline_cents": 1250000
+    },
+    {
+      "captured_vehicles": 2,
+      "declared_fleet_size": 8,
+      "id": "FA-002",
+      "name": "Demo Servicios Delta",
+      "open_opportunities": 1,
+      "pipeline_cents": 780000
+    }
+  ],
+  "stock": [
+    {
+      "available": 7,
+      "id": "P-001",
+      "on_hand": 7,
+      "reorder_point": 2,
+      "reserved": 0,
+      "sku": "SKU-001"
+    },
+    {
+      "available": 4,
+      "id": "P-002",
+      "on_hand": 5,
+      "reorder_point": 2,
+      "reserved": 1,
+      "sku": "SKU-002"
+    },
+    {
+      "available": 1,
+      "id": "P-003",
+      "on_hand": 1,
+      "reorder_point": 2,
+      "reserved": 0,
+      "sku": "SKU-003"
+    },
+    {
+      "available": 0,
+      "id": "P-004",
+      "on_hand": 0,
+      "reorder_point": 2,
+      "reserved": 0,
+      "sku": "SKU-004"
+    },
+    {
+      "available": 0,
+      "id": "P-005",
+      "on_hand": 0,
+      "reorder_point": 2,
+      "reserved": 0,
+      "sku": "SKU-005"
+    },
+    {
+      "available": 0,
+      "id": "P-006",
+      "on_hand": 0,
+      "reorder_point": 2,
+      "reserved": 0,
+      "sku": "SKU-006"
+    }
+  ],
+  "workshop": [
+    {
+      "order_count": 1,
+      "segment": "fleet",
+      "status": "delivered"
+    },
+    {
+      "order_count": 1,
+      "segment": "fleet",
+      "status": "scheduled"
+    },
+    {
+      "order_count": 1,
+      "segment": "particular",
+      "status": "authorized"
+    },
+    {
+      "order_count": 1,
+      "segment": "particular",
+      "status": "cancelled"
+    },
+    {
+      "order_count": 1,
+      "segment": "particular",
+      "status": "delivered"
+    },
+    {
+      "order_count": 1,
+      "segment": "particular",
+      "status": "in_service"
+    },
+    {
+      "order_count": 1,
+      "segment": "particular",
+      "status": "quality_check"
+    },
+    {
+      "order_count": 1,
+      "segment": "particular",
+      "status": "received"
+    },
+    {
+      "order_count": 1,
+      "segment": "particular",
+      "status": "rework"
+    },
+    {
+      "order_count": 1,
+      "segment": "particular",
+      "status": "waiting_parts"
+    }
+  ]
+}

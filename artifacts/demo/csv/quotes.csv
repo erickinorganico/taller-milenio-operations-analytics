@@ -1,0 +1,11 @@
+﻿id,customer_id,vehicle_id,description,amount_cents,valid_until,authorization_ref,status,synthetic
+Q-001,C-001,V-001,Mantenimiento preventivo demo,185000,2026-10-15T00:00:00Z,AUTH-C001,accepted,true
+Q-002,C-002,V-002,Mantenimiento preventivo demo,92000,2026-10-15T00:00:00Z,AUTH-C002,accepted,true
+Q-003,C-003,V-003,Mantenimiento preventivo demo,47500,2026-10-15T00:00:00Z,AUTH-C003,accepted,true
+Q-004,C-004,V-004,Mantenimiento preventivo demo,210000,2026-10-15T00:00:00Z,AUTH-C004,accepted,true
+Q-005,C-009,V-009,Mantenimiento preventivo demo,300000,2026-10-15T00:00:00Z,AUTH-FLEET-01,accepted,true
+Q-006,C-006,V-006,Mantenimiento preventivo demo,125000,2026-10-15T00:00:00Z,AUTH-C006,accepted,true
+Q-007,C-008,V-008,Mantenimiento preventivo demo,110000,2026-10-15T00:00:00Z,AUTH-C008,accepted,true
+Q-008,C-010,V-011,Mantenimiento preventivo demo,99000,2026-10-15T00:00:00Z,AUTH-C010,accepted,true
+Q-009,C-005,V-005,Mantenimiento preventivo demo,65000,2026-10-15T00:00:00Z,,sent,true
+Q-010,C-007,V-007,Mantenimiento preventivo demo,72000,2026-09-20T00:00:00Z,,sent,true

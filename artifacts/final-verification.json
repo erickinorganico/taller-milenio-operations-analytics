@@ -1,0 +1,103 @@
+{
+  "dependencies": {
+    "contourpy": {
+      "installed": "1.4.0",
+      "ok": true,
+      "required": "1.4.0"
+    },
+    "cycler": {
+      "installed": "0.12.1",
+      "ok": true,
+      "required": "0.12.1"
+    },
+    "fonttools": {
+      "installed": "4.65.0",
+      "ok": true,
+      "required": "4.65.0"
+    },
+    "kiwisolver": {
+      "installed": "1.5.1",
+      "ok": true,
+      "required": "1.5.1"
+    },
+    "matplotlib": {
+      "installed": "3.10.6",
+      "ok": true,
+      "required": "3.10.6"
+    },
+    "numpy": {
+      "installed": "2.5.3",
+      "ok": true,
+      "required": "2.5.3"
+    },
+    "packaging": {
+      "installed": "26.3",
+      "ok": true,
+      "required": "26.3"
+    },
+    "pillow": {
+      "installed": "12.3.0",
+      "ok": true,
+      "required": "12.3.0"
+    },
+    "pyparsing": {
+      "installed": "3.3.3",
+      "ok": true,
+      "required": "3.3.3"
+    },
+    "python-dateutil": {
+      "installed": "2.9.0.post0",
+      "ok": true,
+      "required": "2.9.0.post0"
+    },
+    "six": {
+      "installed": "1.17.0",
+      "ok": true,
+      "required": "1.17.0"
+    }
+  },
+  "limitations": [
+    "Synthetic snapshot only",
+    "No operator discovery or real-system pilot",
+    "No production dispatch, tax or accounting certification"
+  ],
+  "publication_scan": {
+    "files_scanned": 90,
+    "findings": [],
+    "scope": "Publication source/templates/docs. Synthetic bundle is validated separately. Heuristic, not anonymization certification.",
+    "status": "pass"
+  },
+  "source_sha256": {
+    "contracts/action_proposal.schema.json": "3e92dee2b1162f7927b998cb19d744ce3d463b9f74848b97e1ee342523b6a7af",
+    "milenio/__init__.py": "55702e3a30f65ef3f07de41092eb5becb5a962e0c47dd04f961a42f626706f9c",
+    "milenio/__main__.py": "c402b5e2d33ec540d6dd75c3bae75bb5f347382d26f9b35a00d0a2ed51e9277b",
+    "milenio/agents.py": "d39b60c11681a5e183edbc825ca16f3375804a63500c9e1442021d7f5dee628b",
+    "milenio/analysis.py": "f74eb8833c1022c98d6b50ea24f84cf828d73b903a26a9325e4f9b2b9afe062a",
+    "milenio/contracts.py": "1b66fab3e100d08bb1b39ce619e0a858a58677a72f3df3eac8248b8bfe9d9535",
+    "milenio/domain.py": "1f0758d6781a17a002ab454b3876203ba721bab2a172b1bc227e1b1f8b9ee024",
+    "milenio/fixtures.py": "c25de047d50287b3d1a741706a4f2cadd7972825a6d99d4a8fcee5eaa2a33a42",
+    "milenio/importers.py": "07d80760fe806aa4af9ae6463be20b76273d8b9bdb560878a5cfe02d04720c97",
+    "milenio/pipeline.py": "34ef168155c4f4a518daae7c638d1dd216c2bbda562a34acee7232762f476e1b",
+    "milenio/presentation.py": "8336598705ba4e46dbc2561a9f1847af61da8d7e9736d0cafa2829788f9a709d",
+    "milenio/reports.py": "40dc5f7a92559a00716bbf1e98ffd1c1c1125ac84e42ef482e24fdb1c9141281",
+    "milenio/snapshot_io.py": "c2b235a67a0842ddfcb4d120debafb70403e94f2c085658548b2bd3167208b2d",
+    "milenio/sql.py": "7ecbab5213ad482ae3a24bf16ebe1e8f0e4169a298bdadb20122199f5da88815",
+    "milenio/storage.py": "1075c30e47f5593619ae040aa3bd9c80be1adeaf06c3b29e47f3e3b2b35c7393",
+    "milenio/timeline.py": "b192652b23f1520dbb099c8c0ca8f4ba7390bcab428ab491ff38a67bcde30cbc",
+    "milenio/verification.py": "9c0ffa5f2bb60a885400a440f70f67e25966b476a8a7c14396d361caf2895ab8",
+    "pyproject.toml": "95e62c22de505f3e5b02adac038afbd1a77c3c3c9d96a33921098e69ecba426a",
+    "queries/finance.sql": "c0ebb8e526b4c52871d81c666298077dfcdf47971da780f35c812e0c0ad6d1ba",
+    "queries/fleet_pipeline.sql": "7e5096a53e0c9cb5fed7e2c34cef495c335d4bf09d6d49d6926b84ecbf9f5883",
+    "queries/stock.sql": "11251fb90ee995efef30fc1f8e352cb7dbc27ccd9d73c78e7f48e1f2e729eec3",
+    "queries/workshop.sql": "52a3c86f94575c6c651c78b8b344e899edbed59d1b2a84058e1b96ac7e0f1fe7",
+    "requirements.txt": "8f69f9235fc422fc67b8f80454c5ee121da4957fb54e16ff5a96cd8348bb638a"
+  },
+  "status": "pass",
+  "tested_at_utc": "2026-09-22T08:19:34.850182+00:00",
+  "tests": {
+    "errors": 0,
+    "failures": 0,
+    "run": 50,
+    "skipped": 1
+  }
+}

@@ -1,0 +1,6 @@
+﻿id,part_id,work_order_id,purchase_id,move_type,quantity,unit_cost_cents,reason,synthetic
+SM-001,P-001,,PO-001,receive,8,1800,Recepción/consumo demo,true
+SM-002,P-001,WO-001,,consume,2,1800,Recepción/consumo demo,true
+SM-003,P-001,WO-001,,return,1,1800,Recepción/consumo demo,true
+SM-004,P-002,,PO-002,receive,5,1800,Recepción/consumo demo,true
+SM-005,P-003,,,adjust,1,1800,Recepción/consumo demo,true

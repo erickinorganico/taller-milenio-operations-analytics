@@ -1,0 +1,7 @@
+﻿id,customer_id,vehicle_id,need,channel,follow_up_at,status,synthetic
+L-001,C-001,V-001,Servicio demo,web,2026-09-20T17:00:00Z,new,true
+L-002,C-002,V-002,Servicio demo,web,2026-09-25T17:00:00Z,qualified,true
+L-003,C-003,V-003,Servicio demo,web,2026-09-25T17:00:00Z,quoted,true
+L-004,C-004,V-004,Servicio demo,web,2026-09-25T17:00:00Z,lost,true
+L-005,C-009,V-009,Servicio demo,web,2026-09-25T17:00:00Z,won,true
+L-006,C-010,V-011,Servicio demo,web,2026-09-25T17:00:00Z,new,true

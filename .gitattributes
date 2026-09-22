@@ -8,3 +8,6 @@
 *.cmd text eol=crlf
 *.png binary
 *.sqlite binary
+artifacts/demo/** -text -whitespace
+artifacts/controlled-failure/** -text -whitespace
+artifacts/final-verification.* -text -whitespace

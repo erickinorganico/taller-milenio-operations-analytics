@@ -31,6 +31,12 @@ jobs:
         run: python -m milenio demo --output artifacts/ci-demo
       - name: Verify artifact integrity
         run: python -m milenio verify-receipt --input artifacts/ci-demo
+      - name: Reanalyze complete CSV export
+        run: python -m milenio analyze --input artifacts/ci-demo/csv --output artifacts/ci-csv
+      - name: Verify CSV artifact integrity
+        run: python -m milenio verify-receipt --input artifacts/ci-csv
+      - name: Verify published sample
+        run: python -m milenio verify-receipt --input artifacts/demo
       - name: Expected negative control
         run: python -m milenio controlled-failure --output artifacts/ci-negative
       - name: Preserve receipts and reports

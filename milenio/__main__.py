@@ -10,7 +10,7 @@ def main(argv=None):
     sub = parser.add_subparsers(dest="command", required=True)
     demo = sub.add_parser("demo", help="Genera y analiza la muestra sintética")
     demo.add_argument("--output", default="artifacts/demo")
-    analysis = sub.add_parser("analyze", help="Analiza un snapshot JSON sintético")
+    analysis = sub.add_parser("analyze", help="Analiza un snapshot JSON o una carpeta con 25 CSV sintéticos")
     analysis.add_argument("--input", required=True)
     analysis.add_argument("--history", help="JSON de eventos sintéticos explícitos")
     analysis.add_argument("--output", required=True)
@@ -37,9 +37,20 @@ def main(argv=None):
         if args.command == "demo":
             result = run_pipeline(args.output)
         elif args.command == "analyze":
-            data = json.loads(Path(args.input).read_text(encoding="utf-8-sig"))
+            from .pipeline import file_hash
+            from .snapshot_io import load_snapshot
+            source = Path(args.input)
+            if source.is_dir():
+                data = load_snapshot(source)
+                from .contracts import FIELDS
+                inputs = {kind + '.csv': file_hash(source / (kind + '.csv')) for kind in FIELDS}
+            else:
+                data = json.loads(source.read_text(encoding="utf-8-sig"))
+                inputs = {'dataset.json': file_hash(source)}
             history = json.loads(Path(args.history).read_text(encoding="utf-8-sig")) if args.history else None
-            result = run_pipeline(args.output, data, history)
+            if args.history:
+                inputs['history.json'] = file_hash(args.history)
+            result = run_pipeline(args.output, data, history, input_hashes=inputs)
         elif args.command == "controlled-failure":
             result = controlled_failure(args.output)
         else:
