@@ -15,10 +15,10 @@ GitHub authentication caused a temporary publication pause. Work continued local
 | Planning and integration | Sol, `gpt-5.6-sol`, medium | final analytics plan/process, architecture/runbook/real-data/README documentation, four pipeline E2E tests; reported chart-path and missing verification-module integration defects | Sol pipeline suite initially 4 tests; included in later overall run |
 | Fixtures/imports | Luna, native Luna, medium | deterministic fixtures, import/export contracts, templates, mechanical data tests, project-efficiency finding | 10 fixture/import-oriented tests reported during work; no Laya inference caller found |
 | Analysis/presentation | Terra, native Terra, medium | wrong-scope UI task abandoned after correction; implemented analytics, four reports, executive HTML/charts and analysis tests; corrected artifact paths/metric behavior during integration | 3 analysis/presentation tests reported during work; subsequent overall/adversarial runs cover integrated behavior |
-| Core integration | Primary orchestrator using Astra-class reasoning | contracts, domain validation, SQLite snapshot, pipeline/CLI, receipts, four read-only SQL cross-checks, setup/offline verification, publication workflow | machine-readable final count belongs to `artifacts/verification.json`; no separate sub-count asserted here |
+| Core integration | Primary orchestrator using Astra-class reasoning | contracts, domain validation, SQLite snapshot, pipeline/CLI, receipts, four read-only SQL cross-checks, setup/offline verification, publication workflow | machine-readable final count belongs to `artifacts/final-verification.json`; no separate sub-count asserted here |
 | Independent adversarial review | Astra, `gpt-6-astra`, high | reviewed SLA, history, inventory value, time, receipt integrity, rendering, proposal evidence, finance, tow/agent boundaries; nine findings corrected | final independent suite: 15/15, zero failures/errors; bounded signoff in `ADVERSARIAL-REVIEW.md` |
 
-Test counts describe their recorded stage and overlap in the integrated repository. They must not be added together as a unique-test total. The machine-readable overall authority is the latest `artifacts/verification.json` for the exact source state being released.
+Test counts describe their recorded stage and overlap in the integrated repository. They must not be added together as a unique-test total. The machine-readable overall authority is the latest `artifacts/final-verification.json` for the exact source state being released.
 
 ## Review/fix loop
 
@@ -29,7 +29,7 @@ Test counts describe their recorded stage and overlap in the integrated reposito
 5. Fixes were applied by owners; Astra reran independent regressions to 15/15.
 6. Integration and documentation corrections were consolidated on `main`.
 7. Commit `d25feae` passed GitHub Actions run `35702342232` on both Windows and Ubuntu.
-8. The exact final local test count and publication-scan scope are taken from the release `artifacts/verification.json`, rather than copied into this narrative.
+8. The exact final local test count and publication-scan scope are taken from the release `artifacts/final-verification.json`, rather than copied into this narrative.
 
 ## Model-efficiency record
 
@@ -50,5 +50,5 @@ Native subscription models were used according to bounded ownership. No separate
 - Public branch: `main`.
 - Confirmed release-line commit: `d25feae`.
 - GitHub Actions run `35702342232`: passed on Windows and Ubuntu.
-- Local verification authority: `artifacts/verification.json` for the exact released source state. The root release process records the final test count there; this document intentionally does not invent or duplicate a count that can drift.
+- Local verification authority: `artifacts/final-verification.json` for the exact released source state. The root release process records the final test count there; this document intentionally does not invent or duplicate a count that can drift.
 - The verification receipt also records pinned dependency checks, bounded publication-scan scope, and the limitations that the snapshot is synthetic, no operator discovery/real-system pilot occurred, and no production dispatch/tax/accounting certification exists.

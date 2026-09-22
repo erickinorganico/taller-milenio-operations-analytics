@@ -34,5 +34,5 @@ if ($Offline) {
 if ($LASTEXITCODE -ne 0) { throw 'Instalacion incompleta; para offline prepare .runtime\wheels' }
 & $envPython -c "import matplotlib; print('Entorno analitico listo. Matplotlib ' + matplotlib.__version__)"
 if ($LASTEXITCODE -ne 0) { throw 'Verificacion del entorno fallo' }
-Write-Output "Ejecute: $envPython -m milenio demo --output artifacts/demo"
+Write-Output "Ejecute: $envPython -m milenio demo --output artifacts/my-demo"
 

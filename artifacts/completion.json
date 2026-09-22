@@ -1,0 +1,36 @@
+{
+  "status": "accepted_synthetic_v1",
+  "version": "1.0.0",
+  "repository": "https://github.com/erickinorganico/taller-milenio-operations-analytics",
+  "validated_implementation_commit": "ea42a0dc97462558b47e63a50d2e4ec5de025be3",
+  "ci": {
+    "url": "https://github.com/erickinorganico/taller-milenio-operations-analytics/actions/runs/35704667360",
+    "windows": "pass",
+    "ubuntu": "pass"
+  },
+  "local_tests": {
+    "errors": 0,
+    "failures": 0,
+    "run": 50,
+    "skipped": 1
+  },
+  "clean_offline_install": "pass",
+  "extracted_archive_full_tests": "pass",
+  "csv_roundtrip": "pass",
+  "controlled_failure": "pass",
+  "adversarial_review": "pass",
+  "core_source_hashes_match_git": true,
+  "content_sha256": "b76d54e815fc6fd6631703ec807ace28a87b8d0b1f744df7f836738ef5e8b1fc",
+  "tables": 25,
+  "records": 112,
+  "agents": 9,
+  "proposals": 18,
+  "artifact_files": 52,
+  "release_url": "https://github.com/erickinorganico/taller-milenio-operations-analytics/releases/tag/v1.0.0",
+  "limits": [
+    "Synthetic fixed-cutoff demonstration",
+    "Real workshop interviews and pilot not performed",
+    "No real customer contact, dispatch, prices, fiscal documents or payments",
+    "Offline dependency archive targets Windows x64 and Python 3.12; Python is a prerequisite"
+  ]
+}
