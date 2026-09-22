@@ -1,0 +1,325 @@
+{
+  "backend": "rules",
+  "cases_reviewed": 9,
+  "context": {
+    "cases": [
+      {
+        "entity_id": "CAM-001",
+        "entity_type": "campaigns",
+        "record": {
+          "audience": "particular",
+          "created_at": "2026-09-21T18:00:00Z",
+          "draft": "Borrador sintético",
+          "id": "CAM-001",
+          "name": "Recordatorio mantenimiento",
+          "objective": "Recurrencia",
+          "status": "review",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-002",
+        "entity_type": "campaigns",
+        "record": {
+          "audience": "fleet",
+          "created_at": "2026-09-21T18:00:00Z",
+          "draft": "Borrador sintético",
+          "id": "CAM-002",
+          "name": "Flotillas septiembre",
+          "objective": "Pipeline B2B",
+          "status": "approved",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "C-001",
+        "entity_type": "customers",
+        "record": {
+          "consent": 1,
+          "contact": "c-001@demo.milenio.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "C-001",
+          "name": "Demo Ana López",
+          "segment": "particular",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "C-002",
+        "entity_type": "customers",
+        "record": {
+          "consent": 1,
+          "contact": "c-002@demo.milenio.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "C-002",
+          "name": "Demo Bruno Ruiz",
+          "segment": "particular",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "C-003",
+        "entity_type": "customers",
+        "record": {
+          "consent": 0,
+          "contact": null,
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "C-003",
+          "name": "Demo Carla Méndez",
+          "segment": "particular",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "C-004",
+        "entity_type": "customers",
+        "record": {
+          "consent": 1,
+          "contact": "c-004@demo.milenio.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "C-004",
+          "name": "Demo Diego Soto",
+          "segment": "particular",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-001",
+        "entity_type": "contacts",
+        "record": {
+          "consent": 1,
+          "contact": "contacto1@demo.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-001",
+          "id": "CTC-001",
+          "name": "Contacto 1",
+          "role": "Operaciones",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-002",
+        "entity_type": "contacts",
+        "record": {
+          "consent": 1,
+          "contact": "contacto2@demo.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-001",
+          "id": "CTC-002",
+          "name": "Contacto 2",
+          "role": "Operaciones",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-003",
+        "entity_type": "contacts",
+        "record": {
+          "consent": 1,
+          "contact": "contacto3@demo.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-002",
+          "id": "CTC-003",
+          "name": "Contacto 3",
+          "role": "Operaciones",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "CAM-001",
+        "entity_type": "campaigns",
+        "field": "status",
+        "value": "review",
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-002",
+        "entity_type": "campaigns",
+        "field": "status",
+        "value": "approved",
+        "version": 1
+      },
+      {
+        "entity_id": "C-001",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "C-002",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "C-003",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 0,
+        "version": 1
+      },
+      {
+        "entity_id": "C-004",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-001",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-002",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-003",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      }
+    ],
+    "metrics": {
+      "review_campaigns": 1
+    }
+  },
+  "external_execution": false,
+  "human_review_required": true,
+  "mode_label": "offline deterministic baseline; no LLM invoked",
+  "model_invoked": false,
+  "result": {
+    "alternatives": [
+      "Revisar el registro citado con su responsable actual antes de decidir un cambio.",
+      "Diferir la decisión y solicitar la evidencia operativa faltante."
+    ],
+    "diagnosis": "Línea base offline por reglas: campaigns:CAM-001 tiene status='review' en la versión 1; revíselo con la cola acotada (review_campaigns=1).",
+    "drafts": [
+      {
+        "kind": "followup",
+        "requires_human_review": true,
+        "text": "Borrador interno de revisión para campaigns:CAM-001: confirme el registro citado antes de cualquier acción."
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "CAM-001",
+        "entity_type": "campaigns",
+        "field": "status",
+        "value": "review",
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-002",
+        "entity_type": "campaigns",
+        "field": "status",
+        "value": "approved",
+        "version": 1
+      },
+      {
+        "entity_id": "C-001",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "C-002",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "C-003",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 0,
+        "version": 1
+      },
+      {
+        "entity_id": "C-004",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-001",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-002",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-003",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      }
+    ],
+    "manual_next_steps": [
+      "Una persona revisora confirma el valor citado y su contexto.",
+      "Una persona revisora registra cualquier decisión; este workbench no ejecuta acciones externas."
+    ],
+    "missing_information": [
+      "Este corte sintético no contiene contexto operativo, aprobación ni resultado en vivo."
+    ],
+    "sensitivity": {
+      "level": "medium",
+      "reason": "El paquete puede contener campos operativos y de contacto; mantenga los borradores bajo revisión humana."
+    },
+    "workplan": [
+      "Inspeccionar los registros dentro del alcance.",
+      "Verificar valores y versiones exactas de la evidencia.",
+      "Revisar el borrador y decidir manualmente."
+    ]
+  },
+  "status": "completed"
+}

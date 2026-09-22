@@ -1,0 +1,327 @@
+{
+  "backend": "native_codex",
+  "execution_evidence": "verified_two_stage_local_cli",
+  "external_execution": false,
+  "human_review_required": true,
+  "model_invoked": true,
+  "native_receipt": {
+    "cli_exit_code": 0,
+    "completion_observed": true,
+    "kind": "local_codex_cli",
+    "model_id": "gpt-5.6-luna",
+    "provider_events": [
+      {
+        "event": "native_provider",
+        "provider_event_type": "thread.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "agent_message"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.completed",
+        "usage": {
+          "cache_write_input_tokens": 0,
+          "cached_input_tokens": 13056,
+          "input_tokens": 17320,
+          "output_tokens": 961,
+          "reasoning_output_tokens": 115
+        }
+      }
+    ],
+    "stage": "final"
+  },
+  "plan_receipt": {
+    "cli_exit_code": 0,
+    "completion_observed": true,
+    "kind": "local_codex_cli",
+    "model_id": "gpt-5.6-luna",
+    "provider_events": [
+      {
+        "event": "native_provider",
+        "provider_event_type": "thread.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "agent_message"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.completed",
+        "usage": {
+          "cache_write_input_tokens": 0,
+          "cached_input_tokens": 0,
+          "input_tokens": 16034,
+          "output_tokens": 319,
+          "reasoning_output_tokens": 110
+        }
+      }
+    ],
+    "stage": "plan"
+  },
+  "result": {
+    "alternatives": [
+      "Priorizar la liberación o validación del bloqueo de WO-003 antes de secuenciar trabajo adicional; no hay bahía ni técnico asignados.",
+      "Mantener WO-004 en revisión de retrabajo en B-003 y confirmar su avance antes de introducir otra orden en esa bahía.",
+      "Revisar manualmente las reservas y consumos de partes antes de cualquier decisión; no comprar partes ni modificar reservas."
+    ],
+    "diagnosis": "Corte válido: 2026-09-21T18:00:00Z. El riesgo principal es capacidad comprometida: hay 7 órdenes abiertas, 4 bahías ocupadas y 1 orden esperando partes. WO-003 está bloqueada por falta de filtro, sin bahía ni técnico asignados. WO-004 está en retrabajo y ocupa B-003. La evidencia de inventario muestra 8 unidades recibidas y 2 consumidas de P-001, mientras RS-001 figura como consumida y RS-002 como reservada; esto requiere conciliación humana antes de secuenciar. No se asigna personal, no se compran partes y no se cambia trabajo.",
+    "drafts": [],
+    "evidence": [
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "waiting_parts",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "block_reason",
+        "value": "Falta filtro",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "bay_id",
+        "value": null,
+        "version": 1
+      },
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "technician_id",
+        "value": null,
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "rework",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "field": "bay_id",
+        "value": "B-003",
+        "version": 1
+      },
+      {
+        "entity_id": "RS-001",
+        "entity_type": "reservations",
+        "field": "status",
+        "value": "consumed",
+        "version": 1
+      },
+      {
+        "entity_id": "RS-002",
+        "entity_type": "reservations",
+        "field": "status",
+        "value": "reserved",
+        "version": 1
+      },
+      {
+        "entity_id": "SM-001",
+        "entity_type": "stock_moves",
+        "field": "quantity",
+        "value": 8,
+        "version": 1
+      },
+      {
+        "entity_id": "SM-002",
+        "entity_type": "stock_moves",
+        "field": "quantity",
+        "value": 2,
+        "version": 1
+      }
+    ],
+    "manual_next_steps": [
+      "Para revisión humana, confirmar si el filtro faltante de WO-003 está disponible o pendiente de recepción.",
+      "Validar el estado operativo de B-003 y el avance de WO-004 antes de considerar otra secuencia.",
+      "Conciliar RS-001, RS-002, SM-001 y SM-002 con el inventario físico y los registros de órdenes.",
+      "Revisar las 7 órdenes abiertas y las 4 bahías ocupadas para definir prioridades sin reasignar personal desde este análisis."
+    ],
+    "missing_information": [
+      "No se proporcionó el detalle de las otras 5 órdenes abiertas.",
+      "No se proporcionó el listado completo de bahías ni qué órdenes ocupan las 4 bahías reportadas como ocupadas.",
+      "No se confirmó la disponibilidad física del filtro requerido por WO-003.",
+      "No se proporcionaron tiempos estimados de retrabajo para WO-004 ni fechas de entrega de las partes."
+    ],
+    "sensitivity": {
+      "level": "medium",
+      "reason": "El corte es sintético y de solo lectura; las decisiones operativas dependen de confirmar inventario, disponibilidad de bahías y estado real del trabajo con personas responsables."
+    },
+    "workplan": [
+      "1. Revisar primero el bloqueo de WO-003 y su impacto en la cola de órdenes abiertas.",
+      "2. Mantener visible WO-004 como retrabajo activo en B-003 hasta confirmar su siguiente hito humano.",
+      "3. Conciliar reservas y movimientos de partes antes de cualquier secuenciación que dependa de inventario.",
+      "4. Comparar prioridades y fechas de las órdenes abiertas sin asignar técnicos, reservar bahías ni ejecutar compras."
+    ]
+  },
+  "status": "completed"
+}

@@ -1,0 +1,583 @@
+{
+  "schema_version": "1.0",
+  "process_id": "fleet_sales_service",
+  "title": "Flotillas: pipeline comercial, contrato y servicio",
+  "purpose": "Separar oportunidad, contrato, mantenimiento, servicio, SLA y cobranza con cobertura explícita.",
+  "accountable_owner": "fleet_owner",
+  "scope": {
+    "trigger": "Existe cuenta de flotilla u oportunidad",
+    "end": "Cuenta clasificada con estado comercial, cobertura contractual y revisión de servicio",
+    "exclusions": [
+      "contactar prospecto",
+      "prometer precio/SLA",
+      "activar contrato"
+    ]
+  },
+  "roles": [
+    {
+      "id": "fleet_sales",
+      "label": "Ventas B2B",
+      "lane": "commercial",
+      "accountable_for": [
+        "oportunidad y evidencia pública"
+      ]
+    },
+    {
+      "id": "fleet_owner",
+      "label": "Responsable de cuenta",
+      "lane": "service",
+      "accountable_for": [
+        "contrato y mantenimiento"
+      ]
+    },
+    {
+      "id": "finance",
+      "label": "Administración",
+      "lane": "finance",
+      "accountable_for": [
+        "saldo"
+      ]
+    },
+    {
+      "id": "analytics",
+      "label": "Toolkit",
+      "lane": "analytics",
+      "accountable_for": [
+        "cobertura y SLA"
+      ]
+    }
+  ],
+  "entities": [
+    "customers",
+    "vehicles",
+    "fleet_accounts",
+    "contacts",
+    "opportunities",
+    "contracts",
+    "maintenance",
+    "work_orders",
+    "invoices",
+    "payments"
+  ],
+  "metrics": [
+    "M-FLEET-OPEN-OPPS",
+    "M-FLEET-PIPELINE",
+    "M-FLEET-ACCOUNT-COVERAGE",
+    "M-FLEET-ACTIVE-CONTRACTS",
+    "M-FLEET-MAINTENANCE",
+    "M-FLEET-SLA-ELIGIBILITY",
+    "M-FLEET-SLA-RISK",
+    "M-AR-RECEIVABLE"
+  ],
+  "agents": [
+    "fleet_sales_research",
+    "maintenance_planner",
+    "fleet_sla_watcher",
+    "collections_assistant"
+  ],
+  "evidence": [
+    {
+      "id": "EV-FLEET-ACCOUNT",
+      "entity": "fleet_accounts",
+      "fields": [
+        "customer_id",
+        "fleet_size",
+        "owner"
+      ]
+    },
+    {
+      "id": "EV-FLEET-OPP",
+      "entity": "opportunities",
+      "fields": [
+        "fleet_account_id",
+        "status",
+        "value_cents",
+        "next_step"
+      ]
+    },
+    {
+      "id": "EV-FLEET-CONTRACT",
+      "entity": "contracts",
+      "fields": [
+        "fleet_account_id",
+        "status",
+        "sla_hours",
+        "starts_at",
+        "ends_at",
+        "approval_ref"
+      ]
+    },
+    {
+      "id": "EV-FLEET-MAINT",
+      "entity": "maintenance",
+      "fields": [
+        "vehicle_id",
+        "contract_id",
+        "due_at",
+        "due_km",
+        "status",
+        "work_order_id"
+      ]
+    },
+    {
+      "id": "EV-FLEET-WORK",
+      "entity": "work_orders",
+      "fields": [
+        "contract_id",
+        "status",
+        "opened_at",
+        "completed_at"
+      ]
+    },
+    {
+      "id": "EV-FLEET-INVOICE",
+      "entity": "invoices",
+      "fields": [
+        "customer_id",
+        "work_order_id",
+        "status",
+        "amount_cents",
+        "due_at"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "CTL-FLEET-01",
+      "description": "Oportunidad no prueba contrato, ingreso ni intención de compra."
+    },
+    {
+      "id": "CTL-FLEET-02",
+      "description": "SLA medido solo con contrato/fechas/aprobación y servicio elegibles; demás es unknown/excluded."
+    },
+    {
+      "id": "CTL-FLEET-03",
+      "description": "Targeting es heurística de research, no contacto o propensity score."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "FLT-START",
+      "type": "start",
+      "label": "Cuenta de flotilla observada",
+      "lane": "analytics",
+      "owner": "fleet_sales",
+      "inputs": [
+        "fleet_accounts.id"
+      ],
+      "outputs": [],
+      "controls": [],
+      "metric_ids": [
+        "M-FLEET-ACCOUNT-COVERAGE"
+      ],
+      "agent_ids": [],
+      "evidence_ids": [
+        "EV-FLEET-ACCOUNT"
+      ]
+    },
+    {
+      "id": "FLT-PIPELINE",
+      "type": "task",
+      "label": "Clasificar oportunidad y pipeline",
+      "lane": "commercial",
+      "owner": "fleet_sales",
+      "inputs": [
+        "opportunities.status",
+        "opportunities.value_cents"
+      ],
+      "outputs": [
+        "commercial state"
+      ],
+      "controls": [
+        "CTL-FLEET-01",
+        "CTL-FLEET-03"
+      ],
+      "metric_ids": [
+        "M-FLEET-OPEN-OPPS",
+        "M-FLEET-PIPELINE"
+      ],
+      "agent_ids": [
+        "fleet_sales_research"
+      ],
+      "evidence_ids": [
+        "EV-FLEET-OPP"
+      ]
+    },
+    {
+      "id": "FLT-OPEN",
+      "type": "decision",
+      "label": "¿Oportunidad abierta?",
+      "lane": "commercial",
+      "owner": "fleet_sales",
+      "inputs": [
+        "commercial state"
+      ],
+      "outputs": [],
+      "controls": [
+        "CTL-FLEET-03"
+      ],
+      "metric_ids": [],
+      "agent_ids": [
+        "fleet_sales_research"
+      ],
+      "evidence_ids": [
+        "EV-FLEET-OPP"
+      ]
+    },
+    {
+      "id": "FLT-RESEARCH",
+      "type": "task",
+      "label": "Preparar research para revisión",
+      "lane": "analytics",
+      "owner": "fleet_sales",
+      "inputs": [
+        "opportunities.next_step"
+      ],
+      "outputs": [
+        "pending ActionProposal"
+      ],
+      "controls": [
+        "CTL-FLEET-03"
+      ],
+      "metric_ids": [],
+      "agent_ids": [
+        "fleet_sales_research"
+      ],
+      "evidence_ids": [
+        "EV-FLEET-OPP"
+      ]
+    },
+    {
+      "id": "FLT-CONTRACT",
+      "type": "task",
+      "label": "Evaluar cobertura contractual",
+      "lane": "analytics",
+      "owner": "fleet_owner",
+      "inputs": [
+        "contracts.status",
+        "contracts.approval_ref"
+      ],
+      "outputs": [
+        "coverage status"
+      ],
+      "controls": [
+        "CTL-FLEET-02"
+      ],
+      "metric_ids": [
+        "M-FLEET-ACTIVE-CONTRACTS",
+        "M-FLEET-SLA-ELIGIBILITY"
+      ],
+      "agent_ids": [
+        "fleet_sla_watcher"
+      ],
+      "evidence_ids": [
+        "EV-FLEET-CONTRACT"
+      ]
+    },
+    {
+      "id": "FLT-COVERED",
+      "type": "decision",
+      "label": "¿Cobertura SLA medible?",
+      "lane": "analytics",
+      "owner": "fleet_owner",
+      "inputs": [
+        "coverage status"
+      ],
+      "outputs": [],
+      "controls": [
+        "CTL-FLEET-02"
+      ],
+      "metric_ids": [
+        "M-FLEET-SLA-ELIGIBILITY"
+      ],
+      "agent_ids": [
+        "fleet_sla_watcher"
+      ],
+      "evidence_ids": [
+        "EV-FLEET-CONTRACT",
+        "EV-FLEET-WORK"
+      ]
+    },
+    {
+      "id": "FLT-UNKNOWN",
+      "type": "task",
+      "label": "Registrar cobertura unknown",
+      "lane": "analytics",
+      "owner": "fleet_owner",
+      "inputs": [
+        "coverage status"
+      ],
+      "outputs": [
+        "SLA review exception"
+      ],
+      "controls": [
+        "CTL-FLEET-02"
+      ],
+      "metric_ids": [],
+      "agent_ids": [
+        "fleet_sla_watcher"
+      ],
+      "evidence_ids": [
+        "EV-FLEET-CONTRACT"
+      ]
+    },
+    {
+      "id": "FLT-SERVICE",
+      "type": "task",
+      "label": "Evaluar mantenimiento, entrega y SLA",
+      "lane": "service",
+      "owner": "fleet_owner",
+      "inputs": [
+        "maintenance.status",
+        "work_orders.status"
+      ],
+      "outputs": [
+        "service status"
+      ],
+      "controls": [
+        "CTL-FLEET-02"
+      ],
+      "metric_ids": [
+        "M-FLEET-MAINTENANCE",
+        "M-FLEET-SLA-RISK"
+      ],
+      "agent_ids": [
+        "maintenance_planner",
+        "fleet_sla_watcher"
+      ],
+      "evidence_ids": [
+        "EV-FLEET-MAINT",
+        "EV-FLEET-WORK"
+      ]
+    },
+    {
+      "id": "FLT-RISK",
+      "type": "decision",
+      "label": "¿Mantenimiento/SLA requiere revisión?",
+      "lane": "analytics",
+      "owner": "fleet_owner",
+      "inputs": [
+        "service status"
+      ],
+      "outputs": [],
+      "controls": [
+        "CTL-FLEET-02"
+      ],
+      "metric_ids": [
+        "M-FLEET-SLA-RISK"
+      ],
+      "agent_ids": [
+        "maintenance_planner",
+        "fleet_sla_watcher"
+      ],
+      "evidence_ids": [
+        "EV-FLEET-MAINT",
+        "EV-FLEET-WORK"
+      ]
+    },
+    {
+      "id": "FLT-ACTION",
+      "type": "task",
+      "label": "Preparar revisión de mantenimiento/SLA",
+      "lane": "analytics",
+      "owner": "fleet_owner",
+      "inputs": [
+        "service status"
+      ],
+      "outputs": [
+        "pending ActionProposal"
+      ],
+      "controls": [
+        "CTL-FLEET-02"
+      ],
+      "metric_ids": [
+        "M-FLEET-MAINTENANCE"
+      ],
+      "agent_ids": [
+        "maintenance_planner",
+        "fleet_sla_watcher"
+      ],
+      "evidence_ids": [
+        "EV-FLEET-MAINT",
+        "EV-FLEET-WORK"
+      ]
+    },
+    {
+      "id": "FLT-FINANCE",
+      "type": "task",
+      "label": "Vincular facturación y saldo",
+      "lane": "finance",
+      "owner": "finance",
+      "inputs": [
+        "invoices.status",
+        "payments.amount_cents"
+      ],
+      "outputs": [
+        "receivable view"
+      ],
+      "controls": [
+        "CTL-FLEET-01"
+      ],
+      "metric_ids": [
+        "M-AR-RECEIVABLE"
+      ],
+      "agent_ids": [
+        "collections_assistant"
+      ],
+      "evidence_ids": [
+        "EV-FLEET-INVOICE"
+      ]
+    },
+    {
+      "id": "FLT-END",
+      "type": "end",
+      "label": "Cuenta documentada",
+      "lane": "analytics",
+      "owner": "analytics",
+      "inputs": [],
+      "outputs": [
+        "fleet report finding"
+      ],
+      "controls": [],
+      "metric_ids": [],
+      "agent_ids": [],
+      "evidence_ids": []
+    }
+  ],
+  "transitions": [
+    {
+      "from": "FLT-START",
+      "to": "FLT-PIPELINE",
+      "condition": "fleet account loaded",
+      "evidence_ids": [
+        "EV-FLEET-ACCOUNT"
+      ]
+    },
+    {
+      "from": "FLT-PIPELINE",
+      "to": "FLT-OPEN",
+      "condition": "pipeline classified",
+      "evidence_ids": [
+        "EV-FLEET-OPP"
+      ]
+    },
+    {
+      "from": "FLT-OPEN",
+      "to": "FLT-RESEARCH",
+      "condition": "status not won/lost",
+      "evidence_ids": [
+        "EV-FLEET-OPP"
+      ]
+    },
+    {
+      "from": "FLT-OPEN",
+      "to": "FLT-CONTRACT",
+      "condition": "no open opportunity or commercial review complete",
+      "evidence_ids": [
+        "EV-FLEET-OPP"
+      ]
+    },
+    {
+      "from": "FLT-RESEARCH",
+      "to": "FLT-CONTRACT",
+      "condition": "draft recorded",
+      "evidence_ids": [
+        "EV-FLEET-OPP"
+      ]
+    },
+    {
+      "from": "FLT-CONTRACT",
+      "to": "FLT-COVERED",
+      "condition": "coverage evaluated",
+      "evidence_ids": [
+        "EV-FLEET-CONTRACT"
+      ]
+    },
+    {
+      "from": "FLT-COVERED",
+      "to": "FLT-UNKNOWN",
+      "condition": "coverage evidence insufficient",
+      "evidence_ids": [
+        "EV-FLEET-CONTRACT"
+      ]
+    },
+    {
+      "from": "FLT-COVERED",
+      "to": "FLT-SERVICE",
+      "condition": "eligible contract/service",
+      "evidence_ids": [
+        "EV-FLEET-CONTRACT",
+        "EV-FLEET-WORK"
+      ]
+    },
+    {
+      "from": "FLT-UNKNOWN",
+      "to": "FLT-FINANCE",
+      "condition": "unknown recorded without denominator",
+      "evidence_ids": [
+        "EV-FLEET-CONTRACT"
+      ]
+    },
+    {
+      "from": "FLT-SERVICE",
+      "to": "FLT-RISK",
+      "condition": "service evaluated",
+      "evidence_ids": [
+        "EV-FLEET-WORK"
+      ]
+    },
+    {
+      "from": "FLT-RISK",
+      "to": "FLT-ACTION",
+      "condition": "due/at_risk/breached",
+      "evidence_ids": [
+        "EV-FLEET-MAINT",
+        "EV-FLEET-WORK"
+      ]
+    },
+    {
+      "from": "FLT-RISK",
+      "to": "FLT-FINANCE",
+      "condition": "no review condition",
+      "evidence_ids": [
+        "EV-FLEET-WORK"
+      ]
+    },
+    {
+      "from": "FLT-ACTION",
+      "to": "FLT-FINANCE",
+      "condition": "proposal recorded",
+      "evidence_ids": [
+        "EV-FLEET-WORK"
+      ]
+    },
+    {
+      "from": "FLT-FINANCE",
+      "to": "FLT-END",
+      "condition": "finance view reconciled",
+      "evidence_ids": [
+        "EV-FLEET-INVOICE"
+      ]
+    }
+  ],
+  "acceptance_tests": [
+    {
+      "id": "AT-FLEET-01",
+      "given": "open opportunity",
+      "when": "pipeline runs",
+      "then": "research draft is pending and no contact occurs"
+    },
+    {
+      "id": "AT-FLEET-02",
+      "given": "contract evidence insufficient",
+      "when": "SLA evaluates",
+      "then": "coverage is unknown and excluded from measured denominator"
+    },
+    {
+      "id": "AT-FLEET-03",
+      "given": "eligible open service at risk",
+      "when": "review runs",
+      "then": "grounded SLA proposal reaches finance and end"
+    }
+  ]
+}

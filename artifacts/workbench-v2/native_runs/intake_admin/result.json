@@ -1,0 +1,324 @@
+{
+  "backend": "native_codex",
+  "execution_evidence": "verified_two_stage_local_cli",
+  "external_execution": false,
+  "human_review_required": true,
+  "model_invoked": true,
+  "native_receipt": {
+    "cli_exit_code": 0,
+    "completion_observed": true,
+    "kind": "local_codex_cli",
+    "model_id": "gpt-5.6-luna",
+    "provider_events": [
+      {
+        "event": "native_provider",
+        "provider_event_type": "thread.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "agent_message"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.completed",
+        "usage": {
+          "cache_write_input_tokens": 0,
+          "cached_input_tokens": 0,
+          "input_tokens": 17501,
+          "output_tokens": 1339,
+          "reasoning_output_tokens": 454
+        }
+      }
+    ],
+    "stage": "final"
+  },
+  "plan_receipt": {
+    "cli_exit_code": 0,
+    "completion_observed": true,
+    "kind": "local_codex_cli",
+    "model_id": "gpt-5.6-luna",
+    "provider_events": [
+      {
+        "event": "native_provider",
+        "provider_event_type": "thread.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "agent_message"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.completed",
+        "usage": {
+          "cache_write_input_tokens": 0,
+          "cached_input_tokens": 12032,
+          "input_tokens": 16255,
+          "output_tokens": 370,
+          "reasoning_output_tokens": 187
+        }
+      }
+    ],
+    "stage": "plan"
+  },
+  "result": {
+    "alternatives": [
+      "Priorizar revisión humana de L-001, cuyo seguimiento quedó antes del corte; verificar consentimiento antes de cualquier contacto.",
+      "Solicitar revisión manual de Q-010 porque la cotización estaba enviada y su vigencia terminó antes del corte; no aprobarla ni cobrarla automáticamente.",
+      "Mantener Q-009 en revisión humana mientras siga dentro de su vigencia registrada; no enviarlo ni modificarlo automáticamente.",
+      "Revisar A-002 manualmente antes de confirmar cualquier acción; no agendar, cambiar ni contactar al cliente."
+    ],
+    "diagnosis": "Al corte válido 2026-09-21T18:00:00Z hay 4 leads abiertos y 1 cita pendiente. L-001 aparece como nuevo con seguimiento registrado para 2026-09-20T17:00:00Z, por lo que requiere revisión humana. Q-010 está enviada pero su vigencia registrada terminó antes del corte. Q-009 está enviada y requiere seguimiento humano. A-002 está pendiente y comienza después del corte. L-003 está cotizado, pero su cliente tiene consentimiento denegado; no debe contactarse. No se realizó ningún contacto, agenda, modificación ni envío.",
+    "drafts": [],
+    "evidence": [
+      {
+        "entity_id": "L-001",
+        "entity_type": "leads",
+        "field": "status",
+        "value": "new",
+        "version": 1
+      },
+      {
+        "entity_id": "L-001",
+        "entity_type": "leads",
+        "field": "follow_up_at",
+        "value": "2026-09-20T17:00:00Z",
+        "version": 1
+      },
+      {
+        "entity_id": "L-003",
+        "entity_type": "leads",
+        "field": "status",
+        "value": "quoted",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-010",
+        "entity_type": "quotes",
+        "field": "status",
+        "value": "sent",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-010",
+        "entity_type": "quotes",
+        "field": "valid_until",
+        "value": "2026-09-20T00:00:00Z",
+        "version": 1
+      },
+      {
+        "entity_id": "Q-009",
+        "entity_type": "quotes",
+        "field": "status",
+        "value": "sent",
+        "version": 1
+      },
+      {
+        "entity_id": "A-002",
+        "entity_type": "appointments",
+        "field": "status",
+        "value": "pending",
+        "version": 1
+      },
+      {
+        "entity_id": "A-002",
+        "entity_type": "appointments",
+        "field": "starts_at",
+        "value": "2026-09-22T16:00:00Z",
+        "version": 1
+      },
+      {
+        "entity_id": "C-003",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 0,
+        "version": 1
+      }
+    ],
+    "manual_next_steps": [
+      "Validar manualmente el estado y el consentimiento de los leads abiertos no cubiertos por la evidencia detallada.",
+      "Revisar L-001 y decidir internamente si procede una acción, sin contactar hasta confirmar consentimiento.",
+      "Determinar manualmente si Q-010 debe reemitirse o cerrarse por vencimiento; no reutilizarla ni procesar pago.",
+      "Revisar Q-009 y definir el siguiente paso humano antes de su fecha de vigencia registrada.",
+      "Para L-003 y C-003, bloquear contacto y solicitar cualquier aclaración únicamente por un canal interno autorizado.",
+      "Revisar A-002 sin modificar ni confirmar la cita."
+    ],
+    "missing_information": [
+      "No se incluyó evidencia detallada del consentimiento de C-001, C-005, C-007 ni C-002.",
+      "No se incluyó evidencia detallada del estado de L-002 ni de su relación operativa con A-002.",
+      "No se incluyó evidencia detallada de la vigencia de Q-009.",
+      "No se incluyó evidencia detallada de una política o autorización para contactar, reenviar cotizaciones o confirmar citas."
+    ],
+    "sensitivity": {
+      "level": "high",
+      "reason": "El paquete contiene datos de contacto y estados de consentimiento, y las acciones potenciales implican contacto con clientes, citas y cotizaciones; por ello todo queda limitado a revisión humana."
+    },
+    "workplan": [
+      "Usar únicamente el corte 2026-09-21T18:00:00Z como referencia temporal.",
+      "Separar los casos con evidencia suficiente de los que requieren validación manual.",
+      "Bloquear cualquier contacto relacionado con C-003 por consentimiento igual a 0.",
+      "Escalar las decisiones de seguimiento, cotización y cita a una persona autorizada.",
+      "No ejecutar cambios, envíos, contactos, pagos ni confirmaciones de agenda."
+    ]
+  },
+  "status": "completed"
+}

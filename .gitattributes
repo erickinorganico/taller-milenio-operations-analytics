@@ -3,6 +3,10 @@
 *.md text eol=lf
 *.json text eol=lf
 *.txt text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sql text eol=lf
 *.csv text eol=lf
 *.svg text eol=lf
 *.ps1 text eol=crlf
@@ -12,3 +16,5 @@
 artifacts/demo/** -text -whitespace
 artifacts/controlled-failure/** -text -whitespace
 artifacts/final-verification.* -text -whitespace
+artifacts/workbench-v2/** -text -whitespace
+artifacts/v2-verification.* -text -whitespace

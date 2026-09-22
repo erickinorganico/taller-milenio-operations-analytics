@@ -1,0 +1,395 @@
+{
+  "schema_version": "1.0",
+  "process_id": "towing",
+  "title": "Grúas: revisión analítica de hitos y gates humanos",
+  "purpose": "Medir completitud y duración observada sin convertir evidencia analítica en decisión de seguridad o despacho.",
+  "accountable_owner": "tow_coordinator",
+  "scope": {
+    "trigger": "Existe solicitud de grúa",
+    "end": "Solicitud clasificada y revisión humana documentada",
+    "exclusions": [
+      "diagnóstico",
+      "selección de unidad",
+      "precio/ETA",
+      "despacho"
+    ]
+  },
+  "roles": [
+    {
+      "id": "requester",
+      "label": "Solicitante",
+      "lane": "frontstage",
+      "accountable_for": []
+    },
+    {
+      "id": "tow_coordinator",
+      "label": "Coordinación de grúa",
+      "lane": "tow",
+      "accountable_for": [
+        "evidencia humana"
+      ]
+    },
+    {
+      "id": "safety_approver",
+      "label": "Aprobador humano",
+      "lane": "tow",
+      "accountable_for": [
+        "seguridad, precio, unidad y despacho"
+      ]
+    },
+    {
+      "id": "analytics",
+      "label": "Toolkit",
+      "lane": "analytics",
+      "accountable_for": [
+        "completitud y duración"
+      ]
+    }
+  ],
+  "entities": [
+    "customers",
+    "vehicles",
+    "tow_units",
+    "tows"
+  ],
+  "metrics": [
+    "M-TOW-OPEN",
+    "M-TOW-HUMAN-REFS",
+    "M-TOW-CLOSE-HOURS"
+  ],
+  "agents": [
+    "tow_dispatch_assistant",
+    "weekly_operator"
+  ],
+  "evidence": [
+    {
+      "id": "EV-TOW-REQUEST",
+      "entity": "tows",
+      "fields": [
+        "customer_id",
+        "vehicle_id",
+        "pickup",
+        "destination",
+        "conditions",
+        "requested_at",
+        "due_at",
+        "status"
+      ]
+    },
+    {
+      "id": "EV-TOW-HUMAN",
+      "entity": "tows",
+      "fields": [
+        "safety_ref",
+        "human_approval_ref",
+        "unit_id",
+        "amount_cents"
+      ]
+    },
+    {
+      "id": "EV-TOW-CLOSE",
+      "entity": "tows",
+      "fields": [
+        "requested_at",
+        "closed_at",
+        "status"
+      ]
+    },
+    {
+      "id": "EV-TOW-UNIT",
+      "entity": "tow_units",
+      "fields": [
+        "capability"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "CTL-TOW-01",
+      "description": "Refs registradas prueban presencia de campos, no seguridad, legalidad o identidad del aprobador."
+    },
+    {
+      "id": "CTL-TOW-02",
+      "description": "Request→close no mide respuesta, llegada o calidad."
+    },
+    {
+      "id": "CTL-TOW-03",
+      "description": "No existe adapter de asignación, mensaje o despacho."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "TOW-START",
+      "type": "start",
+      "label": "Solicitud observada",
+      "lane": "analytics",
+      "owner": "tow_coordinator",
+      "inputs": [
+        "tows.status"
+      ],
+      "outputs": [],
+      "controls": [],
+      "metric_ids": [
+        "M-TOW-OPEN"
+      ],
+      "agent_ids": [],
+      "evidence_ids": [
+        "EV-TOW-REQUEST"
+      ]
+    },
+    {
+      "id": "TOW-VALIDATE",
+      "type": "task",
+      "label": "Validar referencias y campos de gate",
+      "lane": "analytics",
+      "owner": "tow_coordinator",
+      "inputs": [
+        "tows.safety_ref",
+        "tows.human_approval_ref",
+        "tows.unit_id",
+        "tows.amount_cents"
+      ],
+      "outputs": [
+        "gate completeness"
+      ],
+      "controls": [
+        "CTL-TOW-01",
+        "CTL-TOW-03"
+      ],
+      "metric_ids": [
+        "M-TOW-HUMAN-REFS"
+      ],
+      "agent_ids": [
+        "tow_dispatch_assistant"
+      ],
+      "evidence_ids": [
+        "EV-TOW-HUMAN"
+      ]
+    },
+    {
+      "id": "TOW-COMPLETE",
+      "type": "decision",
+      "label": "¿Gate humano completo para el estado?",
+      "lane": "analytics",
+      "owner": "safety_approver",
+      "inputs": [
+        "gate completeness"
+      ],
+      "outputs": [],
+      "controls": [
+        "CTL-TOW-01"
+      ],
+      "metric_ids": [
+        "M-TOW-HUMAN-REFS"
+      ],
+      "agent_ids": [
+        "tow_dispatch_assistant"
+      ],
+      "evidence_ids": [
+        "EV-TOW-HUMAN"
+      ]
+    },
+    {
+      "id": "TOW-REVIEW",
+      "type": "task",
+      "label": "Crear revisión humana de grúa",
+      "lane": "analytics",
+      "owner": "safety_approver",
+      "inputs": [
+        "gate completeness"
+      ],
+      "outputs": [
+        "pending ActionProposal"
+      ],
+      "controls": [
+        "CTL-TOW-01",
+        "CTL-TOW-03"
+      ],
+      "metric_ids": [],
+      "agent_ids": [
+        "tow_dispatch_assistant"
+      ],
+      "evidence_ids": [
+        "EV-TOW-HUMAN"
+      ]
+    },
+    {
+      "id": "TOW-CLOSED",
+      "type": "decision",
+      "label": "¿Status closed con closed_at?",
+      "lane": "analytics",
+      "owner": "tow_coordinator",
+      "inputs": [
+        "tows.status",
+        "tows.closed_at"
+      ],
+      "outputs": [],
+      "controls": [
+        "CTL-TOW-02"
+      ],
+      "metric_ids": [],
+      "agent_ids": [],
+      "evidence_ids": [
+        "EV-TOW-CLOSE"
+      ]
+    },
+    {
+      "id": "TOW-DURATION",
+      "type": "task",
+      "label": "Calcular solicitud→cierre",
+      "lane": "analytics",
+      "owner": "analytics",
+      "inputs": [
+        "tows.requested_at",
+        "tows.closed_at"
+      ],
+      "outputs": [
+        "duration hours"
+      ],
+      "controls": [
+        "CTL-TOW-02"
+      ],
+      "metric_ids": [
+        "M-TOW-CLOSE-HOURS"
+      ],
+      "agent_ids": [],
+      "evidence_ids": [
+        "EV-TOW-CLOSE"
+      ]
+    },
+    {
+      "id": "TOW-OPEN-ITEM",
+      "type": "task",
+      "label": "Registrar solicitud abierta/cancelada",
+      "lane": "analytics",
+      "owner": "tow_coordinator",
+      "inputs": [
+        "tows.status"
+      ],
+      "outputs": [
+        "state finding"
+      ],
+      "controls": [
+        "CTL-TOW-03"
+      ],
+      "metric_ids": [
+        "M-TOW-OPEN"
+      ],
+      "agent_ids": [
+        "tow_dispatch_assistant"
+      ],
+      "evidence_ids": [
+        "EV-TOW-REQUEST"
+      ]
+    },
+    {
+      "id": "TOW-END",
+      "type": "end",
+      "label": "Revisión de grúa documentada",
+      "lane": "analytics",
+      "owner": "analytics",
+      "inputs": [],
+      "outputs": [
+        "tow report finding"
+      ],
+      "controls": [],
+      "metric_ids": [],
+      "agent_ids": [],
+      "evidence_ids": []
+    }
+  ],
+  "transitions": [
+    {
+      "from": "TOW-START",
+      "to": "TOW-VALIDATE",
+      "condition": "request loaded",
+      "evidence_ids": [
+        "EV-TOW-REQUEST"
+      ]
+    },
+    {
+      "from": "TOW-VALIDATE",
+      "to": "TOW-COMPLETE",
+      "condition": "fields evaluated",
+      "evidence_ids": [
+        "EV-TOW-HUMAN"
+      ]
+    },
+    {
+      "from": "TOW-COMPLETE",
+      "to": "TOW-REVIEW",
+      "condition": "advanced/open state lacks required refs",
+      "evidence_ids": [
+        "EV-TOW-HUMAN"
+      ]
+    },
+    {
+      "from": "TOW-COMPLETE",
+      "to": "TOW-CLOSED",
+      "condition": "gate complete or state does not require it",
+      "evidence_ids": [
+        "EV-TOW-HUMAN"
+      ]
+    },
+    {
+      "from": "TOW-REVIEW",
+      "to": "TOW-CLOSED",
+      "condition": "review recorded; no execution",
+      "evidence_ids": [
+        "EV-TOW-HUMAN"
+      ]
+    },
+    {
+      "from": "TOW-CLOSED",
+      "to": "TOW-DURATION",
+      "condition": "status closed and closed_at present",
+      "evidence_ids": [
+        "EV-TOW-CLOSE"
+      ]
+    },
+    {
+      "from": "TOW-CLOSED",
+      "to": "TOW-OPEN-ITEM",
+      "condition": "not closed or cancelled",
+      "evidence_ids": [
+        "EV-TOW-REQUEST"
+      ]
+    },
+    {
+      "from": "TOW-DURATION",
+      "to": "TOW-END",
+      "condition": "duration recorded with scope note",
+      "evidence_ids": [
+        "EV-TOW-CLOSE"
+      ]
+    },
+    {
+      "from": "TOW-OPEN-ITEM",
+      "to": "TOW-END",
+      "condition": "state finding recorded",
+      "evidence_ids": [
+        "EV-TOW-REQUEST"
+      ]
+    }
+  ],
+  "acceptance_tests": [
+    {
+      "id": "AT-TOW-01",
+      "given": "open tow missing human refs",
+      "when": "gate evaluates",
+      "then": "pending review is emitted and no dispatch occurs"
+    },
+    {
+      "id": "AT-TOW-02",
+      "given": "closed tow with timestamps",
+      "when": "duration calculates",
+      "then": "label is request-to-close, not response/arrival"
+    },
+    {
+      "id": "AT-TOW-03",
+      "given": "all human ref fields present",
+      "when": "report renders",
+      "then": "wording does not certify safety or approval identity"
+    }
+  ]
+}

@@ -1,0 +1,376 @@
+{
+  "backend": "rules",
+  "cases_reviewed": 10,
+  "context": {
+    "cases": [
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-WO",
+          "bay_id": null,
+          "block_reason": "Falta filtro",
+          "completed_at": null,
+          "contract_id": null,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-003",
+          "description": "Orden sintética",
+          "due_at": "2026-09-23T20:00:00Z",
+          "id": "WO-003",
+          "inspection": "Inspección demo",
+          "opened_at": "2026-09-18T16:00:00Z",
+          "qc_ref": null,
+          "quote_id": "Q-003",
+          "status": "waiting_parts",
+          "synthetic": 1,
+          "technician_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-003",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-WO",
+          "bay_id": "B-003",
+          "block_reason": null,
+          "completed_at": null,
+          "contract_id": null,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-004",
+          "description": "Orden sintética",
+          "due_at": "2026-09-23T20:00:00Z",
+          "id": "WO-004",
+          "inspection": "Inspección demo",
+          "opened_at": "2026-09-18T16:00:00Z",
+          "qc_ref": null,
+          "quote_id": "Q-004",
+          "status": "rework",
+          "synthetic": 1,
+          "technician_id": "T-003",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-004",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "B-001",
+        "entity_type": "bays",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "B-001",
+          "name": "Bahía 1",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "B-002",
+        "entity_type": "bays",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "B-002",
+          "name": "Bahía 2",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "P-001",
+        "entity_type": "parts",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "P-001",
+          "name": "Refacción demo 1",
+          "reorder_point": 2,
+          "sku": "SKU-001",
+          "supplier_id": "S-001",
+          "synthetic": 1,
+          "unit_cost_cents": 1550,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "P-002",
+        "entity_type": "parts",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "P-002",
+          "name": "Refacción demo 2",
+          "reorder_point": 2,
+          "sku": "SKU-002",
+          "supplier_id": "S-001",
+          "synthetic": 1,
+          "unit_cost_cents": 1900,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "RS-001",
+        "entity_type": "reservations",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "RS-001",
+          "part_id": "P-001",
+          "quantity": 2,
+          "status": "consumed",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-001"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "RS-002",
+        "entity_type": "reservations",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "RS-002",
+          "part_id": "P-002",
+          "quantity": 1,
+          "status": "reserved",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-002"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "SM-001",
+        "entity_type": "stock_moves",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "SM-001",
+          "move_type": "receive",
+          "part_id": "P-001",
+          "purchase_id": "PO-001",
+          "quantity": 8,
+          "reason": "Recepción/consumo demo",
+          "synthetic": 1,
+          "unit_cost_cents": 1800,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": null
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "SM-002",
+        "entity_type": "stock_moves",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "SM-002",
+          "move_type": "consume",
+          "part_id": "P-001",
+          "purchase_id": null,
+          "quantity": 2,
+          "reason": "Recepción/consumo demo",
+          "synthetic": 1,
+          "unit_cost_cents": 1800,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-001"
+        },
+        "version": 1
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "waiting_parts",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "rework",
+        "version": 1
+      },
+      {
+        "entity_id": "B-001",
+        "entity_type": "bays",
+        "field": "name",
+        "value": "Bahía 1",
+        "version": 1
+      },
+      {
+        "entity_id": "B-002",
+        "entity_type": "bays",
+        "field": "name",
+        "value": "Bahía 2",
+        "version": 1
+      },
+      {
+        "entity_id": "P-001",
+        "entity_type": "parts",
+        "field": "sku",
+        "value": "SKU-001",
+        "version": 1
+      },
+      {
+        "entity_id": "P-002",
+        "entity_type": "parts",
+        "field": "sku",
+        "value": "SKU-002",
+        "version": 1
+      },
+      {
+        "entity_id": "RS-001",
+        "entity_type": "reservations",
+        "field": "status",
+        "value": "consumed",
+        "version": 1
+      },
+      {
+        "entity_id": "RS-002",
+        "entity_type": "reservations",
+        "field": "status",
+        "value": "reserved",
+        "version": 1
+      },
+      {
+        "entity_id": "SM-001",
+        "entity_type": "stock_moves",
+        "field": "part_id",
+        "value": "P-001",
+        "version": 1
+      },
+      {
+        "entity_id": "SM-002",
+        "entity_type": "stock_moves",
+        "field": "part_id",
+        "value": "P-001",
+        "version": 1
+      }
+    ],
+    "metrics": {
+      "busy_bays": 4,
+      "open_work_orders": 7,
+      "waiting_parts": 1
+    }
+  },
+  "external_execution": false,
+  "human_review_required": true,
+  "mode_label": "offline deterministic baseline; no LLM invoked",
+  "model_invoked": false,
+  "result": {
+    "alternatives": [
+      "Revisar el registro citado con su responsable actual antes de decidir un cambio.",
+      "Diferir la decisión y solicitar la evidencia operativa faltante."
+    ],
+    "diagnosis": "Línea base offline por reglas: work_orders:WO-003 tiene status='waiting_parts' en la versión 1; revíselo con la cola acotada (open_work_orders=7, waiting_parts=1, busy_bays=4).",
+    "drafts": [
+      {
+        "kind": "followup",
+        "requires_human_review": true,
+        "text": "Borrador interno de revisión para work_orders:WO-003: confirme el registro citado antes de cualquier acción."
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "waiting_parts",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "rework",
+        "version": 1
+      },
+      {
+        "entity_id": "B-001",
+        "entity_type": "bays",
+        "field": "name",
+        "value": "Bahía 1",
+        "version": 1
+      },
+      {
+        "entity_id": "B-002",
+        "entity_type": "bays",
+        "field": "name",
+        "value": "Bahía 2",
+        "version": 1
+      },
+      {
+        "entity_id": "P-001",
+        "entity_type": "parts",
+        "field": "sku",
+        "value": "SKU-001",
+        "version": 1
+      },
+      {
+        "entity_id": "P-002",
+        "entity_type": "parts",
+        "field": "sku",
+        "value": "SKU-002",
+        "version": 1
+      },
+      {
+        "entity_id": "RS-001",
+        "entity_type": "reservations",
+        "field": "status",
+        "value": "consumed",
+        "version": 1
+      },
+      {
+        "entity_id": "RS-002",
+        "entity_type": "reservations",
+        "field": "status",
+        "value": "reserved",
+        "version": 1
+      },
+      {
+        "entity_id": "SM-001",
+        "entity_type": "stock_moves",
+        "field": "part_id",
+        "value": "P-001",
+        "version": 1
+      },
+      {
+        "entity_id": "SM-002",
+        "entity_type": "stock_moves",
+        "field": "part_id",
+        "value": "P-001",
+        "version": 1
+      }
+    ],
+    "manual_next_steps": [
+      "Una persona revisora confirma el valor citado y su contexto.",
+      "Una persona revisora registra cualquier decisión; este workbench no ejecuta acciones externas."
+    ],
+    "missing_information": [
+      "Este corte sintético no contiene contexto operativo, aprobación ni resultado en vivo."
+    ],
+    "sensitivity": {
+      "level": "medium",
+      "reason": "El paquete puede contener campos operativos y de contacto; mantenga los borradores bajo revisión humana."
+    },
+    "workplan": [
+      "Inspeccionar los registros dentro del alcance.",
+      "Verificar valores y versiones exactas de la evidencia.",
+      "Revisar el borrador y decidir manualmente."
+    ]
+  },
+  "status": "completed"
+}

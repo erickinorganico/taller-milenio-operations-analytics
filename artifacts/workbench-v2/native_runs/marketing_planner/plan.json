@@ -1,0 +1,67 @@
+{
+  "evidence_requests": [
+    {
+      "entity_id": "CAM-001",
+      "entity_type": "campaigns",
+      "field": "draft"
+    },
+    {
+      "entity_id": "CAM-001",
+      "entity_type": "campaigns",
+      "field": "status"
+    },
+    {
+      "entity_id": "CAM-001",
+      "entity_type": "campaigns",
+      "field": "audience"
+    },
+    {
+      "entity_id": "CAM-001",
+      "entity_type": "campaigns",
+      "field": "objective"
+    },
+    {
+      "entity_id": "CAM-002",
+      "entity_type": "campaigns",
+      "field": "draft"
+    },
+    {
+      "entity_id": "CAM-002",
+      "entity_type": "campaigns",
+      "field": "status"
+    },
+    {
+      "entity_id": "CAM-002",
+      "entity_type": "campaigns",
+      "field": "audience"
+    },
+    {
+      "entity_id": "CAM-002",
+      "entity_type": "campaigns",
+      "field": "objective"
+    },
+    {
+      "entity_id": "C-001",
+      "entity_type": "customers",
+      "field": "consent"
+    },
+    {
+      "entity_id": "C-002",
+      "entity_type": "customers",
+      "field": "consent"
+    },
+    {
+      "entity_id": "C-003",
+      "entity_type": "customers",
+      "field": "consent"
+    },
+    {
+      "entity_id": "C-004",
+      "entity_type": "customers",
+      "field": "consent"
+    }
+  ],
+  "metric_ids": [
+    "review_campaigns"
+  ]
+}

@@ -1,0 +1,350 @@
+{
+  "backend": "native_codex",
+  "execution_evidence": "verified_two_stage_local_cli",
+  "external_execution": false,
+  "human_review_required": true,
+  "model_invoked": true,
+  "native_receipt": {
+    "cli_exit_code": 0,
+    "completion_observed": true,
+    "kind": "local_codex_cli",
+    "model_id": "gpt-5.6-luna",
+    "provider_events": [
+      {
+        "event": "native_provider",
+        "provider_event_type": "thread.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "agent_message"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.completed",
+        "usage": {
+          "cache_write_input_tokens": 0,
+          "cached_input_tokens": 13056,
+          "input_tokens": 17271,
+          "output_tokens": 1134,
+          "reasoning_output_tokens": 115
+        }
+      }
+    ],
+    "stage": "final"
+  },
+  "plan_receipt": {
+    "cli_exit_code": 0,
+    "completion_observed": true,
+    "kind": "local_codex_cli",
+    "model_id": "gpt-5.6-luna",
+    "provider_events": [
+      {
+        "event": "native_provider",
+        "provider_event_type": "thread.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "agent_message"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.completed",
+        "usage": {
+          "cache_write_input_tokens": 0,
+          "cached_input_tokens": 0,
+          "input_tokens": 15846,
+          "output_tokens": 368,
+          "reasoning_output_tokens": 124
+        }
+      }
+    ],
+    "stage": "plan"
+  },
+  "result": {
+    "alternatives": [
+      "Priorizar la revisión de OP-001 con Laura Campos antes del 2026-09-26T18:00:00Z, validando el siguiente paso de la propuesta y su alineación con el contrato activo.",
+      "Revisar OP-002 antes del 2026-09-28T18:00:00Z para completar la calificación y confirmar el contexto operativo de FA-002.",
+      "Hacer una revisión conjunta de ambas oportunidades abiertas, sin contacto externo ni cotización, usando únicamente la información disponible al corte indicado."
+    ],
+    "diagnosis": "Al corte válido de 2026-09-21T18:00:00Z hay 2 oportunidades abiertas. OP-001 está en estado de propuesta y vinculada con FA-001, una cuenta de logística con una flotilla de 12 unidades y responsable Laura Campos. FA-001 tiene un contrato activo que termina el 2026-12-31T23:59:59Z. OP-002 está calificada, vinculada con FA-002 y tiene seguimiento programado para el 2026-09-28T18:00:00Z; FA-002 tiene una flotilla de 8 unidades. No se realizó contacto ni se envió ningún borrador.",
+    "drafts": [
+      {
+        "kind": "followup",
+        "requires_human_review": true,
+        "text": "Borrador interno no enviado para revisión humana: revisar OP-001, actualmente en estado de propuesta, antes del 2026-09-26T18:00:00Z. Confirmar internamente el siguiente paso y considerar el contrato activo asociado con FA-001, cuyo vencimiento registrado es 2026-12-31T23:59:59Z."
+      },
+      {
+        "kind": "message",
+        "requires_human_review": true,
+        "text": "Borrador interno no enviado para revisión humana: preparar una revisión de OP-002, actualmente calificada, antes del 2026-09-28T18:00:00Z. Validar internamente los criterios pendientes de calificación para FA-002; no incluye contacto externo ni cotización."
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "proposal",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "field": "follow_up_at",
+        "value": "2026-09-26T18:00:00Z",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "field": "value_cents",
+        "value": 1250000,
+        "version": 1
+      },
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "field": "fleet_account_id",
+        "value": "FA-001",
+        "version": 1
+      },
+      {
+        "entity_id": "FA-001",
+        "entity_type": "fleet_accounts",
+        "field": "fleet_size",
+        "value": 12,
+        "version": 1
+      },
+      {
+        "entity_id": "FA-001",
+        "entity_type": "fleet_accounts",
+        "field": "industry",
+        "value": "logística",
+        "version": 1
+      },
+      {
+        "entity_id": "FA-001",
+        "entity_type": "fleet_accounts",
+        "field": "owner",
+        "value": "Laura Campos",
+        "version": 1
+      },
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "field": "status",
+        "value": "active",
+        "version": 1
+      },
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "field": "ends_at",
+        "value": "2026-12-31T23:59:59Z",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "qualified",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "field": "follow_up_at",
+        "value": "2026-09-28T18:00:00Z",
+        "version": 1
+      },
+      {
+        "entity_id": "FA-002",
+        "entity_type": "fleet_accounts",
+        "field": "fleet_size",
+        "value": 8,
+        "version": 1
+      }
+    ],
+    "manual_next_steps": [
+      "Revisar y aprobar manualmente la prioridad entre OP-001 y OP-002.",
+      "Validar internamente el siguiente paso de cada oportunidad antes de cualquier contacto.",
+      "No enviar los borradores sin revisión humana explícita."
+    ],
+    "missing_information": [
+      "No hay evidencia incluida sobre el nombre o rol del contacto decisor de cada cuenta.",
+      "No hay evidencia suficiente para determinar los criterios pendientes de calificación de OP-002.",
+      "No se dispone de condiciones, alcance o términos de la propuesta de OP-001."
+    ],
+    "sensitivity": {
+      "level": "medium",
+      "reason": "El contenido incluye contexto comercial interno, responsables, estados de oportunidades, seguimiento y datos contractuales; debe permanecer limitado a revisión autorizada."
+    },
+    "workplan": [
+      "Revisar primero OP-001 por su estado de propuesta y fecha de seguimiento más cercana.",
+      "Contrastar OP-001 con el contrato activo de FA-001 sin inferir condiciones comerciales no evidenciadas.",
+      "Revisar OP-002 y documentar los datos faltantes para completar su calificación.",
+      "Someter cualquier borrador a revisión humana antes de considerar una acción externa."
+    ]
+  },
+  "status": "completed"
+}

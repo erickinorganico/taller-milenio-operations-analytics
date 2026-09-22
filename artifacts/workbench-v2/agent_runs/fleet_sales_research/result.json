@@ -1,0 +1,334 @@
+{
+  "backend": "rules",
+  "cases_reviewed": 9,
+  "context": {
+    "cases": [
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-001",
+          "follow_up_at": "2026-09-26T18:00:00Z",
+          "id": "OP-001",
+          "next_step": "Enviar propuesta",
+          "status": "proposal",
+          "synthetic": 1,
+          "title": "Mantenimiento anual",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "value_cents": 1250000,
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-002",
+          "follow_up_at": "2026-09-28T18:00:00Z",
+          "id": "OP-002",
+          "next_step": "Calificar",
+          "status": "qualified",
+          "synthetic": 1,
+          "title": "Servicio de flotilla",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "value_cents": 780000,
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "FA-001",
+        "entity_type": "fleet_accounts",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-009",
+          "fleet_size": 12,
+          "id": "FA-001",
+          "industry": "logística",
+          "owner": "Laura Campos",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "FA-002",
+        "entity_type": "fleet_accounts",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-010",
+          "fleet_size": 8,
+          "id": "FA-002",
+          "industry": "servicios",
+          "owner": "Mario León",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "record": {
+          "approval_ref": "APP-CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "ends_at": "2026-12-31T23:59:59Z",
+          "fleet_account_id": "FA-001",
+          "id": "CT-001",
+          "name": "SLA demo Norte",
+          "sla_hours": 48,
+          "starts_at": "2026-01-01T00:00:00Z",
+          "status": "active",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CT-002",
+        "entity_type": "contracts",
+        "record": {
+          "approval_ref": "APP-CT-002",
+          "created_at": "2026-09-21T18:00:00Z",
+          "ends_at": "2025-12-31T23:59:59Z",
+          "fleet_account_id": "FA-002",
+          "id": "CT-002",
+          "name": "Contrato vencido demo",
+          "sla_hours": 72,
+          "starts_at": "2025-01-01T00:00:00Z",
+          "status": "expired",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-001",
+        "entity_type": "contacts",
+        "record": {
+          "consent": 1,
+          "contact": "contacto1@demo.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-001",
+          "id": "CTC-001",
+          "name": "Contacto 1",
+          "role": "Operaciones",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-002",
+        "entity_type": "contacts",
+        "record": {
+          "consent": 1,
+          "contact": "contacto2@demo.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-001",
+          "id": "CTC-002",
+          "name": "Contacto 2",
+          "role": "Operaciones",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-003",
+        "entity_type": "contacts",
+        "record": {
+          "consent": 1,
+          "contact": "contacto3@demo.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-002",
+          "id": "CTC-003",
+          "name": "Contacto 3",
+          "role": "Operaciones",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "proposal",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "qualified",
+        "version": 1
+      },
+      {
+        "entity_id": "FA-001",
+        "entity_type": "fleet_accounts",
+        "field": "customer_id",
+        "value": "C-009",
+        "version": 1
+      },
+      {
+        "entity_id": "FA-002",
+        "entity_type": "fleet_accounts",
+        "field": "customer_id",
+        "value": "C-010",
+        "version": 1
+      },
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "field": "status",
+        "value": "active",
+        "version": 1
+      },
+      {
+        "entity_id": "CT-002",
+        "entity_type": "contracts",
+        "field": "status",
+        "value": "expired",
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-001",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-002",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-003",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      }
+    ],
+    "metrics": {
+      "active_contracts": 1,
+      "open_opportunities": 2
+    }
+  },
+  "external_execution": false,
+  "human_review_required": true,
+  "mode_label": "offline deterministic baseline; no LLM invoked",
+  "model_invoked": false,
+  "result": {
+    "alternatives": [
+      "Revisar el registro citado con su responsable actual antes de decidir un cambio.",
+      "Diferir la decisión y solicitar la evidencia operativa faltante."
+    ],
+    "diagnosis": "Línea base offline por reglas: opportunities:OP-001 tiene status='proposal' en la versión 1; revíselo con la cola acotada (open_opportunities=2, active_contracts=1).",
+    "drafts": [
+      {
+        "kind": "followup",
+        "requires_human_review": true,
+        "text": "Borrador interno de revisión para opportunities:OP-001: confirme el registro citado antes de cualquier acción."
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "proposal",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "qualified",
+        "version": 1
+      },
+      {
+        "entity_id": "FA-001",
+        "entity_type": "fleet_accounts",
+        "field": "customer_id",
+        "value": "C-009",
+        "version": 1
+      },
+      {
+        "entity_id": "FA-002",
+        "entity_type": "fleet_accounts",
+        "field": "customer_id",
+        "value": "C-010",
+        "version": 1
+      },
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "field": "status",
+        "value": "active",
+        "version": 1
+      },
+      {
+        "entity_id": "CT-002",
+        "entity_type": "contracts",
+        "field": "status",
+        "value": "expired",
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-001",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-002",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-003",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      }
+    ],
+    "manual_next_steps": [
+      "Una persona revisora confirma el valor citado y su contexto.",
+      "Una persona revisora registra cualquier decisión; este workbench no ejecuta acciones externas."
+    ],
+    "missing_information": [
+      "Este corte sintético no contiene contexto operativo, aprobación ni resultado en vivo."
+    ],
+    "sensitivity": {
+      "level": "medium",
+      "reason": "El paquete puede contener campos operativos y de contacto; mantenga los borradores bajo revisión humana."
+    },
+    "workplan": [
+      "Inspeccionar los registros dentro del alcance.",
+      "Verificar valores y versiones exactas de la evidencia.",
+      "Revisar el borrador y decidir manualmente."
+    ]
+  },
+  "status": "completed"
+}

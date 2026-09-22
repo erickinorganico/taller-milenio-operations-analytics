@@ -22,3 +22,8 @@ artifacts/*
 !artifacts/final-verification.json
 !artifacts/final-verification.xml
 !artifacts/completion.json
+!artifacts/workbench-v2/
+!artifacts/v2-verification.json
+!artifacts/v2-verification.xml
+.playwright-cli/
+output/

@@ -16,8 +16,10 @@ if (-not (Test-Path -LiteralPath $envPython)) {
     $chosen = $null
     foreach ($candidate in $candidates) {
         if (Test-Path -LiteralPath $candidate) {
-            & $candidate -c "import sys,sqlite3; assert sys.version_info >= (3,12)" 2>$null
-            if ($LASTEXITCODE -eq 0) { $chosen = $candidate; break }
+            try {
+                & $candidate -c "import sys,sqlite3; assert sys.version_info >= (3,12)" 2>$null
+                if ($LASTEXITCODE -eq 0) { $chosen = $candidate; break }
+            } catch { continue }
         }
     }
     if (-not $chosen) { throw 'Instale Python 3.12+ o use -PythonPath C:\ruta\python.exe' }
@@ -32,7 +34,7 @@ if ($Offline) {
     & $envPython -m pip install -r requirements.txt
 }
 if ($LASTEXITCODE -ne 0) { throw 'Instalacion incompleta; para offline prepare .runtime\wheels' }
-& $envPython -c "import matplotlib; print('Entorno analitico listo. Matplotlib ' + matplotlib.__version__)"
+& $envPython -c "import matplotlib,openpyxl,xlsxwriter; print('Entorno analitico listo: graficos, SQL y Excel.')"
 if ($LASTEXITCODE -ne 0) { throw 'Verificacion del entorno fallo' }
-Write-Output "Ejecute: $envPython -m milenio demo --output artifacts/my-demo"
+Write-Output "Abra Run-Studio.cmd para revisar la entrega o ejecute: $envPython -m milenio studio --output artifacts/my-studio"
 

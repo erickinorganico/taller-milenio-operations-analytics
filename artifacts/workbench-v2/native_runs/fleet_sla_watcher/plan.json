@@ -1,0 +1,68 @@
+{
+  "evidence_requests": [
+    {
+      "entity_id": "CT-001",
+      "entity_type": "contracts",
+      "field": "status"
+    },
+    {
+      "entity_id": "CT-001",
+      "entity_type": "contracts",
+      "field": "sla_hours"
+    },
+    {
+      "entity_id": "CT-001",
+      "entity_type": "contracts",
+      "field": "starts_at"
+    },
+    {
+      "entity_id": "CT-001",
+      "entity_type": "contracts",
+      "field": "ends_at"
+    },
+    {
+      "entity_id": "WO-H154",
+      "entity_type": "work_orders",
+      "field": "contract_id"
+    },
+    {
+      "entity_id": "WO-H154",
+      "entity_type": "work_orders",
+      "field": "status"
+    },
+    {
+      "entity_id": "WO-H154",
+      "entity_type": "work_orders",
+      "field": "opened_at"
+    },
+    {
+      "entity_id": "WO-H154",
+      "entity_type": "work_orders",
+      "field": "due_at"
+    },
+    {
+      "entity_id": "WO-H154",
+      "entity_type": "work_orders",
+      "field": "completed_at"
+    },
+    {
+      "entity_id": "WO-H153",
+      "entity_type": "work_orders",
+      "field": "status"
+    },
+    {
+      "entity_id": "WO-H153",
+      "entity_type": "work_orders",
+      "field": "completed_at"
+    },
+    {
+      "entity_id": "WO-H153",
+      "entity_type": "work_orders",
+      "field": "due_at"
+    }
+  ],
+  "metric_ids": [
+    "active_contracts",
+    "open_work_orders"
+  ]
+}

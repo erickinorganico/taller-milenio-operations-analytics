@@ -1,0 +1,56 @@
+[
+  {
+    "agent_id": "intake_admin",
+    "backend": "native_codex",
+    "folder": "native_runs/intake_admin",
+    "status": "completed"
+  },
+  {
+    "agent_id": "operations_controller",
+    "backend": "native_codex",
+    "folder": "native_runs/operations_controller",
+    "status": "completed"
+  },
+  {
+    "agent_id": "maintenance_planner",
+    "backend": "native_codex",
+    "folder": "native_runs/maintenance_planner",
+    "status": "completed"
+  },
+  {
+    "agent_id": "fleet_sales_research",
+    "backend": "native_codex",
+    "folder": "native_runs/fleet_sales_research",
+    "status": "completed"
+  },
+  {
+    "agent_id": "fleet_sla_watcher",
+    "backend": "native_codex",
+    "folder": "native_runs/fleet_sla_watcher",
+    "status": "completed"
+  },
+  {
+    "agent_id": "tow_dispatch_assistant",
+    "backend": "native_codex",
+    "folder": "native_runs/tow_dispatch_assistant",
+    "status": "completed"
+  },
+  {
+    "agent_id": "collections_assistant",
+    "backend": "native_codex",
+    "folder": "native_runs/collections_assistant",
+    "status": "completed"
+  },
+  {
+    "agent_id": "marketing_planner",
+    "backend": "native_codex",
+    "folder": "native_runs/marketing_planner",
+    "status": "completed"
+  },
+  {
+    "agent_id": "weekly_operator",
+    "backend": "native_codex",
+    "folder": "native_runs/weekly_operator",
+    "status": "completed"
+  }
+]

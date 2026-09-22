@@ -26,6 +26,18 @@ class ReleaseTests(unittest.TestCase):
         (bundle / "receipt.json").write_text(json.dumps(receipt), encoding="utf-8")
         return bundle
 
+    def _studio_bundle(self, root):
+        bundle = root / "studio"
+        bundle.mkdir()
+        dossier = bundle / "DOSSIER.html"
+        dossier.write_text("<h1>Sintético</h1>\n", encoding="utf-8")
+        hashes = {"DOSSIER.html": hashlib.sha256(dossier.read_bytes()).hexdigest()}
+        receipt = {"version": 2, "status": "pass", "synthetic": True,
+                   "artifacts_sha256": hashes,
+                   "content_sha256": hashlib.sha256(json.dumps(hashes, sort_keys=True, separators=(",", ":")).encode()).hexdigest()}
+        (bundle / "receipt.json").write_text(json.dumps(receipt), encoding="utf-8")
+        return bundle
+
     def test_archive_excludes_private_and_git_and_includes_verified_bundle(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
@@ -151,6 +163,35 @@ class ReleaseTests(unittest.TestCase):
                 receipt = json.loads(archive.read('source/artifacts/demo/receipt.json'))
                 actual = hashlib.sha256(archive.read('source/artifacts/demo/dataset.json')).hexdigest()
                 self.assertEqual(actual, receipt['artifacts_sha256']['dataset.json'])
+
+    def test_explicit_studio_bundle_uses_v2_path_and_replaces_tracked_prefix(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            source = root / "source"
+            source.mkdir()
+            tracked_current = source / "artifacts" / "workbench-v2" / "receipt.json"
+            tracked_old = source / "artifacts" / "workbench-v2" / "obsolete.txt"
+            for path in (tracked_current, tracked_old):
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("tracked old", encoding="utf-8")
+            studio = self._studio_bundle(root)
+            output = root / "output" / "release.zip"
+            with patch.object(package_release, "ROOT", source), patch.object(package_release, "_tracked", return_value=[tracked_current, tracked_old]):
+                result = build(output, studio_bundle=studio)
+            self.assertTrue(result["studio_bundle_verified"])
+            with zipfile.ZipFile(output) as archive:
+                self.assertEqual(archive.read("source/artifacts/workbench-v2/DOSSIER.html"), (studio / "DOSSIER.html").read_bytes())
+                self.assertIn("source/artifacts/workbench-v2/receipt.json", archive.namelist())
+                self.assertNotIn("source/artifacts/workbench-v2/obsolete.txt", archive.namelist())
+
+    def test_tampered_studio_bundle_receipt_is_rejected(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            studio = self._studio_bundle(root)
+            dossier = studio / "DOSSIER.html"
+            dossier.write_text("modified", encoding="utf-8")
+            with self.assertRaises(ValueError):
+                build(root / "release.zip", studio_bundle=studio)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,484 @@
+{
+  "schema_version": "1.0",
+  "process_id": "b2c_workshop",
+  "title": "Recorrido analítico de particulares y taller",
+  "purpose": "Reconstruir el estado observado desde lead hasta entrega o excepción sin afirmar atribución temporal no soportada.",
+  "accountable_owner": "workshop_controller",
+  "scope": {
+    "trigger": "Existe un lead particular en el snapshot",
+    "end": "Caso clasificado como entregado, perdido/cancelado o pendiente con excepción",
+    "exclusions": [
+      "contacto automático",
+      "diagnóstico",
+      "autorización o cambio de estado operacional"
+    ]
+  },
+  "roles": [
+    {
+      "id": "customer",
+      "label": "Cliente",
+      "lane": "frontstage",
+      "accountable_for": []
+    },
+    {
+      "id": "intake",
+      "label": "Recepción",
+      "lane": "intake",
+      "accountable_for": [
+        "identidad, consentimiento y seguimiento"
+      ]
+    },
+    {
+      "id": "advisor",
+      "label": "Asesor",
+      "lane": "workshop",
+      "accountable_for": [
+        "alcance y evidencia de autorización"
+      ]
+    },
+    {
+      "id": "workshop_controller",
+      "label": "Control de taller",
+      "lane": "workshop",
+      "accountable_for": [
+        "WIP, bloqueos y QC"
+      ]
+    },
+    {
+      "id": "analytics",
+      "label": "Toolkit analítico",
+      "lane": "analytics",
+      "accountable_for": [
+        "clasificación, evidencia y excepción"
+      ]
+    }
+  ],
+  "entities": [
+    "customers",
+    "vehicles",
+    "leads",
+    "quotes",
+    "appointments",
+    "work_orders"
+  ],
+  "metrics": [
+    "M-B2C-LEADS",
+    "M-B2C-WON",
+    "M-B2C-QUOTE-MATCH",
+    "M-WIP-OPEN",
+    "M-WIP-WAITING-PARTS",
+    "M-BAY-OCCUPANCY",
+    "M-SERVICE-CYCLE",
+    "M-PROCESS-WAIT"
+  ],
+  "agents": [
+    "intake_admin",
+    "operations_controller",
+    "marketing_planner"
+  ],
+  "evidence": [
+    {
+      "id": "EV-B2C-LEAD",
+      "entity": "leads",
+      "fields": [
+        "customer_id",
+        "vehicle_id",
+        "status",
+        "follow_up_at"
+      ]
+    },
+    {
+      "id": "EV-B2C-CONSENT",
+      "entity": "customers",
+      "fields": [
+        "segment",
+        "consent"
+      ]
+    },
+    {
+      "id": "EV-B2C-QUOTE",
+      "entity": "quotes",
+      "fields": [
+        "customer_id",
+        "vehicle_id",
+        "status",
+        "authorization_ref",
+        "valid_until"
+      ]
+    },
+    {
+      "id": "EV-B2C-WORK",
+      "entity": "work_orders",
+      "fields": [
+        "quote_id",
+        "status",
+        "opened_at",
+        "completed_at",
+        "block_reason",
+        "qc_ref"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "CTL-B2C-01",
+      "description": "La atribución requiere journey_link explícito; customer/vehicle por sí solos son coincidencia candidata."
+    },
+    {
+      "id": "CTL-B2C-02",
+      "description": "Consentimiento faltante genera revisión; no autoriza contacto."
+    },
+    {
+      "id": "CTL-B2C-03",
+      "description": "Cotización, autorización, orden, entrega, factura y pago permanecen separados."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "B2C-START",
+      "type": "start",
+      "label": "Lead particular observado",
+      "lane": "analytics",
+      "owner": "intake",
+      "inputs": [
+        "leads.status"
+      ],
+      "outputs": [],
+      "controls": [],
+      "metric_ids": [
+        "M-B2C-LEADS"
+      ],
+      "agent_ids": [],
+      "evidence_ids": [
+        "EV-B2C-LEAD"
+      ]
+    },
+    {
+      "id": "B2C-VALIDATE",
+      "type": "task",
+      "label": "Validar cliente, vehículo y consentimiento",
+      "lane": "intake",
+      "owner": "intake",
+      "inputs": [
+        "leads.customer_id",
+        "leads.vehicle_id",
+        "customers.consent"
+      ],
+      "outputs": [
+        "coverage status"
+      ],
+      "controls": [
+        "CTL-B2C-02"
+      ],
+      "metric_ids": [],
+      "agent_ids": [
+        "intake_admin"
+      ],
+      "evidence_ids": [
+        "EV-B2C-LEAD",
+        "EV-B2C-CONSENT"
+      ]
+    },
+    {
+      "id": "B2C-COMPLETE",
+      "type": "decision",
+      "label": "¿Datos mínimos completos?",
+      "lane": "analytics",
+      "owner": "intake",
+      "inputs": [
+        "coverage status"
+      ],
+      "outputs": [],
+      "controls": [
+        "CTL-B2C-02"
+      ],
+      "metric_ids": [],
+      "agent_ids": [
+        "intake_admin"
+      ],
+      "evidence_ids": [
+        "EV-B2C-CONSENT"
+      ]
+    },
+    {
+      "id": "B2C-REVIEW",
+      "type": "task",
+      "label": "Crear excepción de intake/follow-up",
+      "lane": "analytics",
+      "owner": "intake",
+      "inputs": [
+        "coverage status"
+      ],
+      "outputs": [
+        "pending ActionProposal"
+      ],
+      "controls": [
+        "CTL-B2C-02"
+      ],
+      "metric_ids": [],
+      "agent_ids": [
+        "intake_admin"
+      ],
+      "evidence_ids": [
+        "EV-B2C-LEAD"
+      ]
+    },
+    {
+      "id": "B2C-QUOTE",
+      "type": "task",
+      "label": "Clasificar cotización y cita observadas",
+      "lane": "analytics",
+      "owner": "advisor",
+      "inputs": [
+        "quotes.status",
+        "appointments.status"
+      ],
+      "outputs": [
+        "candidate match"
+      ],
+      "controls": [
+        "CTL-B2C-01",
+        "CTL-B2C-03"
+      ],
+      "metric_ids": [
+        "M-B2C-WON",
+        "M-B2C-QUOTE-MATCH"
+      ],
+      "agent_ids": [
+        "intake_admin"
+      ],
+      "evidence_ids": [
+        "EV-B2C-QUOTE"
+      ]
+    },
+    {
+      "id": "B2C-HAS-WORK",
+      "type": "decision",
+      "label": "¿Existe orden vinculable?",
+      "lane": "analytics",
+      "owner": "workshop_controller",
+      "inputs": [
+        "work_orders.quote_id"
+      ],
+      "outputs": [],
+      "controls": [
+        "CTL-B2C-01"
+      ],
+      "metric_ids": [],
+      "agent_ids": [],
+      "evidence_ids": [
+        "EV-B2C-WORK"
+      ]
+    },
+    {
+      "id": "B2C-WIP",
+      "type": "task",
+      "label": "Evaluar WIP, bloqueo, QC, ciclo e intervalos",
+      "lane": "workshop",
+      "owner": "workshop_controller",
+      "inputs": [
+        "work_orders.status",
+        "work_orders.block_reason",
+        "work_orders.qc_ref"
+      ],
+      "outputs": [
+        "WIP classification"
+      ],
+      "controls": [
+        "CTL-B2C-03"
+      ],
+      "metric_ids": [
+        "M-WIP-OPEN",
+        "M-WIP-WAITING-PARTS",
+        "M-BAY-OCCUPANCY",
+        "M-SERVICE-CYCLE",
+        "M-PROCESS-WAIT"
+      ],
+      "agent_ids": [
+        "operations_controller"
+      ],
+      "evidence_ids": [
+        "EV-B2C-WORK"
+      ]
+    },
+    {
+      "id": "B2C-TERMINAL",
+      "type": "decision",
+      "label": "¿Caso terminal?",
+      "lane": "analytics",
+      "owner": "workshop_controller",
+      "inputs": [
+        "work_orders.status"
+      ],
+      "outputs": [],
+      "controls": [
+        "CTL-B2C-03"
+      ],
+      "metric_ids": [],
+      "agent_ids": [
+        "operations_controller"
+      ],
+      "evidence_ids": [
+        "EV-B2C-WORK"
+      ]
+    },
+    {
+      "id": "B2C-EXCEPTION",
+      "type": "task",
+      "label": "Priorizar orden abierta o detenida",
+      "lane": "analytics",
+      "owner": "workshop_controller",
+      "inputs": [
+        "WIP classification"
+      ],
+      "outputs": [
+        "pending ActionProposal"
+      ],
+      "controls": [
+        "CTL-B2C-03"
+      ],
+      "metric_ids": [
+        "M-WIP-OPEN"
+      ],
+      "agent_ids": [
+        "operations_controller"
+      ],
+      "evidence_ids": [
+        "EV-B2C-WORK"
+      ]
+    },
+    {
+      "id": "B2C-END",
+      "type": "end",
+      "label": "Clasificación documentada",
+      "lane": "analytics",
+      "owner": "analytics",
+      "inputs": [],
+      "outputs": [
+        "report finding"
+      ],
+      "controls": [],
+      "metric_ids": [],
+      "agent_ids": [],
+      "evidence_ids": []
+    }
+  ],
+  "transitions": [
+    {
+      "from": "B2C-START",
+      "to": "B2C-VALIDATE",
+      "condition": "lead.status in leads flow",
+      "evidence_ids": [
+        "EV-B2C-LEAD"
+      ]
+    },
+    {
+      "from": "B2C-VALIDATE",
+      "to": "B2C-COMPLETE",
+      "condition": "validation complete",
+      "evidence_ids": [
+        "EV-B2C-CONSENT"
+      ]
+    },
+    {
+      "from": "B2C-COMPLETE",
+      "to": "B2C-REVIEW",
+      "condition": "vehicle missing or consent false",
+      "evidence_ids": [
+        "EV-B2C-CONSENT"
+      ]
+    },
+    {
+      "from": "B2C-COMPLETE",
+      "to": "B2C-QUOTE",
+      "condition": "minimum fields present",
+      "evidence_ids": [
+        "EV-B2C-LEAD"
+      ]
+    },
+    {
+      "from": "B2C-REVIEW",
+      "to": "B2C-END",
+      "condition": "exception recorded",
+      "evidence_ids": [
+        "EV-B2C-LEAD"
+      ]
+    },
+    {
+      "from": "B2C-QUOTE",
+      "to": "B2C-HAS-WORK",
+      "condition": "quote/candidate classification complete",
+      "evidence_ids": [
+        "EV-B2C-QUOTE"
+      ]
+    },
+    {
+      "from": "B2C-HAS-WORK",
+      "to": "B2C-WIP",
+      "condition": "matching work order exists",
+      "evidence_ids": [
+        "EV-B2C-WORK"
+      ]
+    },
+    {
+      "from": "B2C-HAS-WORK",
+      "to": "B2C-END",
+      "condition": "no linked work order; commercial state retained",
+      "evidence_ids": [
+        "EV-B2C-QUOTE"
+      ]
+    },
+    {
+      "from": "B2C-WIP",
+      "to": "B2C-TERMINAL",
+      "condition": "work classified",
+      "evidence_ids": [
+        "EV-B2C-WORK"
+      ]
+    },
+    {
+      "from": "B2C-TERMINAL",
+      "to": "B2C-END",
+      "condition": "status delivered or cancelled",
+      "evidence_ids": [
+        "EV-B2C-WORK"
+      ]
+    },
+    {
+      "from": "B2C-TERMINAL",
+      "to": "B2C-EXCEPTION",
+      "condition": "status non-terminal",
+      "evidence_ids": [
+        "EV-B2C-WORK"
+      ]
+    },
+    {
+      "from": "B2C-EXCEPTION",
+      "to": "B2C-END",
+      "condition": "review item recorded",
+      "evidence_ids": [
+        "EV-B2C-WORK"
+      ]
+    }
+  ],
+  "acceptance_tests": [
+    {
+      "id": "AT-B2C-01",
+      "given": "lead without vehicle or consent",
+      "when": "process is evaluated",
+      "then": "review branch terminates with grounded intake proposal"
+    },
+    {
+      "id": "AT-B2C-02",
+      "given": "an explicit synthetic journey link or a candidate-only customer/vehicle match",
+      "when": "journey is reported",
+      "then": "the explicit link may be attributed inside the fictional scenario and candidate-only imports remain unknown"
+    },
+    {
+      "id": "AT-B2C-03",
+      "given": "waiting_parts work order",
+      "when": "WIP is evaluated",
+      "then": "open-order evidence reaches exception and terminal report"
+    }
+  ]
+}

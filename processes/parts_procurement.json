@@ -1,0 +1,443 @@
+{
+  "schema_version": "1.0",
+  "process_id": "parts_procurement",
+  "title": "Partes, compras y disponibilidad analítica",
+  "purpose": "Reconciliar compras, movimientos y reservas sin convertir promesas de compra en inventario disponible.",
+  "accountable_owner": "parts_owner",
+  "scope": {
+    "trigger": "Existe parte, compra o movimiento en el snapshot",
+    "end": "Disponibilidad y excepción de reposición/bloqueo documentadas",
+    "exclusions": [
+      "emitir compra",
+      "contactar proveedor",
+      "ajustar stock"
+    ]
+  },
+  "roles": [
+    {
+      "id": "parts_owner",
+      "label": "Responsable de partes",
+      "lane": "parts",
+      "accountable_for": [
+        "reconciliación física"
+      ]
+    },
+    {
+      "id": "workshop_controller",
+      "label": "Control de taller",
+      "lane": "workshop",
+      "accountable_for": [
+        "orden bloqueada"
+      ]
+    },
+    {
+      "id": "analytics",
+      "label": "Toolkit",
+      "lane": "analytics",
+      "accountable_for": [
+        "ledger y alertas"
+      ]
+    }
+  ],
+  "entities": [
+    "suppliers",
+    "parts",
+    "purchases",
+    "stock_moves",
+    "reservations",
+    "work_orders"
+  ],
+  "metrics": [
+    "M-STOCK-ON-HAND",
+    "M-STOCK-RESERVED",
+    "M-STOCK-AVAILABLE",
+    "M-STOCK-REORDER",
+    "M-WIP-WAITING-PARTS"
+  ],
+  "agents": [
+    "operations_controller",
+    "weekly_operator"
+  ],
+  "evidence": [
+    {
+      "id": "EV-PART-CATALOG",
+      "entity": "parts",
+      "fields": [
+        "sku",
+        "supplier_id",
+        "unit_cost_cents",
+        "reorder_point"
+      ]
+    },
+    {
+      "id": "EV-PART-PO",
+      "entity": "purchases",
+      "fields": [
+        "part_id",
+        "quantity",
+        "status",
+        "expected_at"
+      ]
+    },
+    {
+      "id": "EV-PART-MOVE",
+      "entity": "stock_moves",
+      "fields": [
+        "part_id",
+        "work_order_id",
+        "purchase_id",
+        "move_type",
+        "quantity",
+        "unit_cost_cents"
+      ]
+    },
+    {
+      "id": "EV-PART-RESERVE",
+      "entity": "reservations",
+      "fields": [
+        "part_id",
+        "work_order_id",
+        "quantity",
+        "status"
+      ]
+    },
+    {
+      "id": "EV-PART-WORK",
+      "entity": "work_orders",
+      "fields": [
+        "status",
+        "block_reason"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "CTL-PART-01",
+      "description": "Solo movimientos recibidos/ajustes/retornos/consumos forman on-hand; compra ordered no cuenta."
+    },
+    {
+      "id": "CTL-PART-02",
+      "description": "available = on_hand - reservas activas; no puede ser negativo."
+    },
+    {
+      "id": "CTL-PART-03",
+      "description": "Retorno reconcilia cantidad y costo contra consumo del mismo part/work/cost."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "PART-START",
+      "type": "start",
+      "label": "Snapshot de partes",
+      "lane": "analytics",
+      "owner": "parts_owner",
+      "inputs": [
+        "parts.id"
+      ],
+      "outputs": [],
+      "controls": [],
+      "metric_ids": [],
+      "agent_ids": [],
+      "evidence_ids": [
+        "EV-PART-CATALOG"
+      ]
+    },
+    {
+      "id": "PART-LEDGER",
+      "type": "task",
+      "label": "Agregar movimientos y reservas por parte",
+      "lane": "analytics",
+      "owner": "analytics",
+      "inputs": [
+        "stock_moves.quantity",
+        "reservations.quantity"
+      ],
+      "outputs": [
+        "on_hand",
+        "reserved",
+        "available"
+      ],
+      "controls": [
+        "CTL-PART-01",
+        "CTL-PART-02",
+        "CTL-PART-03"
+      ],
+      "metric_ids": [
+        "M-STOCK-ON-HAND",
+        "M-STOCK-RESERVED",
+        "M-STOCK-AVAILABLE"
+      ],
+      "agent_ids": [],
+      "evidence_ids": [
+        "EV-PART-MOVE",
+        "EV-PART-RESERVE"
+      ]
+    },
+    {
+      "id": "PART-VALID",
+      "type": "decision",
+      "label": "¿Ledger reconciliado?",
+      "lane": "analytics",
+      "owner": "parts_owner",
+      "inputs": [
+        "on_hand",
+        "reserved",
+        "available"
+      ],
+      "outputs": [],
+      "controls": [
+        "CTL-PART-02",
+        "CTL-PART-03"
+      ],
+      "metric_ids": [],
+      "agent_ids": [],
+      "evidence_ids": [
+        "EV-PART-MOVE"
+      ]
+    },
+    {
+      "id": "PART-INVALID",
+      "type": "task",
+      "label": "Bloquear análisis por inconsistencia",
+      "lane": "analytics",
+      "owner": "parts_owner",
+      "inputs": [
+        "ledger errors"
+      ],
+      "outputs": [
+        "blocked quality finding"
+      ],
+      "controls": [
+        "CTL-PART-02"
+      ],
+      "metric_ids": [],
+      "agent_ids": [
+        "weekly_operator"
+      ],
+      "evidence_ids": [
+        "EV-PART-MOVE",
+        "EV-PART-RESERVE"
+      ]
+    },
+    {
+      "id": "PART-REORDER",
+      "type": "decision",
+      "label": "¿Disponible <= punto de reorden?",
+      "lane": "analytics",
+      "owner": "parts_owner",
+      "inputs": [
+        "available",
+        "parts.reorder_point"
+      ],
+      "outputs": [],
+      "controls": [
+        "CTL-PART-01"
+      ],
+      "metric_ids": [
+        "M-STOCK-REORDER"
+      ],
+      "agent_ids": [
+        "operations_controller"
+      ],
+      "evidence_ids": [
+        "EV-PART-CATALOG"
+      ]
+    },
+    {
+      "id": "PART-PROPOSAL",
+      "type": "task",
+      "label": "Preparar revisión de reposición",
+      "lane": "analytics",
+      "owner": "parts_owner",
+      "inputs": [
+        "reorder exposure"
+      ],
+      "outputs": [
+        "pending ActionProposal"
+      ],
+      "controls": [
+        "CTL-PART-01"
+      ],
+      "metric_ids": [
+        "M-STOCK-REORDER"
+      ],
+      "agent_ids": [
+        "operations_controller"
+      ],
+      "evidence_ids": [
+        "EV-PART-CATALOG"
+      ]
+    },
+    {
+      "id": "PART-WAITING",
+      "type": "decision",
+      "label": "¿Orden waiting_parts vinculada?",
+      "lane": "workshop",
+      "owner": "workshop_controller",
+      "inputs": [
+        "work_orders.status",
+        "reservations.work_order_id"
+      ],
+      "outputs": [],
+      "controls": [],
+      "metric_ids": [
+        "M-WIP-WAITING-PARTS"
+      ],
+      "agent_ids": [
+        "operations_controller"
+      ],
+      "evidence_ids": [
+        "EV-PART-WORK",
+        "EV-PART-RESERVE"
+      ]
+    },
+    {
+      "id": "PART-BLOCK",
+      "type": "task",
+      "label": "Crear excepción de orden detenida",
+      "lane": "analytics",
+      "owner": "workshop_controller",
+      "inputs": [
+        "work_orders.block_reason"
+      ],
+      "outputs": [
+        "pending ActionProposal"
+      ],
+      "controls": [],
+      "metric_ids": [
+        "M-WIP-WAITING-PARTS"
+      ],
+      "agent_ids": [
+        "operations_controller"
+      ],
+      "evidence_ids": [
+        "EV-PART-WORK"
+      ]
+    },
+    {
+      "id": "PART-END",
+      "type": "end",
+      "label": "Ledger y revisión documentados",
+      "lane": "analytics",
+      "owner": "analytics",
+      "inputs": [],
+      "outputs": [
+        "stock report finding"
+      ],
+      "controls": [],
+      "metric_ids": [],
+      "agent_ids": [],
+      "evidence_ids": []
+    }
+  ],
+  "transitions": [
+    {
+      "from": "PART-START",
+      "to": "PART-LEDGER",
+      "condition": "catalog loaded",
+      "evidence_ids": [
+        "EV-PART-CATALOG"
+      ]
+    },
+    {
+      "from": "PART-LEDGER",
+      "to": "PART-VALID",
+      "condition": "totals calculated",
+      "evidence_ids": [
+        "EV-PART-MOVE"
+      ]
+    },
+    {
+      "from": "PART-VALID",
+      "to": "PART-INVALID",
+      "condition": "negative or valuation mismatch",
+      "evidence_ids": [
+        "EV-PART-MOVE"
+      ]
+    },
+    {
+      "from": "PART-VALID",
+      "to": "PART-REORDER",
+      "condition": "ledger valid",
+      "evidence_ids": [
+        "EV-PART-CATALOG"
+      ]
+    },
+    {
+      "from": "PART-INVALID",
+      "to": "PART-END",
+      "condition": "blocked finding recorded",
+      "evidence_ids": [
+        "EV-PART-MOVE"
+      ]
+    },
+    {
+      "from": "PART-REORDER",
+      "to": "PART-PROPOSAL",
+      "condition": "available <= reorder_point",
+      "evidence_ids": [
+        "EV-PART-CATALOG"
+      ]
+    },
+    {
+      "from": "PART-REORDER",
+      "to": "PART-WAITING",
+      "condition": "available > reorder_point",
+      "evidence_ids": [
+        "EV-PART-CATALOG"
+      ]
+    },
+    {
+      "from": "PART-PROPOSAL",
+      "to": "PART-WAITING",
+      "condition": "proposal recorded",
+      "evidence_ids": [
+        "EV-PART-CATALOG"
+      ]
+    },
+    {
+      "from": "PART-WAITING",
+      "to": "PART-BLOCK",
+      "condition": "waiting_parts order exists",
+      "evidence_ids": [
+        "EV-PART-WORK"
+      ]
+    },
+    {
+      "from": "PART-WAITING",
+      "to": "PART-END",
+      "condition": "no linked waiting order",
+      "evidence_ids": [
+        "EV-PART-RESERVE"
+      ]
+    },
+    {
+      "from": "PART-BLOCK",
+      "to": "PART-END",
+      "condition": "exception recorded",
+      "evidence_ids": [
+        "EV-PART-WORK"
+      ]
+    }
+  ],
+  "acceptance_tests": [
+    {
+      "id": "AT-PART-01",
+      "given": "purchase is ordered but not received",
+      "when": "stock is calculated",
+      "then": "ordered quantity is excluded from on_hand"
+    },
+    {
+      "id": "AT-PART-02",
+      "given": "active reservations exceed on_hand",
+      "when": "ledger validates",
+      "then": "pipeline fails closed"
+    },
+    {
+      "id": "AT-PART-03",
+      "given": "available at/below reorder and waiting work",
+      "when": "process runs",
+      "then": "grounded reorder and blocked-work review items terminate"
+    }
+  ]
+}

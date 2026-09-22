@@ -8,6 +8,27 @@ from pathlib import Path
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Taller Milenio — Analytics sintético local")
     sub = parser.add_subparsers(dest="command", required=True)
+    studio = sub.add_parser("studio", help="Entrega integrada con tablas físicas, procesos, agentes y Excel")
+    studio.add_argument("--output", default="artifacts/workbench-v2")
+    studio.add_argument("--days", type=int, default=90)
+    studio.add_argument('--native', action='store_true', help='Ejecutar también los nueve agentes con la suscripción Codex autenticada')
+    studio.add_argument('--input',help='Snapshot sintético JSON o carpeta completa de 25 CSV')
+    studio.add_argument('--events',help='Historial validable JSON; omitir conserva cobertura desconocida')
+    studio.add_argument('--journeys',help='Vínculos explícitos entre lead, cotización, cita y orden')
+    studio_verify = sub.add_parser('verify-studio',help='Comprobar integridad de la entrega v2')
+    studio_verify.add_argument('--input',required=True)
+    agent = sub.add_parser("agent", help="Ejecutar un perfil de agente sobre un warehouse")
+    agent.add_argument("--warehouse", required=True)
+    agent.add_argument("--output", required=True)
+    agent.add_argument("--id", required=True)
+    agent.add_argument("--backend", choices=['rules','native_codex'], default='rules')
+    agent.add_argument("--timeout", type=int, default=300)
+    sub.add_parser("agents", help="Listar perfiles y herramientas de agentes")
+    review = sub.add_parser("review", help="Registrar una revisión local; no ejecuta acciones externas")
+    review.add_argument("--run", required=True)
+    review.add_argument("--reviewer", required=True)
+    review.add_argument("--decision", choices=['approved','rejected','needs_information'], required=True)
+    review.add_argument("--note", required=True)
     demo = sub.add_parser("demo", help="Genera y analiza la muestra sintética")
     demo.add_argument("--output", default="artifacts/demo")
     analysis = sub.add_parser("analyze", help="Analiza un snapshot JSON o una carpeta con 25 CSV sintéticos")
@@ -29,6 +50,21 @@ def main(argv=None):
     export.add_argument("--db", required=True)
     export.add_argument("--output", required=True)
     args = parser.parse_args(argv)
+    if args.command == 'studio':
+        from .studio import build_studio
+        print(json.dumps(build_studio(args.output,args.days,args.native,args.input,args.events,args.journeys),ensure_ascii=True))
+        return 0
+    if args.command == 'verify-studio':
+        from .studio import verify_studio
+        print(json.dumps(verify_studio(args.input)))
+        return 0
+    if args.command in ('agent','agents','review'):
+        from .agent_runtime import prepare_agent_run, list_available_agents, record_review_decision
+        if args.command == 'agents': result = list_available_agents()
+        elif args.command == 'review': result = record_review_decision(args.run,args.reviewer,args.decision,args.note)
+        else: result = prepare_agent_run(args.warehouse,args.output,args.id,args.backend,timeout_seconds=args.timeout)
+        print(json.dumps(result,ensure_ascii=True))
+        return 1 if isinstance(result,dict) and result.get('status') == 'blocked' else 0
     if args.command == "verify":
         from .verification import verify_project
         return verify_project(Path(args.output))
@@ -88,4 +124,3 @@ if __name__ == "__main__":
     except (ValueError, OSError) as exc:
         print("Error: " + str(exc), file=sys.stderr)
         sys.exit(1)
-

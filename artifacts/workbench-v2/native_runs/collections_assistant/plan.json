@@ -1,0 +1,69 @@
+{
+  "evidence_requests": [
+    {
+      "entity_id": "INV-H160",
+      "entity_type": "invoices",
+      "field": "amount_cents"
+    },
+    {
+      "entity_id": "INV-H159",
+      "entity_type": "invoices",
+      "field": "amount_cents"
+    },
+    {
+      "entity_id": "INV-H158",
+      "entity_type": "invoices",
+      "field": "amount_cents"
+    },
+    {
+      "entity_id": "INV-H157",
+      "entity_type": "invoices",
+      "field": "amount_cents"
+    },
+    {
+      "entity_id": "INV-H156",
+      "entity_type": "invoices",
+      "field": "amount_cents"
+    },
+    {
+      "entity_id": "INV-H155",
+      "entity_type": "invoices",
+      "field": "amount_cents"
+    },
+    {
+      "entity_id": "PAY-H160",
+      "entity_type": "payments",
+      "field": "amount_cents"
+    },
+    {
+      "entity_id": "PAY-H159",
+      "entity_type": "payments",
+      "field": "amount_cents"
+    },
+    {
+      "entity_id": "PAY-H158",
+      "entity_type": "payments",
+      "field": "amount_cents"
+    },
+    {
+      "entity_id": "PAY-H157",
+      "entity_type": "payments",
+      "field": "amount_cents"
+    },
+    {
+      "entity_id": "PAY-H156",
+      "entity_type": "payments",
+      "field": "amount_cents"
+    },
+    {
+      "entity_id": "PAY-H155",
+      "entity_type": "payments",
+      "field": "amount_cents"
+    }
+  ],
+  "metric_ids": [
+    "issued_invoices",
+    "invoice_payment_summary",
+    "unpaid_invoices"
+  ]
+}

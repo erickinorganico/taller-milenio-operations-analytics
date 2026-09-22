@@ -1,0 +1,6 @@
+﻿id,version,synthetic,created_at,updated_at,customer_id,vehicle_id,pickup,destination,conditions,requested_at,due_at,closed_at,amount_cents,unit_id,safety_ref,human_approval_ref,status
+TW-001,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,C-006,V-006,Av. Demo 100,Taller Milenio,Tráfico normal,2026-09-20T18:00:00Z,2026-09-20T22:00:00Z,2026-09-20T21:00:00Z,85000,TU-001,SAFE-HUMAN-001,HUMAN-APP-001,closed
+TW-002,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,C-007,V-007,Av. Demo 100,Taller Milenio,Tráfico normal,2026-09-20T18:00:00Z,2026-09-20T22:00:00Z,,65000,TU-002,SAFE-HUMAN-001,HUMAN-APP-001,en_route
+TW-003,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,C-008,V-008,Av. Demo 100,Taller Milenio,Tráfico normal,2026-09-20T18:00:00Z,2026-09-20T22:00:00Z,,,,,,requested
+TW-004,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,C-002,V-002,Av. Demo 100,Taller Milenio,Tráfico normal,2026-09-20T18:00:00Z,2026-09-20T22:00:00Z,,65000,,,,cancelled
+TW-005,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,C-009,V-009,Av. Demo 100,Taller Milenio,Tráfico normal,2026-09-18T18:00:00Z,2026-09-20T22:00:00Z,2026-09-18T23:00:00Z,125000,TU-003,SAFE-HUMAN-001,HUMAN-APP-001,closed

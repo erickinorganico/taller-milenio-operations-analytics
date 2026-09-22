@@ -1,0 +1,467 @@
+{
+  "agent_id": "collections_assistant",
+  "allowed_tools": [
+    "inspect_scoped_cases",
+    "read_evidence",
+    "query_metrics"
+  ],
+  "as_of": "2026-09-21T18:00:00Z",
+  "native_plan": {
+    "evidence_requests": [
+      {
+        "entity_id": "INV-H160",
+        "entity_type": "invoices",
+        "field": "amount_cents"
+      },
+      {
+        "entity_id": "INV-H159",
+        "entity_type": "invoices",
+        "field": "amount_cents"
+      },
+      {
+        "entity_id": "INV-H158",
+        "entity_type": "invoices",
+        "field": "amount_cents"
+      },
+      {
+        "entity_id": "INV-H157",
+        "entity_type": "invoices",
+        "field": "amount_cents"
+      },
+      {
+        "entity_id": "INV-H156",
+        "entity_type": "invoices",
+        "field": "amount_cents"
+      },
+      {
+        "entity_id": "INV-H155",
+        "entity_type": "invoices",
+        "field": "amount_cents"
+      },
+      {
+        "entity_id": "PAY-H160",
+        "entity_type": "payments",
+        "field": "amount_cents"
+      },
+      {
+        "entity_id": "PAY-H159",
+        "entity_type": "payments",
+        "field": "amount_cents"
+      },
+      {
+        "entity_id": "PAY-H158",
+        "entity_type": "payments",
+        "field": "amount_cents"
+      },
+      {
+        "entity_id": "PAY-H157",
+        "entity_type": "payments",
+        "field": "amount_cents"
+      },
+      {
+        "entity_id": "PAY-H156",
+        "entity_type": "payments",
+        "field": "amount_cents"
+      },
+      {
+        "entity_id": "PAY-H155",
+        "entity_type": "payments",
+        "field": "amount_cents"
+      }
+    ],
+    "metric_ids": [
+      "issued_invoices",
+      "invoice_payment_summary",
+      "unpaid_invoices"
+    ]
+  },
+  "prepared_at": "2026-09-22T09:37:10.537732Z",
+  "profile": {
+    "allowed_read_tools": [
+      "inspect_scoped_cases",
+      "read_evidence",
+      "query_metrics"
+    ],
+    "criteria": [
+      "citar campos de factura/pago",
+      "no cobrar",
+      "no emitir documentos fiscales"
+    ],
+    "id": "collections_assistant",
+    "metric_ids": [
+      "issued_invoices",
+      "unpaid_invoices",
+      "invoice_payment_summary"
+    ],
+    "name": "Asistente de revisión de cobranza",
+    "objective": "Preparar una revisión humana de facturas emitidas y pagos registrados.",
+    "persona": "Analista cauteloso de cuentas por cobrar que nunca envía cobro ni mueve dinero.",
+    "required_deliverable": "Identificar preguntas de conciliación, alternativas y texto de borrador no enviado.",
+    "scope": [
+      "invoices",
+      "payments",
+      "customers",
+      "work_orders",
+      "tows"
+    ]
+  },
+  "prohibited_capabilities": [
+    "network",
+    "contact",
+    "business_write",
+    "external_execution",
+    "arbitrary_sql"
+  ],
+  "schema_version": 1,
+  "synthetic": true,
+  "tool_context": {
+    "cases": [
+      {
+        "entity_id": "INV-H160",
+        "entity_type": "invoices",
+        "record": {
+          "amount_cents": 140000,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-004",
+          "due_at": "2026-07-04T08:00:00Z",
+          "id": "INV-H160",
+          "status": "issued",
+          "synthetic": 1,
+          "tow_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-H160"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H159",
+        "entity_type": "invoices",
+        "record": {
+          "amount_cents": 127500,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-003",
+          "due_at": "2026-07-04T19:00:00Z",
+          "id": "INV-H159",
+          "status": "issued",
+          "synthetic": 1,
+          "tow_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-H159"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H158",
+        "entity_type": "invoices",
+        "record": {
+          "amount_cents": 115000,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-002",
+          "due_at": "2026-07-05T06:00:00Z",
+          "id": "INV-H158",
+          "status": "issued",
+          "synthetic": 1,
+          "tow_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-H158"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H157",
+        "entity_type": "invoices",
+        "record": {
+          "amount_cents": 102500,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-001",
+          "due_at": "2026-07-05T17:00:00Z",
+          "id": "INV-H157",
+          "status": "issued",
+          "synthetic": 1,
+          "tow_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-H157"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H156",
+        "entity_type": "invoices",
+        "record": {
+          "amount_cents": 90000,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-010",
+          "due_at": "2026-07-06T04:00:00Z",
+          "id": "INV-H156",
+          "status": "issued",
+          "synthetic": 1,
+          "tow_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-H156"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H155",
+        "entity_type": "invoices",
+        "record": {
+          "amount_cents": 77500,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-010",
+          "due_at": "2026-07-06T15:00:00Z",
+          "id": "INV-H155",
+          "status": "issued",
+          "synthetic": 1,
+          "tow_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-H155"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H160",
+        "entity_type": "payments",
+        "record": {
+          "amount_cents": 140000,
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "PAY-H160",
+          "invoice_id": "INV-H160",
+          "method": "card",
+          "paid_at": "2026-06-29T08:00:00Z",
+          "reference": "DEMO-H160",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H159",
+        "entity_type": "payments",
+        "record": {
+          "amount_cents": 63750,
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "PAY-H159",
+          "invoice_id": "INV-H159",
+          "method": "transfer",
+          "paid_at": "2026-06-29T19:00:00Z",
+          "reference": "DEMO-H159",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H158",
+        "entity_type": "payments",
+        "record": {
+          "amount_cents": 115000,
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "PAY-H158",
+          "invoice_id": "INV-H158",
+          "method": "cash",
+          "paid_at": "2026-06-30T06:00:00Z",
+          "reference": "DEMO-H158",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H157",
+        "entity_type": "payments",
+        "record": {
+          "amount_cents": 102500,
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "PAY-H157",
+          "invoice_id": "INV-H157",
+          "method": "card",
+          "paid_at": "2026-06-30T17:00:00Z",
+          "reference": "DEMO-H157",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H156",
+        "entity_type": "payments",
+        "record": {
+          "amount_cents": 45000,
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "PAY-H156",
+          "invoice_id": "INV-H156",
+          "method": "transfer",
+          "paid_at": "2026-07-01T04:00:00Z",
+          "reference": "DEMO-H156",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H155",
+        "entity_type": "payments",
+        "record": {
+          "amount_cents": 77500,
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "PAY-H155",
+          "invoice_id": "INV-H155",
+          "method": "cash",
+          "paid_at": "2026-07-01T15:00:00Z",
+          "reference": "DEMO-H155",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "INV-H160",
+        "entity_type": "invoices",
+        "field": "amount_cents",
+        "value": 140000,
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H159",
+        "entity_type": "invoices",
+        "field": "amount_cents",
+        "value": 127500,
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H158",
+        "entity_type": "invoices",
+        "field": "amount_cents",
+        "value": 115000,
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H157",
+        "entity_type": "invoices",
+        "field": "amount_cents",
+        "value": 102500,
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H156",
+        "entity_type": "invoices",
+        "field": "amount_cents",
+        "value": 90000,
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H155",
+        "entity_type": "invoices",
+        "field": "amount_cents",
+        "value": 77500,
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H160",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 140000,
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H159",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 63750,
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H158",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 115000,
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H157",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 102500,
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H156",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 45000,
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H155",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 77500,
+        "version": 1
+      }
+    ],
+    "metrics": {
+      "invoice_payment_summary": [
+        {
+          "amount_cents": 127500,
+          "balance_cents": 63750,
+          "invoice_id": "INV-H159",
+          "paid_cents": 63750,
+          "payment_count": 1
+        },
+        {
+          "amount_cents": 90000,
+          "balance_cents": 45000,
+          "invoice_id": "INV-H156",
+          "paid_cents": 45000,
+          "payment_count": 1
+        },
+        {
+          "amount_cents": 140000,
+          "balance_cents": 0,
+          "invoice_id": "INV-H160",
+          "paid_cents": 140000,
+          "payment_count": 1
+        },
+        {
+          "amount_cents": 115000,
+          "balance_cents": 0,
+          "invoice_id": "INV-H158",
+          "paid_cents": 115000,
+          "payment_count": 1
+        },
+        {
+          "amount_cents": 102500,
+          "balance_cents": 0,
+          "invoice_id": "INV-H157",
+          "paid_cents": 102500,
+          "payment_count": 1
+        },
+        {
+          "amount_cents": 77500,
+          "balance_cents": 0,
+          "invoice_id": "INV-H155",
+          "paid_cents": 77500,
+          "payment_count": 1
+        }
+      ],
+      "issued_invoices": 164,
+      "unpaid_invoices": 56
+    }
+  },
+  "warehouse_path": "..\\..\\warehouse.sqlite",
+  "warehouse_sha256": "e8f0a0824f6e721b9d5fecb0f5fa16211099f85c1f37560ebfc3abc8c4d32978"
+}

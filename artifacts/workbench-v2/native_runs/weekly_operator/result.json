@@ -1,0 +1,355 @@
+{
+  "backend": "native_codex",
+  "execution_evidence": "verified_two_stage_local_cli",
+  "external_execution": false,
+  "human_review_required": true,
+  "model_invoked": true,
+  "native_receipt": {
+    "cli_exit_code": 0,
+    "completion_observed": true,
+    "kind": "local_codex_cli",
+    "model_id": "gpt-5.6-luna",
+    "provider_events": [
+      {
+        "event": "native_provider",
+        "provider_event_type": "thread.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "agent_message"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.completed",
+        "usage": {
+          "cache_write_input_tokens": 0,
+          "cached_input_tokens": 0,
+          "input_tokens": 18111,
+          "output_tokens": 1413,
+          "reasoning_output_tokens": 156
+        }
+      }
+    ],
+    "stage": "final"
+  },
+  "plan_receipt": {
+    "cli_exit_code": 0,
+    "completion_observed": true,
+    "kind": "local_codex_cli",
+    "model_id": "gpt-5.6-luna",
+    "provider_events": [
+      {
+        "event": "native_provider",
+        "provider_event_type": "thread.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "agent_message"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.completed",
+        "usage": {
+          "cache_write_input_tokens": 0,
+          "cached_input_tokens": 0,
+          "input_tokens": 16655,
+          "output_tokens": 360,
+          "reasoning_output_tokens": 111
+        }
+      }
+    ],
+    "stage": "plan"
+  },
+  "result": {
+    "alternatives": [
+      "Priorizar en la reunión la orden WO-003 y el remolque TW-003 por sus bloqueos y brechas de autorización; después revisar WO-004 y TW-002.",
+      "Separar la revisión en cuatro bloques: operaciones de taller, mantenimiento preventivo, remolques y cobranza; cerrar con métricas agregadas.",
+      "Aplazar cualquier decisión operativa o financiera hasta confirmar manualmente responsables, autorizaciones, disponibilidad y fechas."
+    ],
+    "diagnosis": "Al corte válido as_of=2026-09-21T18:00:00Z, hay 7 órdenes de trabajo abiertas, 2 remolques activos y 56 facturas impagas. Los principales puntos para revisión son WO-003 bloqueada por falta de filtro, WO-004 en retrabajo, TW-003 sin aprobación humana ni unidad asignada, y dos facturas con fechas de vencimiento anteriores al corte. Estos datos deben convertirse en preguntas de revisión; no se asignan responsables ni se ejecutan acciones.",
+    "drafts": [
+      {
+        "kind": "followup",
+        "requires_human_review": true,
+        "text": "Para revisión humana: confirmar quién debe validar WO-003, WO-004, TW-003 y las facturas INV-H160 e INV-H159, así como el estado de las autorizaciones, disponibilidad de recursos y próximos pasos antes de cualquier decisión."
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "waiting_parts",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "block_reason",
+        "value": "Falta filtro",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "due_at",
+        "value": "2026-09-23T20:00:00Z",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "rework",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "field": "technician_id",
+        "value": "T-003",
+        "version": 1
+      },
+      {
+        "entity_id": "M-002",
+        "entity_type": "maintenance",
+        "field": "status",
+        "value": "due",
+        "version": 1
+      },
+      {
+        "entity_id": "M-002",
+        "entity_type": "maintenance",
+        "field": "due_at",
+        "value": "2026-09-30T18:00:00Z",
+        "version": 1
+      },
+      {
+        "entity_id": "TW-002",
+        "entity_type": "tows",
+        "field": "status",
+        "value": "en_route",
+        "version": 1
+      },
+      {
+        "entity_id": "TW-003",
+        "entity_type": "tows",
+        "field": "human_approval_ref",
+        "value": null,
+        "version": 1
+      },
+      {
+        "entity_id": "TW-003",
+        "entity_type": "tows",
+        "field": "unit_id",
+        "value": null,
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H160",
+        "entity_type": "invoices",
+        "field": "due_at",
+        "value": "2026-07-04T08:00:00Z",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H159",
+        "entity_type": "invoices",
+        "field": "due_at",
+        "value": "2026-07-04T19:00:00Z",
+        "version": 1
+      }
+    ],
+    "manual_next_steps": [
+      "Confirmar manualmente el responsable de validar la pieza faltante y la fecha comprometida de WO-003.",
+      "Confirmar manualmente el responsable de revisar el retrabajo de WO-004 y validar el papel de T-003, sin asumir asignación adicional.",
+      "Confirmar manualmente el estado de M-002, su programación y el responsable de seguimiento.",
+      "Confirmar manualmente la ubicación y el estado operativo de TW-002.",
+      "Confirmar manualmente la aprobación humana, la unidad y las condiciones de seguridad requeridas para TW-003.",
+      "Confirmar manualmente el responsable de revisar INV-H160 e INV-H159 y la causa de sus fechas de vencimiento.",
+      "Validar en la reunión las métricas agregadas: 7 órdenes abiertas, 2 remolques activos y 56 facturas impagas."
+    ],
+    "missing_information": [
+      "No se dispone de evidencia sobre la fecha de llegada o disponibilidad del filtro para WO-003.",
+      "No se dispone de evidencia sobre la causa, alcance, resultado esperado o fecha de cierre del retrabajo de WO-004.",
+      "No se dispone de evidencia sobre la programación operativa o el responsable de seguimiento de M-002.",
+      "No se dispone de evidencia sobre la posición actual, hora estimada de llegada o cierre de TW-002.",
+      "TW-003 no tiene evidencia de aprobación humana ni unidad asignada; tampoco se incluye una referencia de seguridad para ese registro.",
+      "No se dispone de evidencia sobre la causa del impago, contacto de cobranza, acuerdos o estado de INV-H160 e INV-H159.",
+      "No se incluyen métricas desglosadas por entidad, prioridad, antigüedad o responsable."
+    ],
+    "sensitivity": {
+      "level": "high",
+      "reason": "El paquete contiene datos operativos, logísticos y financieros, además de una brecha explícita de aprobación humana en TW-003. Las conclusiones deben limitarse al corte as_of=2026-09-21T18:00:00Z y cualquier decisión requiere confirmación humana."
+    },
+    "workplan": [
+      "Apertura: revisar las métricas del corte: 7 órdenes abiertas, 2 remolques activos y 56 facturas impagas.",
+      "Bloque 1 — Taller: preguntar qué impide liberar WO-003, cuándo se espera resolver la falta de filtro y cómo se gestionará su fecha de vencimiento.",
+      "Bloque 2 — Calidad y mantenimiento: revisar el alcance y criterio de cierre de WO-004; confirmar el estado y la programación de M-002.",
+      "Bloque 3 — Remolques: revisar el avance de TW-002; detener la evaluación de TW-003 en la identificación de aprobación humana, unidad y controles de seguridad faltantes.",
+      "Bloque 4 — Cobranza: revisar INV-H160 e INV-H159, sus fechas de vencimiento y la evidencia disponible sobre seguimiento.",
+      "Cierre: documentar preguntas abiertas, alternativas y responsables por confirmar manualmente; no ejecutar acciones desde este paquete."
+    ]
+  },
+  "status": "completed"
+}

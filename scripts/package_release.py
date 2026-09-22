@@ -109,7 +109,19 @@ def _verify_bundle(path: Path):
         raise ValueError(f"bundle receipt verification failed: {exc}") from exc
 
 
-def build(output: Path, bundle: Path | None = None, wheelhouse: Path | None = None) -> dict:
+def _verify_studio_bundle(path: Path):
+    """Verify the V2 sealed delivery through its own receipt contract."""
+    try:
+        from milenio.studio import verify_studio
+        verified = verify_studio(path)
+        if verified.get("status") != "pass":
+            raise ValueError("studio verification did not pass")
+    except Exception as exc:
+        raise ValueError(f"studio bundle verification failed: {exc}") from exc
+
+
+def build(output: Path, bundle: Path | None = None, wheelhouse: Path | None = None,
+          studio_bundle: Path | None = None) -> dict:
     output = output.resolve()
     if output.exists():
         raise ValueError("output already exists")
@@ -117,13 +129,16 @@ def build(output: Path, bundle: Path | None = None, wheelhouse: Path | None = No
         raise ValueError("unsafe output directory")
     entries: dict[str, Path] = {}
     reserved_prefix = "source/artifacts/demo/"
+    studio_prefix = "source/artifacts/workbench-v2/"
     for path in _tracked():
         relative = _safe_relative(path)
         if relative == output.relative_to(ROOT).as_posix() if output.is_relative_to(ROOT) else False:
             continue
         if wheelhouse is not None and relative.startswith('.runtime/wheels/'):
             continue
-        if bundle is None or not ("source/" + relative).startswith(reserved_prefix):
+        archive_name = "source/" + relative
+        if ((bundle is None or not archive_name.startswith(reserved_prefix))
+                and (studio_bundle is None or not archive_name.startswith(studio_prefix))):
             entries.setdefault("source/" + relative, path)
     if bundle is not None:
         bundle = bundle.resolve()
@@ -132,6 +147,13 @@ def build(output: Path, bundle: Path | None = None, wheelhouse: Path | None = No
             relative = path.relative_to(bundle).as_posix()
             _safe_relative(ROOT / "artifacts/demo" / relative)
             entries.setdefault("source/artifacts/demo/" + relative, path)
+    if studio_bundle is not None:
+        studio_bundle = studio_bundle.resolve()
+        _verify_studio_bundle(studio_bundle)
+        for path in _files(studio_bundle):
+            relative = path.relative_to(studio_bundle).as_posix()
+            _safe_relative(ROOT / "artifacts/workbench-v2" / relative)
+            entries.setdefault("source/artifacts/workbench-v2/" + relative, path)
     if wheelhouse is not None:
         wheelhouse = wheelhouse.resolve()
         for path in _files(wheelhouse):
@@ -145,6 +167,7 @@ def build(output: Path, bundle: Path | None = None, wheelhouse: Path | None = No
         raise ValueError("publication scan failed: " + json.dumps(scan["findings"], sort_keys=True))
     manifest = {name: _sha(path) for name, path in sorted(entries.items())}
     manifest_text = json.dumps({"format": 1, "synthetic_bundle_verified": bundle is not None,
+                                "studio_bundle_verified": studio_bundle is not None,
                                 "entries_sha256": manifest}, indent=2, sort_keys=True) + "\n"
     with zipfile.ZipFile(output, "x", compression=zipfile.ZIP_DEFLATED) as archive:
         for name, path in sorted(entries.items()):
@@ -155,6 +178,7 @@ def build(output: Path, bundle: Path | None = None, wheelhouse: Path | None = No
         info.compress_type = zipfile.ZIP_DEFLATED
         archive.writestr(info, manifest_text.encode("utf-8"))
     return {"output": str(output), "entries": len(entries), "bundle_verified": bundle is not None,
+            "studio_bundle_verified": studio_bundle is not None,
             "wheelhouse": wheelhouse is not None, "manifest_sha256": hashlib.sha256(manifest_text.encode()).hexdigest()}
 
 
@@ -162,12 +186,14 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--bundle", type=Path)
+    parser.add_argument("--studio-bundle", type=Path,
+                        help="Verified V2 workbench directory, packaged at source/artifacts/workbench-v2")
     parser.add_argument("--wheelhouse", type=Path)
     args = parser.parse_args(argv)
     if str(ROOT) not in sys.path:
         sys.path.insert(0, str(ROOT))
     try:
-        print(json.dumps(build(args.output, args.bundle, args.wheelhouse), sort_keys=True))
+        print(json.dumps(build(args.output, args.bundle, args.wheelhouse, args.studio_bundle), sort_keys=True))
         return 0
     except (OSError, ValueError, subprocess.CalledProcessError) as exc:
         print(f"package failed: {exc}")

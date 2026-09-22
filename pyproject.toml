@@ -1,9 +1,9 @@
 [project]
 name = "taller-milenio-operations-analytics"
-version = "1.0.0"
+version = "2.0.0"
 description = "Reproducible workshop, fleet and towing analytics and consulting toolkit"
 requires-python = ">=3.12"
-dependencies = ["matplotlib==3.10.6"]
+dependencies = ["matplotlib==3.10.6", "openpyxl==3.1.5", "XlsxWriter==3.2.9"]
 license = {text = "MIT"}
 
 [tool.milenio]
