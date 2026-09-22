@@ -1,0 +1,322 @@
+{
+  "backend": "native_codex",
+  "execution_evidence": "verified_two_stage_local_cli",
+  "external_execution": false,
+  "human_review_required": true,
+  "model_invoked": true,
+  "native_receipt": {
+    "cli_exit_code": 0,
+    "completion_observed": true,
+    "kind": "local_codex_cli",
+    "model_id": "gpt-5.6-luna",
+    "provider_events": [
+      {
+        "event": "native_provider",
+        "provider_event_type": "thread.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "agent_message"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.completed",
+        "usage": {
+          "cache_write_input_tokens": 0,
+          "cached_input_tokens": 0,
+          "input_tokens": 17593,
+          "output_tokens": 1254,
+          "reasoning_output_tokens": 247
+        }
+      }
+    ],
+    "stage": "final"
+  },
+  "plan_receipt": {
+    "cli_exit_code": 0,
+    "completion_observed": true,
+    "kind": "local_codex_cli",
+    "model_id": "gpt-5.6-luna",
+    "provider_events": [
+      {
+        "event": "native_provider",
+        "provider_event_type": "thread.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "agent_message"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.completed",
+        "usage": {
+          "cache_write_input_tokens": 0,
+          "cached_input_tokens": 0,
+          "input_tokens": 16434,
+          "output_tokens": 289,
+          "reasoning_output_tokens": 126
+        }
+      }
+    ],
+    "stage": "plan"
+  },
+  "result": {
+    "alternatives": [
+      "Priorizar revisión manual de M-002, con mantenimiento marcado como pendiente y fecha de vencimiento 2026-09-30T18:00:00Z.",
+      "Escalar M-003 para validación manual de cobertura, porque su mantenimiento está pendiente y el contrato CT-002 figura vencido.",
+      "Mantener WO-002 en seguimiento manual por estado en servicio; revisar WO-003 por espera de refacción y WO-004 por retrabajo antes de definir cualquier agenda."
+    ],
+    "diagnosis": "Al corte válido as_of=2026-09-21T18:00:00Z, hay mantenimiento pendiente en M-002 y M-003, ambos con vencimiento 2026-09-30T18:00:00Z. M-003 presenta además una brecha contractual porque CT-002 figura vencido. Hay 7 órdenes de trabajo abiertas según la métrica, pero la evidencia detallada disponible solo cubre WO-002, WO-003 y WO-004. No se creó ni se propone crear una cita, y no se promete ningún SLA.",
+    "drafts": [
+      {
+        "kind": "followup",
+        "requires_human_review": true,
+        "text": "Para revisión humana: confirmar si se desea coordinar manualmente la revisión de M-002 antes de 2026-09-30T18:00:00Z y validar primero la cobertura aplicable a M-003, dado que CT-002 figura vencido. También confirmar disponibilidad y prioridad para WO-002, WO-003 y WO-004; este texto no ha sido enviado."
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "M-002",
+        "entity_type": "maintenance",
+        "field": "status",
+        "value": "due",
+        "version": 1
+      },
+      {
+        "entity_id": "M-002",
+        "entity_type": "maintenance",
+        "field": "due_at",
+        "value": "2026-09-30T18:00:00Z",
+        "version": 1
+      },
+      {
+        "entity_id": "M-003",
+        "entity_type": "maintenance",
+        "field": "status",
+        "value": "due",
+        "version": 1
+      },
+      {
+        "entity_id": "M-003",
+        "entity_type": "maintenance",
+        "field": "due_at",
+        "value": "2026-09-30T18:00:00Z",
+        "version": 1
+      },
+      {
+        "entity_id": "CT-002",
+        "entity_type": "contracts",
+        "field": "status",
+        "value": "expired",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-002",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "in_service",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "waiting_parts",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "rework",
+        "version": 1
+      }
+    ],
+    "manual_next_steps": [
+      "Confirmar manualmente la prioridad y la ventana disponible para M-002 antes de 2026-09-30T18:00:00Z, sin crear una cita desde esta revisión.",
+      "Validar manualmente si M-003 tiene cobertura alternativa o autorización aplicable mientras CT-002 figura vencido.",
+      "Preguntar si WO-003 ya cuenta con la refacción faltante y si WO-004 requiere una nueva inspección antes de cualquier coordinación.",
+      "Confirmar el estado operativo y la prioridad de WO-002, que figura en servicio.",
+      "No enviar mensajes ni ejecutar cambios; cualquier coordinación requiere revisión y acción humana autorizada."
+    ],
+    "missing_information": [
+      "Falta el registro detallado y la evidencia de estado y fecha para el tercer mantenimiento incluido en la métrica maintenance_due=3.",
+      "Falta evidencia detallada de cuatro de las 7 órdenes de trabajo abiertas indicadas por open_work_orders=7.",
+      "Faltan ventanas de disponibilidad, prioridad operativa, ubicación y confirmación humana para cualquier coordinación manual.",
+      "Falta la validación de cobertura, autorización o alternativa contractual aplicable a M-003 mientras CT-002 figura vencido.",
+      "Faltan datos suficientes para determinar si los estados de las órdenes de trabajo requieren reprogramación, refacciones adicionales o inspección."
+    ],
+    "sensitivity": {
+      "level": "medium",
+      "reason": "La revisión contiene estados de mantenimiento, órdenes de trabajo y situación contractual de una flotilla sintética; debe limitarse al corte as_of=2026-09-21T18:00:00Z y requiere validación humana antes de cualquier coordinación."
+    },
+    "workplan": [
+      "Usar exclusivamente la evidencia disponible del corte as_of=2026-09-21T18:00:00Z.",
+      "Marcar M-002 y M-003 como pendientes para revisión manual con fecha 2026-09-30T18:00:00Z.",
+      "Separar la revisión contractual de M-003 por el estado vencido de CT-002.",
+      "Revisar manualmente los estados de WO-002, WO-003 y WO-004 sin modificar registros ni agendar.",
+      "Solicitar la evidencia faltante antes de emitir una recomendación operativa definitiva."
+    ]
+  },
+  "status": "completed"
+}

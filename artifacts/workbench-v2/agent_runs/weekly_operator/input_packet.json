@@ -1,0 +1,394 @@
+{
+  "agent_id": "weekly_operator",
+  "allowed_tools": [
+    "inspect_scoped_cases",
+    "read_evidence",
+    "query_metrics"
+  ],
+  "as_of": "2026-09-21T18:00:00Z",
+  "prepared_at": "2026-09-22T09:26:33.392271Z",
+  "profile": {
+    "allowed_read_tools": [
+      "inspect_scoped_cases",
+      "read_evidence",
+      "query_metrics"
+    ],
+    "criteria": [
+      "citar registros exactos",
+      "no asignar responsables",
+      "no ejecutar acciones de reunión"
+    ],
+    "id": "weekly_operator",
+    "metric_ids": [
+      "open_work_orders",
+      "active_tows",
+      "unpaid_invoices"
+    ],
+    "name": "Facilitador de revisión operativa semanal",
+    "objective": "Crear un paquete semanal multifuncional desde registros operativos dentro del alcance.",
+    "persona": "Facilitador neutral que convierte evidencia fuente en preguntas de revisión.",
+    "required_deliverable": "Plantear agenda de reunión, alternativas, brechas de evidencia y responsables a confirmar manualmente.",
+    "scope": [
+      "work_orders",
+      "maintenance",
+      "tows",
+      "invoices",
+      "campaigns",
+      "opportunities"
+    ]
+  },
+  "prohibited_capabilities": [
+    "network",
+    "contact",
+    "business_write",
+    "external_execution",
+    "arbitrary_sql"
+  ],
+  "schema_version": 1,
+  "synthetic": true,
+  "tool_context": {
+    "cases": [
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-WO",
+          "bay_id": null,
+          "block_reason": "Falta filtro",
+          "completed_at": null,
+          "contract_id": null,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-003",
+          "description": "Orden sintética",
+          "due_at": "2026-09-23T20:00:00Z",
+          "id": "WO-003",
+          "inspection": "Inspección demo",
+          "opened_at": "2026-09-18T16:00:00Z",
+          "qc_ref": null,
+          "quote_id": "Q-003",
+          "status": "waiting_parts",
+          "synthetic": 1,
+          "technician_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-003",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-WO",
+          "bay_id": "B-003",
+          "block_reason": null,
+          "completed_at": null,
+          "contract_id": null,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-004",
+          "description": "Orden sintética",
+          "due_at": "2026-09-23T20:00:00Z",
+          "id": "WO-004",
+          "inspection": "Inspección demo",
+          "opened_at": "2026-09-18T16:00:00Z",
+          "qc_ref": null,
+          "quote_id": "Q-004",
+          "status": "rework",
+          "synthetic": 1,
+          "technician_id": "T-003",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-004",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "M-001",
+        "entity_type": "maintenance",
+        "record": {
+          "contract_id": "CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "due_at": "2026-09-25T18:00:00Z",
+          "due_km": 30000,
+          "id": "M-001",
+          "service": "Revisión 10,000 km",
+          "status": "scheduled",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-009",
+          "version": 1,
+          "work_order_id": null
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "M-002",
+        "entity_type": "maintenance",
+        "record": {
+          "contract_id": "CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "due_at": "2026-09-30T18:00:00Z",
+          "due_km": 30000,
+          "id": "M-002",
+          "service": "Revisión 10,000 km",
+          "status": "due",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-010",
+          "version": 1,
+          "work_order_id": null
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "TW-002",
+        "entity_type": "tows",
+        "record": {
+          "amount_cents": 65000,
+          "closed_at": null,
+          "conditions": "Tráfico normal",
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-007",
+          "destination": "Taller Milenio",
+          "due_at": "2026-09-20T22:00:00Z",
+          "human_approval_ref": "HUMAN-APP-001",
+          "id": "TW-002",
+          "pickup": "Av. Demo 100",
+          "requested_at": "2026-09-20T18:00:00Z",
+          "safety_ref": "SAFE-HUMAN-001",
+          "status": "en_route",
+          "synthetic": 1,
+          "unit_id": "TU-002",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-007",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "TW-003",
+        "entity_type": "tows",
+        "record": {
+          "amount_cents": null,
+          "closed_at": null,
+          "conditions": "Tráfico normal",
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-008",
+          "destination": "Taller Milenio",
+          "due_at": "2026-09-20T22:00:00Z",
+          "human_approval_ref": null,
+          "id": "TW-003",
+          "pickup": "Av. Demo 100",
+          "requested_at": "2026-09-20T18:00:00Z",
+          "safety_ref": null,
+          "status": "requested",
+          "synthetic": 1,
+          "unit_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-008",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H160",
+        "entity_type": "invoices",
+        "record": {
+          "amount_cents": 140000,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-004",
+          "due_at": "2026-07-04T08:00:00Z",
+          "id": "INV-H160",
+          "status": "issued",
+          "synthetic": 1,
+          "tow_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-H160"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H159",
+        "entity_type": "invoices",
+        "record": {
+          "amount_cents": 127500,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-003",
+          "due_at": "2026-07-04T19:00:00Z",
+          "id": "INV-H159",
+          "status": "issued",
+          "synthetic": 1,
+          "tow_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-H159"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-001",
+        "entity_type": "campaigns",
+        "record": {
+          "audience": "particular",
+          "created_at": "2026-09-21T18:00:00Z",
+          "draft": "Borrador sintético",
+          "id": "CAM-001",
+          "name": "Recordatorio mantenimiento",
+          "objective": "Recurrencia",
+          "status": "review",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-002",
+        "entity_type": "campaigns",
+        "record": {
+          "audience": "fleet",
+          "created_at": "2026-09-21T18:00:00Z",
+          "draft": "Borrador sintético",
+          "id": "CAM-002",
+          "name": "Flotillas septiembre",
+          "objective": "Pipeline B2B",
+          "status": "approved",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-001",
+          "follow_up_at": "2026-09-26T18:00:00Z",
+          "id": "OP-001",
+          "next_step": "Enviar propuesta",
+          "status": "proposal",
+          "synthetic": 1,
+          "title": "Mantenimiento anual",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "value_cents": 1250000,
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-002",
+          "follow_up_at": "2026-09-28T18:00:00Z",
+          "id": "OP-002",
+          "next_step": "Calificar",
+          "status": "qualified",
+          "synthetic": 1,
+          "title": "Servicio de flotilla",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "value_cents": 780000,
+          "version": 1
+        },
+        "version": 1
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "waiting_parts",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "rework",
+        "version": 1
+      },
+      {
+        "entity_id": "M-001",
+        "entity_type": "maintenance",
+        "field": "status",
+        "value": "scheduled",
+        "version": 1
+      },
+      {
+        "entity_id": "M-002",
+        "entity_type": "maintenance",
+        "field": "status",
+        "value": "due",
+        "version": 1
+      },
+      {
+        "entity_id": "TW-002",
+        "entity_type": "tows",
+        "field": "status",
+        "value": "en_route",
+        "version": 1
+      },
+      {
+        "entity_id": "TW-003",
+        "entity_type": "tows",
+        "field": "status",
+        "value": "requested",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H160",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H159",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-001",
+        "entity_type": "campaigns",
+        "field": "status",
+        "value": "review",
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-002",
+        "entity_type": "campaigns",
+        "field": "status",
+        "value": "approved",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "proposal",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "qualified",
+        "version": 1
+      }
+    ],
+    "metrics": {
+      "active_tows": 2,
+      "open_work_orders": 7,
+      "unpaid_invoices": 56
+    }
+  },
+  "warehouse_path": "..\\..\\warehouse.sqlite",
+  "warehouse_sha256": "e8f0a0824f6e721b9d5fecb0f5fa16211099f85c1f37560ebfc3abc8c4d32978"
+}

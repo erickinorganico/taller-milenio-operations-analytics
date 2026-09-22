@@ -1,0 +1,64 @@
+erDiagram
+  CUSTOMERS { string id PK }
+  VEHICLES { string id PK }
+  LEADS { string id PK }
+  QUOTES { string id PK }
+  APPOINTMENTS { string id PK }
+  TECHNICIANS { string id PK }
+  BAYS { string id PK }
+  WORK_ORDERS { string id PK }
+  SUPPLIERS { string id PK }
+  PARTS { string id PK }
+  PURCHASES { string id PK }
+  STOCK_MOVES { string id PK }
+  RESERVATIONS { string id PK }
+  FLEET_ACCOUNTS { string id PK }
+  CONTACTS { string id PK }
+  OPPORTUNITIES { string id PK }
+  CONTRACTS { string id PK }
+  MAINTENANCE { string id PK }
+  TOW_UNITS { string id PK }
+  TOWS { string id PK }
+  INVOICES { string id PK }
+  PAYMENTS { string id PK }
+  EXPENSES { string id PK }
+  CAMPAIGNS { string id PK }
+  PROPOSALS { string id PK }
+  CUSTOMERS ||--o{ VEHICLES : customer_id
+  CUSTOMERS ||--o{ LEADS : customer_id
+  VEHICLES ||--o{ LEADS : vehicle_id
+  CUSTOMERS ||--o{ QUOTES : customer_id
+  VEHICLES ||--o{ QUOTES : vehicle_id
+  CUSTOMERS ||--o{ APPOINTMENTS : customer_id
+  VEHICLES ||--o{ APPOINTMENTS : vehicle_id
+  CUSTOMERS ||--o{ WORK_ORDERS : customer_id
+  VEHICLES ||--o{ WORK_ORDERS : vehicle_id
+  QUOTES ||--o{ WORK_ORDERS : quote_id
+  CONTRACTS ||--o{ WORK_ORDERS : contract_id
+  TECHNICIANS ||--o{ WORK_ORDERS : technician_id
+  BAYS ||--o{ WORK_ORDERS : bay_id
+  SUPPLIERS ||--o{ PARTS : supplier_id
+  PARTS ||--o{ PURCHASES : part_id
+  PARTS ||--o{ STOCK_MOVES : part_id
+  WORK_ORDERS ||--o{ STOCK_MOVES : work_order_id
+  PURCHASES ||--o{ STOCK_MOVES : purchase_id
+  PARTS ||--o{ RESERVATIONS : part_id
+  WORK_ORDERS ||--o{ RESERVATIONS : work_order_id
+  CUSTOMERS ||--o{ FLEET_ACCOUNTS : customer_id
+  FLEET_ACCOUNTS ||--o{ CONTACTS : fleet_account_id
+  FLEET_ACCOUNTS ||--o{ OPPORTUNITIES : fleet_account_id
+  FLEET_ACCOUNTS ||--o{ CONTRACTS : fleet_account_id
+  VEHICLES ||--o{ MAINTENANCE : vehicle_id
+  CONTRACTS ||--o{ MAINTENANCE : contract_id
+  WORK_ORDERS ||--o{ MAINTENANCE : work_order_id
+  CUSTOMERS ||--o{ TOWS : customer_id
+  VEHICLES ||--o{ TOWS : vehicle_id
+  TOW_UNITS ||--o{ TOWS : unit_id
+  CUSTOMERS ||--o{ INVOICES : customer_id
+  WORK_ORDERS ||--o{ INVOICES : work_order_id
+  TOWS ||--o{ INVOICES : tow_id
+  INVOICES ||--o{ PAYMENTS : invoice_id
+  leads ||--o{ journey_links : lead_id
+  quotes ||--o{ journey_links : quote_id
+  appointments ||--o{ journey_links : appointment_id
+  work_orders ||--o{ journey_links : work_order_id

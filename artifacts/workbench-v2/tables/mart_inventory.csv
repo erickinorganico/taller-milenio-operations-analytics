@@ -1,0 +1,7 @@
+﻿part_id,name,on_hand,reserved,available,reorder_point,net_consumed_cost_cents
+P-001,Refacción demo 1,7,0,7,2,1800
+P-002,Refacción demo 2,45,1,44,2,288000
+P-003,Refacción demo 3,1,0,1,2,0
+P-004,Refacción demo 4,0,0,0,2,0
+P-005,Refacción demo 5,0,0,0,2,0
+P-006,Refacción demo 6,0,0,0,2,0

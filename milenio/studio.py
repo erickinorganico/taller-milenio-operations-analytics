@@ -62,7 +62,21 @@ def render_charts(analysis, output):
 
 
 def html_table(rows, columns, limit=12):
-    return '<div class="table-scroll"><table><thead><tr>'+''.join('<th>'+escape(c)+'</th>' for c in columns)+'</tr></thead><tbody>'+''.join('<tr>'+''.join('<td>'+escape(str(row.get(c, '')) if row.get(c) is not None else 'Sin evidencia')+'</td>' for c in columns)+'</tr>' for row in rows[:limit])+'</tbody></table></div>'
+    labels = {'work_order_id':'Orden','segment':'Segmento','status':'Estado','cycle_hours':'Ciclo / edad (h)',
+        'waiting_parts_hours':'Espera de partes (h)','sla_status':'SLA','invoice_id':'Factura','customer_id':'Cliente',
+        'balance_cents':'Saldo MXN','aging_bucket':'Antigüedad (días)','fleet_account_id':'Cuenta de flotilla',
+        'services':'Servicios','eligible_delivered':'Entregadas elegibles','sla_met':'Cumplidas','sla_breached':'Incumplidas',
+        'sla_unknown':'Sin evidencia SLA','part_id':'Parte','on_hand':'Existencia','reserved':'Reservado','available':'Disponible',
+        'reorder_point':'Punto de reposición','entity_type':'Entidad','entity_id':'Registro','field':'Campo','value':'Valor',
+        'version':'Versión','variant':'Recorrido observado','count':'Casos','kind':'Tipo','text':'Borrador',
+        'requires_human_review':'Revisión humana','statement':'Requisito','processes':'Procesos','agents':'Agentes','acceptance':'Aceptación'}
+    def cell(row,column):
+        value = row.get(column,'')
+        if value is None: return 'Sin evidencia'
+        if column.endswith('_cents') and isinstance(value,(int,float)): return f'${value/100:,.2f}'
+        if isinstance(value,bool): return 'Sí' if value else 'No'
+        return str(value)
+    return '<div class="table-scroll"><table><thead><tr>'+''.join('<th>'+escape(labels.get(c,c))+'</th>' for c in columns)+'</tr></thead><tbody>'+''.join('<tr>'+''.join('<td>'+escape(cell(row,c))+'</td>' for c in columns)+'</tr>' for row in rows[:limit])+'</tbody></table></div>'
 
 
 def render_dossier(output, analysis, catalog, processes, agent_runs):
@@ -78,12 +92,13 @@ def render_dossier(output, analysis, catalog, processes, agent_runs):
         process_body += '<details><summary>Actividades, responsables y evidencia</summary>'+html_table(nodes, ['id','type','label','owner','evidence_ids'], 100)+'</details></article>'
     ledger = [{'tabla':name,'filas':spec['count'],'campos':len(spec['columns']),'relaciones':len(spec.get('refs',{}))} for name,spec in {**catalog['tables'],**catalog.get('marts',{})}.items()]
     cards_agents = ''
+    profile_names = {p['id']:p['name'] for p in list_available_agents()}
     for run in agent_runs:
         run_folder = run.get('folder', 'agent_runs/'+run['agent_id'])
         result_path = output/run_folder/'result.json'
         result = json.loads(result_path.read_text(encoding='utf8')) if result_path.exists() else {}
         diagnosis = result.get('result',{}).get('diagnosis','No completado; revisar run.json.')
-        cards_agents += '<article><h3>'+escape(run['agent_id'])+'</h3><p>'+escape(diagnosis)+'</p><p>Modo: <b>'+escape(run['backend'])+'</b> · '+escape(run['status'])+'</p><a href="'+run_folder+'/result.json">Resultado y evidencia</a> · <a href="'+run_folder+'/tool_trace.jsonl">Traza de herramientas</a>'
+        cards_agents += '<article><h3>'+escape(profile_names.get(run['agent_id'],run['agent_id']))+'</h3><p>'+escape(diagnosis)+'</p><p>Modo: <b>'+('Codex · inferencia verificada' if result.get('model_invoked') else 'Reglas deterministas')+'</b> · '+escape(run['status'])+'</p><a href="'+run_folder+'/result.json">Resultado y evidencia</a> · <a href="'+run_folder+'/tool_trace.jsonl">Traza de herramientas</a>'
         if run['backend']=='native_codex': cards_agents += ' · <a href="'+run_folder+'/plan.json">Plan elegido por el modelo</a>'
         cards_agents += '</article>'
         detail = result.get('result',{})

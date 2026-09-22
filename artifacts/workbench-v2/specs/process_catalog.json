@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "api_contract": {
+    "transport": "local-files",
+    "list": "read specs/process_catalog.json and use the processes array",
+    "detail": "resolve each definition/document path relative to repository root",
+    "requirements": "read specs/requirements.json",
+    "read_only": true,
+    "source_of_truth": "processes/*.json"
+  },
+  "processes": [
+    {"id": "b2c_workshop", "order": 10, "label": "Particulares y taller", "icon": "car", "color": "#A44A2A", "definition": "processes/b2c_workshop.json", "document": "processes/b2c_workshop.md", "report": "reports/particulares.md"},
+    {"id": "parts_procurement", "order": 20, "label": "Partes y abastecimiento", "icon": "package", "color": "#8A6B25", "definition": "processes/parts_procurement.json", "document": "processes/parts_procurement.md", "report": "reports/administracion.md"},
+    {"id": "fleet_sales_service", "order": 30, "label": "Flotillas: venta y servicio", "icon": "truck", "color": "#276B68", "definition": "processes/fleet_sales_service.json", "document": "processes/fleet_sales_service.md", "report": "reports/flotillas.md"},
+    {"id": "towing", "order": 40, "label": "Grúas", "icon": "tow", "color": "#375A7F", "definition": "processes/towing.json", "document": "processes/towing.md", "report": "reports/gruas.md"},
+    {"id": "collections", "order": 50, "label": "Cobranza y reconciliación", "icon": "receipt", "color": "#705090", "definition": "processes/collections.json", "document": "processes/collections.md", "report": "reports/administracion.md"},
+    {"id": "weekly_review", "order": 60, "label": "Revisión semanal", "icon": "clipboard", "color": "#4F5962", "definition": "processes/weekly_review.json", "document": "processes/weekly_review.md", "report": "reports/informe_ejecutivo.html"}
+  ]
+}

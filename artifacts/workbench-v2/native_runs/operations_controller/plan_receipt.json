@@ -1,0 +1,108 @@
+{
+  "cli_exit_code": 0,
+  "completion_observed": true,
+  "kind": "local_codex_cli",
+  "model_id": "gpt-5.6-luna",
+  "provider_events": [
+    {
+      "event": "native_provider",
+      "provider_event_type": "thread.started"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "item.completed",
+      "provider_item_type": "error"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "item.completed",
+      "provider_item_type": "error"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "item.completed",
+      "provider_item_type": "error"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "item.completed",
+      "provider_item_type": "error"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "item.completed",
+      "provider_item_type": "error"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "item.completed",
+      "provider_item_type": "error"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "item.completed",
+      "provider_item_type": "error"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "item.completed",
+      "provider_item_type": "error"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "item.completed",
+      "provider_item_type": "error"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "item.completed",
+      "provider_item_type": "error"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "item.completed",
+      "provider_item_type": "error"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "item.completed",
+      "provider_item_type": "error"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "item.completed",
+      "provider_item_type": "error"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "item.completed",
+      "provider_item_type": "error"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "turn.started"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "item.completed",
+      "provider_item_type": "error"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "item.completed",
+      "provider_item_type": "agent_message"
+    },
+    {
+      "event": "native_provider",
+      "provider_event_type": "turn.completed",
+      "usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 0,
+        "input_tokens": 16034,
+        "output_tokens": 319,
+        "reasoning_output_tokens": 110
+      }
+    }
+  ],
+  "stage": "plan"
+}

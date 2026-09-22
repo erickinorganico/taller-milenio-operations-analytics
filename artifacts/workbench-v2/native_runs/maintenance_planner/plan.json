@@ -1,0 +1,48 @@
+{
+  "evidence_requests": [
+    {
+      "entity_id": "M-002",
+      "entity_type": "maintenance",
+      "field": "status"
+    },
+    {
+      "entity_id": "M-002",
+      "entity_type": "maintenance",
+      "field": "due_at"
+    },
+    {
+      "entity_id": "M-003",
+      "entity_type": "maintenance",
+      "field": "status"
+    },
+    {
+      "entity_id": "M-003",
+      "entity_type": "maintenance",
+      "field": "due_at"
+    },
+    {
+      "entity_id": "CT-002",
+      "entity_type": "contracts",
+      "field": "status"
+    },
+    {
+      "entity_id": "WO-002",
+      "entity_type": "work_orders",
+      "field": "status"
+    },
+    {
+      "entity_id": "WO-003",
+      "entity_type": "work_orders",
+      "field": "status"
+    },
+    {
+      "entity_id": "WO-004",
+      "entity_type": "work_orders",
+      "field": "status"
+    }
+  ],
+  "metric_ids": [
+    "maintenance_due",
+    "open_work_orders"
+  ]
+}

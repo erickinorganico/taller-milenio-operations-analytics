@@ -66,7 +66,7 @@ Los nueve perfiles cubren recepción, control de taller, mantenimiento, investig
 - `native_codex` usa una etapa de plan/selección y otra de salida final. Rechaza tablas, campos, IDs, versiones o métricas fuera de alcance.
 - Ambos producen material para revisión. Ninguno envía, publica, agenda, despacha, compra o modifica la fuente.
 
-La capacidad nativa usa la CLI oficial fijada en `0.155.1`, instalada de forma opt-in con `Setup-Agents.ps1` y autenticada con la suscripción existente. Los nueve perfiles completaron dos llamadas cada uno: 18 eventos `turn.completed`, recibos `verified_two_stage_local_cli`, `model_invoked=true` y cero acciones externas. Esto prueba ejecución técnica, no efectividad. La salida de cobranza seleccionó evidencia no relacionada y pidió una conciliación innecesaria pese a existir vínculos; la corrección y el rerun siguen pendientes.
+La capacidad nativa usa la CLI oficial fijada en `0.155.1`, instalada de forma opt-in con `Setup-Agents.ps1` y autenticada con la suscripción existente. Los nueve perfiles completaron dos llamadas cada uno: 18 eventos `turn.completed`, recibos `verified_two_stage_local_cli`, `model_invoked=true` y cero acciones externas. Esto prueba ejecución técnica, no efectividad. La revisión corrigió relaciones de facturas/pagos, alcance de flotillas y denominadores de muestra; los resultados mantienen evidencia y revisión humana pendiente.
 
 ## Criterios de aceptación
 

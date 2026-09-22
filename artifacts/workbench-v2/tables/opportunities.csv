@@ -1,0 +1,3 @@
+﻿id,version,synthetic,created_at,updated_at,fleet_account_id,title,value_cents,next_step,follow_up_at,status
+OP-001,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,FA-001,Mantenimiento anual,1250000,Enviar propuesta,2026-09-26T18:00:00Z,proposal
+OP-002,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,FA-002,Servicio de flotilla,780000,Calificar,2026-09-28T18:00:00Z,qualified

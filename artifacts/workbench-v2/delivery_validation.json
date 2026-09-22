@@ -1,0 +1,19 @@
+{
+  "browser": {
+    "broken_images": 0,
+    "desktop_width": 1440,
+    "mobile_scroll_width": 390,
+    "mobile_width": 390,
+    "native_agent_cards": 9
+  },
+  "ddl_replay_tables": 33,
+  "html_local_links_verified": 62,
+  "native_roles": 9,
+  "native_turns": 18,
+  "publication_sentinel": "pass",
+  "snapshot_reanalysis": "all_six_marts_equal",
+  "sql_tables": 33,
+  "status": "pass",
+  "synthetic_only": true,
+  "workbook": "recalculated_and_reconciled"
+}

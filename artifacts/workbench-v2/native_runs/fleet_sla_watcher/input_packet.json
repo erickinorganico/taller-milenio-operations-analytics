@@ -1,0 +1,526 @@
+{
+  "agent_id": "fleet_sla_watcher",
+  "allowed_tools": [
+    "inspect_scoped_cases",
+    "read_evidence",
+    "query_metrics"
+  ],
+  "as_of": "2026-09-21T18:00:00Z",
+  "native_plan": {
+    "evidence_requests": [
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "field": "status"
+      },
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "field": "sla_hours"
+      },
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "field": "starts_at"
+      },
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "field": "ends_at"
+      },
+      {
+        "entity_id": "WO-H154",
+        "entity_type": "work_orders",
+        "field": "contract_id"
+      },
+      {
+        "entity_id": "WO-H154",
+        "entity_type": "work_orders",
+        "field": "status"
+      },
+      {
+        "entity_id": "WO-H154",
+        "entity_type": "work_orders",
+        "field": "opened_at"
+      },
+      {
+        "entity_id": "WO-H154",
+        "entity_type": "work_orders",
+        "field": "due_at"
+      },
+      {
+        "entity_id": "WO-H154",
+        "entity_type": "work_orders",
+        "field": "completed_at"
+      },
+      {
+        "entity_id": "WO-H153",
+        "entity_type": "work_orders",
+        "field": "status"
+      },
+      {
+        "entity_id": "WO-H153",
+        "entity_type": "work_orders",
+        "field": "completed_at"
+      },
+      {
+        "entity_id": "WO-H153",
+        "entity_type": "work_orders",
+        "field": "due_at"
+      }
+    ],
+    "metric_ids": [
+      "active_contracts",
+      "open_work_orders"
+    ]
+  },
+  "prepared_at": "2026-09-22T09:30:29.257139Z",
+  "profile": {
+    "allowed_read_tools": [
+      "inspect_scoped_cases",
+      "read_evidence",
+      "query_metrics"
+    ],
+    "criteria": [
+      "citar campos de contrato y orden",
+      "no declarar incumplimiento sin respaldo",
+      "no prometer remediación"
+    ],
+    "id": "fleet_sla_watcher",
+    "metric_ids": [
+      "active_contracts",
+      "open_work_orders"
+    ],
+    "name": "Vigilante de evidencia SLA de flotilla",
+    "objective": "Mostrar evidencia elegible de contratos y órdenes para revisión humana de SLA.",
+    "persona": "Revisor escéptico de SLA que distingue evidencia faltante de un incumplimiento.",
+    "required_deliverable": "Describir evidencia SLA, incertidumbre y pasos manuales de revisión.",
+    "scope": [
+      "work_orders",
+      "contracts",
+      "maintenance",
+      "fleet_accounts"
+    ]
+  },
+  "prohibited_capabilities": [
+    "network",
+    "contact",
+    "business_write",
+    "external_execution",
+    "arbitrary_sql"
+  ],
+  "schema_version": 1,
+  "synthetic": true,
+  "tool_context": {
+    "cases": [
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "record": {
+          "approval_ref": "APP-CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "ends_at": "2026-12-31T23:59:59Z",
+          "fleet_account_id": "FA-001",
+          "id": "CT-001",
+          "name": "SLA demo Norte",
+          "sla_hours": 48,
+          "starts_at": "2026-01-01T00:00:00Z",
+          "status": "active",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H154",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-H154",
+          "bay_id": "B-002",
+          "block_reason": null,
+          "completed_at": "2026-06-30T02:00:00Z",
+          "contract_id": "CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-009",
+          "description": "Servicio histórico sintético",
+          "due_at": "2026-06-30T02:00:00Z",
+          "id": "WO-H154",
+          "inspection": "Inspección histórica sintética",
+          "opened_at": "2026-06-29T20:00:00Z",
+          "qc_ref": "QC-H154",
+          "quote_id": "Q-H154",
+          "status": "delivered",
+          "synthetic": 1,
+          "technician_id": "T-002",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-010",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H153",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-H153",
+          "bay_id": "B-001",
+          "block_reason": null,
+          "completed_at": "2026-07-03T00:00:00Z",
+          "contract_id": "CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-009",
+          "description": "Servicio histórico sintético",
+          "due_at": "2026-07-03T00:00:00Z",
+          "id": "WO-H153",
+          "inspection": "Inspección histórica sintética",
+          "opened_at": "2026-06-30T09:00:00Z",
+          "qc_ref": "QC-H153",
+          "quote_id": "Q-H153",
+          "status": "delivered",
+          "synthetic": 1,
+          "technician_id": "T-001",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-009",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H142",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-H142",
+          "bay_id": "B-002",
+          "block_reason": null,
+          "completed_at": "2026-07-06T18:00:00Z",
+          "contract_id": "CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-009",
+          "description": "Servicio histórico sintético",
+          "due_at": "2026-07-06T18:00:00Z",
+          "id": "WO-H142",
+          "inspection": "Inspección histórica sintética",
+          "opened_at": "2026-07-06T08:00:00Z",
+          "qc_ref": "QC-H142",
+          "quote_id": "Q-H142",
+          "status": "delivered",
+          "synthetic": 1,
+          "technician_id": "T-002",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-010",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H141",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-H141",
+          "bay_id": "B-001",
+          "block_reason": null,
+          "completed_at": "2026-07-07T05:00:00Z",
+          "contract_id": "CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-009",
+          "description": "Servicio histórico sintético",
+          "due_at": "2026-07-07T05:00:00Z",
+          "id": "WO-H141",
+          "inspection": "Inspección histórica sintética",
+          "opened_at": "2026-07-06T21:00:00Z",
+          "qc_ref": "QC-H141",
+          "quote_id": "Q-H141",
+          "status": "delivered",
+          "synthetic": 1,
+          "technician_id": "T-001",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-009",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H130",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-H130",
+          "bay_id": "B-002",
+          "block_reason": null,
+          "completed_at": "2026-07-13T10:00:00Z",
+          "contract_id": "CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-009",
+          "description": "Servicio histórico sintético",
+          "due_at": "2026-07-13T10:00:00Z",
+          "id": "WO-H130",
+          "inspection": "Inspección histórica sintética",
+          "opened_at": "2026-07-12T20:00:00Z",
+          "qc_ref": "QC-H130",
+          "quote_id": "Q-H130",
+          "status": "delivered",
+          "synthetic": 1,
+          "technician_id": "T-002",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-010",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H129",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-H129",
+          "bay_id": "B-001",
+          "block_reason": null,
+          "completed_at": "2026-07-13T21:00:00Z",
+          "contract_id": "CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-009",
+          "description": "Servicio histórico sintético",
+          "due_at": "2026-07-13T21:00:00Z",
+          "id": "WO-H129",
+          "inspection": "Inspección histórica sintética",
+          "opened_at": "2026-07-13T09:00:00Z",
+          "qc_ref": "QC-H129",
+          "quote_id": "Q-H129",
+          "status": "delivered",
+          "synthetic": 1,
+          "technician_id": "T-001",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-009",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H118",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-H118",
+          "bay_id": "B-002",
+          "block_reason": null,
+          "completed_at": "2026-07-20T02:00:00Z",
+          "contract_id": "CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-009",
+          "description": "Servicio histórico sintético",
+          "due_at": "2026-07-20T02:00:00Z",
+          "id": "WO-H118",
+          "inspection": "Inspección histórica sintética",
+          "opened_at": "2026-07-19T08:00:00Z",
+          "qc_ref": "QC-H118",
+          "quote_id": "Q-H118",
+          "status": "delivered",
+          "synthetic": 1,
+          "technician_id": "T-002",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-010",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H117",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-H117",
+          "bay_id": "B-001",
+          "block_reason": null,
+          "completed_at": "2026-07-22T12:00:00Z",
+          "contract_id": "CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-009",
+          "description": "Servicio histórico sintético",
+          "due_at": "2026-07-22T12:00:00Z",
+          "id": "WO-H117",
+          "inspection": "Inspección histórica sintética",
+          "opened_at": "2026-07-19T21:00:00Z",
+          "qc_ref": "QC-H117",
+          "quote_id": "Q-H117",
+          "status": "delivered",
+          "synthetic": 1,
+          "technician_id": "T-001",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-009",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H106",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-H106",
+          "bay_id": "B-002",
+          "block_reason": null,
+          "completed_at": "2026-07-26T04:00:00Z",
+          "contract_id": "CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-009",
+          "description": "Servicio histórico sintético",
+          "due_at": "2026-07-26T04:00:00Z",
+          "id": "WO-H106",
+          "inspection": "Inspección histórica sintética",
+          "opened_at": "2026-07-25T20:00:00Z",
+          "qc_ref": "QC-H106",
+          "quote_id": "Q-H106",
+          "status": "delivered",
+          "synthetic": 1,
+          "technician_id": "T-002",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-010",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H105",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-H105",
+          "bay_id": "B-001",
+          "block_reason": null,
+          "completed_at": "2026-07-26T15:00:00Z",
+          "contract_id": "CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-009",
+          "description": "Servicio histórico sintético",
+          "due_at": "2026-07-26T15:00:00Z",
+          "id": "WO-H105",
+          "inspection": "Inspección histórica sintética",
+          "opened_at": "2026-07-26T09:00:00Z",
+          "qc_ref": "QC-H105",
+          "quote_id": "Q-H105",
+          "status": "delivered",
+          "synthetic": 1,
+          "technician_id": "T-001",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-009",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H094",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-H094",
+          "bay_id": "B-002",
+          "block_reason": null,
+          "completed_at": "2026-08-01T20:00:00Z",
+          "contract_id": "CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-009",
+          "description": "Servicio histórico sintético",
+          "due_at": "2026-08-01T20:00:00Z",
+          "id": "WO-H094",
+          "inspection": "Inspección histórica sintética",
+          "opened_at": "2026-08-01T08:00:00Z",
+          "qc_ref": "QC-H094",
+          "quote_id": "Q-H094",
+          "status": "delivered",
+          "synthetic": 1,
+          "technician_id": "T-002",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-010",
+          "version": 1
+        },
+        "version": 1
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "field": "status",
+        "value": "active",
+        "version": 1
+      },
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "field": "sla_hours",
+        "value": 48,
+        "version": 1
+      },
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "field": "starts_at",
+        "value": "2026-01-01T00:00:00Z",
+        "version": 1
+      },
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "field": "ends_at",
+        "value": "2026-12-31T23:59:59Z",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H154",
+        "entity_type": "work_orders",
+        "field": "contract_id",
+        "value": "CT-001",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H154",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "delivered",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H154",
+        "entity_type": "work_orders",
+        "field": "opened_at",
+        "value": "2026-06-29T20:00:00Z",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H154",
+        "entity_type": "work_orders",
+        "field": "due_at",
+        "value": "2026-06-30T02:00:00Z",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H154",
+        "entity_type": "work_orders",
+        "field": "completed_at",
+        "value": "2026-06-30T02:00:00Z",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H153",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "delivered",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H153",
+        "entity_type": "work_orders",
+        "field": "completed_at",
+        "value": "2026-07-03T00:00:00Z",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-H153",
+        "entity_type": "work_orders",
+        "field": "due_at",
+        "value": "2026-07-03T00:00:00Z",
+        "version": 1
+      }
+    ],
+    "metrics": {
+      "active_contracts": 1,
+      "open_work_orders": 7
+    }
+  },
+  "warehouse_path": "..\\..\\warehouse.sqlite",
+  "warehouse_sha256": "e8f0a0824f6e721b9d5fecb0f5fa16211099f85c1f37560ebfc3abc8c4d32978"
+}

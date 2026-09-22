@@ -1,0 +1,90 @@
+{
+  "as_of": "2026-09-21T18:00:00Z",
+  "completed_model_turns": 18,
+  "quality_review": "Invoice/payment joins, fleet relationship scope, fixed data cutoff and sample/population distinction reviewed. Human review remains required; technical execution is not measured business impact.",
+  "runs": [
+    {
+      "agent_id": "intake_admin",
+      "completed_model_turns": 2,
+      "evidence_refs": 9,
+      "external_execution": false,
+      "model_id": "gpt-5.6-luna",
+      "status": "verified",
+      "visible_cases": 12
+    },
+    {
+      "agent_id": "operations_controller",
+      "completed_model_turns": 2,
+      "evidence_refs": 10,
+      "external_execution": false,
+      "model_id": "gpt-5.6-luna",
+      "status": "verified",
+      "visible_cases": 10
+    },
+    {
+      "agent_id": "maintenance_planner",
+      "completed_model_turns": 2,
+      "evidence_refs": 8,
+      "external_execution": false,
+      "model_id": "gpt-5.6-luna",
+      "status": "verified",
+      "visible_cases": 11
+    },
+    {
+      "agent_id": "fleet_sales_research",
+      "completed_model_turns": 2,
+      "evidence_refs": 12,
+      "external_execution": false,
+      "model_id": "gpt-5.6-luna",
+      "status": "verified",
+      "visible_cases": 9
+    },
+    {
+      "agent_id": "fleet_sla_watcher",
+      "completed_model_turns": 2,
+      "evidence_refs": 12,
+      "external_execution": false,
+      "model_id": "gpt-5.6-luna",
+      "status": "verified",
+      "visible_cases": 12
+    },
+    {
+      "agent_id": "tow_dispatch_assistant",
+      "completed_model_turns": 2,
+      "evidence_refs": 11,
+      "external_execution": false,
+      "model_id": "gpt-5.6-luna",
+      "status": "verified",
+      "visible_cases": 12
+    },
+    {
+      "agent_id": "collections_assistant",
+      "completed_model_turns": 2,
+      "evidence_refs": 12,
+      "external_execution": false,
+      "model_id": "gpt-5.6-luna",
+      "status": "verified",
+      "visible_cases": 12
+    },
+    {
+      "agent_id": "marketing_planner",
+      "completed_model_turns": 2,
+      "evidence_refs": 12,
+      "external_execution": false,
+      "model_id": "gpt-5.6-luna",
+      "status": "verified",
+      "visible_cases": 9
+    },
+    {
+      "agent_id": "weekly_operator",
+      "completed_model_turns": 2,
+      "evidence_refs": 12,
+      "external_execution": false,
+      "model_id": "gpt-5.6-luna",
+      "status": "verified",
+      "visible_cases": 12
+    }
+  ],
+  "status": "pass",
+  "verified_roles": 9
+}

@@ -1,0 +1,43 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "evidence_requests": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "entity_id": {
+            "type": "string"
+          },
+          "entity_type": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity_type",
+          "entity_id",
+          "field"
+        ],
+        "type": "object"
+      },
+      "maxItems": 12,
+      "minItems": 1,
+      "type": "array"
+    },
+    "metric_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 12,
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "evidence_requests",
+    "metric_ids"
+  ],
+  "type": "object"
+}

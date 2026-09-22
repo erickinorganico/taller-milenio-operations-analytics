@@ -1,0 +1,17 @@
+{
+  "financial_difference_mxn": 0,
+  "formula_cells": 6,
+  "formula_errors": 0,
+  "formula_values": {
+    "C10": 39012.5,
+    "C11": 0,
+    "C13": 162,
+    "C14": 7,
+    "C8": 209825.0,
+    "C9": 170812.5
+  },
+  "metadata_author": "Taller Milenio Analytics",
+  "recalculated_in": "Microsoft Excel COM",
+  "status": "pass",
+  "worksheets": 36
+}

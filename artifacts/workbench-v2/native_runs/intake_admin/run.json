@@ -1,0 +1,142 @@
+{
+  "agent_id": "intake_admin",
+  "backend": "native_codex",
+  "completed_at": "2026-09-22T09:27:38.656983Z",
+  "external_execution": false,
+  "native_plan_receipt": {
+    "cli_exit_code": 0,
+    "completion_observed": true,
+    "kind": "local_codex_cli",
+    "model_id": "gpt-5.6-luna",
+    "provider_events": [
+      {
+        "event": "native_provider",
+        "provider_event_type": "thread.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.started"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "error"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "item.completed",
+        "provider_item_type": "agent_message"
+      },
+      {
+        "event": "native_provider",
+        "provider_event_type": "turn.completed",
+        "usage": {
+          "cache_write_input_tokens": 0,
+          "cached_input_tokens": 12032,
+          "input_tokens": 16255,
+          "output_tokens": 370,
+          "reasoning_output_tokens": 187
+        }
+      }
+    ],
+    "stage": "plan"
+  },
+  "native_plan_started_at": "2026-09-22T09:26:33.421380Z",
+  "native_policy": {
+    "binary_name": "codex.exe",
+    "disabled_features": [
+      "shell_tool",
+      "apps",
+      "browser_use",
+      "browser_use_external",
+      "computer_use",
+      "multi_agent",
+      "plugins",
+      "image_generation",
+      "in_app_browser"
+    ],
+    "model_id": "gpt-5.6-luna",
+    "native_calls_max": 2,
+    "sandbox": "read-only",
+    "web_search": "disabled"
+  },
+  "native_started_at": "2026-09-22T09:26:55.137662Z",
+  "prepared_at": "2026-09-22T09:26:33.414381Z",
+  "run_schema_version": 1,
+  "source_hash_verified": true,
+  "status": "completed",
+  "synthetic": true,
+  "updated_at": "2026-09-22T09:27:38.656983Z",
+  "warehouse_path": "..\\..\\warehouse.sqlite",
+  "warehouse_sha256": "e8f0a0824f6e721b9d5fecb0f5fa16211099f85c1f37560ebfc3abc8c4d32978"
+}

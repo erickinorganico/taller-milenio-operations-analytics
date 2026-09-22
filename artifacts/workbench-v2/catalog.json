@@ -1,0 +1,659 @@
+{
+  "counts": {
+    "appointments": 163,
+    "bays": 4,
+    "campaigns": 2,
+    "contacts": 3,
+    "contracts": 2,
+    "customers": 10,
+    "expenses": 8,
+    "fleet_accounts": 2,
+    "invoices": 164,
+    "journey_links": 160,
+    "leads": 166,
+    "lifecycle_events": 1344,
+    "maintenance": 3,
+    "opportunities": 2,
+    "parts": 6,
+    "payments": 162,
+    "proposals": 2,
+    "purchases": 3,
+    "quotes": 170,
+    "reservations": 163,
+    "stock_moves": 165,
+    "suppliers": 3,
+    "technicians": 4,
+    "tow_units": 4,
+    "tows": 5,
+    "vehicles": 12,
+    "work_orders": 170
+  },
+  "database": "warehouse.sqlite",
+  "demo_now": "2026-09-21T18:00:00Z",
+  "marts": {
+    "mart_daily_operations": {
+      "columns": [
+        "day",
+        "opened",
+        "delivered",
+        "collected_cents",
+        "expense_cents"
+      ],
+      "count": 88,
+      "grain": "day",
+      "kind": "derived"
+    },
+    "mart_fleet_scorecard": {
+      "columns": [
+        "fleet_account_id",
+        "customer_id",
+        "industry",
+        "declared_vehicles",
+        "captured_vehicles",
+        "services",
+        "eligible_delivered",
+        "sla_met",
+        "sla_breached",
+        "sla_unknown",
+        "cycle_p90_hours",
+        "pipeline_cents",
+        "receivable_cents"
+      ],
+      "count": 2,
+      "grain": "fleet_account_id",
+      "kind": "derived"
+    },
+    "mart_inventory": {
+      "columns": [
+        "part_id",
+        "name",
+        "on_hand",
+        "reserved",
+        "available",
+        "reorder_point",
+        "net_consumed_cost_cents"
+      ],
+      "count": 6,
+      "grain": "part_id",
+      "kind": "derived"
+    },
+    "mart_process_waits": {
+      "columns": [
+        "stage",
+        "intervals",
+        "cases",
+        "total_hours",
+        "mean_interval_hours"
+      ],
+      "count": 9,
+      "grain": "stage",
+      "kind": "derived"
+    },
+    "mart_receivables": {
+      "columns": [
+        "invoice_id",
+        "customer_id",
+        "segment",
+        "due_at",
+        "invoiced_cents",
+        "paid_cents",
+        "balance_cents",
+        "days_overdue",
+        "aging_bucket"
+      ],
+      "count": 164,
+      "grain": "invoice_id",
+      "kind": "derived"
+    },
+    "mart_service_journey": {
+      "columns": [
+        "work_order_id",
+        "customer_id",
+        "segment",
+        "vehicle_id",
+        "status",
+        "opened_at",
+        "completed_at",
+        "cycle_hours",
+        "history_available",
+        "waiting_parts_hours",
+        "in_service_hours",
+        "rework_observed",
+        "contract_id",
+        "sla_status",
+        "invoiced_cents",
+        "paid_cents",
+        "receivable_cents"
+      ],
+      "count": 170,
+      "grain": "work_order_id",
+      "kind": "derived"
+    }
+  },
+  "mermaid": "erDiagram\n  CUSTOMERS { string id PK }\n  VEHICLES { string id PK }\n  LEADS { string id PK }\n  QUOTES { string id PK }\n  APPOINTMENTS { string id PK }\n  TECHNICIANS { string id PK }\n  BAYS { string id PK }\n  WORK_ORDERS { string id PK }\n  SUPPLIERS { string id PK }\n  PARTS { string id PK }\n  PURCHASES { string id PK }\n  STOCK_MOVES { string id PK }\n  RESERVATIONS { string id PK }\n  FLEET_ACCOUNTS { string id PK }\n  CONTACTS { string id PK }\n  OPPORTUNITIES { string id PK }\n  CONTRACTS { string id PK }\n  MAINTENANCE { string id PK }\n  TOW_UNITS { string id PK }\n  TOWS { string id PK }\n  INVOICES { string id PK }\n  PAYMENTS { string id PK }\n  EXPENSES { string id PK }\n  CAMPAIGNS { string id PK }\n  PROPOSALS { string id PK }\n  CUSTOMERS ||--o{ VEHICLES : customer_id\n  CUSTOMERS ||--o{ LEADS : customer_id\n  VEHICLES ||--o{ LEADS : vehicle_id\n  CUSTOMERS ||--o{ QUOTES : customer_id\n  VEHICLES ||--o{ QUOTES : vehicle_id\n  CUSTOMERS ||--o{ APPOINTMENTS : customer_id\n  VEHICLES ||--o{ APPOINTMENTS : vehicle_id\n  CUSTOMERS ||--o{ WORK_ORDERS : customer_id\n  VEHICLES ||--o{ WORK_ORDERS : vehicle_id\n  QUOTES ||--o{ WORK_ORDERS : quote_id\n  CONTRACTS ||--o{ WORK_ORDERS : contract_id\n  TECHNICIANS ||--o{ WORK_ORDERS : technician_id\n  BAYS ||--o{ WORK_ORDERS : bay_id\n  SUPPLIERS ||--o{ PARTS : supplier_id\n  PARTS ||--o{ PURCHASES : part_id\n  PARTS ||--o{ STOCK_MOVES : part_id\n  WORK_ORDERS ||--o{ STOCK_MOVES : work_order_id\n  PURCHASES ||--o{ STOCK_MOVES : purchase_id\n  PARTS ||--o{ RESERVATIONS : part_id\n  WORK_ORDERS ||--o{ RESERVATIONS : work_order_id\n  CUSTOMERS ||--o{ FLEET_ACCOUNTS : customer_id\n  FLEET_ACCOUNTS ||--o{ CONTACTS : fleet_account_id\n  FLEET_ACCOUNTS ||--o{ OPPORTUNITIES : fleet_account_id\n  FLEET_ACCOUNTS ||--o{ CONTRACTS : fleet_account_id\n  VEHICLES ||--o{ MAINTENANCE : vehicle_id\n  CONTRACTS ||--o{ MAINTENANCE : contract_id\n  WORK_ORDERS ||--o{ MAINTENANCE : work_order_id\n  CUSTOMERS ||--o{ TOWS : customer_id\n  VEHICLES ||--o{ TOWS : vehicle_id\n  TOW_UNITS ||--o{ TOWS : unit_id\n  CUSTOMERS ||--o{ INVOICES : customer_id\n  WORK_ORDERS ||--o{ INVOICES : work_order_id\n  TOWS ||--o{ INVOICES : tow_id\n  INVOICES ||--o{ PAYMENTS : invoice_id\n  leads ||--o{ journey_links : lead_id\n  quotes ||--o{ journey_links : quote_id\n  appointments ||--o{ journey_links : appointment_id\n  work_orders ||--o{ journey_links : work_order_id\n",
+  "schema_sql": "schema.sql",
+  "schema_version": 2,
+  "synthetic": true,
+  "tables": {
+    "appointments": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "customer_id",
+        "vehicle_id",
+        "starts_at",
+        "reason",
+        "status"
+      ],
+      "count": 163,
+      "grain": "one row per appointment",
+      "refs": {
+        "customer_id": "customers",
+        "vehicle_id": "vehicles"
+      }
+    },
+    "bays": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "name"
+      ],
+      "count": 4,
+      "grain": "one row per bay",
+      "refs": {}
+    },
+    "campaigns": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "name",
+        "audience",
+        "objective",
+        "draft",
+        "status"
+      ],
+      "count": 2,
+      "grain": "one row per campaign",
+      "refs": {}
+    },
+    "contacts": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "fleet_account_id",
+        "name",
+        "role",
+        "contact",
+        "consent"
+      ],
+      "count": 3,
+      "grain": "one row per contact",
+      "refs": {
+        "fleet_account_id": "fleet_accounts"
+      }
+    },
+    "contracts": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "fleet_account_id",
+        "name",
+        "sla_hours",
+        "starts_at",
+        "ends_at",
+        "approval_ref",
+        "status"
+      ],
+      "count": 2,
+      "grain": "one row per contract",
+      "refs": {
+        "fleet_account_id": "fleet_accounts"
+      }
+    },
+    "customers": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "name",
+        "segment",
+        "consent",
+        "contact"
+      ],
+      "count": 10,
+      "grain": "one row per customer",
+      "refs": {}
+    },
+    "expenses": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "description",
+        "amount_cents",
+        "category",
+        "method",
+        "paid_at"
+      ],
+      "count": 8,
+      "grain": "one row per expense",
+      "refs": {}
+    },
+    "fleet_accounts": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "customer_id",
+        "industry",
+        "fleet_size",
+        "owner"
+      ],
+      "count": 2,
+      "grain": "one row per fleet_account",
+      "refs": {
+        "customer_id": "customers"
+      }
+    },
+    "invoices": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "customer_id",
+        "work_order_id",
+        "tow_id",
+        "amount_cents",
+        "due_at",
+        "status"
+      ],
+      "count": 164,
+      "grain": "one row per invoice",
+      "refs": {
+        "customer_id": "customers",
+        "tow_id": "tows",
+        "work_order_id": "work_orders"
+      }
+    },
+    "journey_links": {
+      "columns": [
+        "id",
+        "lead_id",
+        "quote_id",
+        "appointment_id",
+        "work_order_id",
+        "synthetic"
+      ],
+      "count": 160,
+      "grain": "one row per journey_link",
+      "refs": {}
+    },
+    "leads": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "customer_id",
+        "vehicle_id",
+        "need",
+        "channel",
+        "follow_up_at",
+        "status"
+      ],
+      "count": 166,
+      "grain": "one row per lead",
+      "refs": {
+        "customer_id": "customers",
+        "vehicle_id": "vehicles"
+      }
+    },
+    "lifecycle_events": {
+      "columns": [
+        "event_id",
+        "entity_type",
+        "entity_id",
+        "from_state",
+        "to_state",
+        "at",
+        "actor",
+        "process_id",
+        "synthetic"
+      ],
+      "count": 1344,
+      "grain": "one row per lifecycle_event",
+      "refs": {}
+    },
+    "maintenance": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "vehicle_id",
+        "contract_id",
+        "service",
+        "due_at",
+        "due_km",
+        "work_order_id",
+        "status"
+      ],
+      "count": 3,
+      "grain": "one row per event",
+      "refs": {
+        "contract_id": "contracts",
+        "vehicle_id": "vehicles",
+        "work_order_id": "work_orders"
+      }
+    },
+    "opportunities": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "fleet_account_id",
+        "title",
+        "value_cents",
+        "next_step",
+        "follow_up_at",
+        "status"
+      ],
+      "count": 2,
+      "grain": "one row per opportunitie",
+      "refs": {
+        "fleet_account_id": "fleet_accounts"
+      }
+    },
+    "parts": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "sku",
+        "name",
+        "supplier_id",
+        "unit_cost_cents",
+        "reorder_point"
+      ],
+      "count": 6,
+      "grain": "one row per part",
+      "refs": {
+        "supplier_id": "suppliers"
+      }
+    },
+    "payments": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "invoice_id",
+        "amount_cents",
+        "method",
+        "reference",
+        "paid_at"
+      ],
+      "count": 162,
+      "grain": "one row per payment",
+      "refs": {
+        "invoice_id": "invoices"
+      }
+    },
+    "proposals": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "agent",
+        "title",
+        "rationale",
+        "evidence",
+        "approval_required",
+        "external_execution",
+        "status",
+        "decision_note"
+      ],
+      "count": 2,
+      "grain": "one row per proposal",
+      "refs": {}
+    },
+    "purchases": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "part_id",
+        "quantity",
+        "unit_cost_cents",
+        "expected_at",
+        "status"
+      ],
+      "count": 3,
+      "grain": "one row per purchase",
+      "refs": {
+        "part_id": "parts"
+      }
+    },
+    "quotes": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "customer_id",
+        "vehicle_id",
+        "description",
+        "amount_cents",
+        "valid_until",
+        "authorization_ref",
+        "status"
+      ],
+      "count": 170,
+      "grain": "one row per quote",
+      "refs": {
+        "customer_id": "customers",
+        "vehicle_id": "vehicles"
+      }
+    },
+    "reservations": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "part_id",
+        "work_order_id",
+        "quantity",
+        "status"
+      ],
+      "count": 163,
+      "grain": "one row per reservation",
+      "refs": {
+        "part_id": "parts",
+        "work_order_id": "work_orders"
+      }
+    },
+    "stock_moves": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "part_id",
+        "work_order_id",
+        "purchase_id",
+        "move_type",
+        "quantity",
+        "unit_cost_cents",
+        "reason"
+      ],
+      "count": 165,
+      "grain": "one row per stock_move",
+      "refs": {
+        "part_id": "parts",
+        "purchase_id": "purchases",
+        "work_order_id": "work_orders"
+      }
+    },
+    "suppliers": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "name",
+        "contact"
+      ],
+      "count": 3,
+      "grain": "one row per supplier",
+      "refs": {}
+    },
+    "technicians": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "name",
+        "specialty"
+      ],
+      "count": 4,
+      "grain": "one row per technician",
+      "refs": {}
+    },
+    "tow_units": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "name",
+        "capability"
+      ],
+      "count": 4,
+      "grain": "one row per tow_unit",
+      "refs": {}
+    },
+    "tows": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "customer_id",
+        "vehicle_id",
+        "pickup",
+        "destination",
+        "conditions",
+        "requested_at",
+        "due_at",
+        "closed_at",
+        "amount_cents",
+        "unit_id",
+        "safety_ref",
+        "human_approval_ref",
+        "status"
+      ],
+      "count": 5,
+      "grain": "one row per tow",
+      "refs": {
+        "customer_id": "customers",
+        "unit_id": "tow_units",
+        "vehicle_id": "vehicles"
+      }
+    },
+    "vehicles": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "customer_id",
+        "label",
+        "plate",
+        "odometer_km"
+      ],
+      "count": 12,
+      "grain": "one row per vehicle",
+      "refs": {
+        "customer_id": "customers"
+      }
+    },
+    "work_orders": {
+      "columns": [
+        "id",
+        "version",
+        "synthetic",
+        "created_at",
+        "updated_at",
+        "customer_id",
+        "vehicle_id",
+        "quote_id",
+        "contract_id",
+        "technician_id",
+        "bay_id",
+        "description",
+        "due_at",
+        "opened_at",
+        "completed_at",
+        "inspection",
+        "authorization_ref",
+        "qc_ref",
+        "block_reason",
+        "status"
+      ],
+      "count": 170,
+      "grain": "one row per work_order",
+      "refs": {
+        "bay_id": "bays",
+        "contract_id": "contracts",
+        "customer_id": "customers",
+        "quote_id": "quotes",
+        "technician_id": "technicians",
+        "vehicle_id": "vehicles"
+      }
+    }
+  }
+}

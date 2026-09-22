@@ -1,0 +1,18 @@
+{
+  "binary_name": "codex.exe",
+  "disabled_features": [
+    "shell_tool",
+    "apps",
+    "browser_use",
+    "browser_use_external",
+    "computer_use",
+    "multi_agent",
+    "plugins",
+    "image_generation",
+    "in_app_browser"
+  ],
+  "model_id": "gpt-5.6-luna",
+  "native_calls_max": 2,
+  "sandbox": "read-only",
+  "web_search": "disabled"
+}

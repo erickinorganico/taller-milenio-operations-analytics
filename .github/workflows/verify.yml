@@ -39,6 +39,9 @@ jobs:
         run: python -m milenio studio --output artifacts/ci-studio
       - name: Verify V2 studio receipt
         run: python -m milenio verify-studio --input artifacts/ci-studio
+      - name: Verify published V2 delivery
+        if: ${{ hashFiles('artifacts/workbench-v2/receipt.json') != '' }}
+        run: python -m milenio verify-studio --input artifacts/workbench-v2
       - name: Verify published sample
         run: python -m milenio verify-receipt --input artifacts/demo
       - name: Expected negative control

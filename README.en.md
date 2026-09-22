@@ -115,7 +115,7 @@ The local baseline invokes no model:
   --timeout 300
 ```
 
-The native path has two stages: bounded evidence and metric selection, followed by diagnosis, alternatives, and review drafts. All nine profiles completed that path through the official CLI: 18 observed `turn.completed` events, final `verified_two_stage_local_cli` receipts, and no external actions. This verifies execution and controls, not effectiveness. Review found unrelated evidence and an unnecessary reconciliation question in the collections output; correction and rerun remain pending.
+The native path has two stages: bounded evidence and metric selection, followed by diagnosis, alternatives, and review drafts. All nine profiles completed that path through the official CLI: 18 observed `turn.completed` events, final `verified_two_stage_local_cli` receipts, and no external actions. This verifies execution and controls, not effectiveness. Review corrected invoice/payment relationships, fleet scope, and the distinction between a sample and the full population. Drafts still require human review.
 
 To build a new delivery that runs all nine native profiles, run `Setup-Agents.ps1` and then `python -m milenio studio --native --output <new-folder>`. This is an opt-in, potentially long-running action and is never enabled silently.
 

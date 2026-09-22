@@ -115,7 +115,7 @@ El modo `native_codex` es opt-in y usa la CLI oficial fijada en `0.155.1` con la
   --timeout 300
 ```
 
-La ejecución hace dos etapas: selección acotada de evidencia y métricas, seguida por diagnóstico, alternativas y borradores para revisión. Los nueve perfiles completaron este recorrido mediante la CLI oficial: 18 eventos `turn.completed`, recibos finales `verified_two_stage_local_cli` y cero acciones externas. Esto verifica ejecución y controles, no efectividad. La revisión detectó evidencia no relacionada y una pregunta de conciliación innecesaria en la salida de cobranza; su corrección y rerun están pendientes.
+La ejecución hace dos etapas: selección acotada de evidencia y métricas, seguida por diagnóstico, alternativas y borradores para revisión. Los nueve perfiles completaron este recorrido mediante la CLI oficial: 18 eventos `turn.completed`, recibos finales `verified_two_stage_local_cli` y cero acciones externas. Esto verifica ejecución y controles, no efectividad. La revisión corrigió la selección de facturas/pagos, el alcance de flotillas y la distinción entre muestra y total. Los borradores conservan revisión humana pendiente.
 
 Para construir una entrega nueva que ejecute los nueve perfiles nativos, use `Setup-Agents.ps1` y después `python -m milenio studio --native --output <carpeta-nueva>`. Es una acción opt-in y puede tardar; nunca se activa en silencio.
 

@@ -1,0 +1,4 @@
+﻿id,version,synthetic,created_at,updated_at,fleet_account_id,name,role,contact,consent
+CTC-001,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,FA-001,Contacto 1,Operaciones,contacto1@demo.local,1
+CTC-002,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,FA-001,Contacto 2,Operaciones,contacto2@demo.local,1
+CTC-003,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,FA-002,Contacto 3,Operaciones,contacto3@demo.local,1

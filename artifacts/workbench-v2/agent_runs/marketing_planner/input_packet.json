@@ -1,0 +1,267 @@
+{
+  "agent_id": "marketing_planner",
+  "allowed_tools": [
+    "inspect_scoped_cases",
+    "read_evidence",
+    "query_metrics"
+  ],
+  "as_of": "2026-09-21T18:00:00Z",
+  "prepared_at": "2026-09-22T09:26:33.371008Z",
+  "profile": {
+    "allowed_read_tools": [
+      "inspect_scoped_cases",
+      "read_evidence",
+      "query_metrics"
+    ],
+    "criteria": [
+      "citar campos de campaña",
+      "respetar consentimiento",
+      "no publicar ni enviar mensajes"
+    ],
+    "id": "marketing_planner",
+    "metric_ids": [
+      "review_campaigns"
+    ],
+    "name": "Planificador de revisión de marketing",
+    "objective": "Revisar borradores de campaña y evidencia de audiencia antes de una decisión humana de publicación.",
+    "persona": "Profesional de marketing que prioriza consentimiento y crea texto solo para revisión.",
+    "required_deliverable": "Indicar preguntas de revisión de campaña y texto opcional para aprobación humana.",
+    "scope": [
+      "campaigns",
+      "customers",
+      "contacts"
+    ]
+  },
+  "prohibited_capabilities": [
+    "network",
+    "contact",
+    "business_write",
+    "external_execution",
+    "arbitrary_sql"
+  ],
+  "schema_version": 1,
+  "synthetic": true,
+  "tool_context": {
+    "cases": [
+      {
+        "entity_id": "CAM-001",
+        "entity_type": "campaigns",
+        "record": {
+          "audience": "particular",
+          "created_at": "2026-09-21T18:00:00Z",
+          "draft": "Borrador sintético",
+          "id": "CAM-001",
+          "name": "Recordatorio mantenimiento",
+          "objective": "Recurrencia",
+          "status": "review",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-002",
+        "entity_type": "campaigns",
+        "record": {
+          "audience": "fleet",
+          "created_at": "2026-09-21T18:00:00Z",
+          "draft": "Borrador sintético",
+          "id": "CAM-002",
+          "name": "Flotillas septiembre",
+          "objective": "Pipeline B2B",
+          "status": "approved",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "C-001",
+        "entity_type": "customers",
+        "record": {
+          "consent": 1,
+          "contact": "c-001@demo.milenio.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "C-001",
+          "name": "Demo Ana López",
+          "segment": "particular",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "C-002",
+        "entity_type": "customers",
+        "record": {
+          "consent": 1,
+          "contact": "c-002@demo.milenio.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "C-002",
+          "name": "Demo Bruno Ruiz",
+          "segment": "particular",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "C-003",
+        "entity_type": "customers",
+        "record": {
+          "consent": 0,
+          "contact": null,
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "C-003",
+          "name": "Demo Carla Méndez",
+          "segment": "particular",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "C-004",
+        "entity_type": "customers",
+        "record": {
+          "consent": 1,
+          "contact": "c-004@demo.milenio.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "C-004",
+          "name": "Demo Diego Soto",
+          "segment": "particular",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-001",
+        "entity_type": "contacts",
+        "record": {
+          "consent": 1,
+          "contact": "contacto1@demo.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-001",
+          "id": "CTC-001",
+          "name": "Contacto 1",
+          "role": "Operaciones",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-002",
+        "entity_type": "contacts",
+        "record": {
+          "consent": 1,
+          "contact": "contacto2@demo.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-001",
+          "id": "CTC-002",
+          "name": "Contacto 2",
+          "role": "Operaciones",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-003",
+        "entity_type": "contacts",
+        "record": {
+          "consent": 1,
+          "contact": "contacto3@demo.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-002",
+          "id": "CTC-003",
+          "name": "Contacto 3",
+          "role": "Operaciones",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "CAM-001",
+        "entity_type": "campaigns",
+        "field": "status",
+        "value": "review",
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-002",
+        "entity_type": "campaigns",
+        "field": "status",
+        "value": "approved",
+        "version": 1
+      },
+      {
+        "entity_id": "C-001",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "C-002",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "C-003",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 0,
+        "version": 1
+      },
+      {
+        "entity_id": "C-004",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-001",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-002",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-003",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      }
+    ],
+    "metrics": {
+      "review_campaigns": 1
+    }
+  },
+  "warehouse_path": "..\\..\\warehouse.sqlite",
+  "warehouse_sha256": "e8f0a0824f6e721b9d5fecb0f5fa16211099f85c1f37560ebfc3abc8c4d32978"
+}

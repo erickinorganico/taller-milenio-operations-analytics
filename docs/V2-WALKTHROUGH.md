@@ -146,7 +146,7 @@ La primera etapa selecciona de 1 a 12 lecturas exactas y métricas permitidas. L
 
 Los nueve perfiles del paquete completaron las dos etapas con la CLI oficial `0.155.1`: 18 eventos `turn.completed`, recibos `verified_two_stage_local_cli` y cero acciones externas. Revise `plan_receipt.json`, `final_receipt.json`, el modelo observado y `model_invoked` antes de atribuir cada resultado.
 
-La ejecución técnica no valida utilidad. La revisión actual detectó que cobranza seleccionó facturas/pagos no relacionados y pidió reconciliación aunque existían vínculos; su corrección y rerun están pendientes. Trate el resultado como material para crítica humana.
+La ejecución técnica no demuestra impacto real. La revisión corrigió la selección de facturas/pagos y conserva los saldos calculados por código. Distinga los casos seleccionados de las métricas globales; revise siempre el borrador antes de usarlo.
 
 ## 9. Registrar revisión humana
 
