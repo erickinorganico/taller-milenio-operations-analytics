@@ -1,0 +1,1 @@
+id,customer_id,vehicle_id,quote_id,contract_id,technician_id,bay_id,description,due_at,opened_at,completed_at,inspection,authorization_ref,qc_ref,block_reason,status,synthetic

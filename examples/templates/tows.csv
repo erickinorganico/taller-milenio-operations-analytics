@@ -1,0 +1,1 @@
+id,customer_id,vehicle_id,pickup,destination,conditions,requested_at,due_at,closed_at,amount_cents,unit_id,safety_ref,human_approval_ref,status,synthetic

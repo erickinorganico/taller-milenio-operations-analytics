@@ -1,0 +1,3 @@
+id,name,segment,consent,contact,synthetic
+C-BAD-001,=HYPERLINK("https://bad.test"),particular,true,bad@example.test,true
+C-BAD-001,Duplicado,particular,yes,bad@example.test,true
