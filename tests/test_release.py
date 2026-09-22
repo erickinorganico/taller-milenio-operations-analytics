@@ -90,7 +90,7 @@ class ReleaseTests(unittest.TestCase):
             (archive_root / "RELEASE-MANIFEST.json").write_text(json.dumps(manifest), encoding="utf-8")
             original = package_release.ROOT
             try:
-                package_release.ROOT = source
+                package_release.ROOT = source / '..' / 'source'
                 recovered = package_release._tracked()
                 self.assertEqual(recovered, [tracked.resolve()])
             finally:

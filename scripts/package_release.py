@@ -73,7 +73,7 @@ def _tracked():
             if relative.startswith((".runtime/wheels/", "artifacts/demo/")):
                 continue
             candidate = (ROOT / relative).resolve()
-            if candidate.parent != ROOT and ROOT not in candidate.parents:
+            if not candidate.is_relative_to(ROOT.resolve()):
                 raise ValueError(f"manifest path escapes source: {archive_name}")
             _safe_relative(candidate)
             _reject_sensitive(candidate)

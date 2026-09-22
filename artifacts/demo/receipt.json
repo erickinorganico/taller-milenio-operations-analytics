@@ -92,7 +92,7 @@
     "queries/fleet_pipeline.sql": "7e5096a53e0c9cb5fed7e2c34cef495c335d4bf09d6d49d6926b84ecbf9f5883",
     "queries/stock.sql": "11251fb90ee995efef30fc1f8e352cb7dbc27ccd9d73c78e7f48e1f2e729eec3",
     "queries/workshop.sql": "52a3c86f94575c6c651c78b8b344e899edbed59d1b2a84058e1b96ac7e0f1fe7",
-    "requirements.txt": "8f69f9235fc422fc67b8f80454c5ee121da4957fb54e16ff5a96cd8348bb638a"
+    "requirements.txt": "f48a4c86a7a22362c6dbd07f5f855a05560cc152877f2175071271acf824a3d6"
   },
   "status": "pass",
   "synthetic": true
