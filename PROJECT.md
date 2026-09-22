@@ -1,6 +1,7 @@
 # Taller Milenio Operations & Growth Analytics
 
-Reproducible local analytics and consulting toolkit using synthetic data.
+Reproducible local analytics and consulting toolkit with public synthetic examples
+and a separate private local path for authorized client extracts.
 Scope: customer journeys, workshop/parts/capacity, fleet commercial pipeline,
 contracts/SLA/maintenance, towing service evidence, collections and cash.
 

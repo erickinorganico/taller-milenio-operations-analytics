@@ -1,76 +1,170 @@
-# Propuesta de servicio — Diagnóstico operativo y analítica de Taller Milenio
+# Oferta de servicio: diagnóstico operativo y analítica
 
-> Plantilla de alcance para conversación comercial. El repositorio público es un demostrador sintético de la metodología; no prueba que Taller Milenio haya contratado, desplegado o obtenido resultados de este servicio.
+Esta oferta describe un servicio local, acotado y revisable para convertir
+exports autorizados en preguntas de decisión, hallazgos con evidencia y
+seguimiento humano. El repositorio público contiene un demostrador sintético.
+No demuestra que Taller Milenio haya contratado, desplegado o obtenido un
+resultado.
 
-## Objetivo del servicio
+El precio, la duración, la confidencialidad, la propiedad de los entregables y
+el uso de datos se acuerdan por escrito para cada cliente. Este documento no
+contiene una cotización, una promesa de ROI ni una aprobación de negocio.
 
-Convertir exports autorizados de la operación en un diagnóstico reconciliado de particulares, taller/partes, flotillas, grúas y administración. El servicio entrega definiciones, hallazgos verificables, excepciones priorizadas y una cadencia de revisión para que responsables humanos decidan los siguientes pasos.
+## Resultado que se ofrece
 
-No incluye operar un CRM/ERP, enviar mensajes, contactar prospectos, diagnosticar vehículos, fijar precios, despachar grúas, emitir facturas fiscales, procesar pagos ni mover dinero.
+El servicio deja una corrida local reproducible con una lectura ejecutiva,
+tablas gerenciales curadas y un registro de decisiones y acciones. El cliente
+conserva la autoridad sobre toda definición, prioridad, contacto, dinero,
+seguridad y aceptación.
 
-## Ficha de alcance a completar
+El flujo client-ready cubre cuatro datasets: `Ordenes`, `Facturas`, `Pagos` e
+`Inventario`, con `Config` e `Instrucciones` en el libro de entrada. El alcance
+no representa automáticamente flotillas, grúas, campañas, contratos, SLA,
+consentimiento, seguridad vial, utilidad o capacidad completa del negocio.
 
-| Campo | Acuerdo del piloto |
+La corrida puede trabajar con alias proporcionados por el cliente sin necesitar
+PII. El adaptador conserva los valores que recibe y no redacciona ni anonimiza
+PII. Un piloto real requiere una copia local autorizada, fuente y cutoff
+declarados, minimización, tratamiento de consentimiento, acceso restringido,
+retención y eliminación acordados. El piloto real todavía no se ha ejecutado.
+
+## Paquetes de servicio
+
+| Paquete | Resultado | Gate de aceptación | Dependencias |
+|---|---|---|---|
+| Preparación y lectura inicial | plantilla de entrada, contexto, calidad, `INICIO.html` y decisiones prioritarias | cliente confirma alcance, fuente, cutoff y preguntas de decisión | sponsor, dueño de fuente y extracto autorizado |
+| Piloto de diagnóstico | `Gerencia.xlsx`, `Seguimiento.xlsx`, `analysis.json`, `receipt.json` y evidencia de controles | control totals y campos acordados cuadran o los issues quedan corregidos en otra corrida | snapshot estable, owners y criterio de aceptación |
+| Cadencia de revisión | paquete fechado, comparación antes/después, acciones abiertas y resultados auto-reportados | owner revisa cada fila, usa un status permitido y confirma próxima revisión | export periódico, continuidad de IDs y action tracker |
+
+El paquete de preparación no implica que el cliente haya aprobado una acción.
+La aceptación del análisis tampoco autoriza contacto, pago, despacho, compra,
+publicación ni cambio de datos operativos.
+
+## Alcance de trabajo
+
+1. **Entrada acotada.** Se reciben cuatro datasets: órdenes, facturas, pagos e
+   inventario. El libro también contiene `Config` e `Instrucciones`; la
+   configuración exige `as_of`, `snapshot_id` y `synthetic`.
+2. **Calidad y reconciliación.** Se validan filas, referencias, estados,
+   fechas, importes, pagos y cobertura del extracto. Un issue conserva hoja,
+   fila, columna, código y mensaje. Consentimiento, seguridad, frescura,
+   ownership y retención se revisan fuera del adaptador.
+3. **Análisis para decisión.** Se preparan casos P1, P2 y P3 con evidencia,
+   siguiente paso, rol sugerido, importe en riesgo cuando aplica y límites. La
+   prioridad sirve para ordenar la agenda; no es autorización.
+4. **Reunión accionable.** En una sesión de 20 minutos los owners revisan cada
+   `action_id` y completan solamente owner, status, target_date, note y
+   outcome_evidence.
+5. **Seguimiento y comparación.** Una corrida posterior compara dos reportes
+   con `receipt.json` de integridad verificada y snapshots compatibles. Un
+   resultado solo se conserva como auto-reportado; la comparación no prueba
+   atribución ni ejecución.
+
+## Entregables y rutas
+
+Las corridas de clientes se guardan bajo `private/clients/` por defecto y no se
+publican. La demostración sintética se conserva bajo
+`examples/client_delivery/`.
+
+| Entregable | Para qué sirve | Se acepta cuando |
+|---|---|---|
+| `INICIO.html` | primera lectura y agenda | muestra cutoff, calidad, prioridades, limitaciones y próximos pasos |
+| `Gerencia.xlsx` | revisión de tablas curadas | cada fila tiene definición, población, estado de evidencia y referencia |
+| `Seguimiento.xlsx` | revisión y acciones humanas | cada fila conserva `action_id`, campos de origen, owner, status, target_date, note y outcome_evidence |
+| `analysis.json` | reproducibilidad | identifica input, controles, estados y referencias |
+| `receipt.json` | recibo técnico | identifica versión, hashes, cutoff y resultado de controles |
+| `CALIDAD.json` | issues de entrada, si se solicitó | cada issue tiene `sheet`, `row`, `column`, `code` y `message` |
+| `docs/CLIENT-ACCEPTANCE.md` | aceptación de cliente | queda firmado o marcado como pendiente por un aprobador real |
+
+## Flujo operativo
+
+```powershell
+python -m milenio client-template --output private/clients/<cliente>/Entrada.xlsx --business "<cliente>"
+python -m milenio client-analyze --input private/clients/<cliente>/Entrada.xlsx --output private/clients/<cliente>/corrida-<cutoff> --errors private/clients/<cliente>/CALIDAD-<cutoff>.json
+python -m milenio client-review --input private/clients/<cliente>/corrida-<cutoff>/Seguimiento.xlsx --report private/clients/<cliente>/corrida-<cutoff> --reviewer "<nombre y rol>"
+python -m milenio client-compare --before private/clients/<cliente>/corrida-anterior --after private/clients/<cliente>/corrida-<cutoff> --output private/clients/<cliente>/comparacion-<cutoff>
+```
+
+La muestra sintética se genera por separado con un corte explícito:
+
+```powershell
+python -m milenio client-template --output examples/client_delivery/client_input_sample.xlsx --sample --as-of 2026-09-22T18:00:00Z --business "Ejemplo sintético"
+```
+
+La fecha de corte de entrada puede ser la que corresponda al snapshot
+autorizado. Los comandos no llaman modelos ni servicios externos y no modifican
+la fuente. Los errores se emiten como issues JSON en consola; `--errors <ruta>`
+los conserva además como `CALIDAD.json` en una ruta privada junto a la corrida,
+fuera de la carpeta de salida nueva. El reporte de `client-review` se
+agrega en la raíz de corrida indicada por `--report`; no se crea una subcarpeta
+`review` por defecto.
+
+## Ficha de alcance
+
+| Campo | Acuerdo del cliente |
 |---|---|
 | Cliente y sponsor | `[nombre / responsable]` |
 | Preguntas prioritarias | `[3–5 decisiones concretas]` |
-| Periodo y fecha de corte | `[inicio, fin, zona horaria]` |
-| Fuentes autorizadas | `[archivo, propietario, sistema de origen]` |
-| Módulos incluidos | `[particulares / taller-partes / flotillas / grúas / administración]` |
-| Responsables de validación | `[operación, partes, flotillas, grúas, administración]` |
+| Periodo, fecha de corte y zona horaria | `[inicio, fin, cutoff, zona]` |
+| Fuente y propietario | `[archivo o sistema / owner]` |
+| Dataset incluido | `[órdenes / facturas / pagos / inventario]` |
+| Identificadores y grain | `[IDs, unidad de análisis]` |
 | Datos excluidos | `[PII, notas libres, documentos, campos sensibles]` |
-| Criterio de aceptación | `[controles, preguntas respondidas, limitaciones aceptadas]` |
+| Tratamiento de PII y consentimiento fuera del adaptador | `[tratamiento acordado]` |
+| Retención y eliminación | `[ubicación, plazo, responsable]` |
+| Responsables de validación | `[operación, partes, flotillas, grúas, finanzas]` |
+| Criterio de aceptación | `[controles, preguntas respondidas, límites]` |
 
-## Prerrequisitos de discovery
+## Prerrequisitos y responsabilidades
 
-Antes de recibir datos se realiza una sesión con el sponsor y walkthroughs breves con quienes capturan y usan la información. Se confirma:
+El cliente designa sponsor, dueño de fuente, owners operativos, revisor y
+aprobador. Autoriza el extracto mínimo, confirma que puede compartirlo,
+explica procesos y definiciones, valida control totals y hallazgos, y protege
+las decisiones de seguridad, dinero y contacto.
 
-- dónde empieza y termina cada recorrido, sus estados y responsables;
-- qué sistema/archivo es autoridad para cliente, vehículo, stock, servicio, contrato, factura y pago;
-- grain, IDs, fechas, zona horaria, moneda, duplicados, estados terminales y significado de faltantes;
-- gates humanos de autorización, seguridad de grúa, precio, despacho, cobranza y publicación;
-- propósito, minimización, acceso, retención y eliminación del extracto.
+El proveedor prepara el mapa, valida el paquete, separa medido de desconocido,
+conserva el recibo, expone limitaciones y deja el registro editable para el
+cliente. El proveedor no inventa consentimiento, autorización, seguridad,
+disponibilidad, pago, efectivo, impacto o resultado.
 
-Si una definición o evidencia no existe, se registra como `unknown`, `review` o `blocked`; no se convierte en cero ni se inventa.
+## Aceptación y cadencia
 
-## Trabajo incluido
+La primera lectura dura aproximadamente 30 minutos:
 
-1. **Mapa y contrato de datos.** Diccionario fuente→modelo, relaciones, reglas de estado, supuestos y preguntas pendientes.
-2. **Perfil y calidad.** Conteos, unicidad, referencias, completitud, fechas, importes, duplicados, inconsistencias y filas en revisión.
-3. **Reconciliación operacional.** Taller/WIP/capacidad, movimientos y disponibilidad de partes, pipeline/contrato/mantenimiento/SLA, hitos de grúa y puente gerencial entre cotización, factura, pago, saldo, gastos y efectivo.
-4. **Reporte de decisión.** Cuatro lentes separados, informe ejecutivo imprimible, charts, evidencia por hallazgo, excepciones priorizadas y limitaciones.
-5. **Reunión accionable.** Revisión con owners para aceptar, corregir o rechazar definiciones; asignar responsable y siguiente paso humano; registrar decisiones sin ejecutar acciones externas.
+1. confirmar alcance, privacidad y cutoff;
+2. revisar los controles que pueden bloquear una decisión;
+3. seleccionar las decisiones prioritarias en `Gerencia.xlsx`;
+4. completar owner, status, target_date, note y outcome_evidence en
+   `Seguimiento.xlsx`.
 
-## Entregables y aceptación
+La reunión semanal dura aproximadamente 20 minutos:
 
-| Entregable | Se acepta cuando |
-|---|---|
-| Mapa de fuentes, grain y definiciones | responsables confirman autoridad, significado y límites o dejan pendientes explícitos |
-| Reporte de calidad | cada issue indica fuente/fila/campo, severidad y disposición; no hay descartes silenciosos |
-| Paquete analítico reconciliado | totales de control acordados coinciden o la diferencia queda explicada/bloqueada |
-| Reportes por módulo + ejecutivo | toda cifra declara cutoff, población, fórmula, grain y limitación |
-| Cola de excepciones/propuestas | cada item cita evidencia, owner sugerido y aprobación humana; no contiene ejecución automática |
-| Playbook de revisión | quedan frecuencia, participantes, agenda, decisiones y criterio de cierre acordados |
-| Recibo técnico | identifica input/código/artefactos y resultados de controles para esa corrida |
+1. confirmar cutoff, frescura y calidad;
+2. revisar P1 y confirmar evidencia con el owner de la fuente;
+3. revisar P2 y P3 según impacto y faltantes;
+4. cerrar cada item con un status permitido, owner, target_date y nota;
+5. confirmar el próximo export y dejar abiertas las preguntas sin evidencia.
 
-La aceptación técnica no equivale a validar causalidad, impacto, cumplimiento fiscal, seguridad vial o aptitud para producción.
+La aceptación de la entrega se registra en `docs/CLIENT-ACCEPTANCE.md`. Nombre,
+rol, fecha, estado y firma permanecen en blanco hasta la decisión humana. Los
+estados de fila de `Seguimiento.xlsx` son solamente `pending`, `accepted`,
+`in_progress`, `done` y `dismissed`; el acta tiene estados de aceptación
+separados y no ejecuta acciones.
 
-## Responsabilidades del cliente
+## Límites y exclusiones
 
-El cliente designa sponsor y owners, autoriza el extracto mínimo, confirma que puede compartirlo, explica procesos/definiciones, valida control totals y hallazgos, protege decisiones de seguridad/dinero/contacto, y revisa que ningún artefacto sensible se publique. La calidad del resultado depende de la cobertura y veracidad de las fuentes autorizadas.
+El servicio no opera CRM/ERP, no envía mensajes, no contacta prospectos, no
+diagnostica vehículos, no fija precios, no despacha grúas, no autoriza
+reparaciones, no emite documentos fiscales, no procesa pagos, no mueve dinero
+y no publica campañas. Las propuestas, aunque una persona las marque como
+revisadas, no ejecutan acciones externas.
 
-## Adopción por fases
+Los agentes V2 son una opción para análisis especializado del demostrador
+sintético. La entrega client-ready simple funciona sin modelos y sin agentes.
 
-| Fase | Resultado | Gate para avanzar |
-|---|---|---|
-| 0. Demostrador sintético | metodología reproducible sin datos reales | comprensión del alcance; ningún claim del negocio |
-| 1. Discovery | proceso, owners, diccionario y riesgos validados | sponsor aprueba preguntas y extracto mínimo |
-| 2. Piloto aislado | análisis read-only sobre copia autorizada y anonimizada/seudonimizada | calidad/reconciliación aceptables y rollback probado |
-| 3. Cadencia asistida | actualización periódica de archivos y reunión de decisiones | owners usan definiciones de forma consistente |
-| 4. Evolución opcional | automatización de ingestión/reporting bajo nuevo alcance | seguridad, acceso, operación y soporte aprobados por separado |
+## Lo que no se afirma
 
-Cada fase requiere una aceptación propia. No se prometen precio, retorno, ahorro o mejora antes de acordar volumen, alcance, calidad de datos, responsabilidades y una línea base medible.
-
-## Resultado de la propuesta
-
-Al cerrar el piloto, el cliente recibe un diagnóstico trazable y un proceso de revisión; conserva la autoridad sobre toda decisión. Cualquier integración, mensaje, contacto comercial, despacho, pago, publicación de datos o uso operacional requiere un contrato y autorización adicionales.
+El demostrador no prueba demanda, conversión, calidad de servicio, seguridad,
+adopción, ahorro, ROI, ingresos, SLA real ni mejora causal. Una corrida verde
+demuestra que los controles locales funcionaron con ese input; no certifica el
+proceso real ni la aptitud para producción.

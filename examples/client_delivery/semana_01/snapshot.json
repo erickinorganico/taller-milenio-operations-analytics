@@ -1,0 +1,181 @@
+{
+  "metadata": {
+    "as_of": "2026-09-22T18:00:00Z",
+    "assumptions": {},
+    "business_name": "Taller demostrativo · datos ficticios",
+    "date_convention": "ISO-8601 con zona horaria; celdas Excel nativas sin zona se interpretan como UTC",
+    "money_convention": "Decimal MXN exacto convertido a integer cents; máximo dos decimales",
+    "quality": {
+      "cancelled_orders_excluded_from_open_work": 1,
+      "counts": {
+        "inventory": 2,
+        "invoices": 2,
+        "orders": 6,
+        "payments": 2
+      },
+      "cutoff": "2026-09-22T18:00:00Z",
+      "delivered_orders_without_issued_invoice": [
+        "ORD-004"
+      ],
+      "has_data": true,
+      "inventory_at_or_below_reorder_point": [
+        "PART-001"
+      ],
+      "inventory_shortage_parts": [
+        "PART-001"
+      ],
+      "overdue_partial_invoice_ids": [
+        "INV-001"
+      ],
+      "settled_invoice_ids": [
+        "INV-002"
+      ],
+      "unknown_optional_values": {
+        "block_reason": 4,
+        "delivered_at": 4,
+        "estimated_hours": 1,
+        "invoice_order_id": 0,
+        "promised_at": 0,
+        "technician_ref": 1,
+        "unit_cost_cents": 0
+      }
+    },
+    "snapshot_id": "demo-semana-01",
+    "source_kind": "workbook",
+    "synthetic": true
+  },
+  "schema_version": 1,
+  "source_hashes": {
+    "Entrada_semana_01.xlsx": "be099bbc50bc662494b9a4d84fca24958b6a4e999c8feb33ef014f74d60b3c93"
+  },
+  "tables": {
+    "inventory": [
+      {
+        "description": "Filtro de aceite",
+        "on_hand": 1,
+        "part_id": "PART-001",
+        "reorder_point": 2,
+        "reserved": 3,
+        "unit_cost_cents": 25000
+      },
+      {
+        "description": "Bujía",
+        "on_hand": 20,
+        "part_id": "PART-002",
+        "reorder_point": 5,
+        "reserved": 2,
+        "unit_cost_cents": 9000
+      }
+    ],
+    "invoices": [
+      {
+        "amount_cents": 150000,
+        "customer_ref": "CUST-002",
+        "due_at": "2026-09-20T12:00:00Z",
+        "invoice_id": "INV-001",
+        "issued_at": "2026-09-13T12:00:00Z",
+        "order_id": "ORD-002",
+        "status": "issued"
+      },
+      {
+        "amount_cents": 80000,
+        "customer_ref": "CUST-005",
+        "due_at": "2026-09-21T12:00:00Z",
+        "invoice_id": "INV-002",
+        "issued_at": "2026-09-11T12:00:00Z",
+        "order_id": "ORD-006",
+        "status": "issued"
+      }
+    ],
+    "orders": [
+      {
+        "block_reason": "Filtro pendiente",
+        "customer_ref": "CUST-001",
+        "delivered_at": null,
+        "estimated_hours": 3.5,
+        "order_id": "ORD-001",
+        "promised_at": "2026-09-14T12:00:00Z",
+        "received_at": "2026-09-10T12:00:00Z",
+        "segment": "particular",
+        "status": "waiting_parts",
+        "technician_ref": "TECH-01"
+      },
+      {
+        "block_reason": null,
+        "customer_ref": "CUST-002",
+        "delivered_at": null,
+        "estimated_hours": 5.0,
+        "order_id": "ORD-002",
+        "promised_at": "2026-09-18T12:00:00Z",
+        "received_at": "2026-09-12T12:00:00Z",
+        "segment": "fleet",
+        "status": "in_service",
+        "technician_ref": "TECH-02"
+      },
+      {
+        "block_reason": null,
+        "customer_ref": "CUST-001",
+        "delivered_at": null,
+        "estimated_hours": 2.0,
+        "order_id": "ORD-003",
+        "promised_at": "2026-09-20T12:00:00Z",
+        "received_at": "2026-09-13T12:00:00Z",
+        "segment": "particular",
+        "status": "ready",
+        "technician_ref": "TECH-01"
+      },
+      {
+        "block_reason": null,
+        "customer_ref": "CUST-003",
+        "delivered_at": "2026-09-15T12:00:00Z",
+        "estimated_hours": 4.0,
+        "order_id": "ORD-004",
+        "promised_at": "2026-09-12T12:00:00Z",
+        "received_at": "2026-09-07T12:00:00Z",
+        "segment": "particular",
+        "status": "delivered",
+        "technician_ref": "TECH-03"
+      },
+      {
+        "block_reason": "Cliente canceló",
+        "customer_ref": "CUST-004",
+        "delivered_at": null,
+        "estimated_hours": null,
+        "order_id": "ORD-005",
+        "promised_at": "2026-09-04T12:00:00Z",
+        "received_at": "2026-09-02T12:00:00Z",
+        "segment": "fleet",
+        "status": "cancelled",
+        "technician_ref": null
+      },
+      {
+        "block_reason": null,
+        "customer_ref": "CUST-005",
+        "delivered_at": "2026-09-10T12:00:00Z",
+        "estimated_hours": 6.0,
+        "order_id": "ORD-006",
+        "promised_at": "2026-09-08T12:00:00Z",
+        "received_at": "2026-09-04T12:00:00Z",
+        "segment": "fleet",
+        "status": "delivered",
+        "technician_ref": "TECH-02"
+      }
+    ],
+    "payments": [
+      {
+        "amount_cents": 50000,
+        "invoice_id": "INV-001",
+        "method": "transfer",
+        "paid_at": "2026-09-21T12:00:00Z",
+        "payment_id": "PAY-001"
+      },
+      {
+        "amount_cents": 80000,
+        "invoice_id": "INV-002",
+        "method": "card",
+        "paid_at": "2026-09-17T12:00:00Z",
+        "payment_id": "PAY-002"
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+ID de orden,Referencia cliente,Segmento,Recibida en,Entregada en,Estado,Prometida para,Motivo de bloqueo,Referencia técnico,Horas estimadas
+ORD-001,CUST-001,particular,2026-09-10T12:00:00Z,,waiting_parts,2026-09-14T12:00:00Z,Filtro pendiente,TECH-01,3.5
+ORD-002,CUST-002,fleet,2026-09-12T12:00:00Z,,in_service,2026-09-18T12:00:00Z,,TECH-02,5
+ORD-003,CUST-001,particular,2026-09-13T12:00:00Z,,ready,2026-09-20T12:00:00Z,,TECH-01,2
+ORD-004,CUST-003,particular,2026-09-07T12:00:00Z,2026-09-15T12:00:00Z,delivered,2026-09-12T12:00:00Z,,TECH-03,4
+ORD-005,CUST-004,fleet,2026-09-02T12:00:00Z,,cancelled,2026-09-04T12:00:00Z,Cliente canceló,,
+ORD-006,CUST-005,fleet,2026-09-04T12:00:00Z,2026-09-10T12:00:00Z,delivered,2026-09-08T12:00:00Z,,TECH-02,6

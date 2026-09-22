@@ -18,3 +18,6 @@ artifacts/controlled-failure/** -text -whitespace
 artifacts/final-verification.* -text -whitespace
 artifacts/workbench-v2/** -text -whitespace
 artifacts/v2-verification.* -text -whitespace
+examples/client_delivery/** -text -whitespace
+artifacts/client-verification.* -text -whitespace
+*.xlsx binary

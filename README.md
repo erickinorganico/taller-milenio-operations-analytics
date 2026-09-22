@@ -1,151 +1,63 @@
-# Taller Milenio · Workbench analítico V2
+# Taller Milenio · Entrega de cliente V3
 
-Entrega local y reproducible para revisar operación, crecimiento y control gerencial con evidencia. El punto de entrada es el [dossier V2](artifacts/workbench-v2/DOSSIER.html): conecta tablas SQL, seis procesos, métricas longitudinales, un libro Excel y nueve perfiles de agentes con revisión humana.
+Abra **[CLIENTE.html](CLIENTE.html)**. Es la entrada para practicar una reunión con casos concretos, llevar responsables en Excel y comparar la semana siguiente. Los informes y libros se consultan sin instalar Python.
 
-> **Datos sintéticos.** Los 90 días, 170 órdenes, 160 historias vinculadas, importes, SLA y resultados fueron fabricados para probar el mecanismo. No describen la operación real de Taller Milenio ni demuestran impacto comercial. Los procesos son hipótesis aún no validadas mediante entrevistas.
+Esta versión añade un recorrido de uso al workbench V2: entrada mínima, prioridades explicables, seguimiento humano y continuidad entre cortes. Los ejemplos públicos son ficticios; no prueban resultados de un taller real.
 
-[English version](README.en.md) · [Inventario de entrega](ENTREGA-MILENIO.md) · [Recorrido práctico](docs/V2-WALKTHROUGH.md)
+## Trabajo que puede hacer el cliente
 
-## Qué se entrega
-
-| Superficie | Contenido verificable |
+| Necesidad | Archivo o recorrido |
 |---|---|
-| Dossier | `DOSSIER.html`, navegación local imprimible con decisiones, tablas, procesos y evidencia |
-| Libro | `Milenio_Analisis.xlsx`, 36 hojas: portada, 33 tablas, catálogo de agentes y catálogo de procesos |
-| SQL | `warehouse.sqlite` con 33 tablas físicas: 25 entidades, `lifecycle_events`, `journey_links` y seis marts |
-| Procesos | seis definiciones JSON, seis mapas SVG y seis SOP con decisiones, excepciones, RACI y aceptación |
-| Especificación | cinco contratos normativos y 18 requisitos trazables a proceso, entidad, agente, métrica y prueba |
-| Agentes | nueve perfiles de revisión; modo reproducible `rules` y modo opt-in `native_codex` en dos etapas |
-| Decisiones | `DECISIONES.md` y `review_queue.csv`, con propuestas pendientes y campos humanos vacíos |
-| Evidencia | CSV por tabla, catálogo, DDL, análisis, replay de procesos, checks del libro y recibo con hashes |
+| Saber qué revisar hoy | [Informe de la primera semana](examples/client_delivery/semana_01/INICIO.html): caso, motivo, siguiente paso, rol sugerido y evidencia |
+| Conciliar saldos y servicios | [Gerencia.xlsx](examples/client_delivery/semana_01/Gerencia.xlsx): siete hojas curadas, filtros, importes MXN y faltantes |
+| Acordar responsables y fechas | [Seguimiento.xlsx](examples/client_delivery/semana_01/Seguimiento.xlsx): revisión editable, origen verificable y evidencia de cierre |
+| Preparar sus propios datos | [Plantilla vacía](examples/client_data/client_input_blank.xlsx): Config, Instrucciones, Ordenes, Facturas, Pagos e Inventario |
+| Revisar la siguiente semana | [Comparación](examples/client_delivery/comparacion/COMPARACION.html): saldos, estados, señales persistentes y cobertura |
+| Acordar una entrega profesional | [Playbook](docs/CLIENT-PLAYBOOK.md), [aceptación](docs/CLIENT-ACCEPTANCE.md) y [alcance comercial](docs/OFERTA-CONSULTORIA.md) |
 
-Las seis vistas analíticas son `mart_service_journey`, `mart_receivables`, `mart_daily_operations`, `mart_fleet_scorecard`, `mart_inventory` y `mart_process_waits`.
+La práctica usa seis órdenes, dos facturas y sus pagos, y dos partes. INV-001 tiene importe $1,500 y pago $500: saldo $1,000. En la segunda semana ficticia aparece otro pago de $400: saldo $600. El cambio se reconcilia; no se presenta como recuperación atribuible a la consultoría.
 
-La suite integrada actual pasa sin fallas ni errores; el conteo exacto pertenece al recibo de verificación del mismo estado fuente para evitar cifras congeladas. Excel COM abrió y recalculó las 36 hojas: seis fórmulas, cero errores y conciliación con SQL.
+## Preparar una corrida local
 
-El corte de datos permanece fijo en `2026-09-21T18:00:00Z`. Las ejecuciones nativas ocurrieron el 2026-09-22 y no adelantan, reescriben ni hacen actuales los datos del escenario.
+En Windows, ejecute `Setup.ps1` una vez (Python 3.12+). El paquete offline incluye dependencias para Windows 3.12; Python debe estar instalado. Después arrastre el Excel a **Run-Cliente.cmd**: genera una carpeta nueva en `private/clients/` y abre el informe. Con doble clic sin archivo abre la guía.
 
-## Generar el workbench
-
-Requiere Python 3.12+.
-
-Windows:
+También puede usar los comandos explícitos:
 
 ```powershell
-.\Setup.ps1
-.\Run-Studio.cmd
+.\.venv\Scripts\python.exe -m milenio client-template --output private/clients/Entrada.xlsx
+.\.venv\Scripts\python.exe -m milenio client-analyze --input private/clients/Entrada.xlsx
 ```
 
-Linux:
+Antes de analizar complete Config: negocio, corte ISO con zona horaria, identificador y modo de datos. Para una copia autorizada del cliente marque `synthetic=false`; su salida queda restringida a `private/`. Se admiten los CSV del [contrato mínimo](docs/CLIENT-DATA-CONTRACT.md).
 
-```bash
-python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python -m milenio studio --output artifacts/workbench-v2 --days 90
-```
+En Linux use un entorno virtual, `pip install -r requirements.txt` y los mismos comandos con su intérprete. No requiere servicio, base remota ni llamada de modelo.
 
-`Run-Studio.cmd` abre primero el dossier existente en `artifacts/workbench-v2`. Si todavía no existe, genera esa entrega; al terminar, ejecute el launcher otra vez o abra `DOSSIER.html`. Para conservar la entrega publicada y construir otra, use una carpeta nueva:
+## Revisión y continuidad
 
 ```powershell
-.\.venv\Scripts\python.exe -m milenio studio --output artifacts/workbench-review-02 --days 90
+.\.venv\Scripts\python.exe -m milenio client-review `
+  --input private/clients/corte-01/Seguimiento.xlsx `
+  --report private/clients/corte-01 --reviewer "Nombre y rol declarados"
+.\.venv\Scripts\python.exe -m milenio client-compare `
+  --before private/clients/corte-01 --after private/clients/corte-02 `
+  --output private/clients/comparacion-01-02
+.\.venv\Scripts\python.exe -m milenio client-verify --input private/clients/corte-01
 ```
 
-`studio` nunca sobrescribe una carpeta proporcionada. La construcción usa staging y solo publica la carpeta final cuando SQL, marts, agentes base, libro y artefactos terminan correctamente.
+Cada corrida conserva datos normalizados, tablas SQLite, análisis y hashes. El seguimiento y el historial de revisión son mutables y están excluidos explícitamente del recibo inmutable. Una revisión importada es una declaración humana: no acredita identidad ni ejecución. Un registro ausente en el corte siguiente no se considera resuelto. Los errores impiden generar un reporte parcial.
 
-### Reanalizar una entrada sintética
+## Estudio profundo y agentes V2
 
-La entrega exporta `dataset.json`, `events.json` y `journeys.json`. Puede reproducirlos en una ruta nueva:
+El [dossier V2](artifacts/workbench-v2/DOSSIER.html) conserva 33 tablas físicas, 36 hojas Excel, seis procesos y nueve agentes. Los nueve perfiles completaron dos etapas con la CLI oficial Codex sobre datos sintéticos; los recibos verifican ejecución y evidencia, no eficacia del negocio.
 
-```powershell
-.\.venv\Scripts\python.exe -m milenio studio `
-  --input artifacts/workbench-v2/dataset.json `
-  --events artifacts/workbench-v2/events.json `
-  --journeys artifacts/workbench-v2/journeys.json `
-  --output artifacts/reanalisis
-```
+Consulte el [recorrido V2](docs/V2-WALKTHROUGH.md), el [runtime de agentes](docs/AGENT-RUNTIME.md) y las [especificaciones](specs/). `Run-Studio.cmd`, `studio`, `agents`, `agent` y los comandos V1 siguen disponibles. V2 mantiene su contrato completo sintético y fecha fija; V3 tiene contrato separado y corte declarado. No envía datos del cliente a agentes en segundo plano.
 
-También admite una carpeta completa de 25 CSV sintéticos:
+## Alcance de esta entrega
 
-```powershell
-.\.venv\Scripts\python.exe -m milenio studio `
-  --input artifacts/demo/csv `
-  --output artifacts/reanalisis-csv
-```
+Las prioridades ayudan a revisar cartera, taller, conciliación y partes. No calculan utilidad, capacidad disponible ni SLA contractual con datos insuficientes. Los totales no presumen cobertura de todo el negocio ni suman colas superpuestas. Pagos omitidos pueden sobrestimar saldos.
 
-Sin `--events` ni `--journeys`, el workbench genera sus 36 hojas pero conserva historia y atribución como `unknown`; no inventa transiciones o enlaces. Este adaptador acepta solo el contrato sintético y el corte fijo `DEMO_NOW`, no datos de producción.
+Use alias: no hay anonimización automática. `private/` está excluido de Git y del paquete; no equivale a cifrado ni control de acceso empresarial. Un piloto real requiere una fuente autorizada y acuerdo de acceso/retención. Esta versión se verificó con datos ficticios; la adopción y el impacto real están pendientes.
 
-## Recorrido de cinco minutos
+El producto no contacta, agenda, despacha, compra, emite facturas, mueve dinero ni cambia estados de negocio. Las personas conservan esas decisiones.
 
-1. Abra `artifacts/workbench-v2/DOSSIER.html` y revise las secciones de operación, cartera, flotillas, inventario, procesos y agentes.
-2. Abra `Milenio_Analisis.xlsx`: la hoja `INICIO` concilia facturado, cobrado y saldo; las otras 33 hojas permiten filtrar el dato físico.
-3. Busque `WO-003` en `work_orders`: es una orden sintética `waiting_parts`, bloqueada por `Falta filtro`, sin QC ni asignación. Compárela con su replay y con el mart de servicios.
-4. Abra un mapa en `processes/*.svg` y su SOP homólogo `.md`; el JSON es la definición autoritativa para validación y visualización, no un motor BPMN operativo.
-5. Revise `receipt.json` y `workbook_check.json` antes de usar cualquier conclusión.
-6. Abra [DECISIONES.md](artifacts/workbench-v2/DECISIONES.md) y [review_queue.csv](artifacts/workbench-v2/review_queue.csv): todas las propuestas empiezan `pending`; los campos de decisión humana están vacíos, sin aprobación fabricada.
-
-El recorrido completo está en [docs/V2-WALKTHROUGH.md](docs/V2-WALKTHROUGH.md).
-
-## Mesa de agentes
-
-Liste los nueve perfiles y sus límites:
-
-```powershell
-.\.venv\Scripts\python.exe -m milenio agents
-```
-
-La línea base local no invoca un modelo:
-
-```powershell
-.\.venv\Scripts\python.exe -m milenio agent `
-  --warehouse artifacts/workbench-v2/warehouse.sqlite `
-  --output artifacts/agent-runs/operations-rules `
-  --id operations_controller `
-  --backend rules
-```
-
-El modo `native_codex` es opt-in y usa la CLI oficial fijada en `0.155.1` con la cuenta Codex ya autenticada, sin API de pago. `Setup-Agents.ps1` instala ese runtime por separado y define `MILENIO_CODEX_BIN` para la terminal actual:
-
-```powershell
-.\Setup-Agents.ps1
-.\.venv\Scripts\python.exe -m milenio agent `
-  --warehouse artifacts/workbench-v2/warehouse.sqlite `
-  --output artifacts/agent-runs/operations-native `
-  --id operations_controller `
-  --backend native_codex `
-  --timeout 300
-```
-
-La ejecución hace dos etapas: selección acotada de evidencia y métricas, seguida por diagnóstico, alternativas y borradores para revisión. Los nueve perfiles completaron este recorrido mediante la CLI oficial: 18 eventos `turn.completed`, recibos finales `verified_two_stage_local_cli` y cero acciones externas. Esto verifica ejecución y controles, no efectividad. La revisión corrigió la selección de facturas/pagos, el alcance de flotillas y la distinción entre muestra y total. Los borradores conservan revisión humana pendiente.
-
-Para construir una entrega nueva que ejecute los nueve perfiles nativos, use `Setup-Agents.ps1` y después `python -m milenio studio --native --output <carpeta-nueva>`. Es una acción opt-in y puede tardar; nunca se activa en silencio.
-
-Registrar una decisión local no ejecuta acciones externas:
-
-```powershell
-.\.venv\Scripts\python.exe -m milenio review `
-  --run artifacts/agent-runs/operations-native `
-  --reviewer "Responsable de taller" `
-  --decision needs_information `
-  --note "Confirmar disponibilidad real de la pieza antes de decidir."
-```
-
-## Qué puede decidir y qué no
-
-El workbench ayuda a revisar WIP, esperas, cartera, SLA elegible, inventario y siguientes preguntas. No contacta clientes, agenda, despacha grúas, compra partes, fija precios, emite documentos fiscales, cambia estados de negocio o mueve dinero. Las propuestas y aprobaciones son artefactos internos de revisión.
-
-Para crecimiento, consulte [docs/GROWTH-RESEARCH.md](docs/GROWTH-RESEARCH.md): propone investigación con fuentes oficiales y un puntaje de calificación, sin convertir el estrato de personal ocupado del DENUE en tamaño de flotilla ni fabricar contactos o leads.
-
-## Documentación V2
-
-- [Inventario y criterios de aceptación](ENTREGA-MILENIO.md)
-- [Recorrido práctico del workbench](docs/V2-WALKTHROUGH.md)
-- [Investigación de crecimiento](docs/GROWTH-RESEARCH.md)
-- [Eficiencia del proyecto](docs/PROJECT-EFFICIENCY.md)
-- [Modelo físico](docs/DATA-MODEL.md), [runtime de agentes](docs/AGENT-RUNTIME.md) y [replay de procesos](docs/PROCESS-MINING.md)
-- [Procesos](processes/) y [especificaciones](specs/)
-
-## V1 histórico
-
-La entrega batch V1 permanece como referencia de compatibilidad y pruebas (`demo`, `analyze`, reportes Markdown/HTML). No es la entrada principal. V2 añade tablas físicas tipadas, historia explícita, marts, mapas, especificaciones, libro Excel y workbench de agentes.
-
-Repositorio público autorizado: `erickinorganico/taller-milenio-operations-analytics`. Licencia MIT.
+Verificación: `python -m milenio verify --output artifacts/client-verification.json`. El [contrato V3](specs/client-delivery.md) y el [recibo de pruebas](artifacts/client-verification.json) describen el alcance comprobado. Repositorio público autorizado, licencia MIT.

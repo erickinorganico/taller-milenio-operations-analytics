@@ -27,3 +27,6 @@ artifacts/*
 !artifacts/v2-verification.xml
 .playwright-cli/
 output/
+private/
+!artifacts/client-verification.json
+!artifacts/client-verification.xml

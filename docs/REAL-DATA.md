@@ -1,8 +1,8 @@
-# Ruta futura hacia exports reales
+# Copias locales autorizadas del cliente
 
 ## Estado
 
-La primera versión procesa fixtures sintéticos. Publicar el repositorio no autoriza datos reales, conexiones, mensajes ni acciones del negocio. Esta guía no activa un piloto.
+V3 implementa un adaptador separado de Excel/CSV para copias locales autorizadas, con corte explícito, validación y salida privada. El contrato completo V1/V2 sigue siendo sintético. Publicar el repositorio no autoriza a obtener datos reales, conexiones, mensajes ni acciones del negocio. Esta guía no activa un piloto: no se han recibido datos reales del cliente.
 
 ## Checklist previo
 
@@ -28,16 +28,11 @@ La primera versión procesa fixtures sintéticos. Publicar el repositorio no aut
 
 **Aceptación/rollback:** obtenga aceptación por módulo y conserve fuente, mapping, errores, hashes y respaldo. Un control fallido retira artefactos derivados; no se corrigen outputs finales a mano.
 
-## Cambios técnicos requeridos
+## Controles implementados y trabajo de adopción
 
-- configuración real separada y deshabilitada por defecto;
-- política de acceso/cifrado y redacción;
-- adapters por fuente con pruebas contractuales;
-- reloj/cutoff real separado de demo;
-- retención/eliminación y backups;
-- calidad/drift/volumen/recuperación;
-- revisión fiscal, contable y vial competente;
-- aprobación explícita para integraciones salientes.
+Implementado: contrato mínimo separado, synthetic=false declarado, salida restringida a private/, exclusión de Git/empaquetado, corte explícito, validación de referencias/fechas/importes y comparación entre cortes. No hay conectores, llamadas de modelos ni ejecución de macros. Consulte CLIENT-DATA-CONTRACT.md y CLIENT-PLAYBOOK.md.
+
+El responsable del piloto todavía debe acordar acceso, cifrado si aplica, retención, eliminación, respaldos, cobertura y control totals con la fuente. El adaptador conserva las referencias aportadas: no redacciona automáticamente. No se autoriza una integración saliente ni se certifica operación fiscal, contable o vial.
 
 ## Principios
 

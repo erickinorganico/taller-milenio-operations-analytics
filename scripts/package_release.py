@@ -29,7 +29,7 @@ def _reject_sensitive(path: Path):
 def _safe_relative(path: Path) -> str:
     relative = path.resolve().relative_to(ROOT.resolve()).as_posix()
     parts = Path(relative).parts
-    if not parts or any(part in {"..", "."} for part in parts) or any(part in FORBIDDEN for part in parts):
+    if not parts or any(part in {"..", "."} for part in parts) or any(part.casefold() in FORBIDDEN for part in parts):
         raise ValueError(f"unsafe package path: {relative}")
     return relative
 
@@ -128,6 +128,13 @@ def build(output: Path, bundle: Path | None = None, wheelhouse: Path | None = No
     if output.parent == output or output.parent == ROOT.parent:
         raise ValueError("unsafe output directory")
     entries: dict[str, Path] = {}
+    client_examples = ROOT / 'examples' / 'client_delivery'
+    if client_examples.exists():
+        from milenio.client_delivery import verify_client
+        for receipt in client_examples.rglob('receipt.json'):
+            verified = verify_client(receipt.parent)
+            if verified.get('synthetic') is not True:
+                raise ValueError('client examples in a public release must be synthetic')
     reserved_prefix = "source/artifacts/demo/"
     studio_prefix = "source/artifacts/workbench-v2/"
     for path in _tracked():

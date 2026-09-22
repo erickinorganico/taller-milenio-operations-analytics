@@ -1,0 +1,488 @@
+{
+  "action_continuity": [
+    {
+      "action_id": "cartera-f8edcf6127e8ad7d",
+      "human_review": null,
+      "state": "still_flagged",
+      "title": "Revisar saldo vencido · INV-001"
+    },
+    {
+      "action_id": "facturacion-04c3834e2cba4e89",
+      "human_review": null,
+      "state": "still_flagged",
+      "title": "Conciliar servicio entregado · ORD-004"
+    },
+    {
+      "action_id": "facturacion-e0fb4f2947b66a33",
+      "human_review": null,
+      "state": "new",
+      "title": "Conciliar servicio entregado · ORD-003"
+    },
+    {
+      "action_id": "inventario-1ab747dd7d3bf020",
+      "human_review": null,
+      "state": "not_flagged_now_requires_review",
+      "title": "Revisar disponibilidad · PART-001"
+    },
+    {
+      "action_id": "servicio-5b75daab06a2ef21",
+      "human_review": null,
+      "state": "not_flagged_now_requires_review",
+      "title": "Desbloquear revisión · ORD-001"
+    },
+    {
+      "action_id": "servicio-742dc2b7d30e74a7",
+      "human_review": null,
+      "state": "still_flagged",
+      "title": "Revisar compromiso vencido · ORD-002"
+    },
+    {
+      "action_id": "servicio-e0fb4f2947b66a33",
+      "human_review": null,
+      "state": "not_flagged_now_requires_review",
+      "title": "Revisar compromiso vencido · ORD-003"
+    }
+  ],
+  "after_snapshot": "demo-semana-02",
+  "before_snapshot": "demo-semana-01",
+  "changes": [
+    {
+      "after": {
+        "aging_bucket": "1–14 días",
+        "amount_cents": 150000,
+        "balance_cents": 60000,
+        "customer_ref": "CUST-002",
+        "days_overdue": 9,
+        "due_at": "2026-09-20T12:00:00Z",
+        "invoice_id": "INV-001",
+        "issued_at": "2026-09-13T12:00:00Z",
+        "order_id": "ORD-002",
+        "overdue": true,
+        "paid_cents": 90000,
+        "payment_ids": [
+          "PAY-001",
+          "PAY-003"
+        ],
+        "status": "issued"
+      },
+      "balance_change_cents": -40000,
+      "before": {
+        "aging_bucket": "1–14 días",
+        "amount_cents": 150000,
+        "balance_cents": 100000,
+        "customer_ref": "CUST-002",
+        "days_overdue": 2,
+        "due_at": "2026-09-20T12:00:00Z",
+        "invoice_id": "INV-001",
+        "issued_at": "2026-09-13T12:00:00Z",
+        "order_id": "ORD-002",
+        "overdue": true,
+        "paid_cents": 50000,
+        "payment_ids": [
+          "PAY-001"
+        ],
+        "status": "issued"
+      },
+      "observed_payment_increase_cents": 40000,
+      "record_id": "INV-001",
+      "state": "observed_in_both",
+      "table": "receivables"
+    },
+    {
+      "after": {
+        "aging_bucket": "Liquidada",
+        "amount_cents": 80000,
+        "balance_cents": 0,
+        "customer_ref": "CUST-005",
+        "days_overdue": 8,
+        "due_at": "2026-09-21T12:00:00Z",
+        "invoice_id": "INV-002",
+        "issued_at": "2026-09-11T12:00:00Z",
+        "order_id": "ORD-006",
+        "overdue": false,
+        "paid_cents": 80000,
+        "payment_ids": [
+          "PAY-002"
+        ],
+        "status": "issued"
+      },
+      "balance_change_cents": 0,
+      "before": {
+        "aging_bucket": "Liquidada",
+        "amount_cents": 80000,
+        "balance_cents": 0,
+        "customer_ref": "CUST-005",
+        "days_overdue": 1,
+        "due_at": "2026-09-21T12:00:00Z",
+        "invoice_id": "INV-002",
+        "issued_at": "2026-09-11T12:00:00Z",
+        "order_id": "ORD-006",
+        "overdue": false,
+        "paid_cents": 80000,
+        "payment_ids": [
+          "PAY-002"
+        ],
+        "status": "issued"
+      },
+      "observed_payment_increase_cents": 0,
+      "record_id": "INV-002",
+      "state": "observed_in_both",
+      "table": "receivables"
+    },
+    {
+      "after": {
+        "age_hours": 462.0,
+        "billing_observation": "No evaluada",
+        "block_reason": null,
+        "customer_ref": "CUST-001",
+        "delivered_at": null,
+        "estimated_hours": 3.5,
+        "invoice_ids": [],
+        "open": true,
+        "order_id": "ORD-001",
+        "overdue": false,
+        "promised_at": "2026-09-30T18:00:00Z",
+        "received_at": "2026-09-10T12:00:00Z",
+        "segment": "particular",
+        "status": "in_service",
+        "technician_ref": "TECH-01"
+      },
+      "balance_change_cents": null,
+      "before": {
+        "age_hours": 294.0,
+        "billing_observation": "No evaluada",
+        "block_reason": "Filtro pendiente",
+        "customer_ref": "CUST-001",
+        "delivered_at": null,
+        "estimated_hours": 3.5,
+        "invoice_ids": [],
+        "open": true,
+        "order_id": "ORD-001",
+        "overdue": true,
+        "promised_at": "2026-09-14T12:00:00Z",
+        "received_at": "2026-09-10T12:00:00Z",
+        "segment": "particular",
+        "status": "waiting_parts",
+        "technician_ref": "TECH-01"
+      },
+      "observed_payment_increase_cents": null,
+      "record_id": "ORD-001",
+      "state": "observed_in_both",
+      "table": "service"
+    },
+    {
+      "after": {
+        "age_hours": 414.0,
+        "billing_observation": "Con factura vinculada",
+        "block_reason": null,
+        "customer_ref": "CUST-002",
+        "delivered_at": null,
+        "estimated_hours": 5.0,
+        "invoice_ids": [
+          "INV-001"
+        ],
+        "open": true,
+        "order_id": "ORD-002",
+        "overdue": true,
+        "promised_at": "2026-09-18T12:00:00Z",
+        "received_at": "2026-09-12T12:00:00Z",
+        "segment": "fleet",
+        "status": "in_service",
+        "technician_ref": "TECH-02"
+      },
+      "balance_change_cents": null,
+      "before": {
+        "age_hours": 246.0,
+        "billing_observation": "Con factura vinculada",
+        "block_reason": null,
+        "customer_ref": "CUST-002",
+        "delivered_at": null,
+        "estimated_hours": 5.0,
+        "invoice_ids": [
+          "INV-001"
+        ],
+        "open": true,
+        "order_id": "ORD-002",
+        "overdue": true,
+        "promised_at": "2026-09-18T12:00:00Z",
+        "received_at": "2026-09-12T12:00:00Z",
+        "segment": "fleet",
+        "status": "in_service",
+        "technician_ref": "TECH-02"
+      },
+      "observed_payment_increase_cents": null,
+      "record_id": "ORD-002",
+      "state": "observed_in_both",
+      "table": "service"
+    },
+    {
+      "after": {
+        "age_hours": 390.0,
+        "billing_observation": "Sin factura vinculada en el extracto",
+        "block_reason": null,
+        "customer_ref": "CUST-001",
+        "delivered_at": "2026-09-26T18:00:00Z",
+        "estimated_hours": 2.0,
+        "invoice_ids": [],
+        "open": false,
+        "order_id": "ORD-003",
+        "overdue": false,
+        "promised_at": "2026-09-20T12:00:00Z",
+        "received_at": "2026-09-13T12:00:00Z",
+        "segment": "particular",
+        "status": "delivered",
+        "technician_ref": "TECH-01"
+      },
+      "balance_change_cents": null,
+      "before": {
+        "age_hours": 222.0,
+        "billing_observation": "No evaluada",
+        "block_reason": null,
+        "customer_ref": "CUST-001",
+        "delivered_at": null,
+        "estimated_hours": 2.0,
+        "invoice_ids": [],
+        "open": true,
+        "order_id": "ORD-003",
+        "overdue": true,
+        "promised_at": "2026-09-20T12:00:00Z",
+        "received_at": "2026-09-13T12:00:00Z",
+        "segment": "particular",
+        "status": "ready",
+        "technician_ref": "TECH-01"
+      },
+      "observed_payment_increase_cents": null,
+      "record_id": "ORD-003",
+      "state": "observed_in_both",
+      "table": "service"
+    },
+    {
+      "after": {
+        "age_hours": 534.0,
+        "billing_observation": "Sin factura vinculada en el extracto",
+        "block_reason": null,
+        "customer_ref": "CUST-003",
+        "delivered_at": "2026-09-15T12:00:00Z",
+        "estimated_hours": 4.0,
+        "invoice_ids": [],
+        "open": false,
+        "order_id": "ORD-004",
+        "overdue": false,
+        "promised_at": "2026-09-12T12:00:00Z",
+        "received_at": "2026-09-07T12:00:00Z",
+        "segment": "particular",
+        "status": "delivered",
+        "technician_ref": "TECH-03"
+      },
+      "balance_change_cents": null,
+      "before": {
+        "age_hours": 366.0,
+        "billing_observation": "Sin factura vinculada en el extracto",
+        "block_reason": null,
+        "customer_ref": "CUST-003",
+        "delivered_at": "2026-09-15T12:00:00Z",
+        "estimated_hours": 4.0,
+        "invoice_ids": [],
+        "open": false,
+        "order_id": "ORD-004",
+        "overdue": false,
+        "promised_at": "2026-09-12T12:00:00Z",
+        "received_at": "2026-09-07T12:00:00Z",
+        "segment": "particular",
+        "status": "delivered",
+        "technician_ref": "TECH-03"
+      },
+      "observed_payment_increase_cents": null,
+      "record_id": "ORD-004",
+      "state": "observed_in_both",
+      "table": "service"
+    },
+    {
+      "after": {
+        "age_hours": 654.0,
+        "billing_observation": "No evaluada",
+        "block_reason": "Cliente canceló",
+        "customer_ref": "CUST-004",
+        "delivered_at": null,
+        "estimated_hours": null,
+        "invoice_ids": [],
+        "open": false,
+        "order_id": "ORD-005",
+        "overdue": false,
+        "promised_at": "2026-09-04T12:00:00Z",
+        "received_at": "2026-09-02T12:00:00Z",
+        "segment": "fleet",
+        "status": "cancelled",
+        "technician_ref": null
+      },
+      "balance_change_cents": null,
+      "before": {
+        "age_hours": 486.0,
+        "billing_observation": "No evaluada",
+        "block_reason": "Cliente canceló",
+        "customer_ref": "CUST-004",
+        "delivered_at": null,
+        "estimated_hours": null,
+        "invoice_ids": [],
+        "open": false,
+        "order_id": "ORD-005",
+        "overdue": false,
+        "promised_at": "2026-09-04T12:00:00Z",
+        "received_at": "2026-09-02T12:00:00Z",
+        "segment": "fleet",
+        "status": "cancelled",
+        "technician_ref": null
+      },
+      "observed_payment_increase_cents": null,
+      "record_id": "ORD-005",
+      "state": "observed_in_both",
+      "table": "service"
+    },
+    {
+      "after": {
+        "age_hours": 606.0,
+        "billing_observation": "Con factura vinculada",
+        "block_reason": null,
+        "customer_ref": "CUST-005",
+        "delivered_at": "2026-09-10T12:00:00Z",
+        "estimated_hours": 6.0,
+        "invoice_ids": [
+          "INV-002"
+        ],
+        "open": false,
+        "order_id": "ORD-006",
+        "overdue": false,
+        "promised_at": "2026-09-08T12:00:00Z",
+        "received_at": "2026-09-04T12:00:00Z",
+        "segment": "fleet",
+        "status": "delivered",
+        "technician_ref": "TECH-02"
+      },
+      "balance_change_cents": null,
+      "before": {
+        "age_hours": 438.0,
+        "billing_observation": "Con factura vinculada",
+        "block_reason": null,
+        "customer_ref": "CUST-005",
+        "delivered_at": "2026-09-10T12:00:00Z",
+        "estimated_hours": 6.0,
+        "invoice_ids": [
+          "INV-002"
+        ],
+        "open": false,
+        "order_id": "ORD-006",
+        "overdue": false,
+        "promised_at": "2026-09-08T12:00:00Z",
+        "received_at": "2026-09-04T12:00:00Z",
+        "segment": "fleet",
+        "status": "delivered",
+        "technician_ref": "TECH-02"
+      },
+      "observed_payment_increase_cents": null,
+      "record_id": "ORD-006",
+      "state": "observed_in_both",
+      "table": "service"
+    },
+    {
+      "after": {
+        "available": 7,
+        "description": "Filtro de aceite",
+        "gap_units": 0,
+        "on_hand": 8,
+        "part_id": "PART-001",
+        "reorder_point": 2,
+        "reserved": 1,
+        "unit_cost_cents": 25000
+      },
+      "balance_change_cents": null,
+      "before": {
+        "available": -2,
+        "description": "Filtro de aceite",
+        "gap_units": 4,
+        "on_hand": 1,
+        "part_id": "PART-001",
+        "reorder_point": 2,
+        "reserved": 3,
+        "unit_cost_cents": 25000
+      },
+      "observed_payment_increase_cents": null,
+      "record_id": "PART-001",
+      "state": "observed_in_both",
+      "table": "inventory"
+    },
+    {
+      "after": {
+        "available": 18,
+        "description": "Bujía",
+        "gap_units": 0,
+        "on_hand": 20,
+        "part_id": "PART-002",
+        "reorder_point": 5,
+        "reserved": 2,
+        "unit_cost_cents": 9000
+      },
+      "balance_change_cents": null,
+      "before": {
+        "available": 18,
+        "description": "Bujía",
+        "gap_units": 0,
+        "on_hand": 20,
+        "part_id": "PART-002",
+        "reorder_point": 5,
+        "reserved": 2,
+        "unit_cost_cents": 9000
+      },
+      "observed_payment_increase_cents": null,
+      "record_id": "PART-002",
+      "state": "observed_in_both",
+      "table": "inventory"
+    }
+  ],
+  "limits": [
+    "Un registro ausente no se considera cobrado, entregado ni resuelto.",
+    "Las variaciones observadas no demuestran impacto de la consultoría.",
+    "Los importes modificados requieren conciliación; comparar cobertura antes de comparar totales."
+  ],
+  "metadata": {
+    "as_of": "2026-09-29T18:00:00Z",
+    "assumptions": {},
+    "business_name": "Taller demostrativo · datos ficticios",
+    "date_convention": "ISO-8601 con zona horaria; celdas Excel nativas sin zona se interpretan como UTC",
+    "money_convention": "Decimal MXN exacto convertido a integer cents; máximo dos decimales",
+    "quality": {
+      "cancelled_orders_excluded_from_open_work": 1,
+      "counts": {
+        "inventory": 2,
+        "invoices": 2,
+        "orders": 6,
+        "payments": 3
+      },
+      "cutoff": "2026-09-29T18:00:00Z",
+      "delivered_orders_without_issued_invoice": [
+        "ORD-003",
+        "ORD-004"
+      ],
+      "has_data": true,
+      "inventory_at_or_below_reorder_point": [],
+      "inventory_shortage_parts": [],
+      "overdue_partial_invoice_ids": [
+        "INV-001"
+      ],
+      "settled_invoice_ids": [
+        "INV-002"
+      ],
+      "unknown_optional_values": {
+        "block_reason": 5,
+        "delivered_at": 3,
+        "estimated_hours": 1,
+        "invoice_order_id": 0,
+        "promised_at": 0,
+        "technician_ref": 1,
+        "unit_cost_cents": 0
+      }
+    },
+    "snapshot_id": "demo-semana-02",
+    "source_kind": "workbook",
+    "synthetic": true
+  }
+}
