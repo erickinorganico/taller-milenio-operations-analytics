@@ -1,10 +1,13 @@
-# Deterministic agent and ActionProposal contract
+# Agent and ActionProposal contracts
 
 ## What “agent” means here
 
-The nine agents are deterministic Python rules that inspect one validated synthetic snapshot and return evidence-bearing drafts. They do not call an LLM, API, browser, inbox, CRM, dispatch system, payment system, or external tool.
+There are two explicit modes with the same nine role IDs:
 
-The evaluation proves schema, grounding, policy invariants, and deterministic behavior. It is **not** an LLM-quality, human-utility, latency, token-saving, dollar-saving, operational-performance, or business-impact evaluation.
+- **V1 deterministic proposals:** Python rules inspect one validated synthetic snapshot and return schema-bound `ActionProposal` drafts. This historical pipeline path does not call an LLM.
+- **V2 governed workbench:** `milenio.agent_runtime` supports the same deterministic `rules` baseline plus opt-in `native_codex`. Native mode uses the locally authenticated Codex subscription CLI in two model calls: bounded evidence/metric selection, then a final diagnosis and review package. It has no browser, inbox, CRM, dispatch, payment, arbitrary SQL, or outbound tool.
+
+Evaluation proves schema, grounding, policy invariants and bounded tool behavior. It is **not** proof of LLM quality, human utility, latency improvement, token or dollar savings, operational performance, or business impact.
 
 ## Agent catalog
 
@@ -47,9 +50,22 @@ Every generated proposal must match `contracts/action_proposal.schema.json` exac
 
 No additional fields are allowed. Evidence has 1–100 items. `value` must canonically equal the referenced snapshot field and `version` must match the source record. IDs are deterministic digests of agent/title/evidence inputs.
 
-## Lifecycle
+## V1 proposal lifecycle
 
-The only generated status is `pending`. The public output contains no approve, reject, apply, execute, send, dispatch, charge, or mutate adapter. Human review occurs outside the execution path. If a future product records a decision, it requires a separate contract and still must not equate approval with external execution.
+The only generated `ActionProposal` status is `pending`. The public output contains no apply, execute, send, dispatch, charge, or mutate adapter.
+
+V2 adds a local `review` annotation (`approved`, `rejected`, or `needs_information`) to an agent run. This records a human decision beside the evidence package; it does not promote the proposal into an executable action or change source data.
+
+## V2 native runtime contract
+
+Native mode is open-ended reasoning inside a bounded evidence envelope:
+
+1. The first model call sees profile-scoped candidate cases and selects 1–12 exact evidence reads plus allowed metric IDs.
+2. Code validates every selected table, field, ID and metric. Metric SQL remains fixed and code-owned.
+3. The second model call receives only the validated evidence and canned metric results, then returns diagnosis, alternatives, manual next steps, missing information, sensitivity, workplan and review-only drafts.
+4. Completion rereads evidence and versions, checks the source hash and validates the structured response. Only matching successful receipts for both calls can set `model_invoked=true`.
+
+A failed native stage is preserved as a blocked run with its available evidence. It does not receive a success receipt, does not silently fall back to rules and is not deleted as if it never happened.
 
 ## Input requirements
 
@@ -57,7 +73,7 @@ Agents run only after the full dataset passes domain validation. Source proposal
 
 Imported snapshots without validated lifecycle events do not gain fictional observed history. The agent may use current snapshot evidence but must preserve unknown transition coverage. Only fixed `DEMO_NOW` is supported.
 
-## Evaluation contract
+## V1 evaluation contract
 
 `evaluate_proposals` checks:
 
@@ -72,10 +88,12 @@ Imported snapshots without validated lifecycle events do not gain fictional obse
 
 The result reports `mode=deterministic_read_only`, zero external tools, agents exercised, proposal count, and critical policy violations. Passing means the generated set met this bounded contract for that fixture.
 
-## Failure behavior
+## V1 failure behavior
 
 Unknown agents, invented/stale evidence, extra keys, duplicate IDs, empty text/evidence, `approval_required=false`, `external_execution=true`, or any non-pending generated status fail validation and prevent a successful pipeline receipt.
 
-## Laya and LLM position
+## Laya position
 
-No repeated LLM caller exists in the implemented path, so no Laya inference was run or integrated. Deterministic rules are the correct baseline for exact contracts. Any future classifier must begin as a separately evaluated shadow suggestion with multilingual/adversarial cases, `REVIEW`, deterministic fallback, and no authority over diagnosis, price, towing, contact, dispatch, or money.
+V2 now has an actual repeated two-stage model caller for open-ended evidence review. Exact schema validation, metric computation, scope checking and reconciliation remain deterministic because they are not classification or ranking problems.
+
+No suitable bounded, repeatedly invoked classification/ranking decision has been validated for replacement by Laya. Therefore no Laya execution or integration was performed, and no inference-, token- or cost-saving claim is made. If a future bounded classifier is identified, it must first run as an evaluated shadow suggestion with multilingual/adversarial cases, an explicit `REVIEW` state and deterministic fallback. It may never gain authority over diagnosis, price, towing, contact, dispatch or money.

@@ -32,7 +32,7 @@ Other users and processes on the same operating system are **not authenticated o
 | secret or private path published | bounded publication regex scan across source/templates/docs | heuristic only; not anonymization or secret-detection certification |
 | malicious or malformed input | strict fields/types/enums/IDs/refs/invariants; deep copy; fail-closed staging | a valid-looking synthetic assertion may still be false |
 | spreadsheet formula injection | exported text beginning with formula-like characters is escaped | downstream software/user may transform files again |
-| SQL injection or data mutation | fixed code-owned query files/identifiers; SQLite URI `mode=ro` and `query_only` | host actor can replace code/database outside the process |
+| SQL injection or data mutation | fixed code-owned metrics/identifiers; source connection uses SQLite `query_only=ON` | this is read-only enforcement in the connection, not SQLite immutable mode; a same-OS actor can replace code/database outside the process |
 | partial/corrupt package | new destination required; staging; receipt written after success; receipt verification rejects missing/extra/edited artifacts | interruption may leave a staging directory, not a successful delivery |
 | artifact tampering | SHA-256 manifest/content digest and root-only receipt exemption | tamper-evident, not tamperproof; malicious author can rewrite files and manifest |
 | false historical reconstruction | synthetic event provenance declared; imported snapshot without events grades history unknown | current-state snapshots cannot prove transition timing |
@@ -58,7 +58,9 @@ There are no real payment, bank, invoice-issuance, accounting, pricing, mapping,
 
 ## Agent boundary
 
-The named agents are deterministic report/proposal functions. They have no LLM provider, browser, messaging, dispatch, payment, or arbitrary tool interface. Generated evidence must match an existing entity, field, value, and version. A proposal is always pending and cannot be promoted into an executable action by this codebase.
+The historical V1 proposal path and V2 `rules` mode are deterministic. V2 also offers opt-in `native_codex`, which invokes the locally authenticated Codex subscription CLI twice: first to select bounded evidence/metrics, then to draft a review package. It has no browser, messaging, dispatch, payment, arbitrary SQL or outbound interface. Exact metrics remain code-owned.
+
+Every selected reference must resolve to an allowed table, field and ID; completed output evidence must match an existing value and version. Native failures remain blocked artifacts without a success receipt or silent deterministic fallback. A proposal or local review annotation cannot be promoted into an executable action by this codebase.
 
 ## Integrity versus authenticity
 
@@ -81,6 +83,6 @@ Before any real pilot: complete process discovery, approve the minimal extract, 
 
 ## Verified and unverified claims
 
-Verified locally: contract checks, controlled failure, overwrite protection, source immutability, reproducible content hashes, fixed cutoff, formula escaping, read-only SQL checks, proposal evidence boundaries, publication sentinel, and synthetic artifact generation.
+Verified locally: contract checks, controlled failure, overwrite protection, source-snapshot preservation, reproducible content hashes, fixed cutoff, formula escaping, read-only SQL checks, proposal evidence boundaries, publication sentinel, and synthetic artifact generation. Excel COM verification recalculated all six formula cells in the 36-sheet workbook with zero formula errors and reconciled results to SQL.
 
 Unverified: anonymity of arbitrary imports, resistance to a malicious same-OS actor, production scale, operational adoption, real SLA/capacity/financial correctness, towing safety, and business impact.
