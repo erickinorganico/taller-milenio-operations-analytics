@@ -42,6 +42,12 @@ jobs:
       - name: Verify published V2 delivery
         if: ${{ hashFiles('artifacts/workbench-v2/receipt.json') != '' }}
         run: python -m milenio verify-studio --input artifacts/workbench-v2
+      - name: Build client two-week journey
+        run: python scripts/build_client_demo.py --output artifacts/ci-client
+      - name: Verify first client snapshot
+        run: python -m milenio client-verify --input artifacts/ci-client/semana_01
+      - name: Verify published client delivery
+        run: python -m milenio client-verify --input examples/client_delivery/semana_01
       - name: Verify published sample
         run: python -m milenio verify-receipt --input artifacts/demo
       - name: Expected negative control

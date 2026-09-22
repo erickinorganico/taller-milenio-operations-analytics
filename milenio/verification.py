@@ -68,7 +68,7 @@ def verify_project(output):
     receipt = {"status": "pass" if successful else "fail", "tested_at_utc": datetime.now(timezone.utc).isoformat(),
                "tests": {"run": result.testsRun, "failures": len(result.failures), "errors": len(result.errors), "skipped": len(result.skipped)},
                "source_sha256": source_manifest(), "publication_scan": scan, "dependencies": dependencies,
-               "limitations": ["Synthetic snapshot only", "No operator discovery or real-system pilot", "No production dispatch, tax or accounting certification"]}
+               "limitations": ["Verification uses synthetic fixtures, including private-mode adapter tests", "No operator discovery or real-system pilot", "No production dispatch, tax or accounting certification"]}
     write_json(output, receipt)
     junit = ET.Element("testsuite", name="milenio", tests=str(result.testsRun), failures=str(len(result.failures)), errors=str(len(result.errors)))
     failures = {test.id(): info for test, info in result.failures}

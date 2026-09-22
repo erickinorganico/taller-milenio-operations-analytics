@@ -1,0 +1,3 @@
+ID de factura,ID de orden,Referencia cliente,Emitida en,Vencimiento,Importe MXN,Estado
+INV-001,ORD-002,CUST-002,2026-09-13T12:00:00Z,2026-09-20T12:00:00Z,1500.00,issued
+INV-002,ORD-006,CUST-005,2026-09-11T12:00:00Z,2026-09-21T12:00:00Z,800.00,issued

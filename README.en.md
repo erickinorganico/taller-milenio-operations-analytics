@@ -1,4 +1,13 @@
-# Taller Milenio · Analytics Workbench V2
+# Taller Milenio · Client delivery V3
+
+Start with [CLIENTE.html](CLIENTE.html): minimal Excel input, practical priorities,
+human follow-up, and a two-week comparison. The current [Spanish README](README.md)
+has the V3 commands. Authorized client copies use a separate local input contract
+and private output folder; public examples remain fictional. No real client pilot
+or measured business impact is claimed. The V2 technical reference below remains
+available and uses its original synthetic data contract and fixed cutoff.
+
+## V2 technical reference
 
 A local, reproducible delivery for reviewing operations, growth, and management controls with evidence. Start with the [V2 dossier](artifacts/workbench-v2/DOSSIER.html): it connects SQL tables, six formal processes, longitudinal metrics, an Excel workbook, and nine human-review agent profiles.
 

@@ -1,4 +1,17 @@
-# Entrega Milenio V2
+# Entrega Milenio V3
+
+La entrada principal es [CLIENTE.html](CLIENTE.html). Añade la plantilla mínima
+de datos, informe de prioridades, libro gerencial de siete hojas, seguimiento
+editable y comparación semanal. Las salidas de cliente se guardan en private/.
+Consulte el [playbook](docs/CLIENT-PLAYBOOK.md), el
+[contrato V3](specs/client-delivery.md) y la
+[aceptación pendiente de personas](docs/CLIENT-ACCEPTANCE.md).
+
+Los recorridos V3 se verificaron con datos ficticios. No se ha realizado un piloto
+real ni se ha obtenido aceptación de un cliente. El estudio V2 que sigue se
+conserva como profundidad técnica, con sus propios recibos y fecha de corte.
+
+## Inventario técnico V2 conservado
 
 ## Propósito
 

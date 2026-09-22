@@ -1,0 +1,31 @@
+{
+  "artifacts_sha256": {
+    "GUIA.html": "74a6ba735e2afa2c66a0b4e0961cf84b3fbf84465de51984ad6a45ff4231d323",
+    "Gerencia.xlsx": "ca44e7e959e5246e08436357c3ce6e8b1b69320033de26a130e2e6f75549b762",
+    "INICIO.html": "9a4cf29ba74c6bdacdab0bc37b6a316657248bd283b7e9c0e908ff61d7ea1783",
+    "Seguimiento_original.xlsx": "1950ac16c0a9a427cfa4b0660cbfdb20d431b33281a81a88e48634788436d11d",
+    "analysis.json": "51004a7c972f7f0946875cf4415e92f55a069153ce626abe08f921623b8e3744",
+    "snapshot.json": "0bca3ea4616191887cd68de73b539a16e2551694eaff1a0f11b2515dc05d5f02",
+    "warehouse.sqlite": "1d7f2f591d4f0657bde6c76611869a805ae2a5856aa1f3aa67179efda6b5b220"
+  },
+  "as_of": "2026-09-29T18:00:00Z",
+  "code_sha256": {
+    "client_actions.py": "428e528251ee0548b6961799951462b88cf0870c0e95c8eb053a3130db749837",
+    "client_decisions.py": "629c56ae3289fa8af1fedd1f1729b64306f22ee8f80889e96c0ee99f420e7422",
+    "client_delivery.py": "7a53787167751c2b9090d9fb7a158925eb0364ee4ad372c135ed5de65854c594",
+    "client_input.py": "78fa19ed19f5a8b42a5e72bc24312cc152adbba063cefed731e513964f589f0f"
+  },
+  "format": "milenio-client-v3",
+  "mutable_files": [
+    "REVISION.html",
+    "Seguimiento.xlsx",
+    "reviews.jsonl"
+  ],
+  "scope": "Integridad de artefactos inmutables; no acredita verdad de la fuente o aprobación humana.",
+  "snapshot_id": "demo-semana-02",
+  "source_hashes": {
+    "Entrada_semana_02.xlsx": "4409998b0eff6861f4300957b166d1b85bf268c9f95bc4636d615c98aa2c65ca"
+  },
+  "status": "pass",
+  "synthetic": true
+}

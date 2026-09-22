@@ -36,5 +36,4 @@ if ($Offline) {
 if ($LASTEXITCODE -ne 0) { throw 'Instalacion incompleta; para offline prepare .runtime\wheels' }
 & $envPython -c "import matplotlib,openpyxl,xlsxwriter; print('Entorno analitico listo: graficos, SQL y Excel.')"
 if ($LASTEXITCODE -ne 0) { throw 'Verificacion del entorno fallo' }
-Write-Output "Abra Run-Studio.cmd para revisar la entrega o ejecute: $envPython -m milenio studio --output artifacts/my-studio"
-
+Write-Output "Abra Run-Cliente.cmd para la guia; arrastre un Excel sobre ese archivo para generar un corte privado. Run-Studio.cmd conserva el estudio V2."

@@ -1,5 +1,10 @@
 # Product specification
 
+This document governs the full synthetic V2 workbench. The separate minimal
+client input and weekly review path is governed by [client-delivery.md](client-delivery.md).
+V3 accepts explicitly marked private client copies and arbitrary declared cutoffs
+without changing the V2 synthetic contract or authorizing access to real systems.
+
 ## Product boundary
 
 The product is an offline analytical decision toolkit. Input is a validated synthetic snapshot (JSON or the complete CSV entity set). Output is a versioned evidence package, process studio metadata, metrics, exceptions, deterministic proposals, reports and receipts. It is not a live application, workflow engine, CRM, ERP or dispatch system.

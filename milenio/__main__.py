@@ -6,8 +6,28 @@ from pathlib import Path
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="Taller Milenio — Analytics sintético local")
+    parser = argparse.ArgumentParser(description="Taller Milenio — Analítica local y revisión del cliente")
     sub = parser.add_subparsers(dest="command", required=True)
+    template = sub.add_parser('client-template', help='Plantilla Excel para un extracto mínimo del cliente')
+    template.add_argument('--output', required=True)
+    template.add_argument('--sample', action='store_true')
+    template.add_argument('--as-of', help='Corte ISO con zona horaria; obligatorio para muestra')
+    template.add_argument('--business', default='')
+    template.add_argument('--snapshot-id')
+    client = sub.add_parser('client-analyze', help='Analizar Excel/CSV local; salidas de cliente sólo en private/')
+    client.add_argument('--input', required=True)
+    client.add_argument('--output', help='Carpeta nueva; por defecto private/clients/<id-fecha>')
+    client.add_argument('--errors', help='Escribir errores de calidad en una ruta privada JSON')
+    cr = sub.add_parser('client-review', help='Importar anotaciones humanas del libro de seguimiento')
+    cr.add_argument('--input', required=True)
+    cr.add_argument('--report', required=True)
+    cr.add_argument('--reviewer', required=True)
+    cc = sub.add_parser('client-compare', help='Comparar dos cortes sin asumir resueltos los registros ausentes')
+    cc.add_argument('--before', required=True)
+    cc.add_argument('--after', required=True)
+    cc.add_argument('--output', required=True)
+    cv = sub.add_parser('client-verify', help='Validar integridad de la entrega de cliente')
+    cv.add_argument('--input', required=True)
     studio = sub.add_parser("studio", help="Entrega integrada con tablas físicas, procesos, agentes y Excel")
     studio.add_argument("--output", default="artifacts/workbench-v2")
     studio.add_argument("--days", type=int, default=90)
@@ -50,6 +70,9 @@ def main(argv=None):
     export.add_argument("--db", required=True)
     export.add_argument("--output", required=True)
     args = parser.parse_args(argv)
+    if args.command.startswith('client-'):
+        from .client_delivery import run_client_command
+        return run_client_command(args)
     if args.command == 'studio':
         from .studio import build_studio
         print(json.dumps(build_studio(args.output,args.days,args.native,args.input,args.events,args.journeys),ensure_ascii=True))
