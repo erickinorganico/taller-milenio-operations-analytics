@@ -3,7 +3,9 @@
 ## Core value
 El personal puede llevar un vehículo desde recepción hasta entrega y cobro; gerencia puede explicar tiempos, costos y pendientes a partir de esos mismos registros. Las acciones sugeridas tienen responsable, evidencia y resultado.
 
-## Estado actual: v5.0 Aplicación operativa — cierre técnico local
+## Estado actual: v6.0 Analytics y automatización operativa — cierre técnico local
+
+El usuario amplió explícitamente el alcance: conectar analytics, automatizaciones y agentes con un dashboard principal que incluya piezas y servicios más utilizados. V6 implementó cortes persistentes desde la operación V5, dashboard por rol, trabajador local y paquete candidato probado. [Requisitos V6 archivados](milestones/v6.0-REQUIREMENTS.md), [auditoría](milestones/v6.0-MILESTONE-AUDIT.md) y decisiones en V6-DECISIONS.md.
 
 El usuario confirmó operación diaria más análisis y agentes, rechazó V4 como entrega final y autorizó seguir las recomendaciones de investigación y GSD sin nuevas preguntas rutinarias. Esta aprobación sustituye la antigua restricción de producto de solo lectura. No autoriza mensajes reales a terceros, compras, movimientos de dinero ni diagnóstico mecánico automático.
 
@@ -23,10 +25,10 @@ V1–V4: toolkit analítico reproducible. V5: producto operativo con autenticaci
 
 ## Estado de verificación local
 
-Los 22 requisitos, 9 planes y 4 fases tienen evidencia local (`passed` por fase). La suite cerró 71/71 pruebas, incluidas 18 de inteligencia. `artifacts/v5-native-verification.json` acredita una corrida V5 real con GPT-6 Luna y datos demo sintéticos, separada de los recibos V1–V4. La auditoría técnica pasó 22/22 requisitos; el hito se archivó con cuatro fases y nueve planes verificados. La publicación es un candidato para piloto, no una afirmación de aceptación comercial. La aprobación del usuario para la dirección de producto y las decisiones GSD recomendadas consta en la conversación del 22 de septiembre; no es una clave de configuración GSD.
+V5 archivó 22 requisitos, nueve planes y cuatro fases verificados. V6 archivó 14 requisitos, cuatro planes y cuatro fases verificados en alcance técnico local. `artifacts/v6-verification.json` registra 115 pruebas, 0 fallos/errores y 0 omisiones; `artifacts/v6-delivery-verification.json` comprueba migración, respaldo/restauración y el candidato 2 extraído e instalado offline. Los recibos separados `v6-browser-verification.json`, `v6-worker-restart.json` y `v6-native-verification.json` registran navegador, cierre del trabajador e inferencia real local con tres revisores GPT-6 Luna sobre demo sintética. [Verificación V6](../docs/V6-VERIFICACION.md). Publicar un ZIP posterior requiere un recibo del mismo hash; no se afirma aceptación comercial.
 
 ## Siguiente implantación
 
-Validar procesos con personal del taller, conciliar datos autorizados y acordar despliegue, soporte y retención. No se inicia un nuevo hito de desarrollo automáticamente.
+Publicar el ZIP final solo después de comprobar su hash y arranque extraído. Validar procesos con personal del taller, conciliar datos autorizados y acordar despliegue, soporte y retención. La entrega técnica y el piloto siguen separados.
 
-Actualizado el 22 de septiembre de 2026 tras el cierre técnico V5.
+Actualizado el 23 de septiembre de 2026 tras el cierre técnico local V6.

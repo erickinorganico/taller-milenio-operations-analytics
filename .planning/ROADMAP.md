@@ -2,15 +2,7 @@
 
 ## Hitos
 
-- [x] **v5.0 — Operación local, análisis y agentes**: cuatro fases, nueve planes y 22 requisitos verificados; archivo técnico del 22 de septiembre de 2026. Distribución como candidato para piloto, sujeta al gate de paquete/CI.
+- [x] **v5.0 — Operación local, análisis y agentes**: fases 1–4, nueve planes y 22 requisitos con cierre técnico local el 22 de septiembre de 2026. [Roadmap archivado](milestones/v5.0-ROADMAP.md).
+- [x] **v6.0 — Analytics y automatización operativa**: fases 5–8, cuatro planes y 14 requisitos con cierre técnico local el 23 de septiembre de 2026. [Roadmap archivado](milestones/v6.0-ROADMAP.md), [requisitos](milestones/v6.0-REQUIREMENTS.md), [auditoría](milestones/v6.0-MILESTONE-AUDIT.md) y [fases](milestones/v6.0-phases/).
 
-[Hoja de ruta completa archivada](milestones/v5.0-ROADMAP.md) · [Requisitos y trazabilidad](milestones/v5.0-REQUIREMENTS.md) · [Auditoría del hito](milestones/v5.0-MILESTONE-AUDIT.md)
-
-## Fases completadas
-
-1. Operación persistente y acceso — 3/3 planes.
-2. Interfaz por rol y fuentes — 2/2 planes.
-3. Inteligencia y seguimiento — 2/2 planes; inferencia nativa real verificada.
-4. Verificación y entrega local — 2/2 planes.
-
-Los planes, resúmenes, verificaciones y VALIDATION están en [el archivo de fases](milestones/v5.0-phases/). No hay una nueva fase activa. El piloto del cliente, la configuración de su red y su aceptación no se presentan como realizados.
+El cierre V6 acredita el candidato local probado. La publicación del ZIP final, el piloto con datos del taller y la aceptación se registran por separado.

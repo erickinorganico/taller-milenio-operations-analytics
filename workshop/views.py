@@ -78,7 +78,7 @@ def sign_in(request):
     return render(request,"workshop/login.html",{"title":"Bienvenido de vuelta", "intro":"Ingresa con tu cuenta del taller.", "form":form})
 
 def static_asset(request, path):
-    allowed = {"workshop/app.css":"text/css", "workshop/app.js":"text/javascript"}
+    allowed = {"workshop/app.css":"text/css", "workshop/analytics.css":"text/css", "workshop/app.js":"text/javascript"}
     if path not in allowed:
         raise Http404
     filename = Path(__file__).parent / "static" / path

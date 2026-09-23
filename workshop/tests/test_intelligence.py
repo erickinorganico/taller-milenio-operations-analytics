@@ -1,6 +1,9 @@
 from datetime import timedelta
 from decimal import Decimal
 import os
+import json
+from pathlib import Path
+from types import SimpleNamespace
 from unittest import mock
 
 from django.contrib.auth.models import Group, User
@@ -285,6 +288,28 @@ class IntelligenceTests(TestCase):
         self.assertNotIn("OPENAI_API_KEY", native_env)
         self.assertNotIn("CODEX_API_KEY", native_env)
         self.assertNotIn("AZURE_OPENAI_API_KEY", native_env)
+
+    @override_settings(MILENIO_CODEX_ENABLED=True)
+    def test_completed_cli_with_rejected_output_keeps_receipt_without_proposals(self):
+        self.order(status="waiting_parts")
+        finding = intelligence._rule_findings("operations", timezone.now())[0]
+        def completed_invalid(command, prompt):
+            output = Path(command[command.index("--output-last-message") + 1])
+            output.write_text(json.dumps({"summary": "Salida rechazada", "proposals": [{
+                "kind": "waiting_parts", "title": "Revisar", "body": "Consultar evidencia.",
+                "entity_type": "WorkOrder", "entity_id": "", "evidence_indices": [0],
+            }]}), encoding="utf-8")
+            return SimpleNamespace(returncode=0, stdout='{"type":"turn.completed"}\n')
+        with mock.patch.object(intelligence, "_resolve_codex_binary", return_value="codex-test"), \
+             mock.patch.object(intelligence, "_run_native_cli", side_effect=completed_invalid):
+            run = intelligence.run_native_agent(self.manager, "operations", base_findings=[finding])
+        self.assertEqual(run.status, "failed")
+        self.assertTrue(run.model_invoked)  # Fixture tests receipt handling, not actual inference.
+        self.assertTrue(run.output["native_receipt"]["completion_observed"])
+        self.assertFalse(run.output["output_accepted"])
+        self.assertNotIn("proposals", run.output)
+        self.assertEqual(run.proposals.count(), 0)
+        self.assertIn("entity_id", run.error)
 
     def test_native_subprocess_uses_utf8_and_never_a_shell(self):
         result = object()

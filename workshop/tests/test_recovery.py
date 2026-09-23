@@ -198,6 +198,22 @@ class RecoveryTests(unittest.TestCase):
 
 
 class WebDeliveryTests(unittest.TestCase):
+    @staticmethod
+    def _unused_local_port():
+        with socket.socket() as probe:
+            probe.bind(("127.0.0.1", 0))
+            return probe.getsockname()[1]
+
+    def _stop_server(self, process):
+        try:
+            process.stdin.close()
+            self.assertEqual(process.wait(timeout=15), 0)
+        finally:
+            if process.poll() is None:
+                process.terminate()
+                process.wait(timeout=10)
+            process.stdout.close()
+
     def test_live_and_demo_cookies_do_not_clobber_each_other_on_localhost(self):
         cookie_pairs = []
         with tempfile.TemporaryDirectory() as temporary:
@@ -263,9 +279,7 @@ class WebDeliveryTests(unittest.TestCase):
         self.assertIn("migration failed", output.getvalue())
 
     def test_disposable_demo_seeds_once_without_reset(self):
-        with socket.socket() as probe:
-            if probe.connect_ex(("127.0.0.1", 8766)) == 0:
-                self.skipTest("demo port is already in use")
+        port = self._unused_local_port()
         with tempfile.TemporaryDirectory() as temp:
             environment = dict(os.environ)
             environment["MILENIO_DATA_DIR"] = str(Path(temp) / "demo")
@@ -274,8 +288,8 @@ class WebDeliveryTests(unittest.TestCase):
             for run_number in (1, 2):
                 kwargs = {"creationflags": getattr(subprocess, "CREATE_NO_WINDOW", 0)} if os.name == "nt" else {}
                 process = subprocess.Popen([sys.executable, str(run_web.ROOT / "scripts" / "run_web.py"),
-                                            "--mode", "demo", "--no-browser"], cwd=run_web.ROOT,
-                                           env=environment, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                            "--mode", "demo", "--no-browser", "--port", str(port), "--watch-parent"], cwd=run_web.ROOT,
+                                           env=environment, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                            text=True, **kwargs)
                 try:
                     ready = False
@@ -283,7 +297,7 @@ class WebDeliveryTests(unittest.TestCase):
                         if process.poll() is not None:
                             break
                         try:
-                            with urllib.request.urlopen("http://127.0.0.1:8766/health/", timeout=0.5) as response:
+                            with urllib.request.urlopen(f"http://127.0.0.1:{port}/health/", timeout=0.5) as response:
                                 ready = response.status == 200
                             if ready:
                                 break
@@ -293,24 +307,22 @@ class WebDeliveryTests(unittest.TestCase):
                         output = process.stdout.read() if process.poll() is not None else "demo server did not become ready"
                         self.fail(output)
                     with closing(sqlite3.connect(database)) as con:
-                        self.assertEqual(con.execute("SELECT COUNT(*) FROM workshop_customer").fetchone()[0], 2)
-                        self.assertEqual(con.execute("SELECT COUNT(*) FROM workshop_workorder").fetchone()[0], 2)
+                        self.assertEqual(con.execute("SELECT COUNT(*) FROM workshop_customer").fetchone()[0], 4)
+                        self.assertEqual(con.execute("SELECT COUNT(*) FROM workshop_workorder").fetchone()[0], 38)
+                        self.assertEqual(con.execute("SELECT COUNT(*) FROM auth_user WHERE username='demo_admin' AND is_active=1").fetchone()[0], 0)
                 finally:
-                    process.terminate()
-                    process.communicate(timeout=10)
+                    self._stop_server(process)
 
     def test_disposable_live_launcher_serves_health_and_static(self):
-        with socket.socket() as probe:
-            if probe.connect_ex(("127.0.0.1", 8765)) == 0:
-                self.skipTest("live port is already in use")
+        port = self._unused_local_port()
         with tempfile.TemporaryDirectory() as temp:
             environment = dict(os.environ)
             environment["MILENIO_DATA_DIR"] = str(Path(temp) / "live")
             environment.pop("MILENIO_MODE", None)
             kwargs = {"creationflags": getattr(subprocess, "CREATE_NO_WINDOW", 0)} if os.name == "nt" else {}
             process = subprocess.Popen([sys.executable, str(run_web.ROOT / "scripts" / "run_web.py"),
-                                        "--mode", "live", "--no-browser"], cwd=run_web.ROOT,
-                                       env=environment, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                        "--mode", "live", "--no-browser", "--port", str(port), "--watch-parent"], cwd=run_web.ROOT,
+                                       env=environment, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                        text=True, **kwargs)
             try:
                 ready = False
@@ -318,7 +330,7 @@ class WebDeliveryTests(unittest.TestCase):
                     if process.poll() is not None:
                         break
                     try:
-                        with urllib.request.urlopen("http://127.0.0.1:8765/health/", timeout=0.5) as response:
+                        with urllib.request.urlopen(f"http://127.0.0.1:{port}/health/", timeout=0.5) as response:
                             ready = response.status == 200
                         if ready:
                             break
@@ -327,13 +339,12 @@ class WebDeliveryTests(unittest.TestCase):
                 if not ready:
                     output = process.stdout.read() if process.poll() is not None else "server did not become ready"
                     self.fail(output)
-                with urllib.request.urlopen("http://127.0.0.1:8765/static/workshop/app.css", timeout=2) as response:
+                with urllib.request.urlopen(f"http://127.0.0.1:{port}/static/workshop/app.css", timeout=2) as response:
                     self.assertEqual(response.status, 200)
                     self.assertIn("text/css", response.headers["Content-Type"])
                 self.assertTrue((Path(temp) / "live" / "workshop.sqlite3").is_file())
             finally:
-                process.terminate()
-                process.communicate(timeout=10)
+                self._stop_server(process)
 
     def test_runner_rejects_cross_mode_data_directory(self):
         with tempfile.TemporaryDirectory() as temp:

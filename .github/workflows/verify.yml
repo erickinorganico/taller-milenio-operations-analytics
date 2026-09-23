@@ -35,7 +35,9 @@ jobs:
         env:
           MILENIO_MODE: test
           MILENIO_DATA_DIR: ${{ runner.temp }}/milenio/test
-        run: python scripts/verify_web.py --output artifacts/v5-verification.json
+        run: python scripts/verify_web.py --output artifacts/v6-verification.json
+      - name: V5 upgrade, V6 queue and backup restoration
+        run: python scripts/verify_v6_delivery.py --output artifacts/v6-delivery-verification.json
       - name: Verify committed database migrations
         env:
           MILENIO_MODE: test

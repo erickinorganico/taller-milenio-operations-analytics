@@ -17,11 +17,11 @@ sys.path.insert(0,str(ROOT))
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--output',default='artifacts/v5-verification.json')
+    parser.add_argument('--output',default='artifacts/v6-verification.json')
     args=parser.parse_args()
     output=Path(args.output).resolve()
     output.parent.mkdir(parents=True,exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix='milenio-v5-verification-') as temporary:
+    with tempfile.TemporaryDirectory(prefix='milenio-v6-verification-') as temporary:
         os.environ['MILENIO_MODE']='test'
         os.environ['MILENIO_DATA_DIR']=str(Path(temporary)/'test')
         os.environ['DJANGO_SETTINGS_MODULE']='milenio_web.settings'
@@ -61,14 +61,12 @@ def main():
             name,expected=line.split('==')
             actual=importlib.metadata.version(name)
             dependencies[name]={'required':expected,'installed':actual,'ok':actual==expected}
-        files=[]
-        for folder in ['workshop','milenio_web']:
-            files.extend(p for p in (ROOT/folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix in {'.py','.html','.css','.js'})
-        files.extend(ROOT/p for p in ['manage.py','requirements-web.txt','scripts/run_web.py','scripts/package_web.py','scripts/verify_web.py','scripts/export_web_contracts.py','Setup-Web.ps1','Iniciar-Milenio.cmd','Iniciar-Demo.cmd'])
-        source={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(set(files))}
-        receipt={'version':'5.0','status':'pass' if not errors and checks and all(d['ok'] for d in dependencies.values()) else 'fail','tested_at_utc':datetime.now(timezone.utc).isoformat(),'tests':{'run':result.testsRun,'failures':len(result.failures),'errors':len(result.errors),'skipped':len(result.skipped)},'checks_and_migrations':stream.getvalue().replace(str(ROOT),'<project>'),'dependencies':dependencies,'source_sha256':source,'native_inference':'not_exercised_by_this_suite','data_scope':'disposable synthetic fixtures; no client data','limitations':['Browser/manual checks are recorded separately','No client acceptance or production deployment is asserted','Mocked native runs do not prove real model inference']}
+        from scripts.package_web import _collect
+        files=set(_collect().values())
+        source={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(files)}
+        receipt={'version':'6.0','status':'pass' if not errors and checks and all(d['ok'] for d in dependencies.values()) else 'fail','tested_at_utc':datetime.now(timezone.utc).isoformat(),'tests':{'run':result.testsRun,'failures':len(result.failures),'errors':len(result.errors),'skipped':len(result.skipped)},'checks_and_migrations':stream.getvalue().replace(str(ROOT),'<project>'),'dependencies':dependencies,'source_sha256':source,'native_inference':'not_exercised_by_this_suite','data_scope':'disposable synthetic fixtures; no client data','limitations':['Browser/manual checks are recorded separately','No client acceptance or production deployment is asserted','Mocked native runs do not prove real model inference']}
         output.write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-        junit=ET.Element('testsuite',name='milenio-v5',tests=str(result.testsRun),failures=str(len(result.failures)),errors=str(len(result.errors)),skipped=str(len(result.skipped)))
+        junit=ET.Element('testsuite',name='milenio-v6',tests=str(result.testsRun),failures=str(len(result.failures)),errors=str(len(result.errors)),skipped=str(len(result.skipped)))
         failures={test.id():info for test,info in result.failures}
         error_map={test.id():info for test,info in result.errors}
         skipped={test.id():reason for test,reason in result.skipped}

@@ -1,0 +1,9 @@
+# Fase 5 — Analytics persistente
+
+Objetivo: cortes inmutables de la operación V5 dentro de la misma SQLite, sin enlazar el warehouse sintético V1–V4. Requisitos ANA-02 a ANA-06. La base real vacía permanece vacía hasta que haya operaciones; un fixture demo se identifica como sintético.
+
+Decisiones fijadas: seis marts `daily_operations`, `service_lines`, `part_usage`, `receivables`, `order_journeys` e `inventory`; juntos cubren piezas, servicios, facturación, cobros, actividad y tiempos. Una fila derivada conserva identificadores fuente, segmento, fechas de negocio y cobertura. El corte conserva huella, creación y metadatos de fuentes, y nunca se reescribe tras una edición operativa. Los rangos de consulta son inclusivos al nivel de día y la comparación previa usa la misma cantidad de días. Si el evento o dato requerido falta, el valor es desconocido/parcial, no cero.
+
+Semántica mínima: consumo de piezas es suma firmada de movimientos de salida y devolución enlazados a orden; recepción de compra y reserva se excluyen. Servicio autorizado usa la versión vigente de cotización aprobada; facturado se basa en comprobante, sin presumir ejecución desde texto. Factura usa fecha de emisión; cobro usa fecha de pago; actividad usa fecha del evento operativo. Saldo y atraso se calculan al corte con vencimiento y pagos hasta esa fecha. Tiempos exigen pares de eventos válidos y reportan denominador/cobertura. Agrupación de servicios por texto normalizado exacto, tipo y estado.
+
+Gate: fixture con fechas cruzadas entre emisión, pago y actividad, devolución parcial, nueva versión de cotización, y eventos faltantes; cotejar manualmente filas y agregados. Mutar fuentes después del corte y demostrar que la huella y filas anteriores no cambian. No marcar fase completa por mera creación de tablas.
