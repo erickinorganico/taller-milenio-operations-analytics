@@ -390,6 +390,7 @@ class TowService(models.Model):
     requested_at = models.DateTimeField(default=timezone.now)
     arrived_at = models.DateTimeField(null=True, blank=True)
     completed_at = models.DateTimeField(null=True, blank=True)
+
     notes = models.TextField(blank=True)
 
 
@@ -444,3 +445,8 @@ class ActionTask(models.Model):
     outcome = models.TextField(blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     completed_at = models.DateTimeField(null=True, blank=True)
+
+
+# Register the analytical and automation tables with the same Django app/database.
+from .analytics_models import AnalyticsSnapshot, AnalyticsRow  # noqa: E402,F401
+from .automation_models import AutomationPolicy, AutomationJob, AutomationWorkerState  # noqa: E402,F401

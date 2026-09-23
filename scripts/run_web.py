@@ -5,6 +5,7 @@ import argparse
 import mimetypes
 import os
 import socket
+import subprocess
 import sys
 import threading
 import webbrowser
@@ -16,6 +17,41 @@ from django.core.management.base import CommandError
 ROOT = Path(__file__).resolve().parent.parent
 PORTS = {"live": 8765, "demo": 8766}
 STATIC_DIR = ROOT / "workshop" / "static" / "workshop"
+
+
+def start_automation_worker(data_dir):
+    """Supervised child; inherited stdin closes if this server exits unexpectedly."""
+    log_path = data_dir / "automation-worker.log"
+    if log_path.exists() and log_path.stat().st_size > 5_000_000:
+        log_path.replace(data_dir / "automation-worker.previous.log")
+    log = log_path.open("ab")
+    options = {"creationflags": subprocess.CREATE_NO_WINDOW} if os.name == "nt" else {}
+    try:
+        worker = subprocess.Popen(
+            [sys.executable, str(ROOT / "manage.py"), "run_automations", "--watch-parent"],
+            cwd=ROOT, stdin=subprocess.PIPE, stdout=log, stderr=subprocess.STDOUT,
+            env={**os.environ, "PYTHONUNBUFFERED": "1", "PYTHONIOENCODING": "utf-8"}, **options,
+        )
+    except Exception:
+        log.close()
+        raise
+    return worker, log
+
+
+def stop_automation_worker(worker, log):
+    if worker.stdin:
+        worker.stdin.close()
+    try:
+        worker.wait(timeout=5)
+    except subprocess.TimeoutExpired:
+        worker.terminate()
+        try:
+            worker.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            worker.kill()
+            worker.wait(timeout=5)
+    finally:
+        log.close()
 
 
 class WorkshopStatic:
@@ -59,7 +95,7 @@ def _demo_empty() -> bool:
     return not (Customer.objects.exists() or Part.objects.exists() or WorkOrder.objects.exists())
 
 
-def run(mode: str, *, no_browser=False) -> None:
+def run(mode: str, *, no_browser=False, port_override=None, watch_parent=False) -> None:
     if mode not in PORTS:
         raise ValueError("mode must be live or demo")
     if sys.version_info < (3, 12):
@@ -94,7 +130,9 @@ def run(mode: str, *, no_browser=False) -> None:
     django.setup()
     if settings.MILENIO_MODE != mode:
         raise RuntimeError("La configuración activa no coincide con el modo solicitado")
-    port = PORTS[mode]
+    port = PORTS[mode] if port_override is None else port_override
+    if not 0 <= port <= 65535:
+        raise ValueError("El puerto debe estar entre 0 y 65535 (0 asigna un puerto temporal).")
     _available_port(port)
     with instance_lock(settings.DATA_DIR):
         call_command("check", verbosity=0)
@@ -103,6 +141,13 @@ def run(mode: str, *, no_browser=False) -> None:
             call_command("seed_workshop", demo=True)
         from milenio_web.wsgi import application
         server = create_server(WorkshopStatic(application), host="127.0.0.1", port=port, threads=4)
+        worker, worker_log = start_automation_worker(settings.DATA_DIR)
+        port = server.effective_port
+        if watch_parent:
+            def parent_closed():
+                sys.stdin.read()
+                server.close()
+            threading.Thread(target=parent_closed, daemon=True).start()
         url = f"http://127.0.0.1:{port}/"
         print(f"Milenio {mode}: {url}", flush=True)
         print(f"Datos: {settings.DATA_DIR}", flush=True)
@@ -117,15 +162,18 @@ def run(mode: str, *, no_browser=False) -> None:
             print("Servidor detenido. Los datos permanecen guardados.", flush=True)
         finally:
             server.close()
+            stop_automation_worker(worker, worker_log)
 
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--mode", choices=tuple(PORTS), default="live")
     parser.add_argument("--no-browser", action="store_true", help="No abrir el navegador (CI o servicio supervisado)")
+    parser.add_argument("--port", type=int, default=None, help="Puerto local opcional; 0 asigna un puerto temporal para verificación")
+    parser.add_argument("--watch-parent", action="store_true", help="Detener al cerrarse stdin del proceso supervisor")
     args = parser.parse_args(argv)
     try:
-        run(args.mode, no_browser=args.no_browser)
+        run(args.mode, no_browser=args.no_browser, port_override=args.port, watch_parent=args.watch_parent)
     except (RuntimeError, ValueError, CommandError, OSError) as exc:
         print(f"No se pudo iniciar Milenio: {exc}", file=sys.stderr)
         return 1

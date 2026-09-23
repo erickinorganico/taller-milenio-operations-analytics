@@ -1,4 +1,16 @@
-# Entrega Milenio V3
+# Entrega Milenio V6
+
+La aplicación actual se abre desde [CLIENTE.html](CLIENTE.html). Prepare el entorno con `Setup-Web.ps1` y ejecute `Iniciar-Demo.cmd` para practicar o `Iniciar-Milenio.cmd` para una instancia vacía. El dashboard principal muestra demanda de servicios, consumo de refacciones, facturación, cobros, atrasos y tiempos observables. Los filtros y los cortes permiten comparar periodos y revisar sus fuentes.
+
+La operación diaria alimenta seis tablas analíticas persistentes. Un trabajador local actualiza cortes y ejecuta tres revisores por intervalo o cambios de negocio; sus propuestas pasan a revisión humana y tareas con responsable. La pantalla de automatizaciones muestra programación, pausa, latido, intentos y errores. El servidor debe permanecer abierto para procesar la cola.
+
+La entrega incluye código, migraciones, dependencias offline para Windows x64/Python 3.12, [manual de instalación](README-WEB.md), [definiciones analíticas](docs/V6-ANALYTICS.md), [operación de automatizaciones](docs/V6-AUTOMATIZACIONES.md) y [verificación V6](docs/V6-VERIFICACION.md). La demo tiene datos ficticios y aproximadamente 60 días de actividad. La instalación real comienza vacía y requiere crear accesos y registrar o importar datos autorizados.
+
+El cierre técnico incluye pruebas, arranque del paquete extraído, migración desde V5, respaldo/restauración y una ejecución real de los tres revisores con Codex. La validación con el personal y los datos del taller sigue siendo un piloto de implantación; no se afirma aceptación comercial ni impacto financiero observado.
+
+---
+
+## Archivo de la entrega V3
 
 La entrada principal es [CLIENTE.html](CLIENTE.html). Añade la plantilla mínima
 de datos, informe de prioridades, libro gerencial de siete hojas, seguimiento

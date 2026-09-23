@@ -6,6 +6,7 @@ from decimal import Decimal
 
 from django.conf import settings
 from django.contrib.auth.models import Group, User
+from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 from django.utils import timezone
@@ -126,9 +127,13 @@ class Command(BaseCommand):
                                 evidence=[{"synthetic": True}], status="stale", entity_type="WorkOrder",
                                 entity_id=str(open_order.pk), fingerprint="demo-fixture")
 
+        # Populate the V6 analytical story while this disposable seed actor is
+        # still active. Both commands share the demo guard and one transaction.
+        call_command("seed_analytics_demo", demo=True, stdout=self.stdout)
+
         self.stdout.write(self.style.SUCCESS(
-            f"Demo sintética creada: 2 órdenes, 2 clientes, 2 vehículos, 1 grúa ({tow.pk}), "
-            "1 comprobante administrativo con pago parcial."
+            f"Demo sintética creada: 2 órdenes base, 36 órdenes analíticas, "
+            f"1 grúa ({tow.pk}) y comprobantes administrativos ficticios."
         ))
         if temporary_password:
             actor.set_unusable_password()
