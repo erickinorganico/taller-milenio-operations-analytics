@@ -1,9 +1,9 @@
 {
   "version": "5.0",
   "status": "pass",
-  "tested_at_utc": "2026-09-23T03:23:13.831503+00:00",
+  "tested_at_utc": "2026-09-23T04:00:35.743920+00:00",
   "tests": {
-    "run": 70,
+    "run": 71,
     "failures": 0,
     "errors": 0,
     "skipped": 0
@@ -51,7 +51,7 @@
     "milenio_web/wsgi.py": "0904c8e8bfb8e65a384a5a2a11fd474193a7207386cab9c82ae51c569854f940",
     "requirements-web.txt": "cdc0494c435c53665cff7e6f378d134fce124936cd054d5bb2cc06bec7688ef6",
     "scripts/export_web_contracts.py": "a95d61898e9115eed4c9bb95ead5335e76316f29925dc4b2318b7995b4166b3c",
-    "scripts/package_web.py": "bafbcfaa23ce97651f2f0ba5fc00a08286a00a813c5ca92808a9396f40f19c72",
+    "scripts/package_web.py": "7f74b2e8f83d68f3d809c6c4472370cecd0e38efd8f896053e522239e8d31915",
     "scripts/run_web.py": "a26431118000426a70f882fc55b3452ec83d36200b0783bc5010e59fcd8e460f",
     "scripts/verify_web.py": "99e4d404d443dc37befb2ba8d8e7637ec5a110b02bc5f03a06381bc117f4763c",
     "Setup-Web.ps1": "c6a87a51b0de1054c240fbdfc005b7bfb63670e506e7575a54fbb6e9eefca3c1",
@@ -61,7 +61,7 @@
     "workshop/catalog.py": "93f3910ce1576abded08a94b82f27c72da53a382dd289f58fbbfbc47044fb10c",
     "workshop/import_views.py": "2296846651e7a6d74f451d2fdeae8f42dc84799290874d730ef2e49993c53273",
     "workshop/insight_views.py": "b67ecc4b0c100d133d577a98edc71b46e48d7a15d7776b4d33fb66b6c580deb3",
-    "workshop/intelligence.py": "5ff255ee24f8f3b194b4c0ec36cab11ba7e31fef7e77ce2590e42e398308142f",
+    "workshop/intelligence.py": "d9577b6d6358d542074b024aec4d0ccb85c4f1e8b9345def4aadbd5353cfcaac",
     "workshop/management/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
     "workshop/management/commands/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
     "workshop/management/commands/backup_workshop.py": "c5f2baa0a98ad40449d4d0de37a7646114f442243bea79cdb3db8c48ab6be962",
@@ -97,11 +97,11 @@
     "workshop/tests/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
     "workshop/tests/test_domain.py": "dae897c7545e367ee028db063aef9df3b22e1f28357aeda4c16840ab068a7bd2",
     "workshop/tests/test_import.py": "2fc4a5ab2b287c4db46f5eed7571af51216ea19b1470c46588094a85244da6bc",
-    "workshop/tests/test_intelligence.py": "927c2642ab213a3b1c449f9838b6c759282609340018124e010149f83a4ab173",
+    "workshop/tests/test_intelligence.py": "0f0e7c3329ab8bed75fccb7633d43220feb09337c1f53768b4361cb247233e6a",
     "workshop/tests/test_recovery.py": "18c16750b9b4c201ea09c767deee3758e5f87206cae072e3e025bdefe08edf59",
     "workshop/tests/test_web.py": "531b79b62f65a6ad2cb0b9fcf688bee6a03b12c333dc247bc3221111a65b203c",
     "workshop/urls.py": "f42313bce05eb0eb741a634ac408dbb9228bc6162a43179f624a804c2c40d236",
-    "workshop/views.py": "3b6f5823577d35e147b8647f15c0904c8bd43c192367422b8c5af3a1aaed037c",
+    "workshop/views.py": "3c209e6b4b1215b9a878d65576d634db10cc908a2162a6aa910f69beaf752242",
     "workshop/webforms.py": "d3f1e9721a5fa80bf644ade8cfd0217c3e5f5e7db995fda63d655ddc9ee5843c"
   },
   "native_inference": "not_exercised_by_this_suite",

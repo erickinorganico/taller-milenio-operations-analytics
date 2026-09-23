@@ -29,7 +29,7 @@ El ZIP V5 con wheels permite instalar las dependencias sin internet en Windows x
 
 Tres agentes de revisión —operación, cobranza y calidad de datos— guardan hallazgos, evidencia y propuestas. Aceptar una propuesta vigente crea una tarea interna; se asigna responsable y plazo, se registra el resultado y se vuelve a comprobar el disparador. Los pagos nuevos invalidan evidencia antigua y repetir una revisión no duplica pendientes.
 
-El modo **reglas** funciona sin IA ni internet. El modo **nativo Codex** está implementado y probado con dobles de prueba; requiere activar la opción y autenticar la CLI oficial. El preflight de esta entrega encontró la CLI sin sesión, por lo que no se afirma una inferencia V5 real. No se usan APIs de pago como alternativa.
+El modo **reglas** funciona sin IA ni internet. El modo **nativo Codex** requiere activar la opción y autenticar la CLI oficial. Una corrida V5 real con GPT-6 Luna sobre la demo sintética completó el turno y validó su salida (`artifacts/v5-native-verification.json`); no creó propuestas, lo cual es permitido, ni modificó registros de negocio. No se usan APIs de pago como alternativa. Esta prueba local no sustituye el piloto del taller.
 
 ## Documentación y evidencia
 
@@ -40,7 +40,7 @@ El modo **reglas** funciona sin IA ni internet. El modo **nativo Codex** está i
 - [Catálogo de métricas](docs/V5-METRICAS.md)
 - [Contrato transaccional](specs/v5-domain-api.md) y [contrato de agentes](specs/v5-intelligence.md)
 - [Verificación y pendientes de aceptación](docs/V5-VERIFICACION.md)
-- [Requisitos GSD](.planning/REQUIREMENTS.md), [hoja de ruta](.planning/ROADMAP.md) y [estado](.planning/STATE.md)
+- [Requisitos GSD](.planning/milestones/v5.0-REQUIREMENTS.md), [hoja de ruta](.planning/ROADMAP.md) y [estado](.planning/STATE.md)
 
 ## Comprobar el código
 
@@ -51,7 +51,7 @@ $env:MILENIO_DATA_DIR=Join-Path $PWD 'private/test'
 .\.venv\Scripts\python.exe manage.py makemigrations --check --dry-run
 ```
 
-Los ensayos usan bases temporales y datos ficticios. No acreditan adopción, rendimiento con la carga del cliente ni impacto comercial. La entrega sirve como aplicación local para un piloto controlado. CFDI, cobros bancarios, mensajería, telemetría, diagnóstico mecánico automático y servicio alojado multiempresa quedan fuera de esta versión.
+La suite V5 cerró 71/71 pruebas (18 de inteligencia), sin fallos ni omisiones. Los ensayos usan bases temporales y datos ficticios. No acreditan adopción, rendimiento con la carga del cliente ni impacto comercial. La entrega sirve como aplicación local para un piloto controlado. CFDI, cobros bancarios, mensajería, telemetría, diagnóstico mecánico automático y servicio alojado multiempresa quedan fuera de esta versión.
 
 ## Versiones anteriores
 

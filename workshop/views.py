@@ -112,7 +112,7 @@ def records(request, key):
     subnav=[]
     if key in {"customers","vehicles","appointments"}:
         subnav=[{"label":label,"url":f"/records/{k}/"} for k,label in [("customers","Clientes"),("vehicles","Vehículos"),("appointments","Agenda")]]
-    return render(request,"workshop/table.html",{"title":title,"section":"Operación","intro":"Registros compartidos por el equipo del taller.","columns":columns,"rows":rows,"count":qs.count(),"page":page,"query":query,"editable":can(request.user,capability),"create_url":f"/records/{key}/new/" if can(request.user,capability) else None,"export_url":f"/data/{key}/?export=csv","subnav":subnav})
+    return render(request,"workshop/table.html",{"title":title,"section":"Operación","intro":"Registros compartidos por el equipo del taller.","columns":columns,"rows":rows,"count":qs.count(),"page":page,"query":query,"editable":can(request.user,capability),"create_url":f"/records/{key}/new/" if can(request.user,capability) else None,"export_url":f"/data/{key}/?export=csv" if can(request.user,"data_read") else None,"subnav":subnav})
 
 def search(qs, query):
     if not query:

@@ -20,7 +20,7 @@ ROOT_FILES = ("manage.py", "requirements-web.txt", "Setup-Web.ps1", "Iniciar-Mil
 OTHER_FILES = ("scripts/run_web.py", "scripts/package_web.py", "scripts/export_web_contracts.py",
                "scripts/verify_web.py", "docs/V5-INSTALACION.md",
                "docs/V5-MANUAL.md", "specs/v5-domain-api.md", "specs/v5-intelligence.md",
-               ".planning/PROJECT.md", ".planning/REQUIREMENTS.md")
+               ".planning/PROJECT.md", ".planning/milestones/v5.0-REQUIREMENTS.md")
 SKIP_PARTS = {".git", ".venv", "venv", "env", "__pycache__", ".pytest_cache", ".mypy_cache",
               ".ruff_cache", ".cache", "private", "dist", "output", "artifacts"}
 SENSITIVE_SUFFIXES = {".sqlite", ".sqlite3", ".db", ".zip", ".pem", ".key", ".p12", ".pfx"}

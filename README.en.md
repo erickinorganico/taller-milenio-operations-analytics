@@ -4,6 +4,6 @@ Local Spanish-language Django application covering intake, inspection, estimates
 
 Run `Setup-Web.ps1`, then `Iniciar-Demo.cmd` for synthetic data or `Iniciar-Milenio.cmd` for an empty installation. Windows x64/Python 3.12 is the tested target; the delivery ZIP includes offline dependency wheels. Persistent data defaults to LocalAppData, outside the source folder. The server binds to loopback only.
 
-Rules mode is fully local. The optional native Codex adapter is implemented and tested with mocks; this delivery's CLI preflight found no authenticated session, so live V5 model inference remains unverified. There is no paid API fallback. Financial documents are administrative records, not fiscal invoices. Real workshop adoption, deployment acceptance and business impact require a pilot.
+Rules mode is fully local. A real optional native Codex CLI run with GPT-6 Luna completed on synthetic demo data, produced valid structured output and changed no business records (`artifacts/v5-native-verification.json`). Its empty proposals list is valid. The V5 suite passed 71/71 tests, including 18 intelligence tests. There is no paid API fallback. Financial documents are administrative records, not fiscal invoices. Real workshop adoption, deployment acceptance and business impact require a pilot.
 
 See the [Spanish README](README.md), [installation guide](docs/V5-INSTALACION.md), [verification](docs/V5-VERIFICACION.md), [GSD state](.planning/STATE.md), and [earlier V4 analytical toolkit](README-V4.md).

@@ -41,3 +41,7 @@ private/
 !artifacts/v5-installation-rehearsal.json
 !artifacts/v5-browser-verification.json
 !artifacts/v5-package.json
+
+!artifacts/v5-final-package-smoke.json
+
+!artifacts/v5-native-verification.json

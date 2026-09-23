@@ -689,7 +689,8 @@ def _codex_command(schema_path: str, output_path: str, cwd: str) -> list[str]:
     disabled = ["shell_tool", "apps", "browser_use", "browser_use_external", "computer_use", "multi_agent", "plugins", "image_generation", "in_app_browser"]
     return [binary, "-c", 'web_search="disabled"', *[flag for item in disabled for flag in ("--disable", item)],
             "-a", "never", "exec", "--ephemeral", "--ignore-user-config", "--json", "--sandbox", "read-only",
-            "--model", model, "--output-schema", schema_path, "--output-last-message", output_path, "-C", cwd, "-"]
+            "--skip-git-repo-check", "--model", model, "--output-schema", schema_path,
+            "--output-last-message", output_path, "-C", cwd, "-"]
 
 
 def _resolve_codex_binary() -> str:
@@ -718,6 +719,13 @@ def _native_subprocess_env() -> dict[str, str]:
                 "OPENAI_BASE_URL", "OPENAI_API_BASE", "OPENAI_API_TYPE"):
         env.pop(key, None)
     return env
+
+
+def _run_native_cli(command: list[str], prompt: str) -> subprocess.CompletedProcess[str]:
+    """Invoke Codex without a shell and decode its JSONL stream as UTF-8."""
+    return subprocess.run(command, input=prompt, capture_output=True, text=True,
+                          encoding="utf-8", shell=False, timeout=120, check=False,
+                          env=_native_subprocess_env())
 
 
 def _validate_native_output(value: Any, evidence: list[dict[str, Any]]) -> dict[str, Any]:
@@ -770,9 +778,7 @@ def run_native_agent(actor: Any, agent_id: str, *, existing_run: Any = None,
                 json.dump(schema, handle)
             command = _codex_command(schema_path, output_path, empty_cwd)
             if native_runner is None:
-                completed = subprocess.run(command, input=_native_prompt(agent_id, evidence), capture_output=True,
-                                           text=True, shell=False, timeout=120, check=False,
-                                           env=_native_subprocess_env())
+                completed = _run_native_cli(command, _native_prompt(agent_id, evidence))
                 if completed.returncode != 0:
                     raise RuntimeError("Codex CLI terminó con código distinto de cero")
                 turn_completed = False

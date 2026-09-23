@@ -239,18 +239,28 @@ class IntelligenceTests(TestCase):
     @override_settings(MILENIO_CODEX_ENABLED=True)
     def test_native_failure_is_visible_and_mock_never_counts_as_model(self):
         self.order(status="waiting_parts")
-        failed = intelligence.run_native_agent(self.manager, "operations", native_runner=lambda **_: (_ for _ in ()).throw(TimeoutError("timeout")))
+        with mock.patch.object(intelligence, "_resolve_codex_binary", return_value="codex-test"):
+            failed = intelligence.run_native_agent(self.manager, "operations", native_runner=lambda **_: (_ for _ in ()).throw(TimeoutError("timeout")))
         self.assertEqual(failed.status, "failed")
         self.assertFalse(failed.model_invoked)
         finding = intelligence._rule_findings("operations", timezone.now())[0]
-        valid_mock = lambda **_: {"summary": "Revisión", "proposals": [{
-            "kind": "waiting_parts", "title": "Revisar refacción", "body": "Verificar el estatus interno.",
-            "entity_type": "WorkOrder", "entity_id": finding["entity_id"], "evidence_indices": [0],
-        }]}
-        completed = intelligence.run_native_agent(self.manager, "operations", base_findings=[finding], native_runner=valid_mock)
-        self.assertEqual(completed.status, "completed")
+        native_call = {}
+        def valid_mock(**kwargs):
+            native_call.update(kwargs)
+            return {"summary": "Revisión", "proposals": [{
+                "kind": "waiting_parts", "title": "Revisar refacción", "body": "Verificar el estatus interno.",
+                "entity_type": "WorkOrder", "entity_id": finding["entity_id"], "evidence_indices": [0],
+            }]}
+        with mock.patch.object(intelligence, "_resolve_codex_binary", return_value="codex-test"):
+            completed = intelligence.run_native_agent(self.manager, "operations", base_findings=[finding], native_runner=valid_mock)
+        self.assertEqual(completed.status, "completed", completed.error)
         self.assertFalse(completed.model_invoked)
         self.assertEqual(completed.proposals.count(), 1)
+        command = native_call["command"]
+        self.assertIn("--skip-git-repo-check", command)
+        self.assertEqual(command[command.index("--sandbox") + 1], "read-only")
+        self.assertEqual(command[command.index("-a") + 1], "never")
+        self.assertIn("--ignore-user-config", command)
 
     @override_settings(MILENIO_CODEX_ENABLED=True)
     def test_adversarial_native_output_cannot_link_other_entity(self):
@@ -260,7 +270,8 @@ class IntelligenceTests(TestCase):
             "kind": "waiting_parts", "title": "Propuesta", "body": "Texto.",
             "entity_type": "WorkOrder", "entity_id": "99999", "evidence_indices": [0],
         }]}
-        run = intelligence.run_native_agent(self.manager, "operations", base_findings=[finding], native_runner=malformed)
+        with mock.patch.object(intelligence, "_resolve_codex_binary", return_value="codex-test"):
+            run = intelligence.run_native_agent(self.manager, "operations", base_findings=[finding], native_runner=malformed)
         self.assertEqual(run.status, "failed")
         self.assertFalse(run.model_invoked)
         self.assertEqual(run.proposals.count(), 0)
@@ -274,3 +285,14 @@ class IntelligenceTests(TestCase):
         self.assertNotIn("OPENAI_API_KEY", native_env)
         self.assertNotIn("CODEX_API_KEY", native_env)
         self.assertNotIn("AZURE_OPENAI_API_KEY", native_env)
+
+    def test_native_subprocess_uses_utf8_and_never_a_shell(self):
+        result = object()
+        with mock.patch.object(intelligence.subprocess, "run", return_value=result) as subprocess_run:
+            returned = intelligence._run_native_cli(["codex-test", "exec"], "Prueba UTF-8: refacción")
+        self.assertIs(returned, result)
+        kwargs = subprocess_run.call_args.kwargs
+        self.assertEqual(kwargs["encoding"], "utf-8")
+        self.assertTrue(kwargs["text"])
+        self.assertFalse(kwargs["shell"])
+        self.assertEqual(kwargs["input"], "Prueba UTF-8: refacción")

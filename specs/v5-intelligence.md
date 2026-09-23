@@ -9,9 +9,12 @@ requires `MILENIO_CODEX_ENABLED=1`; when enabled it uses only the local Codex CL
 one bounded turn, temporary empty working directory, JSON schema output, read-only
 sandbox, and disabled external/tool integrations. Paid provider API-key environment
 variables are removed from the child process; no paid API or fallback inference
-service is in this contract. The local preflight reported Codex CLI `0.155.1` as
-“Not logged in” on 2026-09-22. No inference call was made, so native mode remains
-unavailable until local subscription authentication is independently verified;
+service is in this contract. An initial local preflight reported Codex CLI
+`0.155.1` as “Not logged in” on 2026-09-22; a later authenticated run on the
+synthetic V5 demo completed with GPT-6 Luna. The run #5 receipt in
+`artifacts/v5-native-verification.json` records `turn.completed`, valid JSON,
+`model_invoked=true`, no injected runner, no business-record mutation, and a valid
+empty proposal list. Each installation still needs its own authenticated session;
 failures are persisted visibly.
 
 Neither rules nor native agents may alter workshop business records, diagnose a
@@ -129,9 +132,11 @@ audited delivery timing, cost completeness, inventory, logged labor, date and
 odometer maintenance, fleet expiry, tow timestamp coverage, role runs and honest
 model status, reviewer/assigned-technician authorization, related-payment staleness,
 proposal deduplication, idempotent acceptance, human task outcomes, native failure
-persistence, and adversarial entity references. Tests use mock runners and make no
-claim of actual inference. Native operation remains unverified until local
-subscription login and a successful real CLI turn are independently observed.
+persistence, and adversarial entity references. The 18 intelligence tests use
+mock runners to exercise failure paths; they are separate from the authenticated
+real CLI turn recorded in `artifacts/v5-native-verification.json`. That single
+synthetic run verifies the adapter and response validation, not business impact or
+reliability across users and installations.
 
 The current metrics cover available V5 operational models, but do not infer
 utilization without a capacity denominator, an SLA not explicitly stored, actual

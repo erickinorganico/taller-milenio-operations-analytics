@@ -10,7 +10,7 @@ Gerencia configura cuentas, fuentes y proceso. Recepción registra clientes, cit
 
 ## Alcance verificable
 
-Los 22 criterios de aceptación están en [.planning/REQUIREMENTS.md](../.planning/REQUIREMENTS.md), cada uno con fase y evidencia. El [manual](V5-MANUAL.md) describe pantallas y el [contrato de dominio](../specs/v5-domain-api.md) define invariantes. El [contrato de inteligencia](../specs/v5-intelligence.md) distingue reglas, inferencia real, evidencia, propuestas y tareas.
+Los 22 criterios de aceptación están en [.planning/milestones/v5.0-REQUIREMENTS.md](../.planning/milestones/v5.0-REQUIREMENTS.md), cada uno con fase y evidencia. El [manual](V5-MANUAL.md) describe pantallas y el [contrato de dominio](../specs/v5-domain-api.md) define invariantes. El [contrato de inteligencia](../specs/v5-intelligence.md) distingue reglas, inferencia real, evidencia, propuestas y tareas.
 
 Datos persistentes: 24 entidades del dominio con claves foráneas, migración inicial y bitácora. Tres catálogos admiten importación CSV con previsualización sin escritura y confirmación transaccional. Las 18 métricas conservan definición, grano, fuentes, cobertura y detalle. No hay estimación de utilidad/capacidad/SLA sin sus insumos.
 
@@ -20,6 +20,6 @@ Servidor local Waitress, Django 5.2 LTS y SQLite. Interfaz sin CDN ni framework 
 
 ## Criterio de entrega y limitaciones
 
-Entrega local: código ejecutable, dependencias offline, manuales y prueba del ciclo recepción→saldo, pruebas negativas y recuperación. El adaptador nativo no se considera verificado por mocks: se requiere una CLI autenticada y una corrida real; ese requisito permanece pendiente si falta sesión. La aceptación comercial requiere observar el trabajo del taller, cargar datos autorizados, conciliar fuentes y acordar soporte.
+Entrega local: código ejecutable, dependencias offline, manuales y prueba del ciclo recepción→saldo, pruebas negativas y recuperación. El adaptador nativo se verificó mediante una corrida real de Codex CLI sobre datos demo sintéticos (`artifacts/v5-native-verification.json`), además de pruebas con dobles. Cada instalación requiere su propia sesión autenticada para usarlo. La aceptación comercial requiere observar el trabajo del taller, cargar datos autorizados, conciliar fuentes y acordar soporte.
 
 No se emiten CFDI ni se contacta clientes, se realizan pagos, se compran piezas o se despachan grúas automáticamente. Las facturas administrativas y referencias humanas registran acciones del equipo; no prueban transacciones externas. Los costos capturados sustentan margen directo estimado, no contabilidad ni utilidad neta. Los recibos V2–V4 se mantienen como evidencia histórica de sus respectivas versiones.
