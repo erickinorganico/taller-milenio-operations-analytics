@@ -174,7 +174,7 @@ def _http_smoke(base_url: str, username: str, password: str) -> dict:
     if response.geturl().rstrip("/").endswith("login"):
         raise RuntimeError("temporary demo manager could not authenticate")
     pages = {}
-    for path, expected in (("analytics/", "Qué mueve tu taller"),
+    for path, expected in (("analytics/", 'id="analytics-dashboard"'),
                            ("automations/", "El análisis sigue trabajando")):
         response = opener.open(base_url + path, timeout=10)
         body = response.read().decode("utf-8")
@@ -252,12 +252,20 @@ def _launch_extracted(extracted: Path, python: Path, environment: Path,
                 "server_stopped_on_stdin_close": True, "ephemeral_port": True}
     finally:
         if process.poll() is None:
-            process.terminate()
+            # Let the launcher close its worker and log even when an HTTP
+            # assertion failed. Killing only the parent can mask that failure
+            # with a locked-file error during Windows fixture cleanup.
+            if process.stdin and not process.stdin.closed:
+                process.stdin.close()
             try:
-                process.wait(timeout=5)
+                process.wait(timeout=15)
             except subprocess.TimeoutExpired:
-                process.kill()
-                process.wait(timeout=5)
+                process.terminate()
+                try:
+                    process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+                    process.wait(timeout=5)
         if process.stdout:
             process.stdout.close()
 
