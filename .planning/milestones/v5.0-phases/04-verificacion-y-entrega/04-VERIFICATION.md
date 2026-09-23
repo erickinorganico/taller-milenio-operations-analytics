@@ -1,7 +1,7 @@
 ---
 phase: 04-verificacion-y-entrega
-verified: 2026-09-23T02:49:55Z
-status: passed_local
+verified: 2026-09-23T03:55:05Z
+status: passed
 score: 4/4 technical must-haves verified
 overrides_applied: 0
 human_verification:
@@ -80,3 +80,16 @@ The initial 3/4 assessment above is preserved as history. Later evidence closes 
 Root browser checks observed responsive rendering, persisted approval/work after restart, 24 sources, 18 metrics, a printable quote, and a rules proposal→task→owner/due date→order correction→observed outcome closure. Mobile document width 375 equaled its client width 375 at viewport 390×844. `artifacts/v5-verification.json` then recorded 70 tests, zero skips/failures/errors, migrations clean. The final ZIP manifest verifies whether these tested runtime files match the delivery; documentation changes do not claim a new native invocation.
 
 The technical Phase 4 criteria are satisfied locally. Real-person workshop usability, adoption and production acceptance remain human pilot checks; the overall milestone remains incomplete for AGT-03 native authentication/inference. No safety override or client acceptance is inferred from this addendum.
+
+## Addendum — final local evidence after native verification (2026-09-23T03:55:05Z)
+
+The preceding independent assessment and first addendum retain their original cutoffs as history. Later receipts supersede the then-open AGT-03 status: `artifacts/v5-native-verification.json` records an authenticated GPT-6 Luna CLI turn on synthetic demo data with `turn.completed`, valid structured output, `model_invoked=true`, no injected runner, an allowed empty proposal list and unchanged business-record counts. `artifacts/v5-verification.json` records 71/71 V5 tests with no failures, errors or skips, including 18 intelligence tests. This does not revise the independent verifier's original observation.
+
+| Requirement ID | Final local evidence | Status |
+| --- | --- | --- |
+| RUN-02 | `artifacts/v5-installation-rehearsal.json` and `artifacts/v5-final-package-smoke.json`: backup/restore, integrity, counts, media and financial balance | passed |
+| QA-01 | `test_web.py` persisted intake-to-partial-payment journey and `artifacts/v5-verification.json` | passed |
+| QA-02 | `test_domain.py`, `test_web.py`, `test_intelligence.py`, `test_recovery.py`: role, CSRF, stock, payment and stale-evidence negatives | passed |
+| DOC-01 | final-package smoke, manuals and the documentation-to-runtime comparison in `docs/V5-VERIFICACION.md` | passed |
+
+The phase is `passed` for local technical verification only. The milestone remains `ready_for_audit`; it has not been formally closed or archived. A real client pilot, network deployment, CFDI, adoption and financial impact remain outside this evidence.

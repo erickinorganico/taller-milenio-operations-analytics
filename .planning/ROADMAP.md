@@ -1,89 +1,16 @@
-# Milenio — hoja de ruta v5.0
+# Roadmap: Milenio
 
-## Overview
+## Hitos
 
-La entrega parte de una instalación local con operación persistente y control de acceso; expone recorridos por rol en español; calcula inteligencia desde esos registros y permite propuestas de agentes bajo revisión; por último comprueba recuperación, seguridad y recorrido completo para una entrega local. Los datos reales y la adopción del taller requieren un piloto posterior.
+- [x] **v5.0 — Operación local, análisis y agentes**: cuatro fases, nueve planes y 22 requisitos verificados; archivo técnico del 22 de septiembre de 2026. Distribución como candidato para piloto, sujeta al gate de paquete/CI.
 
-## Phases
+[Hoja de ruta completa archivada](milestones/v5.0-ROADMAP.md) · [Requisitos y trazabilidad](milestones/v5.0-REQUIREMENTS.md) · [Auditoría del hito](milestones/v5.0-MILESTONE-AUDIT.md)
 
-- [x] **Phase 1: Operación persistente y acceso** - El taller registra y controla el ciclo de una orden con datos duraderos y permisos.
-- [x] **Phase 2: Interfaz por rol y fuentes** - Cada rol completa su trabajo en pantallas en español y consulta los registros que lo sustentan.
-- [ ] **Phase 3: Inteligencia y seguimiento de agentes** - Gerencia consulta métricas vivas y decide sobre propuestas con trazabilidad.
-- [x] **Phase 4: Verificación y entrega local** - La instalación, recuperación, pruebas y manuales respaldan el recorrido completo.
+## Fases completadas
 
-## Phase Details
+1. Operación persistente y acceso — 3/3 planes.
+2. Interfaz por rol y fuentes — 2/2 planes.
+3. Inteligencia y seguimiento — 2/2 planes; inferencia nativa real verificada.
+4. Verificación y entrega local — 2/2 planes.
 
-### Phase 1: Operación persistente y acceso
-**Goal**: Los usuarios autorizados pueden registrar una orden y llevarla con integridad desde la recepción hasta el saldo, junto con flotillas y grúas.
-**Depends on**: Nothing
-**Requirements**: AUTH-01, AUTH-02, RUN-01, OPS-01, OPS-02, OPS-03, OPS-04, STK-01, FIN-01, FLT-01, TOW-01
-**Success Criteria** (what must be TRUE):
-  1. Un usuario autorizado inicia sesión, registra cliente, vehículo, cita y orden; otro rol sin permiso no puede alterar esos datos.
-  2. Recepción y técnico conservan inspecciones, evidencia, versiones de cotización, decisiones y eventos; una orden no avanza a trabajo o entrega sin las condiciones requeridas.
-  3. Refacciones puede recibir, reservar, consumir, liberar y devolver existencias sin crear saldo imposible; administración registra comprobante, pago parcial y saldo sin duplicados ni sobrepago.
-  4. Se registran contratos y vencimientos de flotilla y solicitudes e hitos de grúa con responsables y evidencia humana.
-  5. Una instalación vacía y una demo aislada arrancan en Windows y preservan los datos tras reiniciar.
-**Plans**: 3 plans
-
-Plans:
-- [x] 01-01: Acceso, arranque y entidades de recepción.
-- [x] 01-02: Orden, autorización, calidad e inventario transaccional.
-- [x] 01-03: Cobro administrativo, flotillas y grúas.
-
-### Phase 2: Interfaz por rol y fuentes
-**Goal**: Recepción, técnicos y gerencia completan sus recorridos en una interfaz española y pueden inspeccionar las fuentes.
-**Depends on**: Phase 1
-**Requirements**: DAT-01, UX-01
-**Success Criteria** (what must be TRUE):
-  1. Recepción crea y sigue una orden desde un teléfono o escritorio, con estados vacíos y errores que indican cómo corregirla.
-  2. El técnico ve sus órdenes y registra inspección, trabajo y calidad sin acceder a operaciones de otros roles.
-  3. Gerencia encuentra pendientes y detalles de una orden y consulta tablas fuente con búsqueda, relaciones y CSV seguro.
-**Plans**: 2 plans
-
-Plans:
-- [x] 02-01: Pantallas operativas por rol y diseño adaptable.
-- [x] 02-02: Explorador de fuentes y exportación CSV.
-**UI hint**: yes
-
-### Phase 3: Inteligencia y seguimiento de agentes
-**Goal**: Gerencia explica resultados con cobertura visible y convierte propuestas revisadas en acciones internas medibles.
-**Depends on**: Phase 2
-**Requirements**: MET-01, MET-02, AGT-01, AGT-02, AGT-03
-**Success Criteria** (what must be TRUE):
-  1. Gerencia ve tiempos, rentabilidad, conversión y cobranza calculados desde órdenes y pagos persistentes, con definición, cobertura y detalle hasta registros fuente.
-  2. Si faltan costos, tiempos o historial, las vistas muestran desconocido o cobertura parcial sin inventar margen ni tendencia.
-  3. Una ejecución de agente guarda evidencia actual, hallazgos, propuesta y error visible cuando falle el modelo nativo.
-  4. Una persona acepta o rechaza cada propuesta; aceptar una propuesta vigente crea una sola tarea interna con responsable, plazo, cierre y comprobación posterior.
-**Plans**: 2 plans
-
-Plans:
-- [x] 03-01: Métricas vivas con definiciones, cobertura y detalle.
-- [ ] 03-02: Ejecuciones de agentes y ciclo de propuesta a tarea.
-**UI hint**: yes
-
-### Phase 4: Verificación y entrega local
-**Goal**: El producto se puede instalar, recuperar y comprobar con un recorrido completo y manuales fieles al software.
-**Depends on**: Phase 3
-**Requirements**: RUN-02, QA-01, QA-02, DOC-01
-**Success Criteria** (what must be TRUE):
-  1. El operador exporta, respalda y restaura una instalación local y comprueba la integridad de los datos recuperados.
-  2. Un recorrido desechable atraviesa recepción, autorización, partes, ejecución, calidad, entrega, pago parcial, saldo y métricas correctas.
-  3. Intentos de rol indebido, CSRF, transición inválida, duplicado, falta de stock, sobrepago, evidencia ausente y propuesta obsoleta se rechazan sin corromper registros.
-  4. Un usuario puede seguir manuales por rol, instalación y soporte que corresponden a las pantallas, datos, métricas y contratos de agentes entregados.
-**Plans**: 2 plans
-
-Plans:
-- [x] 04-01: Recuperación, pruebas funcionales y negativas.
-- [x] 04-02: Manuales fieles, ensayo de instalación y paquete de entrega.
-**UI hint**: yes
-
-## Progress
-
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Operación persistente y acceso | 3/3 | Verificada localmente | 2026-09-22 |
-| 2. Interfaz por rol y fuentes | 2/2 | Verificada localmente | 2026-09-22 |
-| 3. Inteligencia y seguimiento de agentes | 1/2 | AGT-03 pendiente de autenticación e inferencia real | - |
-| 4. Verificación y entrega local | 2/2 | Verificada localmente; piloto aparte | 2026-09-22 |
-
-**Coverage**: 22/22 requisitos v5.0 asignados exactamente una vez. 21/22 verificados localmente. AGT-03 permanece parcial; no se declara completado el hito ni aceptación comercial.
+Los planes, resúmenes, verificaciones y VALIDATION están en [el archivo de fases](milestones/v5.0-phases/). No hay una nueva fase activa. El piloto del cliente, la configuración de su red y su aceptación no se presentan como realizados.

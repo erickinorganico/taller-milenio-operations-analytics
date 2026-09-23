@@ -3,7 +3,7 @@
 ## Core value
 El personal puede llevar un vehículo desde recepción hasta entrega y cobro; gerencia puede explicar tiempos, costos y pendientes a partir de esos mismos registros. Las acciones sugeridas tienen responsable, evidencia y resultado.
 
-## Current Milestone: v5.0 Aplicación operativa
+## Estado actual: v5.0 Aplicación operativa — cierre técnico local
 
 El usuario confirmó operación diaria más análisis y agentes, rechazó V4 como entrega final y autorizó seguir las recomendaciones de investigación y GSD sin nuevas preguntas rutinarias. Esta aprobación sustituye la antigua restricción de producto de solo lectura. No autoriza mensajes reales a terceros, compras, movimientos de dinero ni diagnóstico mecánico automático.
 
@@ -20,3 +20,13 @@ Contratos y calidad de datos, trazabilidad de métricas, análisis de negocio, o
 
 ## Evolution
 V1–V4: toolkit analítico reproducible. V5: producto operativo con autenticación, base transaccional, métricas vivas y seguimiento. Las etapas de implementación, verificación local, publicación y adopción se registran por separado.
+
+## Estado de verificación local
+
+Los 22 requisitos, 9 planes y 4 fases tienen evidencia local (`passed` por fase). La suite cerró 71/71 pruebas, incluidas 18 de inteligencia. `artifacts/v5-native-verification.json` acredita una corrida V5 real con GPT-6 Luna y datos demo sintéticos, separada de los recibos V1–V4. La auditoría técnica pasó 22/22 requisitos; el hito se archivó con cuatro fases y nueve planes verificados. La publicación es un candidato para piloto, no una afirmación de aceptación comercial. La aprobación del usuario para la dirección de producto y las decisiones GSD recomendadas consta en la conversación del 22 de septiembre; no es una clave de configuración GSD.
+
+## Siguiente implantación
+
+Validar procesos con personal del taller, conciliar datos autorizados y acordar despliegue, soporte y retención. No se inicia un nuevo hito de desarrollo automáticamente.
+
+Actualizado el 22 de septiembre de 2026 tras el cierre técnico V5.

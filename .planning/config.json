@@ -4,6 +4,5 @@
   "parallelization": true,
   "commit_docs": false,
   "workflow": {"research": true, "plan_check": true, "verifier": true, "skip_discuss": true},
-  "approval_context": "User explicitly approved recommended product direction and all recommended GSD choices on 2026-09-22. No routine confirmation needed. Git publication remains separately verified.",
   "agent_skills": {}
 }
