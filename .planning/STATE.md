@@ -53,3 +53,9 @@ Roadmap, requisitos, auditoría y fases V6 están en `.planning/milestones/`. El
 ## Operator Next Steps
 
 - Publicar únicamente un ZIP cuyo hash coincida con su verificación final; registrar los recibos de publicación por separado.
+
+## Actualización posterior al cierre V6 — 2026-09-23
+
+La entrega V6.0.0-rc1 fue publicada previamente mediante PR #4; `artifacts/v6-publication.json` conserva el recibo. Las pendientes de publicación anteriores describen el cierre histórico, no el estado actual de esa versión.
+
+El rediseño de analytics solicitado después se documenta en `.planning/quick/20260923-analytics-interface/`. Incluye tres vistas, presentación de datos congelados, navegación y revisión independiente. La suite actual pasa 122 pruebas; la evidencia visual y sus límites están en `docs/ANALYTICS-UI-REVIEW.md`. Este cambio no acredita aceptación comercial ni uso con datos reales del taller.
