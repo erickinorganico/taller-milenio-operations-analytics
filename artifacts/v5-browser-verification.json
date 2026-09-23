@@ -1,0 +1,27 @@
+{
+  "version": "5.0",
+  "date_local": "2026-09-22",
+  "method": "Codex browser interaction with local running Waitress application",
+  "data": "synthetic demo only",
+  "checks": {
+    "persisted_approval_and_in_progress_after_server_restart": "pass",
+    "desktop_render": "pass",
+    "mobile_viewport": [
+      390,
+      844
+    ],
+    "mobile_document_width": 375,
+    "mobile_client_width": 375,
+    "source_cards": 24,
+    "metric_cards": 18,
+    "quote_printable_render": "pass",
+    "rules_runs_three_roles": "pass",
+    "proposal_accept_create_task": "pass",
+    "task_owner_due_date": "pass",
+    "order_assignment_corrected": "pass",
+    "task_completed_with_human_outcome": "pass"
+  },
+  "native_model_invoked": false,
+  "physical_mobile_or_printer_tested": false,
+  "client_acceptance": false
+}

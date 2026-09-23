@@ -1,0 +1,6 @@
+Abra INICIO.html en su navegador. Funciona sin servidor e internet.
+Las filas son sintéticas; este corte no describe la operación real del taller.
+Fuentes permite buscar todas las filas y navegar sus relaciones; Métricas expone cálculos y evidencia.
+Las prioridades OPS recorren la población completa. Las propuestas AGT provienen de lecturas acotadas por rol.
+Para seguimiento: copie Seguimiento.xlsx fuera de esta carpeta, anote responsable, estado, fecha y evidencia.
+Importe esa copia mediante studio-review; no modifique el original sellado.

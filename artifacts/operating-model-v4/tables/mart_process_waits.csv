@@ -1,0 +1,10 @@
+﻿entity_type,stage,intervals,cases,total_hours,mean_interval_hours
+work_orders,authorized,160,160,375.39,2.346
+work_orders,in_service,176,160,397.208,2.257
+work_orders,inspected,160,160,375.39,2.346
+work_orders,quality_check,176,160,397.208,2.257
+work_orders,ready,160,160,375.39,2.346
+work_orders,received,160,160,375.39,2.346
+work_orders,rework,16,16,21.818,1.364
+work_orders,scheduled,160,160,375.39,2.346
+work_orders,waiting_parts,16,16,21.818,1.364

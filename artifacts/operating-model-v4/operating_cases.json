@@ -1,0 +1,4378 @@
+{
+  "as_of": "2026-09-21T18:00:00Z",
+  "coverage": [
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 10,
+      "status": "scanned",
+      "table": "customers",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 12,
+      "status": "scanned",
+      "table": "vehicles",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 1,
+      "scanned_rows": 166,
+      "status": "scanned",
+      "table": "leads",
+      "triggered_cases": 1,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 1,
+      "scanned_rows": 170,
+      "status": "scanned",
+      "table": "quotes",
+      "triggered_cases": 1,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 163,
+      "status": "scanned",
+      "table": "appointments",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 4,
+      "status": "scanned",
+      "table": "technicians",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 4,
+      "status": "scanned",
+      "table": "bays",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 2,
+      "scanned_rows": 170,
+      "status": "scanned",
+      "table": "work_orders",
+      "triggered_cases": 2,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 3,
+      "status": "scanned",
+      "table": "suppliers",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 6,
+      "status": "scanned",
+      "table": "parts",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 3,
+      "status": "scanned",
+      "table": "purchases",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 165,
+      "status": "scanned",
+      "table": "stock_moves",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 163,
+      "status": "scanned",
+      "table": "reservations",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 2,
+      "status": "scanned",
+      "table": "fleet_accounts",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 3,
+      "status": "scanned",
+      "table": "contacts",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 2,
+      "status": "scanned",
+      "table": "opportunities",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 2,
+      "status": "scanned",
+      "table": "contracts",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 3,
+      "status": "scanned",
+      "table": "maintenance",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 4,
+      "status": "scanned",
+      "table": "tow_units",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 3,
+      "scanned_rows": 5,
+      "status": "scanned",
+      "table": "tows",
+      "triggered_cases": 3,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 50,
+      "scanned_rows": 164,
+      "status": "scanned",
+      "table": "invoices",
+      "triggered_cases": 50,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 162,
+      "status": "scanned",
+      "table": "payments",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 8,
+      "status": "scanned",
+      "table": "expenses",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 2,
+      "status": "scanned",
+      "table": "campaigns",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 2,
+      "status": "scanned",
+      "table": "proposals",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 1344,
+      "status": "scanned",
+      "table": "lifecycle_events",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 160,
+      "status": "scanned",
+      "table": "journey_links",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": null,
+      "scanned_rows": 170,
+      "status": "partial_unknown_metric",
+      "table": "mart_service_journey",
+      "triggered_cases": 0,
+      "unknown_metric_ids": [
+        "M-FLEET-SLA-RISK"
+      ]
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 164,
+      "status": "scanned",
+      "table": "mart_receivables",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 88,
+      "status": "scanned",
+      "table": "mart_daily_operations",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 2,
+      "status": "scanned",
+      "table": "mart_fleet_scorecard",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 4,
+      "scanned_rows": 6,
+      "status": "scanned",
+      "table": "mart_inventory",
+      "triggered_cases": 4,
+      "unknown_metric_ids": []
+    },
+    {
+      "complete_case_count": 0,
+      "scanned_rows": 9,
+      "status": "scanned",
+      "table": "mart_process_waits",
+      "triggered_cases": 0,
+      "unknown_metric_ids": []
+    }
+  ],
+  "decisions": [
+    {
+      "action_id": "OPS-OVERDUE-AR-04419011d89b",
+      "amount_at_risk_cents": 45000,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H090",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H090",
+          "table": "invoices",
+          "value": 90000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H090",
+          "table": "invoices",
+          "value": "2026-08-13T00:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H090",
+          "table": "payments",
+          "value": "INV-H090",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H090",
+          "table": "payments",
+          "value": 45000,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H090",
+          "table": "payments",
+          "value": "2026-08-08T00:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H090",
+        "payments:PAY-H090"
+      ],
+      "title": "Conciliar saldo vencido · INV-H090",
+      "why_now": "Saldo positivo conciliado de 45000 centavos; 39 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-0c180ec56640",
+      "amount_at_risk_cents": 45000,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H123",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H123",
+          "table": "invoices",
+          "value": 90000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H123",
+          "table": "invoices",
+          "value": "2026-07-24T05:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H123",
+          "table": "payments",
+          "value": "INV-H123",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H123",
+          "table": "payments",
+          "value": 45000,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H123",
+          "table": "payments",
+          "value": "2026-07-19T05:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H123",
+        "payments:PAY-H123"
+      ],
+      "title": "Conciliar saldo vencido · INV-H123",
+      "why_now": "Saldo positivo conciliado de 45000 centavos; 59 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-15fc19a07da0",
+      "amount_at_risk_cents": 95000,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H120",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H120",
+          "table": "invoices",
+          "value": 190000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H120",
+          "table": "invoices",
+          "value": "2026-07-25T14:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H120",
+          "table": "payments",
+          "value": "INV-H120",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H120",
+          "table": "payments",
+          "value": 95000,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H120",
+          "table": "payments",
+          "value": "2026-07-20T14:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H120",
+        "payments:PAY-H120"
+      ],
+      "title": "Conciliar saldo vencido · INV-H120",
+      "why_now": "Saldo positivo conciliado de 95000 centavos; 58 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-17f08bd15ff9",
+      "amount_at_risk_cents": 38750,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H111",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H111",
+          "table": "invoices",
+          "value": 77500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H111",
+          "table": "invoices",
+          "value": "2026-07-30T21:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H111",
+          "table": "payments",
+          "value": "INV-H111",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H111",
+          "table": "payments",
+          "value": 38750,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H111",
+          "table": "payments",
+          "value": "2026-07-25T21:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H111",
+        "payments:PAY-H111"
+      ],
+      "title": "Conciliar saldo vencido · INV-H111",
+      "why_now": "Saldo positivo conciliado de 38750 centavos; 53 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-1bf296ca6aa9",
+      "amount_at_risk_cents": 45000,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H156",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H156",
+          "table": "invoices",
+          "value": 90000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H156",
+          "table": "invoices",
+          "value": "2026-07-06T04:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H156",
+          "table": "payments",
+          "value": "INV-H156",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H156",
+          "table": "payments",
+          "value": 45000,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H156",
+          "table": "payments",
+          "value": "2026-07-01T04:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H156",
+        "payments:PAY-H156"
+      ],
+      "title": "Conciliar saldo vencido · INV-H156",
+      "why_now": "Saldo positivo conciliado de 45000 centavos; 77 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-229cb3121035",
+      "amount_at_risk_cents": 51250,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H135",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H135",
+          "table": "invoices",
+          "value": 102500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H135",
+          "table": "invoices",
+          "value": "2026-07-19T12:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H135",
+          "table": "payments",
+          "value": "INV-H135",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H135",
+          "table": "payments",
+          "value": 51250,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H135",
+          "table": "payments",
+          "value": "2026-07-14T12:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H135",
+        "payments:PAY-H135"
+      ],
+      "title": "Conciliar saldo vencido · INV-H135",
+      "why_now": "Saldo positivo conciliado de 51250 centavos; 64 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-282ebb4073eb",
+      "amount_at_risk_cents": 88750,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H108",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H108",
+          "table": "invoices",
+          "value": 177500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H108",
+          "table": "invoices",
+          "value": "2026-08-03T00:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H108",
+          "table": "payments",
+          "value": "INV-H108",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H108",
+          "table": "payments",
+          "value": 88750,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H108",
+          "table": "payments",
+          "value": "2026-07-29T00:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H108",
+        "payments:PAY-H108"
+      ],
+      "title": "Conciliar saldo vencido · INV-H108",
+      "why_now": "Saldo positivo conciliado de 88750 centavos; 49 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-2b28729d3d5f",
+      "amount_at_risk_cents": 32500,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H066",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H066",
+          "table": "invoices",
+          "value": 65000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H066",
+          "table": "invoices",
+          "value": "2026-08-24T00:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H066",
+          "table": "payments",
+          "value": "INV-H066",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H066",
+          "table": "payments",
+          "value": 32500,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H066",
+          "table": "payments",
+          "value": "2026-08-19T00:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H066",
+        "payments:PAY-H066"
+      ],
+      "title": "Conciliar saldo vencido · INV-H066",
+      "why_now": "Saldo positivo conciliado de 32500 centavos; 28 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-2baf65bcb882",
+      "amount_at_risk_cents": 57500,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H048",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H048",
+          "table": "invoices",
+          "value": 115000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H048",
+          "table": "invoices",
+          "value": "2026-09-03T00:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H048",
+          "table": "payments",
+          "value": "INV-H048",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H048",
+          "table": "payments",
+          "value": 57500,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H048",
+          "table": "payments",
+          "value": "2026-08-29T00:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H048",
+        "payments:PAY-H048"
+      ],
+      "title": "Conciliar saldo vencido · INV-H048",
+      "why_now": "Saldo positivo conciliado de 57500 centavos; 18 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-383080fbe6c5",
+      "amount_at_risk_cents": 57500,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H114",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H114",
+          "table": "invoices",
+          "value": 115000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H114",
+          "table": "invoices",
+          "value": "2026-07-28T22:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H114",
+          "table": "payments",
+          "value": "INV-H114",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H114",
+          "table": "payments",
+          "value": 57500,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H114",
+          "table": "payments",
+          "value": "2026-07-23T22:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H114",
+        "payments:PAY-H114"
+      ],
+      "title": "Conciliar saldo vencido · INV-H114",
+      "why_now": "Saldo positivo conciliado de 57500 centavos; 55 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-459f0b43bb21",
+      "amount_at_risk_cents": 88750,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H141",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H141",
+          "table": "invoices",
+          "value": 177500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H141",
+          "table": "invoices",
+          "value": "2026-07-14T05:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H141",
+          "table": "payments",
+          "value": "INV-H141",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H141",
+          "table": "payments",
+          "value": 88750,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H141",
+          "table": "payments",
+          "value": "2026-07-09T05:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H141",
+        "payments:PAY-H141"
+      ],
+      "title": "Conciliar saldo vencido · INV-H141",
+      "why_now": "Saldo positivo conciliado de 88750 centavos; 69 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-562f8c30411e",
+      "amount_at_risk_cents": 57500,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H147",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H147",
+          "table": "invoices",
+          "value": 115000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H147",
+          "table": "invoices",
+          "value": "2026-07-10T21:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H147",
+          "table": "payments",
+          "value": "INV-H147",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H147",
+          "table": "payments",
+          "value": 57500,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H147",
+          "table": "payments",
+          "value": "2026-07-05T21:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H147",
+        "payments:PAY-H147"
+      ],
+      "title": "Conciliar saldo vencido · INV-H147",
+      "why_now": "Saldo positivo conciliado de 57500 centavos; 73 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-5870323759cb",
+      "amount_at_risk_cents": 70000,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H072",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H072",
+          "table": "invoices",
+          "value": 140000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H072",
+          "table": "invoices",
+          "value": "2026-08-22T12:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H072",
+          "table": "payments",
+          "value": "INV-H072",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H072",
+          "table": "payments",
+          "value": 70000,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H072",
+          "table": "payments",
+          "value": "2026-08-17T12:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H072",
+        "payments:PAY-H072"
+      ],
+      "title": "Conciliar saldo vencido · INV-H072",
+      "why_now": "Saldo positivo conciliado de 70000 centavos; 30 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-602f92473b40",
+      "amount_at_risk_cents": 82500,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H096",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H096",
+          "table": "invoices",
+          "value": 165000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H096",
+          "table": "invoices",
+          "value": "2026-08-07T22:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H096",
+          "table": "payments",
+          "value": "INV-H096",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H096",
+          "table": "payments",
+          "value": 82500,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H096",
+          "table": "payments",
+          "value": "2026-08-02T22:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H096",
+        "payments:PAY-H096"
+      ],
+      "title": "Conciliar saldo vencido · INV-H096",
+      "why_now": "Saldo positivo conciliado de 82500 centavos; 45 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-63d106e55db9",
+      "amount_at_risk_cents": 76250,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H150",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H150",
+          "table": "invoices",
+          "value": 152500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H150",
+          "table": "invoices",
+          "value": "2026-07-09T12:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H150",
+          "table": "payments",
+          "value": "INV-H150",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H150",
+          "table": "payments",
+          "value": 76250,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H150",
+          "table": "payments",
+          "value": "2026-07-04T12:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H150",
+        "payments:PAY-H150"
+      ],
+      "title": "Conciliar saldo vencido · INV-H150",
+      "why_now": "Saldo positivo conciliado de 76250 centavos; 74 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-6d09bffb3c1c",
+      "amount_at_risk_cents": 51250,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H069",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H069",
+          "table": "invoices",
+          "value": 102500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H069",
+          "table": "invoices",
+          "value": "2026-08-22T15:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H069",
+          "table": "payments",
+          "value": "INV-H069",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H069",
+          "table": "payments",
+          "value": 51250,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H069",
+          "table": "payments",
+          "value": "2026-08-17T15:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H069",
+        "payments:PAY-H069"
+      ],
+      "title": "Conciliar saldo vencido · INV-H069",
+      "why_now": "Saldo positivo conciliado de 51250 centavos; 30 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-6e788258842d",
+      "amount_at_risk_cents": 63750,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H159",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H159",
+          "table": "invoices",
+          "value": 127500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H159",
+          "table": "invoices",
+          "value": "2026-07-04T19:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H159",
+          "table": "payments",
+          "value": "INV-H159",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H159",
+          "table": "payments",
+          "value": 63750,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H159",
+          "table": "payments",
+          "value": "2026-06-29T19:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H159",
+        "payments:PAY-H159"
+      ],
+      "title": "Conciliar saldo vencido · INV-H159",
+      "why_now": "Saldo positivo conciliado de 63750 centavos; 79 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-75c72ee6cf2d",
+      "amount_at_risk_cents": 57500,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H081",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H081",
+          "table": "invoices",
+          "value": 115000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H081",
+          "table": "invoices",
+          "value": "2026-08-18T00:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H081",
+          "table": "payments",
+          "value": "INV-H081",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H081",
+          "table": "payments",
+          "value": 57500,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H081",
+          "table": "payments",
+          "value": "2026-08-13T00:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H081",
+        "payments:PAY-H081"
+      ],
+      "title": "Conciliar saldo vencido · INV-H081",
+      "why_now": "Saldo positivo conciliado de 57500 centavos; 34 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-7c21be951474",
+      "amount_at_risk_cents": 63750,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H093",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H093",
+          "table": "invoices",
+          "value": 127500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H093",
+          "table": "invoices",
+          "value": "2026-08-09T07:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H093",
+          "table": "payments",
+          "value": "INV-H093",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H093",
+          "table": "payments",
+          "value": 63750,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H093",
+          "table": "payments",
+          "value": "2026-08-04T07:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H093",
+        "payments:PAY-H093"
+      ],
+      "title": "Conciliar saldo vencido · INV-H093",
+      "why_now": "Saldo positivo conciliado de 63750 centavos; 43 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-7d6dcf30c685",
+      "amount_at_risk_cents": 82500,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H063",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H063",
+          "table": "invoices",
+          "value": 165000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H063",
+          "table": "invoices",
+          "value": "2026-08-27T12:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H063",
+          "table": "payments",
+          "value": "INV-H063",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H063",
+          "table": "payments",
+          "value": 82500,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H063",
+          "table": "payments",
+          "value": "2026-08-22T12:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H063",
+        "payments:PAY-H063"
+      ],
+      "title": "Conciliar saldo vencido · INV-H063",
+      "why_now": "Saldo positivo conciliado de 82500 centavos; 25 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-7ed3e7e33f4e",
+      "amount_at_risk_cents": 38750,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H144",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H144",
+          "table": "invoices",
+          "value": 77500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H144",
+          "table": "invoices",
+          "value": "2026-07-14T12:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H144",
+          "table": "payments",
+          "value": "INV-H144",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H144",
+          "table": "payments",
+          "value": 38750,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H144",
+          "table": "payments",
+          "value": "2026-07-09T12:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H144",
+        "payments:PAY-H144"
+      ],
+      "title": "Conciliar saldo vencido · INV-H144",
+      "why_now": "Saldo positivo conciliado de 38750 centavos; 69 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-85f52a0ae3cf",
+      "amount_at_risk_cents": 95000,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H153",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H153",
+          "table": "invoices",
+          "value": 190000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H153",
+          "table": "invoices",
+          "value": "2026-07-10T00:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H153",
+          "table": "payments",
+          "value": "INV-H153",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H153",
+          "table": "payments",
+          "value": 95000,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H153",
+          "table": "payments",
+          "value": "2026-07-05T00:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H153",
+        "payments:PAY-H153"
+      ],
+      "title": "Conciliar saldo vencido · INV-H153",
+      "why_now": "Saldo positivo conciliado de 95000 centavos; 73 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-881da2627b3b",
+      "amount_at_risk_cents": 76250,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H117",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H117",
+          "table": "invoices",
+          "value": 152500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H117",
+          "table": "invoices",
+          "value": "2026-07-29T12:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H117",
+          "table": "payments",
+          "value": "INV-H117",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H117",
+          "table": "payments",
+          "value": 76250,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H117",
+          "table": "payments",
+          "value": "2026-07-24T12:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H117",
+        "payments:PAY-H117"
+      ],
+      "title": "Conciliar saldo vencido · INV-H117",
+      "why_now": "Saldo positivo conciliado de 76250 centavos; 54 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-94eb332c3180",
+      "amount_at_risk_cents": 76250,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H051",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H051",
+          "table": "invoices",
+          "value": 152500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H051",
+          "table": "invoices",
+          "value": "2026-09-01T01:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H051",
+          "table": "payments",
+          "value": "INV-H051",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H051",
+          "table": "payments",
+          "value": 76250,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H051",
+          "table": "payments",
+          "value": "2026-08-27T01:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H051",
+        "payments:PAY-H051"
+      ],
+      "title": "Conciliar saldo vencido · INV-H051",
+      "why_now": "Saldo positivo conciliado de 76250 centavos; 20 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-ab296b1e2caf",
+      "amount_at_risk_cents": 32500,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H132",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H132",
+          "table": "invoices",
+          "value": 65000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H132",
+          "table": "invoices",
+          "value": "2026-07-19T12:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H132",
+          "table": "payments",
+          "value": "INV-H132",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H132",
+          "table": "payments",
+          "value": 32500,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H132",
+          "table": "payments",
+          "value": "2026-07-14T12:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H132",
+        "payments:PAY-H132"
+      ],
+      "title": "Conciliar saldo vencido · INV-H132",
+      "why_now": "Saldo positivo conciliado de 32500 centavos; 64 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-af79b9e4cc85",
+      "amount_at_risk_cents": 95000,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H054",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H054",
+          "table": "invoices",
+          "value": 190000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H054",
+          "table": "invoices",
+          "value": "2026-09-01T12:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H054",
+          "table": "payments",
+          "value": "INV-H054",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H054",
+          "table": "payments",
+          "value": 95000,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H054",
+          "table": "payments",
+          "value": "2026-08-27T12:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H054",
+        "payments:PAY-H054"
+      ],
+      "title": "Conciliar saldo vencido · INV-H054",
+      "why_now": "Saldo positivo conciliado de 95000 centavos; 20 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-b5ad32ac016f",
+      "amount_at_risk_cents": 70000,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H105",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H105",
+          "table": "invoices",
+          "value": 140000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H105",
+          "table": "invoices",
+          "value": "2026-08-02T15:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H105",
+          "table": "payments",
+          "value": "INV-H105",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H105",
+          "table": "payments",
+          "value": 70000,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H105",
+          "table": "payments",
+          "value": "2026-07-28T15:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H105",
+        "payments:PAY-H105"
+      ],
+      "title": "Conciliar saldo vencido · INV-H105",
+      "why_now": "Saldo positivo conciliado de 70000 centavos; 50 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-b9d601f8a41c",
+      "amount_at_risk_cents": 32500,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H099",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H099",
+          "table": "invoices",
+          "value": 65000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H099",
+          "table": "invoices",
+          "value": "2026-08-08T00:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H099",
+          "table": "payments",
+          "value": "INV-H099",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H099",
+          "table": "payments",
+          "value": 32500,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H099",
+          "table": "payments",
+          "value": "2026-08-03T00:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H099",
+        "payments:PAY-H099"
+      ],
+      "title": "Conciliar saldo vencido · INV-H099",
+      "why_now": "Saldo positivo conciliado de 32500 centavos; 44 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-bbad2f9201de",
+      "amount_at_risk_cents": 51250,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H102",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H102",
+          "table": "invoices",
+          "value": 102500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H102",
+          "table": "invoices",
+          "value": "2026-08-04T14:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H102",
+          "table": "payments",
+          "value": "INV-H102",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H102",
+          "table": "payments",
+          "value": 51250,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H102",
+          "table": "payments",
+          "value": "2026-07-30T14:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H102",
+        "payments:PAY-H102"
+      ],
+      "title": "Conciliar saldo vencido · INV-H102",
+      "why_now": "Saldo positivo conciliado de 51250 centavos; 48 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-be80e943e24e",
+      "amount_at_risk_cents": 70000,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H138",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H138",
+          "table": "invoices",
+          "value": 140000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H138",
+          "table": "invoices",
+          "value": "2026-07-16T04:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H138",
+          "table": "payments",
+          "value": "INV-H138",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H138",
+          "table": "payments",
+          "value": 70000,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H138",
+          "table": "payments",
+          "value": "2026-07-11T04:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H138",
+        "payments:PAY-H138"
+      ],
+      "title": "Conciliar saldo vencido · INV-H138",
+      "why_now": "Saldo positivo conciliado de 70000 centavos; 67 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-c09bfbd5aa26",
+      "amount_at_risk_cents": 88750,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H075",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H075",
+          "table": "invoices",
+          "value": 177500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H075",
+          "table": "invoices",
+          "value": "2026-08-19T07:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H075",
+          "table": "payments",
+          "value": "INV-H075",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H075",
+          "table": "payments",
+          "value": 88750,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H075",
+          "table": "payments",
+          "value": "2026-08-14T07:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H075",
+        "payments:PAY-H075"
+      ],
+      "title": "Conciliar saldo vencido · INV-H075",
+      "why_now": "Saldo positivo conciliado de 88750 centavos; 33 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-c483196a3c50",
+      "amount_at_risk_cents": 38750,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H045",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H045",
+          "table": "invoices",
+          "value": 77500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H045",
+          "table": "invoices",
+          "value": "2026-09-06T12:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H045",
+          "table": "payments",
+          "value": "INV-H045",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H045",
+          "table": "payments",
+          "value": 38750,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H045",
+          "table": "payments",
+          "value": "2026-09-01T12:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H045",
+        "payments:PAY-H045"
+      ],
+      "title": "Conciliar saldo vencido · INV-H045",
+      "why_now": "Saldo positivo conciliado de 38750 centavos; 15 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-cbcce9b2b8ff",
+      "amount_at_risk_cents": 63750,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H060",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H060",
+          "table": "invoices",
+          "value": 127500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H060",
+          "table": "invoices",
+          "value": "2026-08-27T08:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H060",
+          "table": "payments",
+          "value": "INV-H060",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H060",
+          "table": "payments",
+          "value": 63750,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H060",
+          "table": "payments",
+          "value": "2026-08-22T08:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H060",
+        "payments:PAY-H060"
+      ],
+      "title": "Conciliar saldo vencido · INV-H060",
+      "why_now": "Saldo positivo conciliado de 63750 centavos; 25 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-d2b5e40e632b",
+      "amount_at_risk_cents": 63750,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H126",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H126",
+          "table": "invoices",
+          "value": 127500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H126",
+          "table": "invoices",
+          "value": "2026-07-24T12:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H126",
+          "table": "payments",
+          "value": "INV-H126",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H126",
+          "table": "payments",
+          "value": 63750,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H126",
+          "table": "payments",
+          "value": "2026-07-19T12:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H126",
+        "payments:PAY-H126"
+      ],
+      "title": "Conciliar saldo vencido · INV-H126",
+      "why_now": "Saldo positivo conciliado de 63750 centavos; 59 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-e3282bda32b1",
+      "amount_at_risk_cents": 95000,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H087",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H087",
+          "table": "invoices",
+          "value": 190000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H087",
+          "table": "invoices",
+          "value": "2026-08-12T15:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H087",
+          "table": "payments",
+          "value": "INV-H087",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H087",
+          "table": "payments",
+          "value": 95000,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H087",
+          "table": "payments",
+          "value": "2026-08-07T15:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H087",
+        "payments:PAY-H087"
+      ],
+      "title": "Conciliar saldo vencido · INV-H087",
+      "why_now": "Saldo positivo conciliado de 95000 centavos; 40 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-eb8673722d0a",
+      "amount_at_risk_cents": 45000,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H057",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H057",
+          "table": "invoices",
+          "value": 90000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H057",
+          "table": "invoices",
+          "value": "2026-08-28T17:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H057",
+          "table": "payments",
+          "value": "INV-H057",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H057",
+          "table": "payments",
+          "value": 45000,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H057",
+          "table": "payments",
+          "value": "2026-08-23T17:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H057",
+        "payments:PAY-H057"
+      ],
+      "title": "Conciliar saldo vencido · INV-H057",
+      "why_now": "Saldo positivo conciliado de 45000 centavos; 24 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-f382fd72194d",
+      "amount_at_risk_cents": 76250,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H084",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H084",
+          "table": "invoices",
+          "value": 152500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H084",
+          "table": "invoices",
+          "value": "2026-08-14T00:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H084",
+          "table": "payments",
+          "value": "INV-H084",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H084",
+          "table": "payments",
+          "value": 76250,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H084",
+          "table": "payments",
+          "value": "2026-08-09T00:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H084",
+        "payments:PAY-H084"
+      ],
+      "title": "Conciliar saldo vencido · INV-H084",
+      "why_now": "Saldo positivo conciliado de 76250 centavos; 38 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-f6370156a768",
+      "amount_at_risk_cents": 82500,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H129",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H129",
+          "table": "invoices",
+          "value": 165000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H129",
+          "table": "invoices",
+          "value": "2026-07-20T21:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H129",
+          "table": "payments",
+          "value": "INV-H129",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H129",
+          "table": "payments",
+          "value": 82500,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H129",
+          "table": "payments",
+          "value": "2026-07-15T21:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H129",
+        "payments:PAY-H129"
+      ],
+      "title": "Conciliar saldo vencido · INV-H129",
+      "why_now": "Saldo positivo conciliado de 82500 centavos; 63 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-f9b846e8bf48",
+      "amount_at_risk_cents": 88750,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H042",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H042",
+          "table": "invoices",
+          "value": 177500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H042",
+          "table": "invoices",
+          "value": "2026-09-05T18:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H042",
+          "table": "payments",
+          "value": "INV-H042",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H042",
+          "table": "payments",
+          "value": 88750,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H042",
+          "table": "payments",
+          "value": "2026-08-31T18:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H042",
+        "payments:PAY-H042"
+      ],
+      "title": "Conciliar saldo vencido · INV-H042",
+      "why_now": "Saldo positivo conciliado de 88750 centavos; 16 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-ff9a05cfcf91",
+      "amount_at_risk_cents": 38750,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H078",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H078",
+          "table": "invoices",
+          "value": 77500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H078",
+          "table": "invoices",
+          "value": "2026-08-17T08:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H078",
+          "table": "payments",
+          "value": "INV-H078",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H078",
+          "table": "payments",
+          "value": 38750,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H078",
+          "table": "payments",
+          "value": "2026-08-12T08:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P1",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H078",
+        "payments:PAY-H078"
+      ],
+      "title": "Conciliar saldo vencido · INV-H078",
+      "why_now": "Saldo positivo conciliado de 38750 centavos; 35 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-REORDER-REVIEW-5c3610ea48ed",
+      "amount_at_risk_cents": null,
+      "category": "reorder_review",
+      "evidence": [
+        {
+          "field": "on_hand",
+          "record_id": "P-004",
+          "table": "mart_inventory",
+          "value": 0,
+          "version": null
+        },
+        {
+          "field": "reserved",
+          "record_id": "P-004",
+          "table": "mart_inventory",
+          "value": 0,
+          "version": null
+        },
+        {
+          "field": "available",
+          "record_id": "P-004",
+          "table": "mart_inventory",
+          "value": 0,
+          "version": null
+        },
+        {
+          "field": "reorder_point",
+          "record_id": "P-004",
+          "table": "mart_inventory",
+          "value": 2,
+          "version": null
+        },
+        {
+          "field": "reorder_point",
+          "record_id": "P-004",
+          "table": "parts",
+          "value": 2,
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-STOCK-AVAILABLE",
+        "M-STOCK-REORDER"
+      ],
+      "owner_role": "Responsable de partes",
+      "priority": "P1",
+      "process_ids": [
+        "parts_procurement"
+      ],
+      "recommended_next_step": "Conciliar conteo y reservas; revisar compras y consumo esperado antes de solicitar autorización de compra.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "mart_inventory:P-004",
+        "parts:P-004"
+      ],
+      "title": "Revisar parte · P-004",
+      "why_now": "Disponibles 0 unidades; punto de reposición 2."
+    },
+    {
+      "action_id": "OPS-REORDER-REVIEW-bda60ad52e3d",
+      "amount_at_risk_cents": null,
+      "category": "reorder_review",
+      "evidence": [
+        {
+          "field": "on_hand",
+          "record_id": "P-005",
+          "table": "mart_inventory",
+          "value": 0,
+          "version": null
+        },
+        {
+          "field": "reserved",
+          "record_id": "P-005",
+          "table": "mart_inventory",
+          "value": 0,
+          "version": null
+        },
+        {
+          "field": "available",
+          "record_id": "P-005",
+          "table": "mart_inventory",
+          "value": 0,
+          "version": null
+        },
+        {
+          "field": "reorder_point",
+          "record_id": "P-005",
+          "table": "mart_inventory",
+          "value": 2,
+          "version": null
+        },
+        {
+          "field": "reorder_point",
+          "record_id": "P-005",
+          "table": "parts",
+          "value": 2,
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-STOCK-AVAILABLE",
+        "M-STOCK-REORDER"
+      ],
+      "owner_role": "Responsable de partes",
+      "priority": "P1",
+      "process_ids": [
+        "parts_procurement"
+      ],
+      "recommended_next_step": "Conciliar conteo y reservas; revisar compras y consumo esperado antes de solicitar autorización de compra.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "mart_inventory:P-005",
+        "parts:P-005"
+      ],
+      "title": "Revisar parte · P-005",
+      "why_now": "Disponibles 0 unidades; punto de reposición 2."
+    },
+    {
+      "action_id": "OPS-REORDER-REVIEW-d58e8445fa34",
+      "amount_at_risk_cents": null,
+      "category": "reorder_review",
+      "evidence": [
+        {
+          "field": "on_hand",
+          "record_id": "P-006",
+          "table": "mart_inventory",
+          "value": 0,
+          "version": null
+        },
+        {
+          "field": "reserved",
+          "record_id": "P-006",
+          "table": "mart_inventory",
+          "value": 0,
+          "version": null
+        },
+        {
+          "field": "available",
+          "record_id": "P-006",
+          "table": "mart_inventory",
+          "value": 0,
+          "version": null
+        },
+        {
+          "field": "reorder_point",
+          "record_id": "P-006",
+          "table": "mart_inventory",
+          "value": 2,
+          "version": null
+        },
+        {
+          "field": "reorder_point",
+          "record_id": "P-006",
+          "table": "parts",
+          "value": 2,
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-STOCK-AVAILABLE",
+        "M-STOCK-REORDER"
+      ],
+      "owner_role": "Responsable de partes",
+      "priority": "P1",
+      "process_ids": [
+        "parts_procurement"
+      ],
+      "recommended_next_step": "Conciliar conteo y reservas; revisar compras y consumo esperado antes de solicitar autorización de compra.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "mart_inventory:P-006",
+        "parts:P-006"
+      ],
+      "title": "Revisar parte · P-006",
+      "why_now": "Disponibles 0 unidades; punto de reposición 2."
+    },
+    {
+      "action_id": "OPS-REWORK-6516d6101cae",
+      "amount_at_risk_cents": null,
+      "category": "rework",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "WO-004",
+          "table": "work_orders",
+          "value": "rework",
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "WO-004",
+          "table": "work_orders",
+          "value": "2026-09-23T20:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "block_reason",
+          "record_id": "WO-004",
+          "table": "work_orders",
+          "value": null,
+          "version": 1
+        },
+        {
+          "field": "qc_ref",
+          "record_id": "WO-004",
+          "table": "work_orders",
+          "value": null,
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-WIP-OPEN"
+      ],
+      "owner_role": "Jefatura de taller",
+      "priority": "P1",
+      "process_ids": [
+        "b2c_workshop"
+      ],
+      "recommended_next_step": "Confirmar la falla, responsable técnico y criterio de control de calidad antes de prometer entrega.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "work_orders:WO-004"
+      ],
+      "title": "Revisar retrabajo · WO-004",
+      "why_now": "La orden está en retrabajo; la causa y el control de calidad requieren revisión."
+    },
+    {
+      "action_id": "OPS-TOW-LATE-REVIEW-0ec20043e9dc",
+      "amount_at_risk_cents": null,
+      "category": "tow_late_review",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "TW-002",
+          "table": "tows",
+          "value": "en_route",
+          "version": 1
+        },
+        {
+          "field": "requested_at",
+          "record_id": "TW-002",
+          "table": "tows",
+          "value": "2026-09-20T18:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "TW-002",
+          "table": "tows",
+          "value": "2026-09-20T22:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "safety_ref",
+          "record_id": "TW-002",
+          "table": "tows",
+          "value": "SAFE-HUMAN-001",
+          "version": 1
+        },
+        {
+          "field": "human_approval_ref",
+          "record_id": "TW-002",
+          "table": "tows",
+          "value": "HUMAN-APP-001",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-TOW-OPEN"
+      ],
+      "owner_role": "Coordinación grúas",
+      "priority": "P1",
+      "process_ids": [
+        "towing"
+      ],
+      "recommended_next_step": "Confirmar situación, seguridad y comunicación con una persona; revisar el compromiso documentado.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "tows:TW-002"
+      ],
+      "title": "Revisar demora de grúa · TW-002",
+      "why_now": "La solicitud sigue abierta después de la fecha objetivo declarada."
+    },
+    {
+      "action_id": "OPS-TOW-LATE-REVIEW-748526c58f4e",
+      "amount_at_risk_cents": null,
+      "category": "tow_late_review",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "TW-003",
+          "table": "tows",
+          "value": "requested",
+          "version": 1
+        },
+        {
+          "field": "requested_at",
+          "record_id": "TW-003",
+          "table": "tows",
+          "value": "2026-09-20T18:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "TW-003",
+          "table": "tows",
+          "value": "2026-09-20T22:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "safety_ref",
+          "record_id": "TW-003",
+          "table": "tows",
+          "value": null,
+          "version": 1
+        },
+        {
+          "field": "human_approval_ref",
+          "record_id": "TW-003",
+          "table": "tows",
+          "value": null,
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-TOW-OPEN"
+      ],
+      "owner_role": "Coordinación grúas",
+      "priority": "P1",
+      "process_ids": [
+        "towing"
+      ],
+      "recommended_next_step": "Confirmar situación, seguridad y comunicación con una persona; revisar el compromiso documentado.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "tows:TW-003"
+      ],
+      "title": "Revisar demora de grúa · TW-003",
+      "why_now": "La solicitud sigue abierta después de la fecha objetivo declarada."
+    },
+    {
+      "action_id": "OPS-TOW-REFS-REVIEW-39710ea5849e",
+      "amount_at_risk_cents": null,
+      "category": "tow_refs_review",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "TW-003",
+          "table": "tows",
+          "value": "requested",
+          "version": 1
+        },
+        {
+          "field": "requested_at",
+          "record_id": "TW-003",
+          "table": "tows",
+          "value": "2026-09-20T18:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "TW-003",
+          "table": "tows",
+          "value": "2026-09-20T22:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "safety_ref",
+          "record_id": "TW-003",
+          "table": "tows",
+          "value": null,
+          "version": 1
+        },
+        {
+          "field": "human_approval_ref",
+          "record_id": "TW-003",
+          "table": "tows",
+          "value": null,
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-TOW-OPEN",
+        "M-TOW-HUMAN-REFS"
+      ],
+      "owner_role": "Coordinación grúas",
+      "priority": "P1",
+      "process_ids": [
+        "towing"
+      ],
+      "recommended_next_step": "Confirmar seguridad y autorización con una persona; documentar referencias válidas antes de considerar despacho.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "tows:TW-003"
+      ],
+      "title": "Revisar referencias de grúa · TW-003",
+      "why_now": "Solicitud abierta sin ambas referencias humanas declaradas."
+    },
+    {
+      "action_id": "OPS-INTAKE-FOLLOWUP-30dfd88bb7fe",
+      "amount_at_risk_cents": null,
+      "category": "intake_followup",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "L-001",
+          "table": "leads",
+          "value": "new",
+          "version": 1
+        },
+        {
+          "field": "follow_up_at",
+          "record_id": "L-001",
+          "table": "leads",
+          "value": "2026-09-20T17:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "channel",
+          "record_id": "L-001",
+          "table": "leads",
+          "value": "web",
+          "version": 1
+        },
+        {
+          "field": "segment",
+          "record_id": "C-001",
+          "table": "customers",
+          "value": "particular",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-B2C-LEADS"
+      ],
+      "owner_role": "Recepción",
+      "priority": "P2",
+      "process_ids": [
+        "b2c_workshop"
+      ],
+      "recommended_next_step": "Consultar historial y autorización de contacto; asignar seguimiento humano y registrar el resultado.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "leads:L-001",
+        "customers:C-001"
+      ],
+      "title": "Revisar solicitud · L-001",
+      "why_now": "Solicitud abierta con seguimiento pendiente según la fecha declarada."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-0628026a2d65",
+      "amount_at_risk_cents": 82500,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H030",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H030",
+          "table": "invoices",
+          "value": 165000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H030",
+          "table": "invoices",
+          "value": "2026-09-12T10:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H030",
+          "table": "payments",
+          "value": "INV-H030",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H030",
+          "table": "payments",
+          "value": 82500,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H030",
+          "table": "payments",
+          "value": "2026-09-07T10:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P2",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H030",
+        "payments:PAY-H030"
+      ],
+      "title": "Conciliar saldo vencido · INV-H030",
+      "why_now": "Saldo positivo conciliado de 82500 centavos; 9 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-30a633727f96",
+      "amount_at_risk_cents": 57500,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H015",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H015",
+          "table": "invoices",
+          "value": 115000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H015",
+          "table": "invoices",
+          "value": "2026-09-20T11:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H015",
+          "table": "payments",
+          "value": "INV-H015",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H015",
+          "table": "payments",
+          "value": 57500,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H015",
+          "table": "payments",
+          "value": "2026-09-15T11:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P2",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H015",
+        "payments:PAY-H015"
+      ],
+      "title": "Conciliar saldo vencido · INV-H015",
+      "why_now": "Saldo positivo conciliado de 57500 centavos; 1 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-49a6b2ec736f",
+      "amount_at_risk_cents": 95000,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H021",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H021",
+          "table": "invoices",
+          "value": 190000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H021",
+          "table": "invoices",
+          "value": "2026-09-17T03:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H021",
+          "table": "payments",
+          "value": "INV-H021",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H021",
+          "table": "payments",
+          "value": 95000,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H021",
+          "table": "payments",
+          "value": "2026-09-12T03:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P2",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H021",
+        "payments:PAY-H021"
+      ],
+      "title": "Conciliar saldo vencido · INV-H021",
+      "why_now": "Saldo positivo conciliado de 95000 centavos; 4 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-4a770856241c",
+      "amount_at_risk_cents": 85000,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-001",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-001",
+          "table": "invoices",
+          "value": 185000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-001",
+          "table": "invoices",
+          "value": "2026-09-20T00:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-001",
+          "table": "payments",
+          "value": "INV-001",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-001",
+          "table": "payments",
+          "value": 100000,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-001",
+          "table": "payments",
+          "value": "2026-09-21T15:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P2",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-001",
+        "payments:PAY-001"
+      ],
+      "title": "Conciliar saldo vencido · INV-001",
+      "why_now": "Saldo positivo conciliado de 85000 centavos; 1 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-838ae828bfa5",
+      "amount_at_risk_cents": 70000,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H039",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H039",
+          "table": "invoices",
+          "value": 140000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H039",
+          "table": "invoices",
+          "value": "2026-09-07T17:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H039",
+          "table": "payments",
+          "value": "INV-H039",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H039",
+          "table": "payments",
+          "value": 70000,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H039",
+          "table": "payments",
+          "value": "2026-09-02T17:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P2",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H039",
+        "payments:PAY-H039"
+      ],
+      "title": "Conciliar saldo vencido · INV-H039",
+      "why_now": "Saldo positivo conciliado de 70000 centavos; 14 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-93c44aa4b61e",
+      "amount_at_risk_cents": 76250,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H018",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H018",
+          "table": "invoices",
+          "value": 152500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H018",
+          "table": "invoices",
+          "value": "2026-09-21T00:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H018",
+          "table": "payments",
+          "value": "INV-H018",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H018",
+          "table": "payments",
+          "value": 76250,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H018",
+          "table": "payments",
+          "value": "2026-09-16T00:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P2",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H018",
+        "payments:PAY-H018"
+      ],
+      "title": "Conciliar saldo vencido · INV-H018",
+      "why_now": "Saldo positivo conciliado de 76250 centavos; 0 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-a5fd42b656f3",
+      "amount_at_risk_cents": 45000,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H024",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H024",
+          "table": "invoices",
+          "value": 90000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H024",
+          "table": "invoices",
+          "value": "2026-09-15T18:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H024",
+          "table": "payments",
+          "value": "INV-H024",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H024",
+          "table": "payments",
+          "value": 45000,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H024",
+          "table": "payments",
+          "value": "2026-09-10T18:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P2",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H024",
+        "payments:PAY-H024"
+      ],
+      "title": "Conciliar saldo vencido · INV-H024",
+      "why_now": "Saldo positivo conciliado de 45000 centavos; 6 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-c818acf3d4f5",
+      "amount_at_risk_cents": 63750,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H027",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H027",
+          "table": "invoices",
+          "value": 127500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H027",
+          "table": "invoices",
+          "value": "2026-09-16T00:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H027",
+          "table": "payments",
+          "value": "INV-H027",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H027",
+          "table": "payments",
+          "value": 63750,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H027",
+          "table": "payments",
+          "value": "2026-09-11T00:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P2",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H027",
+        "payments:PAY-H027"
+      ],
+      "title": "Conciliar saldo vencido · INV-H027",
+      "why_now": "Saldo positivo conciliado de 63750 centavos; 5 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-ca18c59d4698",
+      "amount_at_risk_cents": 51250,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H036",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H036",
+          "table": "invoices",
+          "value": 102500,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H036",
+          "table": "invoices",
+          "value": "2026-09-11T00:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H036",
+          "table": "payments",
+          "value": "INV-H036",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H036",
+          "table": "payments",
+          "value": 51250,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H036",
+          "table": "payments",
+          "value": "2026-09-06T00:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P2",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H036",
+        "payments:PAY-H036"
+      ],
+      "title": "Conciliar saldo vencido · INV-H036",
+      "why_now": "Saldo positivo conciliado de 51250 centavos; 10 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-OVERDUE-AR-d1a0407cb932",
+      "amount_at_risk_cents": 32500,
+      "category": "overdue_ar",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "INV-H033",
+          "table": "invoices",
+          "value": "issued",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "INV-H033",
+          "table": "invoices",
+          "value": 65000,
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "INV-H033",
+          "table": "invoices",
+          "value": "2026-09-11T01:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "invoice_id",
+          "record_id": "PAY-H033",
+          "table": "payments",
+          "value": "INV-H033",
+          "version": 1
+        },
+        {
+          "field": "amount_cents",
+          "record_id": "PAY-H033",
+          "table": "payments",
+          "value": 32500,
+          "version": 1
+        },
+        {
+          "field": "paid_at",
+          "record_id": "PAY-H033",
+          "table": "payments",
+          "value": "2026-09-06T01:00:00Z",
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-AR-RECEIVABLE",
+        "M-AR-OVERDUE"
+      ],
+      "owner_role": "Administración",
+      "priority": "P2",
+      "process_ids": [
+        "collections"
+      ],
+      "recommended_next_step": "Verificar pagos, disputa y acuerdo vigente; registrar el seguimiento autorizado con responsable y fecha.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "invoices:INV-H033",
+        "payments:PAY-H033"
+      ],
+      "title": "Conciliar saldo vencido · INV-H033",
+      "why_now": "Saldo positivo conciliado de 32500 centavos; 10 días calendario desde vencimiento."
+    },
+    {
+      "action_id": "OPS-QUOTE-EXPIRED-cf265a37a048",
+      "amount_at_risk_cents": null,
+      "category": "quote_expired",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "Q-010",
+          "table": "quotes",
+          "value": "sent",
+          "version": 1
+        },
+        {
+          "field": "valid_until",
+          "record_id": "Q-010",
+          "table": "quotes",
+          "value": "2026-09-20T00:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "authorization_ref",
+          "record_id": "Q-010",
+          "table": "quotes",
+          "value": null,
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-FIN-QUOTES"
+      ],
+      "owner_role": "Recepción",
+      "priority": "P2",
+      "process_ids": [
+        "b2c_workshop",
+        "collections"
+      ],
+      "recommended_next_step": "Verificar si existe una versión vigente y confirmar condiciones antes de nuevo contacto o precio.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "quotes:Q-010"
+      ],
+      "title": "Revisar cotización caducada · Q-010",
+      "why_now": "La vigencia declarada pasó y la cotización no consta aceptada."
+    },
+    {
+      "action_id": "OPS-REORDER-REVIEW-038eaa220113",
+      "amount_at_risk_cents": null,
+      "category": "reorder_review",
+      "evidence": [
+        {
+          "field": "on_hand",
+          "record_id": "P-003",
+          "table": "mart_inventory",
+          "value": 1,
+          "version": null
+        },
+        {
+          "field": "reserved",
+          "record_id": "P-003",
+          "table": "mart_inventory",
+          "value": 0,
+          "version": null
+        },
+        {
+          "field": "available",
+          "record_id": "P-003",
+          "table": "mart_inventory",
+          "value": 1,
+          "version": null
+        },
+        {
+          "field": "reorder_point",
+          "record_id": "P-003",
+          "table": "mart_inventory",
+          "value": 2,
+          "version": null
+        },
+        {
+          "field": "reorder_point",
+          "record_id": "P-003",
+          "table": "parts",
+          "value": 2,
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-STOCK-AVAILABLE",
+        "M-STOCK-REORDER"
+      ],
+      "owner_role": "Responsable de partes",
+      "priority": "P2",
+      "process_ids": [
+        "parts_procurement"
+      ],
+      "recommended_next_step": "Conciliar conteo y reservas; revisar compras y consumo esperado antes de solicitar autorización de compra.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "mart_inventory:P-003",
+        "parts:P-003"
+      ],
+      "title": "Revisar parte · P-003",
+      "why_now": "Disponibles 1 unidades; punto de reposición 2."
+    },
+    {
+      "action_id": "OPS-WAITING-PARTS-d7f7ca52a9e8",
+      "amount_at_risk_cents": null,
+      "category": "waiting_parts",
+      "evidence": [
+        {
+          "field": "status",
+          "record_id": "WO-003",
+          "table": "work_orders",
+          "value": "waiting_parts",
+          "version": 1
+        },
+        {
+          "field": "due_at",
+          "record_id": "WO-003",
+          "table": "work_orders",
+          "value": "2026-09-23T20:00:00Z",
+          "version": 1
+        },
+        {
+          "field": "block_reason",
+          "record_id": "WO-003",
+          "table": "work_orders",
+          "value": "Falta filtro",
+          "version": 1
+        },
+        {
+          "field": "qc_ref",
+          "record_id": "WO-003",
+          "table": "work_orders",
+          "value": null,
+          "version": 1
+        }
+      ],
+      "external_business_action": false,
+      "metric_ids": [
+        "M-WIP-OPEN",
+        "M-WIP-WAITING-PARTS"
+      ],
+      "owner_role": "Jefatura de taller",
+      "priority": "P2",
+      "process_ids": [
+        "b2c_workshop",
+        "parts_procurement"
+      ],
+      "recommended_next_step": "Verificar qué parte falta, reservas y compras recibidas; acordar responsable y próxima revisión.",
+      "review_status": "pending",
+      "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+      "source_hash_kind": "sqlite_file_sha256",
+      "source_ids": [
+        "work_orders:WO-003"
+      ],
+      "title": "Desbloquear partes · WO-003",
+      "why_now": "La orden espera partes."
+    }
+  ],
+  "input_rows_sha256": "30dbfc4b9377916d88624b51b91a27491fc6d62e20f5576b1dc8b7c19276ebe0",
+  "limitations": "Cobertura limitada al corte sintético disponible; fuentes ausentes son desconocidas, no cero. Casos pendientes de revisión humana.",
+  "policy": {
+    "cutoff": "2026-09-21T18:00:00Z",
+    "external_business_action": false,
+    "limitations": "Umbrales y prioridades heurísticos del demo; no son SLA pactados, aprobación ni acción ejecutada. Los importes son saldos de facturas vinculadas, nunca ROI.",
+    "priority_meaning": {
+      "P1": "Revisión prioritaria propuesta por atraso, retrabajo o riesgo de servicio.",
+      "P2": "Revisión operativa propuesta en el siguiente ciclo de trabajo.",
+      "P3": "Completar evidencia antes de decidir una acción."
+    },
+    "version": "operating-cases-1"
+  },
+  "schema_version": 1,
+  "source_hash": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7",
+  "source_hash_kind": "sqlite_file_sha256",
+  "synthetic": true
+}

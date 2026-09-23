@@ -21,3 +21,5 @@ artifacts/v2-verification.* -text -whitespace
 examples/client_delivery/** -text -whitespace
 artifacts/client-verification.* -text -whitespace
 *.xlsx binary
+artifacts/operating-model-v4/** -text -whitespace
+artifacts/v4-verification.* -text -whitespace

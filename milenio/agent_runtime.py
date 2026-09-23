@@ -22,6 +22,7 @@ from .contracts import DEMO_NOW, FIELDS
 
 
 PROFILE_PATH = Path(__file__).resolve().parent.parent / "agents" / "profiles.json"
+AGENT_CONTRACT_PATH = Path(__file__).resolve().parent.parent / "specs" / "agent_operating_contract.json"
 ALLOWED_BACKENDS = {"rules", "native_codex"}
 BASE_COLUMNS = {"id", "version", "synthetic", "created_at", "updated_at"}
 MAX_CASES = 12
@@ -100,11 +101,16 @@ def _load_profiles() -> dict[str, dict[str, Any]]:
     profiles = {item.get("id"): item for item in payload["agents"] if isinstance(item, dict)}
     if len(profiles) != 9 or None in profiles:
         raise AgentRuntimeError("agent catalog must contain nine unique profiles")
+    contract = json.loads(AGENT_CONTRACT_PATH.read_text(encoding="utf-8"))
+    contract_roles = {item.get("agent_id"): item for item in contract.get("roles", []) if isinstance(item, dict)}
+    if set(contract_roles) != set(profiles):
+        raise AgentRuntimeError("agent operating contract must match the nine agent profiles")
     required = {"id", "name", "persona", "objective", "allowed_read_tools", "scope", "metric_ids", "required_deliverable", "criteria"}
     for profile in profiles.values():
         if not required.issubset(profile) or profile["allowed_read_tools"] != ["inspect_scoped_cases", "read_evidence", "query_metrics"]:
             raise AgentRuntimeError("invalid governed agent profile")
-        if not set(profile["scope"]).issubset(FIELDS) or not set(profile["metric_ids"]).issubset(METRIC_SQL):
+        role_metric_ids = set(contract_roles[profile["id"]].get("metric_ids", []))
+        if not set(profile["scope"]).issubset(FIELDS) or not set(profile["metric_ids"]).issubset(set(METRIC_SQL) | role_metric_ids):
             raise AgentRuntimeError("agent profile requests unknown read scope")
     return profiles
 
@@ -271,8 +277,28 @@ def query_metrics(connection: sqlite3.Connection, profile: dict[str, Any], metri
     requested = metric_ids if metric_ids is not None else profile["metric_ids"]
     if not isinstance(requested, list) or not set(requested).issubset(profile["metric_ids"]):
         raise AgentRuntimeError("metric request is outside the role profile")
-    result: dict[str, int] = {}
+    result: dict[str, Any] = {}
+    registry_ids = set(requested) - set(METRIC_SQL)
+    registry_metrics: dict[str, dict[str, Any]] = {}
+    if registry_ids:
+        try:
+            from .metric_registry import build_metric_registry
+        except ImportError as exc:
+            raise AgentRuntimeError("metric registry is unavailable") from exc
+        registry = build_metric_registry(connection, as_of=DEMO_NOW)
+        rows = registry.get("metrics") if isinstance(registry, dict) else None
+        if not isinstance(rows, list):
+            raise AgentRuntimeError("metric registry returned an invalid contract")
+        registry_metrics = {row.get("metric_id"): row for row in rows if isinstance(row, dict)}
+        missing = registry_ids - set(registry_metrics)
+        if missing:
+            raise AgentRuntimeError("metric registry misses allowed IDs: " + ", ".join(sorted(missing)))
     for metric_id in requested:
+        if metric_id in registry_ids:
+            # Pass the exact code-owned registry object, including unknown status,
+            # denominator, coverage and source evidence. Never coerce unknown to zero.
+            result[metric_id] = registry_metrics[metric_id]
+            continue
         if metric_id == "invoice_payment_summary":
             result[metric_id] = _invoice_payment_summary(connection, invoice_ids)
             continue
@@ -409,7 +435,20 @@ def _validate_evidence(connection: sqlite3.Connection, profile: dict[str, Any], 
 def _rules_result(profile: dict[str, Any], cases: list[dict[str, Any]], evidence: list[dict[str, Any]], metrics: dict[str, int]) -> dict[str, Any]:
     first = evidence[0]
     entity = f"{first['entity_type']}:{first['entity_id']}"
-    metric_text = ", ".join(f"{key}={value}" for key, value in metrics.items()) or "no profile metrics"
+    # Metric registry records carry definitions, denominators, coverage and
+    # samples. Keep the deterministic diagnosis short and let the full objects
+    # live in the evidence packet instead of overflowing the result contract.
+    metric_parts = []
+    for key, value in metrics.items():
+        if isinstance(value, dict):
+            display = value.get("value")
+            status = value.get("status", "unknown")
+            metric_parts.append(f"{key}={display if display is not None else status}")
+        else:
+            metric_parts.append(f"{key}={value}")
+    metric_text = ", ".join(metric_parts[:12]) or "no profile metrics"
+    if len(metrics) > 12:
+        metric_text += f", +{len(metrics) - 12} métricas disponibles en el paquete"
     return {
         "diagnosis": f"Línea base offline por reglas: {entity} tiene {first['field']}={first['value']!r} en la versión {first['version']}; revíselo con la cola acotada ({metric_text}).",
         "alternatives": ["Revisar el registro citado con su responsable actual antes de decidir un cambio.", "Diferir la decisión y solicitar la evidencia operativa faltante."],

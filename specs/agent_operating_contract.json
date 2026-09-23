@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "source": "specs/requirements.json, specs/analytics.md, processes/*.json",
+  "roles": [
+    {"agent_id":"intake_admin","processes":["b2c_workshop"],"trigger_families":["follow_up","quote_review","appointment_review","journey_coverage"],"metric_ids":["M-B2C-LEADS","M-B2C-WON","M-B2C-QUOTE-MATCH"],"owner_role":"Recepción","proposal_category":"intake_review"},
+    {"agent_id":"operations_controller","processes":["b2c_workshop","parts_procurement"],"trigger_families":["open_work","waiting_parts","rework","capacity_review","stock_exception"],"metric_ids":["M-WIP-OPEN","M-WIP-WAITING-PARTS","M-BAY-OCCUPANCY","M-SERVICE-CYCLE","M-PROCESS-WAIT","M-STOCK-ON-HAND","M-STOCK-RESERVED","M-STOCK-AVAILABLE","M-STOCK-REORDER"],"owner_role":"Control de taller / partes","proposal_category":"workshop_review"},
+    {"agent_id":"maintenance_planner","processes":["fleet_sales_service"],"trigger_families":["maintenance_due","contract_service_review"],"metric_ids":["M-FLEET-MAINTENANCE","M-FLEET-ACTIVE-CONTRACTS","M-SERVICE-CYCLE"],"owner_role":"Responsable de flotilla","proposal_category":"maintenance_review"},
+    {"agent_id":"fleet_sales_research","processes":["fleet_sales_service"],"trigger_families":["open_opportunity","account_coverage"],"metric_ids":["M-FLEET-OPEN-OPPS","M-FLEET-PIPELINE","M-FLEET-ACCOUNT-COVERAGE","M-FLEET-ACTIVE-CONTRACTS"],"owner_role":"Ventas B2B","proposal_category":"fleet_research"},
+    {"agent_id":"fleet_sla_watcher","processes":["fleet_sales_service"],"trigger_families":["sla_eligible_review","sla_risk","coverage_unknown"],"metric_ids":["M-FLEET-SLA-ELIGIBILITY","M-FLEET-SLA-RISK","M-FLEET-MAINTENANCE","M-FLEET-ACTIVE-CONTRACTS","M-SERVICE-CYCLE","M-AR-RECEIVABLE"],"owner_role":"Responsable de flotilla","proposal_category":"fleet_service_review"},
+    {"agent_id":"tow_dispatch_assistant","processes":["towing"],"trigger_families":["open_tow","human_gate_missing","milestone_review"],"metric_ids":["M-TOW-OPEN","M-TOW-HUMAN-REFS","M-TOW-CLOSE-HOURS"],"owner_role":"Coordinación de grúa","proposal_category":"tow_evidence_review"},
+    {"agent_id":"collections_assistant","processes":["collections"],"trigger_families":["positive_receivable","overdue_balance","payment_reconciliation"],"metric_ids":["M-FIN-QUOTES","M-FIN-INVOICED","M-FIN-PAID","M-AR-RECEIVABLE","M-AR-OVERDUE","M-FIN-CASH-NET","M-FIN-EXPENSES"],"owner_role":"Administración","proposal_category":"finance_review"},
+    {"agent_id":"marketing_planner","processes":["b2c_workshop","weekly_review"],"trigger_families":["campaign_draft_review","consent_review","proposal_coverage"],"metric_ids":["M-B2C-LEADS","M-B2C-QUOTE-MATCH","M-WEEKLY-EXCEPTIONS","M-WEEKLY-PROPOSALS"],"owner_role":"Marketing / recepción","proposal_category":"growth_review"},
+    {"agent_id":"weekly_operator","processes":["weekly_review","b2c_workshop","parts_procurement","fleet_sales_service","towing","collections"],"trigger_families":["quality_gate","cross_process_exception","proposal_agenda"],"metric_ids":["M-AR-OVERDUE","M-FLEET-SLA-RISK","M-TOW-OPEN","M-WEEKLY-EXCEPTIONS","M-WEEKLY-PROPOSALS","M-WIP-OPEN","M-B2C-LEADS","M-B2C-WON","M-B2C-QUOTE-MATCH","M-WIP-WAITING-PARTS","M-BAY-OCCUPANCY","M-SERVICE-CYCLE","M-PROCESS-WAIT","M-STOCK-ON-HAND","M-STOCK-RESERVED","M-STOCK-AVAILABLE","M-STOCK-REORDER","M-FLEET-OPEN-OPPS","M-FLEET-PIPELINE","M-FLEET-ACCOUNT-COVERAGE","M-FLEET-ACTIVE-CONTRACTS","M-FLEET-MAINTENANCE","M-FLEET-SLA-ELIGIBILITY","M-TOW-HUMAN-REFS","M-TOW-CLOSE-HOURS","M-FIN-QUOTES","M-FIN-INVOICED","M-FIN-PAID","M-AR-RECEIVABLE","M-FIN-CASH-NET","M-FIN-EXPENSES"],"owner_role":"Owner / gerencia","proposal_category":"weekly_review"}
+  ],
+  "governance": {
+    "source_hash_required": true,
+    "cutoff": "fixed synthetic DEMO_NOW unless validated imported cutoff contract is supplied",
+    "human_review_required": true,
+    "external_execution": false,
+    "metrics_are_code_owned": true,
+    "unknown_is_not_zero": true,
+    "native_model": "installed Codex subscription CLI selected by MILENIO_CODEX_MODEL; no paid API fallback"
+  }
+}

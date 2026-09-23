@@ -1,6 +1,6 @@
 [project]
 name = "taller-milenio-operations-analytics"
-version = "3.0.0"
+version = "4.0.0"
 description = "Reproducible workshop, fleet and towing analytics and consulting toolkit"
 requires-python = ">=3.12"
 dependencies = ["matplotlib==3.10.6", "openpyxl==3.1.5", "XlsxWriter==3.2.9"]

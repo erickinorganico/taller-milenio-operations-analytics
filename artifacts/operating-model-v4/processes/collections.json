@@ -1,0 +1,453 @@
+{
+  "schema_version": "1.0",
+  "process_id": "collections",
+  "title": "Cobranza y puente financiero gerencial",
+  "purpose": "Reconciliar factura emitida, pagos, saldo, antigüedad, gastos y efectivo sin afirmar contabilidad fiscal o ingreso reconocido.",
+  "accountable_owner": "finance",
+  "scope": {
+    "trigger": "Existe factura, pago o gasto",
+    "end": "Saldo y excepción de cobranza documentados",
+    "exclusions": [
+      "emitir CFDI",
+      "cobrar",
+      "reembolsar",
+      "write-off",
+      "conciliación bancaria"
+    ]
+  },
+  "roles": [
+    {
+      "id": "finance",
+      "label": "Administración",
+      "lane": "finance",
+      "accountable_for": [
+        "reconciliación y fuente"
+      ]
+    },
+    {
+      "id": "service_owner",
+      "label": "Responsable de servicio",
+      "lane": "operations",
+      "accountable_for": [
+        "servicio facturable"
+      ]
+    },
+    {
+      "id": "analytics",
+      "label": "Toolkit",
+      "lane": "analytics",
+      "accountable_for": [
+        "aging y evidencia"
+      ]
+    }
+  ],
+  "entities": [
+    "quotes",
+    "work_orders",
+    "tows",
+    "invoices",
+    "payments",
+    "expenses"
+  ],
+  "metrics": [
+    "M-FIN-QUOTES",
+    "M-FIN-INVOICED",
+    "M-FIN-PAID",
+    "M-AR-RECEIVABLE",
+    "M-AR-OVERDUE",
+    "M-FIN-CASH-NET",
+    "M-FIN-EXPENSES"
+  ],
+  "agents": [
+    "collections_assistant",
+    "weekly_operator"
+  ],
+  "evidence": [
+    {
+      "id": "EV-COL-INVOICE",
+      "entity": "invoices",
+      "fields": [
+        "customer_id",
+        "work_order_id",
+        "tow_id",
+        "amount_cents",
+        "due_at",
+        "status"
+      ]
+    },
+    {
+      "id": "EV-COL-PAYMENT",
+      "entity": "payments",
+      "fields": [
+        "invoice_id",
+        "amount_cents",
+        "method",
+        "reference",
+        "paid_at"
+      ]
+    },
+    {
+      "id": "EV-COL-SERVICE",
+      "entity": "work_orders",
+      "fields": [
+        "status",
+        "quote_id"
+      ]
+    },
+    {
+      "id": "EV-COL-TOW",
+      "entity": "tows",
+      "fields": [
+        "status",
+        "amount_cents"
+      ]
+    },
+    {
+      "id": "EV-COL-EXPENSE",
+      "entity": "expenses",
+      "fields": [
+        "amount_cents",
+        "category",
+        "method",
+        "paid_at"
+      ]
+    },
+    {
+      "id": "EV-COL-QUOTE",
+      "entity": "quotes",
+      "fields": [
+        "amount_cents",
+        "status"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "CTL-COL-01",
+      "description": "issued invoices only enter invoiced/receivable; quote stays separate."
+    },
+    {
+      "id": "CTL-COL-02",
+      "description": "paid <= invoice amount; payment reference unique; balance = invoice - payments."
+    },
+    {
+      "id": "CTL-COL-03",
+      "description": "cash net uses cash-method payments minus cash-method expenses; not bank balance or revenue."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "COL-START",
+      "type": "start",
+      "label": "Snapshot financiero",
+      "lane": "analytics",
+      "owner": "finance",
+      "inputs": [
+        "invoices.status"
+      ],
+      "outputs": [],
+      "controls": [],
+      "metric_ids": [
+        "M-FIN-QUOTES"
+      ],
+      "agent_ids": [],
+      "evidence_ids": [
+        "EV-COL-INVOICE",
+        "EV-COL-QUOTE"
+      ]
+    },
+    {
+      "id": "COL-SOURCE",
+      "type": "task",
+      "label": "Validar servicio e importe fuente",
+      "lane": "finance",
+      "owner": "service_owner",
+      "inputs": [
+        "invoices.work_order_id",
+        "invoices.tow_id",
+        "invoices.amount_cents"
+      ],
+      "outputs": [
+        "source match"
+      ],
+      "controls": [
+        "CTL-COL-01"
+      ],
+      "metric_ids": [
+        "M-FIN-INVOICED"
+      ],
+      "agent_ids": [],
+      "evidence_ids": [
+        "EV-COL-INVOICE",
+        "EV-COL-SERVICE",
+        "EV-COL-TOW"
+      ]
+    },
+    {
+      "id": "COL-ISSUED",
+      "type": "decision",
+      "label": "¿Factura issued y fuente reconciliada?",
+      "lane": "analytics",
+      "owner": "finance",
+      "inputs": [
+        "source match",
+        "invoices.status"
+      ],
+      "outputs": [],
+      "controls": [
+        "CTL-COL-01"
+      ],
+      "metric_ids": [
+        "M-FIN-INVOICED"
+      ],
+      "agent_ids": [],
+      "evidence_ids": [
+        "EV-COL-INVOICE"
+      ]
+    },
+    {
+      "id": "COL-NOT-ISSUED",
+      "type": "task",
+      "label": "Mantener fuera de CxC",
+      "lane": "analytics",
+      "owner": "finance",
+      "inputs": [
+        "invoices.status"
+      ],
+      "outputs": [
+        "non-issued finding"
+      ],
+      "controls": [
+        "CTL-COL-01"
+      ],
+      "metric_ids": [],
+      "agent_ids": [],
+      "evidence_ids": [
+        "EV-COL-INVOICE"
+      ]
+    },
+    {
+      "id": "COL-ALLOCATE",
+      "type": "task",
+      "label": "Agregar pagos y calcular saldo",
+      "lane": "analytics",
+      "owner": "finance",
+      "inputs": [
+        "payments.amount_cents",
+        "invoices.amount_cents"
+      ],
+      "outputs": [
+        "paid_cents",
+        "balance_cents"
+      ],
+      "controls": [
+        "CTL-COL-02"
+      ],
+      "metric_ids": [
+        "M-FIN-PAID",
+        "M-AR-RECEIVABLE"
+      ],
+      "agent_ids": [
+        "collections_assistant"
+      ],
+      "evidence_ids": [
+        "EV-COL-INVOICE",
+        "EV-COL-PAYMENT"
+      ]
+    },
+    {
+      "id": "COL-OVERDUE",
+      "type": "decision",
+      "label": "¿Saldo > 0 y due_at < DEMO_NOW?",
+      "lane": "analytics",
+      "owner": "finance",
+      "inputs": [
+        "balance_cents",
+        "invoices.due_at"
+      ],
+      "outputs": [],
+      "controls": [
+        "CTL-COL-02"
+      ],
+      "metric_ids": [
+        "M-AR-OVERDUE"
+      ],
+      "agent_ids": [
+        "collections_assistant"
+      ],
+      "evidence_ids": [
+        "EV-COL-INVOICE"
+      ]
+    },
+    {
+      "id": "COL-PROPOSAL",
+      "type": "task",
+      "label": "Preparar revisión de cobranza",
+      "lane": "analytics",
+      "owner": "finance",
+      "inputs": [
+        "balance_cents"
+      ],
+      "outputs": [
+        "pending ActionProposal"
+      ],
+      "controls": [
+        "CTL-COL-02"
+      ],
+      "metric_ids": [
+        "M-AR-OVERDUE"
+      ],
+      "agent_ids": [
+        "collections_assistant"
+      ],
+      "evidence_ids": [
+        "EV-COL-INVOICE"
+      ]
+    },
+    {
+      "id": "COL-CASH",
+      "type": "task",
+      "label": "Calcular puente de efectivo y gastos",
+      "lane": "finance",
+      "owner": "finance",
+      "inputs": [
+        "payments.method",
+        "expenses.method"
+      ],
+      "outputs": [
+        "cash_net_cents"
+      ],
+      "controls": [
+        "CTL-COL-03"
+      ],
+      "metric_ids": [
+        "M-FIN-CASH-NET",
+        "M-FIN-EXPENSES"
+      ],
+      "agent_ids": [
+        "weekly_operator"
+      ],
+      "evidence_ids": [
+        "EV-COL-PAYMENT",
+        "EV-COL-EXPENSE"
+      ]
+    },
+    {
+      "id": "COL-END",
+      "type": "end",
+      "label": "Reconciliación gerencial documentada",
+      "lane": "analytics",
+      "owner": "analytics",
+      "inputs": [],
+      "outputs": [
+        "administration report finding"
+      ],
+      "controls": [],
+      "metric_ids": [],
+      "agent_ids": [],
+      "evidence_ids": []
+    }
+  ],
+  "transitions": [
+    {
+      "from": "COL-START",
+      "to": "COL-SOURCE",
+      "condition": "records loaded",
+      "evidence_ids": [
+        "EV-COL-INVOICE"
+      ]
+    },
+    {
+      "from": "COL-SOURCE",
+      "to": "COL-ISSUED",
+      "condition": "source checked",
+      "evidence_ids": [
+        "EV-COL-INVOICE"
+      ]
+    },
+    {
+      "from": "COL-ISSUED",
+      "to": "COL-NOT-ISSUED",
+      "condition": "status draft/void",
+      "evidence_ids": [
+        "EV-COL-INVOICE"
+      ]
+    },
+    {
+      "from": "COL-ISSUED",
+      "to": "COL-ALLOCATE",
+      "condition": "status issued and amount matches source",
+      "evidence_ids": [
+        "EV-COL-INVOICE"
+      ]
+    },
+    {
+      "from": "COL-NOT-ISSUED",
+      "to": "COL-CASH",
+      "condition": "excluded from receivable",
+      "evidence_ids": [
+        "EV-COL-INVOICE"
+      ]
+    },
+    {
+      "from": "COL-ALLOCATE",
+      "to": "COL-OVERDUE",
+      "condition": "balance reconciled",
+      "evidence_ids": [
+        "EV-COL-PAYMENT"
+      ]
+    },
+    {
+      "from": "COL-OVERDUE",
+      "to": "COL-PROPOSAL",
+      "condition": "balance positive and overdue",
+      "evidence_ids": [
+        "EV-COL-INVOICE"
+      ]
+    },
+    {
+      "from": "COL-OVERDUE",
+      "to": "COL-CASH",
+      "condition": "paid or not overdue",
+      "evidence_ids": [
+        "EV-COL-INVOICE"
+      ]
+    },
+    {
+      "from": "COL-PROPOSAL",
+      "to": "COL-CASH",
+      "condition": "draft recorded without sending",
+      "evidence_ids": [
+        "EV-COL-INVOICE"
+      ]
+    },
+    {
+      "from": "COL-CASH",
+      "to": "COL-END",
+      "condition": "bridge calculated with scope note",
+      "evidence_ids": [
+        "EV-COL-EXPENSE"
+      ]
+    }
+  ],
+  "acceptance_tests": [
+    {
+      "id": "AT-COL-01",
+      "given": "draft invoice",
+      "when": "finance is analyzed",
+      "then": "it is excluded from invoiced and receivable"
+    },
+    {
+      "id": "AT-COL-02",
+      "given": "payments exceed invoice or duplicate reference",
+      "when": "dataset validates",
+      "then": "pipeline fails closed"
+    },
+    {
+      "id": "AT-COL-03",
+      "given": "issued overdue balance",
+      "when": "collections runs",
+      "then": "pending grounded proposal is produced without sending or charging"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{% extends 'workshop/base.html' %}
+{% block content %}
+<a class="back" href="/data/">← Volver a fuentes de datos</a>
+<div class="page-head"><div><p class="eyebrow">DATOS DE ARRANQUE</p><h1>Importar catálogos</h1><p>Prepare un CSV UTF-8 con encabezados exactos. Máximo 1 MB y 1,000 registros por archivo.</p></div></div>
+{% if saved %}<div class="notice success">{{ saved }}</div>{% endif %}
+{% if errors %}<section class="panel" role="alert"><h2>Revise el archivo</h2><ul>{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul><p>No se guardó ningún registro.</p></section>{% endif %}
+<section class="panel form-panel">
+  <h2>1. Seleccione catálogo y archivo</h2>
+  <p>Descargue una plantilla vacía: {% for key,label in entities %}<a href="?template={{ key }}">{{ label }}</a>{% if not forloop.last %} · {% endif %}{% endfor %}.</p>
+  <form method="post" enctype="multipart/form-data" action="/import/">
+    {% csrf_token %}<input type="hidden" name="stage" value="preview">
+    <div class="field"><label for="entity">Catálogo</label><select id="entity" name="entity" required>{% for key,label in entities %}<option value="{{ key }}" {% if entity == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+    <div class="field"><label for="file">Archivo CSV UTF-8</label><input id="file" name="file" type="file" accept=".csv,text/csv" required></div>
+    <p>La vista previa no guarda datos. Clientes y refacciones se agregan sin modificar registros existentes. Vehículos deben referir un cliente ya registrado por nombre único. La importación de refacciones no incluye existencias; registre la entrada mediante compra o ajuste físico autorizado.</p>
+    <div class="form-actions"><button class="button primary" type="submit">Revisar vista previa</button></div>
+  </form>
+</section>
+{% if receipt %}
+<section class="panel">
+  <h2>2. Confirme {{ rows|length }} registro{{ rows|length|pluralize }}</h2>
+  <p>Vista previa válida durante 15 minutos. Si otro registro entra o cambia antes de confirmar, la importación se rechazará completa. Confirme solo cuando los datos correspondan a este taller.</p>
+  <div class="table-wrap"><table><thead><tr><th>Fila</th>{% for field in fields %}<th>{{ field }}</th>{% endfor %}</tr></thead><tbody>
+  {% for row in rows %}<tr><td>{{ forloop.counter|add:1 }}</td>{% for field in fields %}<td>{% for key,value in row.items %}{% if key == field %}{{ value }}{% endif %}{% endfor %}</td>{% endfor %}</tr>{% endfor %}
+  </tbody></table></div>
+  <form method="post" action="/import/">{% csrf_token %}<input type="hidden" name="stage" value="commit"><input type="hidden" name="entity" value="{{ entity }}"><input type="hidden" name="receipt" value="{{ receipt }}"><div class="form-actions"><button class="button primary" type="submit">Confirmar importación de {{ rows|length }} registros</button></div></form>
+</section>
+{% endif %}
+{% endblock %}

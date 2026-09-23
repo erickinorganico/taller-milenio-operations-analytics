@@ -115,6 +115,15 @@ class ReleaseTests(unittest.TestCase):
             self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
             self.assertTrue(output.is_file())
 
+    def test_operating_kit_manifest_recovers_only_source_entries(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp); source=root/'source'; source.mkdir()
+            tracked=source/'README.md'; tracked.write_text('V4 candidate',encoding='utf8')
+            hashes={'source/README.md':hashlib.sha256(tracked.read_bytes()).hexdigest(), 'INICIO.html':'0'*64}
+            (root/'OPERATING-KIT-MANIFEST.json').write_text(json.dumps({'entries_sha256':hashes}),encoding='utf8')
+            with patch.object(package_release,'ROOT',source), patch.object(package_release.subprocess,'run',side_effect=subprocess.CalledProcessError(128,'git')):
+                self.assertEqual(package_release._tracked(),[tracked.resolve()])
+
     def test_nested_checkout_root_mismatch_uses_manifest_fallback(self):
         with tempfile.TemporaryDirectory() as temp:
             archive_root = Path(temp)

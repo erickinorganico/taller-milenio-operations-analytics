@@ -1,0 +1,3 @@
+﻿id,version,synthetic,created_at,updated_at,agent,title,rationale,evidence,approval_required,external_execution,status,decision_note
+PR-001,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,operations_controller,Revisar pieza faltante,Orden esperando pieza,"[{""entity_id"": ""WO-003"", ""entity_type"": ""work_orders"", ""field"": ""status"", ""value"": ""waiting_parts"", ""version"": 1}]",1,0,pending,
+PR-002,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,fleet_sla_watcher,Revisar mantenimiento vencido,Mantenimiento en estado due,"[{""entity_id"": ""M-002"", ""entity_type"": ""maintenance"", ""field"": ""status"", ""value"": ""due"", ""version"": 1}]",1,0,pending,

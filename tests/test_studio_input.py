@@ -56,10 +56,12 @@ class StudioInputTests(unittest.TestCase):
             build_warehouse(db, data)
             build_marts(db)
             con = sqlite3.connect(db)
-            columns = [row[1] for row in con.execute("PRAGMA table_info(mart_process_waits)")]
-            self.assertEqual(columns, ["stage", "intervals", "cases", "total_hours", "mean_interval_hours"])
-            self.assertEqual(con.execute("SELECT COUNT(*) FROM mart_process_waits").fetchone()[0], 0)
-            con.close()
+            try:
+                columns = [row[1] for row in con.execute("PRAGMA table_info(mart_process_waits)")]
+                self.assertEqual(columns, ["entity_type", "stage", "intervals", "cases", "total_hours", "mean_interval_hours"])
+                self.assertEqual(con.execute("SELECT COUNT(*) FROM mart_process_waits").fetchone()[0], 0)
+            finally:
+                con.close()
 
 
 if __name__ == "__main__": unittest.main()

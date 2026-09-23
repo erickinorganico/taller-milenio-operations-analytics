@@ -1,0 +1,3 @@
+﻿fleet_account_id,customer_id,industry,declared_vehicles,captured_vehicles,services,eligible_delivered,sla_met,sla_breached,sla_unknown,cycle_p90_hours,pipeline_cents,receivable_cents
+FA-001,C-009,logística,12,2,27,27,21,6,0,63.0,1250000,1310000
+FA-002,C-010,servicios,8,2,27,0,0,0,27,54.0,780000,785000

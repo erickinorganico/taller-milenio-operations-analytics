@@ -4,10 +4,33 @@ import unittest
 from pathlib import Path
 
 from milenio.scenarios import make_operating_scenario
+from milenio.fixtures import make_fixture
+from milenio.studio_analytics import MART_SCHEMAS, build_marts
 from milenio.warehouse import build_warehouse
 
 
 class WarehouseTests(unittest.TestCase):
+    def test_all_six_marts_exist_with_stable_types_when_population_is_empty(self):
+        with tempfile.TemporaryDirectory() as temp:
+            data = make_fixture()
+            data["payments"] = []
+            data["invoices"] = []
+            path = Path(temp) / "warehouse.sqlite"
+            build_warehouse(path, data)
+            analysis = build_marts(path)
+            self.assertEqual(analysis["marts"]["mart_receivables"], [])
+            connection = sqlite3.connect(path)
+            try:
+                names = {row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+                self.assertTrue(set(MART_SCHEMAS).issubset(names))
+                for name, expected in MART_SCHEMAS.items():
+                    observed = [(row[1], row[2]) for row in connection.execute(f'PRAGMA table_info("{name}")')]
+                    self.assertEqual(observed, expected)
+                self.assertEqual(connection.execute('SELECT COUNT(*) FROM mart_receivables').fetchone()[0], 0)
+                self.assertEqual(connection.execute('SELECT COUNT(*) FROM mart_process_waits').fetchone()[0], 0)
+            finally:
+                connection.close()
+
     def test_physical_tables_catalog_and_fk_enforcement(self):
         with tempfile.TemporaryDirectory() as temp:
             scenario = make_operating_scenario()

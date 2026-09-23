@@ -34,6 +34,7 @@ def file_hash(path):
 def source_manifest():
     root = Path(__file__).resolve().parent.parent
     files = sorted(list((root / "milenio").glob("*.py")) + list((root / "contracts").glob("*.json")) + list((root / "queries").glob("*.sql")))
+    files += sorted(p for p in (root / 'milenio/ui').glob('*') if p.is_file())
     for name in ("requirements.txt", "pyproject.toml"):
         if (root / name).exists():
             files.append(root / name)

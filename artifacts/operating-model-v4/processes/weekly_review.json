@@ -1,0 +1,427 @@
+{
+  "schema_version": "1.0",
+  "process_id": "weekly_review",
+  "title": "Revisión semanal de decisiones y evidencia",
+  "purpose": "Convertir métricas y excepciones reconciliadas en una agenda humana sin ejecutar recomendaciones.",
+  "accountable_owner": "manager",
+  "scope": {
+    "trigger": "Pipeline completo con quality pass",
+    "end": "Agenda, owners y decisiones de revisión documentadas",
+    "exclusions": [
+      "cerrar excepciones automáticamente",
+      "enviar mensajes",
+      "mutar fuentes"
+    ]
+  },
+  "roles": [
+    {
+      "id": "manager",
+      "label": "Owner/gerencia",
+      "lane": "governance",
+      "accountable_for": [
+        "prioridad y decisión"
+      ]
+    },
+    {
+      "id": "module_owner",
+      "label": "Owner funcional",
+      "lane": "operations",
+      "accountable_for": [
+        "evidencia y siguiente paso"
+      ]
+    },
+    {
+      "id": "analyst",
+      "label": "Analista",
+      "lane": "analytics",
+      "accountable_for": [
+        "reconciliación y limitaciones"
+      ]
+    },
+    {
+      "id": "analytics",
+      "label": "Toolkit",
+      "lane": "analytics",
+      "accountable_for": [
+        "agenda determinista"
+      ]
+    }
+  ],
+  "entities": [
+    "leads",
+    "work_orders",
+    "parts",
+    "maintenance",
+    "tows",
+    "invoices",
+    "proposals"
+  ],
+  "metrics": [
+    "M-WEEKLY-EXCEPTIONS",
+    "M-WEEKLY-PROPOSALS",
+    "M-WIP-OPEN",
+    "M-FLEET-SLA-RISK",
+    "M-AR-OVERDUE",
+    "M-TOW-OPEN"
+  ],
+  "agents": [
+    "weekly_operator",
+    "intake_admin",
+    "operations_controller",
+    "maintenance_planner",
+    "fleet_sla_watcher",
+    "tow_dispatch_assistant",
+    "collections_assistant",
+    "fleet_sales_research",
+    "marketing_planner"
+  ],
+  "evidence": [
+    {
+      "id": "EV-WEEK-EXCEPTIONS",
+      "entity": "work_orders",
+      "fields": [
+        "status",
+        "due_at",
+        "block_reason"
+      ]
+    },
+    {
+      "id": "EV-WEEK-MAINT",
+      "entity": "maintenance",
+      "fields": [
+        "status",
+        "due_at",
+        "due_km"
+      ]
+    },
+    {
+      "id": "EV-WEEK-TOW",
+      "entity": "tows",
+      "fields": [
+        "status",
+        "due_at",
+        "safety_ref",
+        "human_approval_ref"
+      ]
+    },
+    {
+      "id": "EV-WEEK-AR",
+      "entity": "invoices",
+      "fields": [
+        "status",
+        "amount_cents",
+        "due_at"
+      ]
+    },
+    {
+      "id": "EV-WEEK-PROP",
+      "entity": "proposals",
+      "fields": [
+        "agent",
+        "status",
+        "approval_required",
+        "external_execution"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "CTL-WEEK-01",
+      "description": "Agenda inicia solo si quality/reconciliation pass; blocked se presenta antes de métricas."
+    },
+    {
+      "id": "CTL-WEEK-02",
+      "description": "Cada propuesta está pending, grounded, approval_required y external_execution false."
+    },
+    {
+      "id": "CTL-WEEK-03",
+      "description": "Decisión humana registrada fuera del pipeline no muta snapshot ni ejecuta acción."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "WEEK-START",
+      "type": "start",
+      "label": "Paquete analítico completo",
+      "lane": "analytics",
+      "owner": "analyst",
+      "inputs": [
+        "quality.status"
+      ],
+      "outputs": [],
+      "controls": [
+        "CTL-WEEK-01"
+      ],
+      "metric_ids": [],
+      "agent_ids": [],
+      "evidence_ids": []
+    },
+    {
+      "id": "WEEK-QUALITY",
+      "type": "decision",
+      "label": "¿Quality y reconciliación pass?",
+      "lane": "analytics",
+      "owner": "analyst",
+      "inputs": [
+        "quality.status"
+      ],
+      "outputs": [],
+      "controls": [
+        "CTL-WEEK-01"
+      ],
+      "metric_ids": [],
+      "agent_ids": [
+        "weekly_operator"
+      ],
+      "evidence_ids": []
+    },
+    {
+      "id": "WEEK-BLOCK",
+      "type": "task",
+      "label": "Bloquear agenda de decisión",
+      "lane": "governance",
+      "owner": "analyst",
+      "inputs": [
+        "quality failures"
+      ],
+      "outputs": [
+        "blocked review"
+      ],
+      "controls": [
+        "CTL-WEEK-01"
+      ],
+      "metric_ids": [],
+      "agent_ids": [
+        "weekly_operator"
+      ],
+      "evidence_ids": []
+    },
+    {
+      "id": "WEEK-QUEUE",
+      "type": "task",
+      "label": "Ordenar excepciones por severidad y módulo",
+      "lane": "analytics",
+      "owner": "analyst",
+      "inputs": [
+        "exceptions"
+      ],
+      "outputs": [
+        "review queue"
+      ],
+      "controls": [
+        "CTL-WEEK-01"
+      ],
+      "metric_ids": [
+        "M-WEEKLY-EXCEPTIONS",
+        "M-WIP-OPEN",
+        "M-FLEET-SLA-RISK",
+        "M-AR-OVERDUE",
+        "M-TOW-OPEN"
+      ],
+      "agent_ids": [
+        "weekly_operator"
+      ],
+      "evidence_ids": [
+        "EV-WEEK-EXCEPTIONS",
+        "EV-WEEK-MAINT",
+        "EV-WEEK-TOW",
+        "EV-WEEK-AR"
+      ]
+    },
+    {
+      "id": "WEEK-PROPOSALS",
+      "type": "task",
+      "label": "Validar proposals y evidencia",
+      "lane": "analytics",
+      "owner": "analyst",
+      "inputs": [
+        "proposals"
+      ],
+      "outputs": [
+        "validated drafts"
+      ],
+      "controls": [
+        "CTL-WEEK-02"
+      ],
+      "metric_ids": [
+        "M-WEEKLY-PROPOSALS"
+      ],
+      "agent_ids": [
+        "weekly_operator"
+      ],
+      "evidence_ids": [
+        "EV-WEEK-PROP"
+      ]
+    },
+    {
+      "id": "WEEK-ACTIONABLE",
+      "type": "decision",
+      "label": "¿Hay item accionable con owner?",
+      "lane": "governance",
+      "owner": "manager",
+      "inputs": [
+        "review queue",
+        "validated drafts"
+      ],
+      "outputs": [],
+      "controls": [
+        "CTL-WEEK-02",
+        "CTL-WEEK-03"
+      ],
+      "metric_ids": [],
+      "agent_ids": [
+        "weekly_operator"
+      ],
+      "evidence_ids": [
+        "EV-WEEK-PROP"
+      ]
+    },
+    {
+      "id": "WEEK-ASSIGN",
+      "type": "task",
+      "label": "Registrar decisión, owner y siguiente revisión",
+      "lane": "governance",
+      "owner": "manager",
+      "inputs": [
+        "validated draft"
+      ],
+      "outputs": [
+        "meeting decision record"
+      ],
+      "controls": [
+        "CTL-WEEK-03"
+      ],
+      "metric_ids": [],
+      "agent_ids": [],
+      "evidence_ids": [
+        "EV-WEEK-PROP"
+      ]
+    },
+    {
+      "id": "WEEK-NO-ACTION",
+      "type": "task",
+      "label": "Registrar sin acción/unknown",
+      "lane": "governance",
+      "owner": "manager",
+      "inputs": [
+        "review queue"
+      ],
+      "outputs": [
+        "review note"
+      ],
+      "controls": [
+        "CTL-WEEK-03"
+      ],
+      "metric_ids": [],
+      "agent_ids": [],
+      "evidence_ids": []
+    },
+    {
+      "id": "WEEK-END",
+      "type": "end",
+      "label": "Revisión semanal cerrada fuera del pipeline",
+      "lane": "governance",
+      "owner": "manager",
+      "inputs": [],
+      "outputs": [
+        "agenda and decision log"
+      ],
+      "controls": [
+        "CTL-WEEK-03"
+      ],
+      "metric_ids": [],
+      "agent_ids": [],
+      "evidence_ids": []
+    }
+  ],
+  "transitions": [
+    {
+      "from": "WEEK-START",
+      "to": "WEEK-QUALITY",
+      "condition": "package opened",
+      "evidence_ids": []
+    },
+    {
+      "from": "WEEK-QUALITY",
+      "to": "WEEK-BLOCK",
+      "condition": "quality/reconciliation fail",
+      "evidence_ids": []
+    },
+    {
+      "from": "WEEK-QUALITY",
+      "to": "WEEK-QUEUE",
+      "condition": "quality/reconciliation pass",
+      "evidence_ids": []
+    },
+    {
+      "from": "WEEK-BLOCK",
+      "to": "WEEK-END",
+      "condition": "blocked state recorded; no decisions executed",
+      "evidence_ids": []
+    },
+    {
+      "from": "WEEK-QUEUE",
+      "to": "WEEK-PROPOSALS",
+      "condition": "queue prioritized",
+      "evidence_ids": [
+        "EV-WEEK-EXCEPTIONS"
+      ]
+    },
+    {
+      "from": "WEEK-PROPOSALS",
+      "to": "WEEK-ACTIONABLE",
+      "condition": "proposal contract passes",
+      "evidence_ids": [
+        "EV-WEEK-PROP"
+      ]
+    },
+    {
+      "from": "WEEK-ACTIONABLE",
+      "to": "WEEK-ASSIGN",
+      "condition": "human selects item and owner",
+      "evidence_ids": [
+        "EV-WEEK-PROP"
+      ]
+    },
+    {
+      "from": "WEEK-ACTIONABLE",
+      "to": "WEEK-NO-ACTION",
+      "condition": "unknown/no action accepted",
+      "evidence_ids": []
+    },
+    {
+      "from": "WEEK-ASSIGN",
+      "to": "WEEK-END",
+      "condition": "decision recorded outside pipeline",
+      "evidence_ids": [
+        "EV-WEEK-PROP"
+      ]
+    },
+    {
+      "from": "WEEK-NO-ACTION",
+      "to": "WEEK-END",
+      "condition": "review note recorded",
+      "evidence_ids": []
+    }
+  ],
+  "acceptance_tests": [
+    {
+      "id": "AT-WEEK-01",
+      "given": "quality fail",
+      "when": "weekly process starts",
+      "then": "agenda blocks and reaches end without action"
+    },
+    {
+      "id": "AT-WEEK-02",
+      "given": "valid exceptions/proposals",
+      "when": "agenda builds",
+      "then": "each item retains evidence, owner and approval boundary"
+    },
+    {
+      "id": "AT-WEEK-03",
+      "given": "human records a decision",
+      "when": "review ends",
+      "then": "source snapshot and external systems remain unchanged"
+    }
+  ]
+}

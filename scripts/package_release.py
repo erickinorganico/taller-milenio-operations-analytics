@@ -62,7 +62,9 @@ def _tracked():
         # allowlist; never replace it with a recursive filesystem walk.
         manifest_path = ROOT.parent / "RELEASE-MANIFEST.json"
         if not manifest_path.is_file():
-            raise ValueError("git metadata unavailable and RELEASE-MANIFEST.json is missing")
+            manifest_path = ROOT.parent / "OPERATING-KIT-MANIFEST.json"
+        if not manifest_path.is_file():
+            raise ValueError("git metadata unavailable and a release manifest is missing")
         document = json.loads(manifest_path.read_text(encoding="utf-8"))
         hashes = document.get("entries_sha256", {})
         result = []

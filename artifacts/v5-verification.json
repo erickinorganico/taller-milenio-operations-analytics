@@ -1,0 +1,114 @@
+{
+  "version": "5.0",
+  "status": "pass",
+  "tested_at_utc": "2026-09-23T04:00:35.743920+00:00",
+  "tests": {
+    "run": 71,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "checks_and_migrations": "System check identified no issues (0 silenced).\nNo changes detected\n",
+  "dependencies": {
+    "Django": {
+      "required": "5.2.17",
+      "installed": "5.2.17",
+      "ok": true
+    },
+    "asgiref": {
+      "required": "3.12.1",
+      "installed": "3.12.1",
+      "ok": true
+    },
+    "sqlparse": {
+      "required": "0.6.0",
+      "installed": "0.6.0",
+      "ok": true
+    },
+    "tzdata": {
+      "required": "2026.4",
+      "installed": "2026.4",
+      "ok": true
+    },
+    "waitress": {
+      "required": "3.0.2",
+      "installed": "3.0.2",
+      "ok": true
+    },
+    "Pillow": {
+      "required": "12.3.0",
+      "installed": "12.3.0",
+      "ok": true
+    }
+  },
+  "source_sha256": {
+    "Iniciar-Demo.cmd": "77ded16ec4ff326fe98e7ab7f3b8e261fdab49f9d1854b66ac3968d3f7464e33",
+    "Iniciar-Milenio.cmd": "49cf8b67557a11d5e9fd9b554170b5ce80f0540e93eb2310549f22a01e5f16bd",
+    "manage.py": "e2bfe9203632b59c12a817455da6e603c3bbe52cbd08c6c78e76efc991b15ba7",
+    "milenio_web/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "milenio_web/settings.py": "062121faf993397ce63d1d0d938b8e1b02179742a3f372b8b38ddbc971c22207",
+    "milenio_web/urls.py": "5350db3cfbf6536788f5dccbdf44abed3ae5b15504c1b224b622209cab89bb7f",
+    "milenio_web/wsgi.py": "0904c8e8bfb8e65a384a5a2a11fd474193a7207386cab9c82ae51c569854f940",
+    "requirements-web.txt": "cdc0494c435c53665cff7e6f378d134fce124936cd054d5bb2cc06bec7688ef6",
+    "scripts/export_web_contracts.py": "a95d61898e9115eed4c9bb95ead5335e76316f29925dc4b2318b7995b4166b3c",
+    "scripts/package_web.py": "7f74b2e8f83d68f3d809c6c4472370cecd0e38efd8f896053e522239e8d31915",
+    "scripts/run_web.py": "a26431118000426a70f882fc55b3452ec83d36200b0783bc5010e59fcd8e460f",
+    "scripts/verify_web.py": "99e4d404d443dc37befb2ba8d8e7637ec5a110b02bc5f03a06381bc117f4763c",
+    "Setup-Web.ps1": "c6a87a51b0de1054c240fbdfc005b7bfb63670e506e7575a54fbb6e9eefca3c1",
+    "workshop/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "workshop/access.py": "fc9a46421ee73b7ee9bc6937565612d535fef23b008c5ec8311df34264b51d30",
+    "workshop/apps.py": "9c4cba919abe306f1cff6ee403321c4d1459231c6ee785352546ce6f2580594f",
+    "workshop/catalog.py": "93f3910ce1576abded08a94b82f27c72da53a382dd289f58fbbfbc47044fb10c",
+    "workshop/import_views.py": "2296846651e7a6d74f451d2fdeae8f42dc84799290874d730ef2e49993c53273",
+    "workshop/insight_views.py": "b67ecc4b0c100d133d577a98edc71b46e48d7a15d7776b4d33fb66b6c580deb3",
+    "workshop/intelligence.py": "d9577b6d6358d542074b024aec4d0ccb85c4f1e8b9345def4aadbd5353cfcaac",
+    "workshop/management/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "workshop/management/commands/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "workshop/management/commands/backup_workshop.py": "c5f2baa0a98ad40449d4d0de37a7646114f442243bea79cdb3db8c48ab6be962",
+    "workshop/management/commands/restore_workshop.py": "6fdca636a52ded464e316845706ddf5e8e110abdc85b90b16abcb80bb0154d3a",
+    "workshop/management/commands/seed_workshop.py": "549ade5b79ee949e5e5bda1d523da2664b76e5b6bab54b1b4e0655e63227151e",
+    "workshop/migrations/0001_initial.py": "a31425d19b43e990b1ff0d185eecb35fc48cad44526ac7829a6cf4f529f6ff3f",
+    "workshop/migrations/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "workshop/models.py": "477efe69875339f19d928e2c34952f5d8a22cdd7b972aa1980ba1d5e2358cddf",
+    "workshop/services.py": "ad479a3b5f95276afc56d48b174657bad13f048fb4f4080716fe2c1e0309074c",
+    "workshop/static/workshop/app.css": "3972559e0ac71c894b70e5e5fd0f1c1cf375798d7a716bf310b01be0a6c94084",
+    "workshop/static/workshop/app.js": "adb06a21896277f44b0368eacf0f4daae4c325201ec1e7ea315115161cae1fe1",
+    "workshop/templates/workshop/agents.html": "b060ed703dab2f8995b99d7adab63833f5e11bc834e4860379a62502a7a59f02",
+    "workshop/templates/workshop/base.html": "fe7f40ad9e3f8d0c948ef18589c39862a64edac8e23979d5aa97c13a6f7efa87",
+    "workshop/templates/workshop/data.html": "2a403e37ab7813747e9757dbce6af590948f084a0a18b296277a398ba06dcc8f",
+    "workshop/templates/workshop/document.html": "455f2132a0ebdb20f1b40a5a2e369ba13e18ecf3de6e3dc55007d3fd210ad214",
+    "workshop/templates/workshop/finance.html": "e64015611b132688271b612237943cfc33d1b2b029265dd77db2b1fba485b3c3",
+    "workshop/templates/workshop/fleets.html": "319022ce4d271ad8a7da2dd83566fa46246c028e8e3ae70d46797e7a0ac5de6e",
+    "workshop/templates/workshop/form.html": "87b259373fffb3ce2871fd75521794ba718857111f04eb45771a17babf2df368",
+    "workshop/templates/workshop/form_fields.html": "5cb0a9ed06a75195af6ccf48d61ef1d476964a7631068c81eceb493110ca3b9a",
+    "workshop/templates/workshop/guide.html": "5ef5c5d8d22202d3fabf9d2685d18c2f6018f238d1180ead0f4231fffc474b4c",
+    "workshop/templates/workshop/home.html": "6e49c3753bdf6c96edb8fefdacc9f4faf2c8adceab6312aed11c6768a0e76038",
+    "workshop/templates/workshop/import.html": "7aaafe4170df691d1ee22abda782f2d58374d05bde1d02cf88e23803e871e7cf",
+    "workshop/templates/workshop/inventory.html": "3355ee84e618679d0401288cebca6b3a852a08dce2330a89c0c8672f1111cf0e",
+    "workshop/templates/workshop/login.html": "3269d8242a825fffec8f3ffa6f541e7b5b891556afc7ff73932ee1abe6968e9b",
+    "workshop/templates/workshop/metrics.html": "3b0f6714d23e9b173e3240e2d66e4c856229267ce66da7be413d1c3fe73c72f9",
+    "workshop/templates/workshop/order.html": "fdb8ee11c35a56e973ca471a75da976d2a83f45b6a4150b6f79c4b158fd2be27",
+    "workshop/templates/workshop/purchase.html": "27cec40bc673fea6746eba797729a0a02449526d96a00148a6944206fcff06cc",
+    "workshop/templates/workshop/table.html": "bd5b8d08fa765859dd5a21bf0f9689212eb14d387df17127de3357f54d9765f4",
+    "workshop/templates/workshop/team.html": "72d15d8c055096cbf88aabba6b4fa05c01a64ad5e4c6e17ee1be49de8f555787",
+    "workshop/templates/workshop/towing.html": "6093a5e930382ed2de47e87074e32b3eee751e1e8caff8157c70d1895f6d38fe",
+    "workshop/templatetags/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "workshop/templatetags/workshop_tags.py": "e8cc186713a7f86425434ab521fc089d98438b6cffa4725abefdeb1213494680",
+    "workshop/tests/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "workshop/tests/test_domain.py": "dae897c7545e367ee028db063aef9df3b22e1f28357aeda4c16840ab068a7bd2",
+    "workshop/tests/test_import.py": "2fc4a5ab2b287c4db46f5eed7571af51216ea19b1470c46588094a85244da6bc",
+    "workshop/tests/test_intelligence.py": "0f0e7c3329ab8bed75fccb7633d43220feb09337c1f53768b4361cb247233e6a",
+    "workshop/tests/test_recovery.py": "18c16750b9b4c201ea09c767deee3758e5f87206cae072e3e025bdefe08edf59",
+    "workshop/tests/test_web.py": "531b79b62f65a6ad2cb0b9fcf688bee6a03b12c333dc247bc3221111a65b203c",
+    "workshop/urls.py": "f42313bce05eb0eb741a634ac408dbb9228bc6162a43179f624a804c2c40d236",
+    "workshop/views.py": "3c209e6b4b1215b9a878d65576d634db10cc908a2162a6aa910f69beaf752242",
+    "workshop/webforms.py": "d3f1e9721a5fa80bf644ade8cfd0217c3e5f5e7db995fda63d655ddc9ee5843c"
+  },
+  "native_inference": "not_exercised_by_this_suite",
+  "data_scope": "disposable synthetic fixtures; no client data",
+  "limitations": [
+    "Browser/manual checks are recorded separately",
+    "No client acceptance or production deployment is asserted",
+    "Mocked native runs do not prove real model inference"
+  ]
+}

@@ -1,4 +1,4 @@
-name: Verify synthetic analytics
+name: Verify operations and synthetic analytics
 on:
   push:
     branches: [main]
@@ -23,8 +23,24 @@ jobs:
         with:
           python-version: '3.12'
           cache: pip
+      - name: Create isolated runtime used by the workshop launcher
+        run: python -m venv .venv
+      - name: Use isolated runtime on each platform
+        run: python -c "import os,pathlib; p=pathlib.Path.cwd()/'.venv'/('Scripts' if os.name=='nt' else 'bin'); open(os.environ['GITHUB_PATH'],'a').write(str(p)+os.linesep)"
       - name: Install pinned plotting dependencies
         run: python -m pip install -r requirements.txt
+      - name: Install operational application dependencies
+        run: python -m pip install -r requirements-web.txt
+      - name: Operational workflow, roles, intelligence and recovery tests
+        env:
+          MILENIO_MODE: test
+          MILENIO_DATA_DIR: ${{ runner.temp }}/milenio/test
+        run: python scripts/verify_web.py --output artifacts/v5-verification.json
+      - name: Verify committed database migrations
+        env:
+          MILENIO_MODE: test
+          MILENIO_DATA_DIR: ${{ runner.temp }}/milenio/test
+        run: python manage.py makemigrations --check --dry-run
       - name: Tests, dependency check and publication hygiene
         run: python -m milenio verify --output artifacts/verification.json
       - name: Complete synthetic batch
@@ -35,10 +51,12 @@ jobs:
         run: python -m milenio analyze --input artifacts/ci-demo/csv --output artifacts/ci-csv
       - name: Verify CSV artifact integrity
         run: python -m milenio verify-receipt --input artifacts/ci-csv
-      - name: Build V2 studio with deterministic governed rules
+      - name: Build connected operating model with deterministic governed rules
         run: python -m milenio studio --output artifacts/ci-studio
-      - name: Verify V2 studio receipt
+      - name: Verify operating model receipt
         run: python -m milenio verify-studio --input artifacts/ci-studio
+      - name: Check offline routes, table search and local evidence links
+        run: node scripts/check_operating_ui.cjs artifacts/ci-studio
       - name: Verify published V2 delivery
         if: ${{ hashFiles('artifacts/workbench-v2/receipt.json') != '' }}
         run: python -m milenio verify-studio --input artifacts/workbench-v2

@@ -1,0 +1,170 @@
+{
+  "format": "milenio-v5-native-verification-v1",
+  "tested_at_utc": "2026-09-23T03:43:20.790070+00:00",
+  "status": "completed",
+  "passed": true,
+  "data_kind": "installed synthetic demo, no client data",
+  "mode": "native",
+  "agent": "collections",
+  "run_id": 5,
+  "model_invoked": true,
+  "native_runner_hook_used": false,
+  "source_sha256": "d9577b6d6358d542074b024aec4d0ccb85c4f1e8b9345def4aadbd5353cfcaac",
+  "source_fingerprint": "5e5f5ef1bb854d0e820c080cbdd03c01d4faae5e15665015b7db326ddafd8d0e",
+  "evidence": [
+    {
+      "model": "Invoice",
+      "pk": "1",
+      "fields": {
+        "number": "ADM-DEMO-1",
+        "work_order_id": 1,
+        "total": "1102.00",
+        "due_at": "2026-10-07T02:28:50.711978+00:00",
+        "voided_at": null
+      }
+    },
+    {
+      "model": "Payment",
+      "pk": "1",
+      "fields": {
+        "invoice_id": 1,
+        "amount": "300.00",
+        "received_at": "2026-09-23T02:28:50.732968+00:00"
+      }
+    },
+    {
+      "model": "PaymentSet",
+      "pk": "1",
+      "fields": {
+        "payment_count": 1,
+        "payment_fingerprint": "ec72211814d16841d0e6c670faf0b79da295723d3eba4d810a8450169808db57",
+        "payment_total": "300"
+      }
+    }
+  ],
+  "output": {
+    "summary": "La factura ADM-DEMO-1 registra un total de 1102.00 y un pago recibido de 300.00; la factura no figura como anulada. El conjunto de pagos registra 1 pago por 300. No se infiere saldo ni estado de cobranza.",
+    "proposals": [],
+    "native_receipt": {
+      "kind": "local_codex_cli",
+      "model_id": "gpt-6-luna",
+      "cli_exit_code": 0,
+      "completion_observed": true,
+      "provider_events": [
+        {
+          "provider_event_type": "thread.started"
+        },
+        {
+          "provider_event_type": "item.completed",
+          "provider_item_type": "error"
+        },
+        {
+          "provider_event_type": "item.completed",
+          "provider_item_type": "error"
+        },
+        {
+          "provider_event_type": "item.completed",
+          "provider_item_type": "error"
+        },
+        {
+          "provider_event_type": "item.completed",
+          "provider_item_type": "error"
+        },
+        {
+          "provider_event_type": "item.completed",
+          "provider_item_type": "error"
+        },
+        {
+          "provider_event_type": "item.completed",
+          "provider_item_type": "error"
+        },
+        {
+          "provider_event_type": "item.completed",
+          "provider_item_type": "error"
+        },
+        {
+          "provider_event_type": "item.completed",
+          "provider_item_type": "error"
+        },
+        {
+          "provider_event_type": "item.completed",
+          "provider_item_type": "error"
+        },
+        {
+          "provider_event_type": "item.completed",
+          "provider_item_type": "error"
+        },
+        {
+          "provider_event_type": "item.completed",
+          "provider_item_type": "error"
+        },
+        {
+          "provider_event_type": "item.completed",
+          "provider_item_type": "error"
+        },
+        {
+          "provider_event_type": "item.completed",
+          "provider_item_type": "error"
+        },
+        {
+          "provider_event_type": "item.completed",
+          "provider_item_type": "error"
+        },
+        {
+          "provider_event_type": "turn.started"
+        },
+        {
+          "provider_event_type": "item.completed",
+          "provider_item_type": "error"
+        },
+        {
+          "provider_event_type": "item.completed",
+          "provider_item_type": "agent_message"
+        },
+        {
+          "provider_event_type": "turn.completed",
+          "usage": {
+            "input_tokens": 20728,
+            "cached_input_tokens": 0,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 74,
+            "reasoning_output_tokens": 0
+          }
+        }
+      ]
+    },
+    "new_proposal_count": 0,
+    "suppressed_count": 0
+  },
+  "error": "",
+  "business_records_before": {
+    "WorkOrder": 2,
+    "Quote": 2,
+    "Payment": 1,
+    "Invoice": 1,
+    "StockMovement": 3,
+    "ActionTask": 2
+  },
+  "business_records_after": {
+    "WorkOrder": 2,
+    "Quote": 2,
+    "Payment": 1,
+    "Invoice": 1,
+    "StockMovement": 3,
+    "ActionTask": 2
+  },
+  "new_proposal_ids": [],
+  "limitations": [
+    "Synthetic fixture acceptance only; real-client pilot and deployment acceptance remain separate",
+    "Proposals require human approval; no client contact or payment/purchase was performed"
+  ],
+  "diagnostic_followup": {
+    "nonfatal_cli_items": 15,
+    "classification": {
+      "duplicate_global_agent_role_definitions_ignored": 14,
+      "skill_context_budget_notice": 1
+    },
+    "method": "Separate invocation of the same CLI command and synthetic evidence; exit 0. No global agent configuration was modified.",
+    "boundary": "Provider turn completed with valid structured output; these CLI startup notices do not assert client acceptance."
+  }
+}

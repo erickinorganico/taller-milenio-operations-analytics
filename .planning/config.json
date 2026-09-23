@@ -1,0 +1,8 @@
+{
+  "mode": "auto",
+  "granularity": "standard",
+  "parallelization": true,
+  "commit_docs": false,
+  "workflow": {"research": true, "plan_check": true, "verifier": true, "skip_discuss": true},
+  "agent_skills": {}
+}
