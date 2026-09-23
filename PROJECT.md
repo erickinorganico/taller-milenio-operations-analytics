@@ -1,20 +1,5 @@
-# Taller Milenio Operations & Growth Analytics
+# Milenio V5 product context
 
-Reproducible local analytics and consulting toolkit with public synthetic examples
-and a separate private local path for authorized client extracts.
-Scope: customer journeys, workshop/parts/capacity, fleet commercial pipeline,
-contracts/SLA/maintenance, towing service evidence, collections and cash.
+Authorized product: daily workshop operations plus analytics and governed agents. The executable application is Django/Waitress/SQLite under workshop/ and milenio_web/. Spanish role-based UI, persistent records, local single-workshop installation and isolated demo. Product source of truth: .planning/REQUIREMENTS.md and docs/PRD.md. Technical contracts: specs/v5-domain-api.md and specs/v5-intelligence.md.
 
-Deliverables: versioned data contracts, SQLite analytical storage, CSV adapters,
-validated transformations, static analytical reports/charts, evidence-bearing
-human-review recommendations, consulting playbooks, reproducible tests/receipts.
-
-No frontend, backend service, live CRM, dispatch system, messaging, payments,
-price commitments or connection to real business systems. Real-process discovery
-and an anonymized pilot remain subject to owner validation and separate authority.
-
-The corrected handoff was adopted on 2026-09-22. Earlier application scaffolding
-was moved to an ignored local workbench and is outside this deliverable.
-
-Target public repository: `erickinorganico/taller-milenio-operations-analytics`.
-All published examples must be synthetic. No private employer data or code is reused.
+V1–V4 in milenio/ are a preserved analytical toolkit with separate snapshot contracts. They are not the live operational database, and their historical native-agent receipts do not prove V5 inference. No private Torre code or client data is included. Current local verification is described in docs/V5-VERIFICACION.md; a real workshop pilot remains outside synthetic validation.

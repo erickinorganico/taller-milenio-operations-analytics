@@ -1,0 +1,140 @@
+{
+  "dependencies": {
+    "XlsxWriter": {
+      "installed": "3.2.9",
+      "ok": true,
+      "required": "3.2.9"
+    },
+    "contourpy": {
+      "installed": "1.4.0",
+      "ok": true,
+      "required": "1.4.0"
+    },
+    "cycler": {
+      "installed": "0.12.1",
+      "ok": true,
+      "required": "0.12.1"
+    },
+    "et-xmlfile": {
+      "installed": "2.0.0",
+      "ok": true,
+      "required": "2.0.0"
+    },
+    "fonttools": {
+      "installed": "4.65.0",
+      "ok": true,
+      "required": "4.65.0"
+    },
+    "kiwisolver": {
+      "installed": "1.5.1",
+      "ok": true,
+      "required": "1.5.1"
+    },
+    "matplotlib": {
+      "installed": "3.10.6",
+      "ok": true,
+      "required": "3.10.6"
+    },
+    "numpy": {
+      "installed": "2.5.3",
+      "ok": true,
+      "required": "2.5.3"
+    },
+    "openpyxl": {
+      "installed": "3.1.5",
+      "ok": true,
+      "required": "3.1.5"
+    },
+    "packaging": {
+      "installed": "26.3",
+      "ok": true,
+      "required": "26.3"
+    },
+    "pillow": {
+      "installed": "12.3.0",
+      "ok": true,
+      "required": "12.3.0"
+    },
+    "pyparsing": {
+      "installed": "3.3.3",
+      "ok": true,
+      "required": "3.3.3"
+    },
+    "python-dateutil": {
+      "installed": "2.9.0.post0",
+      "ok": true,
+      "required": "2.9.0.post0"
+    },
+    "six": {
+      "installed": "1.17.0",
+      "ok": true,
+      "required": "1.17.0"
+    }
+  },
+  "limitations": [
+    "Verification uses synthetic fixtures, including private-mode adapter tests",
+    "No operator discovery or real-system pilot",
+    "No production dispatch, tax or accounting certification"
+  ],
+  "publication_scan": {
+    "files_scanned": 232,
+    "findings": [],
+    "scope": "Publication source/templates/docs. Synthetic bundle is validated separately. Heuristic, not anonymization certification.",
+    "status": "pass"
+  },
+  "source_sha256": {
+    "contracts/action_proposal.schema.json": "3e92dee2b1162f7927b998cb19d744ce3d463b9f74848b97e1ee342523b6a7af",
+    "contracts/metric_registry.json": "51470eff70c8c6e345e458f945723d23880bc69d8ca2e617b6746558e6a81fa9",
+    "milenio/__init__.py": "84f425cd66ff454313653bcded043a5620f804297e99743ca9861a6c96855c1e",
+    "milenio/__main__.py": "59b5789442da59df8c37be22cdf51b6f8c6270dd137af4ce87a828ab04dd4481",
+    "milenio/agent_runtime.py": "60dad57071cfcca0112e8fd8b7f4c67f265042e0df778355261728c8e74fb832",
+    "milenio/agent_workspace.py": "c2f95fb3e1adb97484405e1975b9786e534ecb571dc7fcdd13d2117b8df4bc18",
+    "milenio/agents.py": "d39b60c11681a5e183edbc825ca16f3375804a63500c9e1442021d7f5dee628b",
+    "milenio/analysis.py": "f74eb8833c1022c98d6b50ea24f84cf828d73b903a26a9325e4f9b2b9afe062a",
+    "milenio/client_actions.py": "428e528251ee0548b6961799951462b88cf0870c0e95c8eb053a3130db749837",
+    "milenio/client_decisions.py": "629c56ae3289fa8af1fedd1f1729b64306f22ee8f80889e96c0ee99f420e7422",
+    "milenio/client_delivery.py": "7a53787167751c2b9090d9fb7a158925eb0364ee4ad372c135ed5de65854c594",
+    "milenio/client_input.py": "78fa19ed19f5a8b42a5e72bc24312cc152adbba063cefed731e513964f589f0f",
+    "milenio/contracts.py": "1b66fab3e100d08bb1b39ce619e0a858a58677a72f3df3eac8248b8bfe9d9535",
+    "milenio/domain.py": "1f0758d6781a17a002ab454b3876203ba721bab2a172b1bc227e1b1f8b9ee024",
+    "milenio/fixtures.py": "c25de047d50287b3d1a741706a4f2cadd7972825a6d99d4a8fcee5eaa2a33a42",
+    "milenio/importers.py": "07d80760fe806aa4af9ae6463be20b76273d8b9bdb560878a5cfe02d04720c97",
+    "milenio/metric_registry.py": "652e92cacd2ee2a8008efb7a53f9fad8210b99cdd1ceea2f0b4f5055a6bc6c32",
+    "milenio/operating_cases.py": "df2931d057230ad7a909cc3c9ca2fdcdb258a776761f2e2fc7b37e2371f5a053",
+    "milenio/operating_delivery.py": "651ffccfb0e51ea86411c6a3cbb28801b253bcf21052ec0f1a17ba1ae3d5ee11",
+    "milenio/pipeline.py": "6354f18ad34de852d28eb219956a350221441b5ae9cbf66ebd46f332a9fc1541",
+    "milenio/presentation.py": "8336598705ba4e46dbc2561a9f1847af61da8d7e9736d0cafa2829788f9a709d",
+    "milenio/process_diagrams.py": "1c13b561d50b9a81e0092813f4c45a70dbccb306f83994672c7539130e0a3aa8",
+    "milenio/process_replay.py": "72bcaf16f959434235c3df4576eace5e041eb492896588c4ab2a59afc99e4e61",
+    "milenio/reports.py": "40dc5f7a92559a00716bbf1e98ffd1c1c1125ac84e42ef482e24fdb1c9141281",
+    "milenio/scenarios.py": "9fdf1fc6389d2008a56121da93bb91ab7e41ff5c0a96bf8c2bb1266a19d7bce3",
+    "milenio/snapshot_io.py": "c2b235a67a0842ddfcb4d120debafb70403e94f2c085658548b2bd3167208b2d",
+    "milenio/source_catalog.py": "e46536224147ffad922b1939acbc974778117b7520ac3d799d1ecad203475572",
+    "milenio/sql.py": "7ecbab5213ad482ae3a24bf16ebe1e8f0e4169a298bdadb20122199f5da88815",
+    "milenio/storage.py": "1075c30e47f5593619ae040aa3bd9c80be1adeaf06c3b29e47f3e3b2b35c7393",
+    "milenio/studio.py": "e879253b939b528e6ca3c0d583e83bdec94ee94dd1722919f2e8aaf7a661f24f",
+    "milenio/studio_analytics.py": "4d5ccf3c940f50ee779922955806ec717a00d49d26123e6534053cf4276ab6e9",
+    "milenio/studio_input.py": "df871fe6e487ab6210e3900d684da4a257d4527c5cace90f612145f9dbafdf0e",
+    "milenio/timeline.py": "b192652b23f1520dbb099c8c0ca8f4ba7390bcab428ab491ff38a67bcde30cbc",
+    "milenio/ui/operating.css": "12efd718ab707e86bca39caead54e07c12889fa8ec1225ad478c59699f911893",
+    "milenio/ui/operating.html": "7de82f13993e19048fb5e71578231549cd97f1342a755db9bccb70c86ee2c8ca",
+    "milenio/ui/operating.js": "ac059452fa39b59fd2bb466f324114a09f44eb955c0c7903e9a134366b043511",
+    "milenio/verification.py": "dcd3b8d1c68d8e6ba422b27b8cd409b92116b4461058638933ef866e72d05959",
+    "milenio/warehouse.py": "37cd7768438bfd7289220732452a7eea5d298f6a4db6f09249c4778ae1347eda",
+    "milenio/workbook.py": "f55aab1d1cbd059218cda3f6b8c46b2e8711e9ac64ae51e8c595d55662ca77e4",
+    "pyproject.toml": "e5c13c5dac13c16a5891cadf9f9b0856f33b8051c57bc2094a0ca4c1e2b4d92e",
+    "queries/finance.sql": "c0ebb8e526b4c52871d81c666298077dfcdf47971da780f35c812e0c0ad6d1ba",
+    "queries/fleet_pipeline.sql": "7e5096a53e0c9cb5fed7e2c34cef495c335d4bf09d6d49d6926b84ecbf9f5883",
+    "queries/stock.sql": "11251fb90ee995efef30fc1f8e352cb7dbc27ccd9d73c78e7f48e1f2e729eec3",
+    "queries/workshop.sql": "52a3c86f94575c6c651c78b8b344e899edbed59d1b2a84058e1b96ac7e0f1fe7",
+    "requirements.txt": "150b9a2300e91173393a809321c3683dee54f5395a030ccac93082a2cfa71daa"
+  },
+  "status": "pass",
+  "tested_at_utc": "2026-09-23T02:53:02.997030+00:00",
+  "tests": {
+    "errors": 0,
+    "failures": 0,
+    "run": 162,
+    "skipped": 2
+  }
+}

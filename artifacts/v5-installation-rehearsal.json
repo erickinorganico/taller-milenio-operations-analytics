@@ -1,0 +1,120 @@
+{
+  "checks": {
+    "all_24_workshop_tables": true,
+    "financial_totals_match": true,
+    "media_hash_match": true,
+    "previous_database_preserved": true,
+    "sessions_purged": true,
+    "workshop_table_counts_match": true
+  },
+  "data_kind": "synthetic_disposable",
+  "format": "milenio-v5-installation-rehearsal-v1",
+  "fresh_extracted_runtime": {
+    "checks": {
+      "django_setup_exit_0": true,
+      "import_django_waitress_pillow_exit_0": true,
+      "python_version_exit_0": true
+    },
+    "database_migration_in_fresh_venv": "not_run",
+    "interpreter": "extracted_zip_dot_venv_Scripts_python.exe",
+    "python_version": "3.12.14",
+    "status": "passed",
+    "timeouts_seconds_per_check": 60
+  },
+  "offline_installation": {
+    "command": "Setup-Web.ps1 -Offline -PythonPath <repository_venv_python>",
+    "network_disabled": "PIP_NO_INDEX=1",
+    "source": "temporary_extraction_of_candidate_zip",
+    "status": "passed",
+    "verification": "Setup-Web.ps1 completed with exit code 0 after pip installed and checked exact pinned versions",
+    "versions_verified_by_setup_web": {
+      "Django": "5.2.17",
+      "Pillow": "12.3.0",
+      "asgiref": "3.12.1",
+      "sqlparse": "0.6.0",
+      "tzdata": "2026.4",
+      "waitress": "3.0.2"
+    }
+  },
+  "package_files": 110,
+  "package_sha256": "8660319e3deb23afa4934f0ec416a847599b4f9a758660fd7a71ee8f65c1d8b5",
+  "package_wheels_included": true,
+  "passed": true,
+  "recovery_execution": {
+    "commands": [
+      "migrate",
+      "seed_workshop --demo",
+      "backup_workshop",
+      "migrate on isolated destination",
+      "restore_workshop --confirm-restore"
+    ],
+    "interpreter": "repository_dot_venv_Scripts_python.exe",
+    "note": "Recovery commands ran against extracted source with repository venv, not the freshly installed extracted venv.",
+    "source_code": "temporary_extraction_of_candidate_zip",
+    "status": "passed"
+  },
+  "restored": {
+    "invoiced_mxn": "1102.00",
+    "open_balance_mxn": "802.00",
+    "payments_mxn": "300.00",
+    "sessions": 0,
+    "tables": {
+      "workshop_actiontask": 1,
+      "workshop_agentrun": 1,
+      "workshop_appointment": 1,
+      "workshop_auditevent": 30,
+      "workshop_customer": 2,
+      "workshop_fleetcontract": 1,
+      "workshop_inspection": 2,
+      "workshop_invoice": 1,
+      "workshop_maintenanceplan": 1,
+      "workshop_part": 2,
+      "workshop_payment": 1,
+      "workshop_proposal": 1,
+      "workshop_purchaseline": 2,
+      "workshop_purchaseorder": 1,
+      "workshop_qualitycheck": 1,
+      "workshop_quote": 2,
+      "workshop_quoteline": 3,
+      "workshop_reservation": 1,
+      "workshop_stockmovement": 3,
+      "workshop_supplier": 1,
+      "workshop_timeentry": 1,
+      "workshop_towservice": 1,
+      "workshop_vehicle": 2,
+      "workshop_workorder": 2
+    }
+  },
+  "source": {
+    "invoiced_mxn": "1102.00",
+    "open_balance_mxn": "802.00",
+    "payments_mxn": "300.00",
+    "sessions": 1,
+    "tables": {
+      "workshop_actiontask": 1,
+      "workshop_agentrun": 1,
+      "workshop_appointment": 1,
+      "workshop_auditevent": 30,
+      "workshop_customer": 2,
+      "workshop_fleetcontract": 1,
+      "workshop_inspection": 2,
+      "workshop_invoice": 1,
+      "workshop_maintenanceplan": 1,
+      "workshop_part": 2,
+      "workshop_payment": 1,
+      "workshop_proposal": 1,
+      "workshop_purchaseline": 2,
+      "workshop_purchaseorder": 1,
+      "workshop_qualitycheck": 1,
+      "workshop_quote": 2,
+      "workshop_quoteline": 3,
+      "workshop_reservation": 1,
+      "workshop_stockmovement": 3,
+      "workshop_supplier": 1,
+      "workshop_timeentry": 1,
+      "workshop_towservice": 1,
+      "workshop_vehicle": 2,
+      "workshop_workorder": 2
+    }
+  }
+}

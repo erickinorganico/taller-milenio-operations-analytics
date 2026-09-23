@@ -1,0 +1,11 @@
+# Milenio V5 · aplicación local para taller
+
+Extraiga el ZIP completo en una carpeta de Windows. Instale Python 3.12 x64 si aún no está disponible. Abra `Iniciar-Milenio.cmd` para la instancia de trabajo o `Iniciar-Demo.cmd` para explorar datos ficticios. El primer inicio prepara el entorno local y abre la pantalla `/setup/` para crear el acceso de gerencia; no hay contraseña predeterminada. Mantenga abierta la consola mientras usa la aplicación y deténgala con `Ctrl+C`.
+
+La instancia real escucha en `http://127.0.0.1:8765/` y la demo en `http://127.0.0.1:8766/`. Por defecto, los datos quedan en `%LOCALAPPDATA%\Milenio\operational\live` y `...\demo`, fuera del ZIP y de la carpeta extraída. Para elegir otra ubicación, establezca `MILENIO_DATA_DIR` antes de abrir el lanzador; su carpeta final debe llamarse `live` o `demo` según corresponda. No mezcle ni copie datos reales a la demo.
+
+Si el ZIP contiene `.runtime/wheels/`, `Setup-Web.ps1 -Offline` instala las dependencias sin acceso a Internet. El lanzador normal usa el entorno existente o instala los paquetes fijados en `requirements-web.txt`. Para una instalación sin red, ejecute primero `powershell -NoProfile -ExecutionPolicy Bypass -File .\Setup-Web.ps1 -Offline` y después el lanzador. Las ruedas incluidas están seleccionadas para CPython 3.12 en Windows x64.
+
+Lea [Instalación y recuperación](docs/V5-INSTALACION.md) antes de trasladar una base o restaurar un respaldo. [Manual operativo](docs/V5-MANUAL.md) explica cuentas, roles, importación CSV, órdenes, inventario, métricas y decisiones. La documentación en `.planning/` describe alcance y planes; no certifica que un piloto con datos reales haya ocurrido. Este paquete no incluye contraseñas, bases de clientes, fotos ni un respaldo operativo.
+
+El modo de agentes con Codex es opcional. Requiere Node.js/npm y, desde PowerShell en esta carpeta, `. .\Setup-Agents.ps1`, `& $env:MILENIO_CODEX_BIN login` y `$env:MILENIO_CODEX_ENABLED = '1'` antes de abrir el lanzador desde esa misma consola. El ZIP no incluye el CLI ni claves API; sin sesión oficial, la función nativa sigue pendiente y se pueden usar las reglas locales.
