@@ -20,7 +20,7 @@ ROOT_FILES = ("manage.py", "requirements-web.txt", "Setup-Web.ps1", "Iniciar-Mil
 OTHER_FILES = ("scripts/run_web.py", "scripts/package_web.py", "scripts/export_web_contracts.py",
                "scripts/verify_web.py", "scripts/verify_v6_delivery.py",
                "docs/V5-INSTALACION.md", "docs/V6-ANALYTICS.md", "docs/V6-AUTOMATIZACIONES.md",
-               "docs/V6-VERIFICACION.md",
+               "docs/V6-VERIFICACION.md", "docs/ANALYTICS-DESIGN.md", "docs/ANALYTICS-UI-REVIEW.md",
                "docs/V5-MANUAL.md", "specs/v5-domain-api.md", "specs/v5-intelligence.md", "specs/v6-analytics-automation.md",
                ".planning/PROJECT.md", ".planning/milestones/v5.0-REQUIREMENTS.md")
 SKIP_PARTS = {".git", ".venv", "venv", "env", "__pycache__", ".pytest_cache", ".mypy_cache",

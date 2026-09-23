@@ -30,8 +30,8 @@ class AnalyticsWebTests(TestCase):
         self.client.force_login(self.manager)
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Qué mueve tu taller.')
-        self.assertContains(response, 'Refacciones más utilizadas')
+        self.assertContains(response, 'Vista general')
+        self.assertContains(response, 'Refacciones utilizadas')
         self.assertContains(response, 'Servicios más solicitados')
         self.assertContains(self.client.get('/today/'), 'Hoy en el taller')
 
@@ -55,6 +55,11 @@ class AnalyticsWebTests(TestCase):
         self.assertEqual(self.client.get('/analytics/', {'snapshot':'x'}).status_code, 404)
         self.assertEqual(self.client.get('/analytics/', {'snapshot':'99999'}).status_code, 404)
         self.assertEqual(self.client.get('/analytics/data/unknown/').status_code, 404)
+        response = self.client.get('/analytics/', {'start':'2026-04-20', 'end':'2026-04-01', 'segment':'fleet', 'snapshot':self.cut.pk})
+        self.assertEqual(response.context['d']['filters']['segment'], 'fleet')
+        self.assertContains(response, 'value="2026-04-20"', status_code=400)
+        self.assertContains(response, 'Revisa Desde y Hasta', status_code=400)
+        self.assertContains(response, 'Filtros del dashboard', status_code=400)
 
     def test_six_marts_are_browsable_and_csv_is_formula_safe(self):
         self.client.force_login(self.manager)
@@ -119,3 +124,27 @@ class AnalyticsWebTests(TestCase):
         self.assertEqual(self.client.post(f'/proposals/{proposal.pk}/review/', {'decision':'accept'}).status_code, 302)
         self.assertEqual(m.ActionTask.objects.filter(proposal=proposal).count(), 1)
         self.assertContains(self.client.get('/automations/'), f'Corte #{job.snapshot_id}')
+
+    def test_chart_and_quick_ranges_use_selected_snapshot_and_segment(self):
+        from urllib.parse import urlparse, parse_qs
+        self.client.force_login(self.manager)
+        response = self.client.get('/analytics/', {'snapshot': self.cut.pk, 'segment': 'individual'})
+        self.assertEqual(response.status_code, 200)
+        context = response.context
+        self.assertFalse(context['historical'])
+        points = context['p']['chart']['points']
+        self.assertEqual(sum(Decimal(p['invoiced_mxn']) for p in points), Decimal(context['d']['kpis']['invoiced']['value']))
+        anchor = timezone.localdate(self.cut.recorded_at)
+        for quick in context['quick_ranges']:
+            query = parse_qs(urlparse(quick['url']).query)
+            self.assertEqual(query['snapshot'], [str(self.cut.pk)])
+            self.assertEqual(query['segment'], ['individual'])
+            self.assertEqual(query['end'], [anchor.isoformat()])
+            self.assertEqual(self.client.get('/analytics/' + quick['url']).status_code, 200)
+
+    def test_dashboard_assets_are_served_with_strict_policy(self):
+        self.client.force_login(self.manager)
+        response = self.client.get('/analytics/')
+        self.assertNotIn("'unsafe-inline'", response.headers.get('Content-Security-Policy', ''))
+        for asset in ['shell.css', 'shell.js', 'analytics.js']:
+            self.assertEqual(self.client.get('/static/workshop/' + asset).status_code, 200)

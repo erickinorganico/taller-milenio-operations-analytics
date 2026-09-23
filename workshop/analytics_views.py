@@ -18,6 +18,7 @@ from django.views.decorators.http import require_POST
 from . import analytics, automation, models as m
 from .access import can, require
 from .catalog import SOURCE_MODELS
+from .analytics_presentation import build_presentation
 
 MART_LABELS = {
     'daily_operations': 'Actividad diaria', 'service_lines': 'Líneas de cotización',
@@ -80,8 +81,13 @@ def dashboard(request):
             start=request.GET.get('start') or None, end=request.GET.get('end') or None,
             snapshot=selected, segment=request.GET.get('segment', 'all'))
     except (ValidationError, ValueError) as exc:
+        error = ('Elige un cliente válido: Todos, Particulares o Flotillas.'
+                 if request.GET.get('segment', 'all') not in ('all', 'individual', 'fleet') else
+                 'Revisa Desde y Hasta: usa fechas válidas, en orden, con un máximo de 366 días y sin superar la fecha del corte.')
         return render(request, 'workshop/dashboard.html', {'title': 'Dashboard', 'section': 'Analytics',
-                      'filter_error': '; '.join(exc.messages) if isinstance(exc, ValidationError) else str(exc)}, status=400)
+                      'filter_error': error,
+                      'd': {'filters': {key: request.GET.get(key, '') for key in ('start', 'end', 'segment')}},
+                      'selected_snapshot': selected, 'snapshots': m.AnalyticsSnapshot.objects.all()[:30]}, status=400)
     if request.GET.get('export') == 'json':
         if not can(request.user, 'data_read'):
             from django.core.exceptions import PermissionDenied
@@ -90,6 +96,9 @@ def dashboard(request):
         response['Content-Disposition'] = 'attachment; filename="milenio-analytics.json"'
         return response
     cards = [{'key': key, 'label': KPI_LABELS[key], **value} for key, value in data.get('kpis', {}).items() if key in KPI_LABELS]
+    presentation = build_presentation(data, selected.rows.filter(mart='order_journeys').values('mart', 'data') if selected else [])
+    for card in cards:
+        card.update(presentation['cards'][card['key']])
     rankings = data.get('rankings', {})
     for key, field in [('parts', 'orders'), ('services', 'authorized_orders')]:
         rows = rankings.get(key, [])
@@ -110,12 +119,21 @@ def dashboard(request):
     preserved = {key: request.GET[key] for key in ['start', 'end', 'segment', 'snapshot'] if request.GET.get(key)}
     if selected:
         preserved['snapshot'] = selected.pk
+    anchor = timezone.localdate(selected.recorded_at) if selected else timezone.localdate()
+    quick_ranges = []
+    for days in (7, 30, 90):
+        start = (anchor - timedelta(days=days-1)).isoformat()
+        end = anchor.isoformat()
+        quick_ranges.append({'label': f'{days} días', 'url': '?' + urlencode({**preserved, 'start': start, 'end': end}),
+                             'active': str(filters.get('start')) == start and str(filters.get('end')) == end})
     return render(request, 'workshop/dashboard.html', {
+        'p': presentation, 'quick_ranges': quick_ranges,
+        'recent_proposals': m.Proposal.objects.filter(status='pending').select_related('run').order_by('-created_at')[:4],
         'title': 'Dashboard gerencial', 'section': 'Analytics', 'd': data, 'cards': cards,
         'selected_snapshot': selected, 'snapshots': m.AnalyticsSnapshot.objects.all()[:30],
         'snapshot_age': (timezone.now()-selected.recorded_at).total_seconds()/60 if selected else None,
-        'historical': bool(request.GET.get('snapshot')), 'parts': rankings.get('parts', [])[:10],
-        'services': rankings.get('services', [])[:10], 'trend': trend,
+        'historical': bool(selected and selected.pk != m.AnalyticsSnapshot.objects.values_list('pk', flat=True).first()), 'parts': rankings.get('parts', []),
+        'services': rankings.get('services', []), 'trend': trend,
         'invoice_points': ' '.join(points['invoiced_mxn']), 'payment_points': ' '.join(points['payments_mxn']),
         'trend_max': maximum, 'jobs': jobs, 'pending': m.Proposal.objects.filter(status='pending').count(),
         'tasks_open': m.ActionTask.objects.exclude(status__in=['completed','dismissed']).count(),
