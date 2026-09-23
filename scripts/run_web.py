@@ -95,7 +95,7 @@ def _demo_empty() -> bool:
     return not (Customer.objects.exists() or Part.objects.exists() or WorkOrder.objects.exists())
 
 
-def run(mode: str, *, no_browser=False, port_override=None, watch_parent=False) -> None:
+def run(mode: str, *, no_browser=False, port_override=None, watch_parent=False, stop_file=None) -> None:
     if mode not in PORTS:
         raise ValueError("mode must be live or demo")
     if sys.version_info < (3, 12):
@@ -130,6 +130,9 @@ def run(mode: str, *, no_browser=False, port_override=None, watch_parent=False) 
     django.setup()
     if settings.MILENIO_MODE != mode:
         raise RuntimeError("La configuración activa no coincide con el modo solicitado")
+    stop_path = Path(stop_file).resolve() if stop_file else None
+    if stop_path and (stop_path.parent != settings.DATA_DIR.resolve() or not stop_path.name.startswith('.stop-')):
+        raise ValueError('La señal de cierre debe estar dentro de la carpeta de datos de esta instancia.')
     port = PORTS[mode] if port_override is None else port_override
     if not 0 <= port <= 65535:
         raise ValueError("El puerto debe estar entre 0 y 65535 (0 asigna un puerto temporal).")
@@ -142,11 +145,19 @@ def run(mode: str, *, no_browser=False, port_override=None, watch_parent=False) 
         from milenio_web.wsgi import application
         server = create_server(WorkshopStatic(application), host="127.0.0.1", port=port, threads=4)
         worker, worker_log = start_automation_worker(settings.DATA_DIR)
+        shutdown = threading.Event()
+        if stop_path:
+            def watch_stop_file():
+                while not shutdown.wait(0.25):
+                    if stop_path.exists():
+                        shutdown.set()
+                        return
+            threading.Thread(target=watch_stop_file, daemon=True).start()
         port = server.effective_port
         if watch_parent:
             def parent_closed():
                 sys.stdin.read()
-                server.close()
+                shutdown.set()
             threading.Thread(target=parent_closed, daemon=True).start()
         url = f"http://127.0.0.1:{port}/"
         print(f"Milenio {mode}: {url}", flush=True)
@@ -157,12 +168,18 @@ def run(mode: str, *, no_browser=False, port_override=None, watch_parent=False) 
             opener.daemon = True
             opener.start()
         try:
-            server.run()
+            while not shutdown.is_set():
+                server.asyncore.loop(timeout=0.25, count=1, map=server._map)
         except KeyboardInterrupt:
             print("Servidor detenido. Los datos permanecen guardados.", flush=True)
         finally:
-            server.close()
+            shutdown.set()
+            # Closing only the listener leaves persistent HTTP channels alive.
+            server.task_dispatcher.shutdown()
+            server.asyncore.close_all(server._map)
             stop_automation_worker(worker, worker_log)
+            if stop_path:
+                stop_path.unlink(missing_ok=True)
 
 
 def main(argv=None) -> int:
@@ -171,9 +188,15 @@ def main(argv=None) -> int:
     parser.add_argument("--no-browser", action="store_true", help="No abrir el navegador (CI o servicio supervisado)")
     parser.add_argument("--port", type=int, default=None, help="Puerto local opcional; 0 asigna un puerto temporal para verificación")
     parser.add_argument("--watch-parent", action="store_true", help="Detener al cerrarse stdin del proceso supervisor")
+    parser.add_argument("--stop-file", help="Señal local de cierre ordenado para el lanzador en segundo plano")
+    parser.add_argument("--background", action="store_true", help="Guardar salida en la carpeta de datos al iniciar sin consola")
     args = parser.parse_args(argv)
+    if args.background:
+        data_dir = Path(os.environ["MILENIO_DATA_DIR"])
+        sys.stdout = (data_dir / "server.log").open("a", encoding="utf-8", buffering=1)
+        sys.stderr = (data_dir / "server-error.log").open("a", encoding="utf-8", buffering=1)
     try:
-        run(args.mode, no_browser=args.no_browser, port_override=args.port, watch_parent=args.watch_parent)
+        run(args.mode, no_browser=args.no_browser, port_override=args.port, watch_parent=args.watch_parent, stop_file=args.stop_file)
     except (RuntimeError, ValueError, CommandError, OSError) as exc:
         print(f"No se pudo iniciar Milenio: {exc}", file=sys.stderr)
         return 1

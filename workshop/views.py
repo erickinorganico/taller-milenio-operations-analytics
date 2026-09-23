@@ -453,7 +453,9 @@ def guide(request):
     return render(request,"workshop/guide.html",{"title":"Guía del taller","section":"Ayuda"})
 
 def health(request):
-    return JsonResponse({"status":"ok","application":"milenio-operations"})
+    import os
+    return JsonResponse({"status":"ok","application":"milenio-operations", "mode":settings.MILENIO_MODE,
+                         "launch_id":os.environ.get('MILENIO_LAUNCH_ID', '')})
 
 
 @require("manage")
