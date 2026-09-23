@@ -16,11 +16,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 FOLDERS = ("workshop", "milenio_web")
 ROOT_FILES = ("manage.py", "requirements-web.txt", "Setup-Web.ps1", "Iniciar-Milenio.cmd",
-              "Iniciar-Demo.cmd", "Setup-Agents.ps1", "README-WEB.md", "CLIENTE.html", "LICENSE")
+              "Iniciar-Demo.cmd", "Abrir-Demo.cmd", "Abrir-Taller.cmd", "Abrir-Milenio.ps1",
+              "Setup-Agents.ps1", "README-WEB.md", "CLIENTE.html", "LICENSE")
 OTHER_FILES = ("scripts/run_web.py", "scripts/package_web.py", "scripts/export_web_contracts.py",
                "scripts/verify_web.py", "scripts/verify_v6_delivery.py",
                "docs/V5-INSTALACION.md", "docs/V6-ANALYTICS.md", "docs/V6-AUTOMATIZACIONES.md",
-               "docs/V6-VERIFICACION.md", "docs/ANALYTICS-DESIGN.md", "docs/ANALYTICS-UI-REVIEW.md",
+               "docs/V6-VERIFICACION.md", "docs/ANALYTICS-DESIGN.md", "docs/ANALYTICS-UI-REVIEW.md", "docs/MECHANICAL-UI-REVIEW.md",
                "docs/V5-MANUAL.md", "specs/v5-domain-api.md", "specs/v5-intelligence.md", "specs/v6-analytics-automation.md",
                ".planning/PROJECT.md", ".planning/milestones/v5.0-REQUIREMENTS.md")
 SKIP_PARTS = {".git", ".venv", "venv", "env", "__pycache__", ".pytest_cache", ".mypy_cache",
@@ -175,7 +176,7 @@ def build(output: str | Path, wheelhouse: str | Path | None = None) -> dict:
         raise ValueError("archive has case-insensitive path collisions")
     expected = {name: _sha(file) for name, file in sorted(entries.items())}
     manifest = {"format": "milenio-web-v6", "publication_status": "local_candidate",
-                "entrypoint": "Iniciar-Milenio.cmd", "demo_entrypoint": "Iniciar-Demo.cmd",
+                "entrypoint": "Abrir-Taller.cmd", "demo_entrypoint": "Abrir-Demo.cmd",
                 "includes_private_data": False, "wheels_included": wheelhouse is not None,
                 "entries_sha256": expected}
     document = (json.dumps(manifest, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode("utf-8")

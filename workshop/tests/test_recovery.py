@@ -1,5 +1,6 @@
 """Disposable backup/restore checks; no test touches a real workshop database."""
 import io
+import http.client
 import hashlib
 import json
 import os
@@ -321,9 +322,11 @@ class WebDeliveryTests(unittest.TestCase):
             environment.pop("MILENIO_MODE", None)
             kwargs = {"creationflags": getattr(subprocess, "CREATE_NO_WINDOW", 0)} if os.name == "nt" else {}
             process = subprocess.Popen([sys.executable, str(run_web.ROOT / "scripts" / "run_web.py"),
-                                        "--mode", "live", "--no-browser", "--port", str(port), "--watch-parent"], cwd=run_web.ROOT,
+                                        "--mode", "live", "--no-browser", "--port", str(port),
+                                        "--stop-file", str(Path(temp) / "live" / ".stop-test")], cwd=run_web.ROOT,
                                        env=environment, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                        text=True, **kwargs)
+            persistent = http.client.HTTPConnection("127.0.0.1", port, timeout=2)
             try:
                 ready = False
                 for _ in range(80):
@@ -342,9 +345,21 @@ class WebDeliveryTests(unittest.TestCase):
                 with urllib.request.urlopen(f"http://127.0.0.1:{port}/static/workshop/app.css", timeout=2) as response:
                     self.assertEqual(response.status, 200)
                     self.assertIn("text/css", response.headers["Content-Type"])
+                persistent.request("GET", "/health/")
+                response = persistent.getresponse()
+                self.assertEqual(response.status, 200)
+                response.read()
+                self.assertIsNotNone(persistent.sock)
                 self.assertTrue((Path(temp) / "live" / "workshop.sqlite3").is_file())
             finally:
-                self._stop_server(process)
+                (Path(temp) / "live" / ".stop-test").write_text("stop")
+                try:
+                    self.assertEqual(process.wait(timeout=15), 0)
+                finally:
+                    persistent.close()
+                    self._stop_server(process)
+            self.assertTrue((Path(temp) / "live" / "workshop.sqlite3").exists())
+            self.assertFalse((Path(temp) / "live" / ".stop-test").exists())
 
     def test_runner_rejects_cross_mode_data_directory(self):
         with tempfile.TemporaryDirectory() as temp:
