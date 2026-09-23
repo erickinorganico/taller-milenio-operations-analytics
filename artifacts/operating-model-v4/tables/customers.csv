@@ -1,0 +1,11 @@
+﻿id,version,synthetic,created_at,updated_at,name,segment,consent,contact
+C-001,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Demo Ana López,particular,1,c-001@demo.milenio.local
+C-002,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Demo Bruno Ruiz,particular,1,c-002@demo.milenio.local
+C-003,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Demo Carla Méndez,particular,0,
+C-004,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Demo Diego Soto,particular,1,c-004@demo.milenio.local
+C-005,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Demo Elena Vega,particular,1,c-005@demo.milenio.local
+C-006,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Demo Fabián Cruz,particular,1,c-006@demo.milenio.local
+C-007,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Demo Graciela Mora,particular,1,c-007@demo.milenio.local
+C-008,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Demo Héctor Luna,particular,1,c-008@demo.milenio.local
+C-009,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Demo Logística Norte SA,fleet,1,c-009@demo.milenio.local
+C-010,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Demo Servicios Delta,fleet,1,c-010@demo.milenio.local

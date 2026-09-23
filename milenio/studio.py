@@ -42,7 +42,7 @@ def render_charts(analysis, output):
     plt.close(fig)
     service = analysis['marts']['mart_service_journey']
     fig, ax = plt.subplots(figsize=(8, 3.6))
-    ax.hist([r['cycle_hours'] for r in service if r['status']=='delivered'], bins=16, color='#b75e36', edgecolor='white')
+    ax.hist([r['cycle_hours'] for r in service if r['status']=='delivered' and r['cycle_hours'] is not None], bins=16, color='#b75e36', edgecolor='white')
     ax.set(title='Distribución de tiempo recepción → entrega', xlabel='Horas calendario · casos sintéticos', ylabel='Órdenes entregadas')
     fig.tight_layout()
     for ext in ('svg', 'png'): fig.savefig(output / ('tiempo_servicio.' + ext), metadata={'Date': None})
@@ -54,7 +54,7 @@ def render_charts(analysis, output):
     labels = {'received':'Recepción','inspected':'Inspeccionado','authorized':'Autorizado','waiting_parts':'Espera de partes','in_service':'En servicio','quality_check':'Control de calidad','rework':'Retrabajo','ready':'Listo para entrega'}
     fig, ax = plt.subplots(figsize=(9,4.5))
     ordered = sorted(stages,key=lambda r:r['total_hours'])
-    ax.barh([labels.get(r['stage'],r['stage']) for r in ordered],[r['total_hours'] for r in ordered],color='#b75e36')
+    ax.barh([r['entity_type']+' / '+labels.get(r['stage'],r['stage']) for r in ordered],[r['total_hours'] for r in ordered],color='#b75e36')
     ax.set(title='Tiempo observado en estados · sintético',xlabel='Horas calendario acumuladas; no horas de mano de obra')
     fig.tight_layout()
     for ext in ('svg','png'): fig.savefig(output/('estados.'+ext),metadata={'Date':None})
@@ -62,7 +62,7 @@ def render_charts(analysis, output):
 
 
 def html_table(rows, columns, limit=12):
-    labels = {'work_order_id':'Orden','segment':'Segmento','status':'Estado','cycle_hours':'Ciclo / edad (h)',
+    labels = {'work_order_id':'Orden','segment':'Segmento','status':'Estado','cycle_hours':'Ciclo validado (h)','age_hours':'Antigüedad abierta (h)',
         'waiting_parts_hours':'Espera de partes (h)','sla_status':'SLA','invoice_id':'Factura','customer_id':'Cliente',
         'balance_cents':'Saldo MXN','aging_bucket':'Antigüedad (días)','fleet_account_id':'Cuenta de flotilla',
         'services':'Servicios','eligible_delivered':'Entregadas elegibles','sla_met':'Cumplidas','sla_breached':'Incumplidas',
@@ -105,7 +105,7 @@ def render_dossier(output, analysis, catalog, processes, agent_runs):
         drafts = detail.get('drafts',[])
         if drafts:
             cards_agents = cards_agents[:-10] + '<details><summary>Ver borradores y sustento</summary>' + html_table(drafts,['kind','text','requires_human_review'],20) + html_table(detail.get('evidence',[]),['entity_type','entity_id','field','value','version'],12) + '</details></article>'
-    services = sorted(analysis['marts']['mart_service_journey'], key=lambda r:r['cycle_hours'], reverse=True)
+    services = sorted(analysis['marts']['mart_service_journey'], key=lambda r:r['cycle_hours'] if r['cycle_hours'] is not None else -1, reverse=True)
     body = '<header><p class="eyebrow">TALLER MILENIO / WORKBENCH ANALÍTICO</p><h1>Del dato a una<br>decisión revisable.</h1><p>Procesos, tablas, análisis y agentes conectados en una entrega local.</p><span class="badge">DATOS SINTÉTICOS · CORTE '+escape(s['as_of'])+'</span></header>'
     body += '<main><section class="metrics">'+cards+'</section><section><h2>Empieza aquí</h2><p>Abre el libro para filtrar las tablas y revisar controles; consulta la base SQL para reproducir los cálculos. Los resultados de cada agente incluyen las referencias que permiten cuestionar su recomendación.</p><p><a class="button" href="Milenio_Analisis.xlsx">Abrir libro Excel</a> <a class="button" href="warehouse.sqlite">Base relacional</a> <a class="button" href="schema.sql">SQL del modelo</a></p></section>'
     body += '<section><h2>01 / Lectura operativa</h2><p>Recepciones y entregas pertenecen a fechas distintas. La distribución usa solo órdenes entregadas; las abiertas mantienen su antigüedad como otra medida.</p><img src="charts/flujo_diario.svg"><img src="charts/tiempo_servicio.svg">'+html_table(services,['work_order_id','segment','status','cycle_hours','waiting_parts_hours','sla_status'])+'</section>'
@@ -130,7 +130,7 @@ def seal_studio(output):
     write_json(output/'receipt.json',{'version':2,'status':'pass','synthetic':True,'artifacts_sha256':hashes,
         'content_sha256':hashlib.sha256(canonical.encode('utf8')).hexdigest(),
         'source_sha256':{p.relative_to(ROOT).as_posix():file_hash(p) for p in sorted((ROOT/'milenio').glob('*.py'))},
-        'scope':'relational warehouse, longitudinal marts, workbook, processes, specs and traceable agent runs'})
+        'scope':'source-row explorer, executable metric registry, relational warehouse, marts, review workbooks, processes, specs and traceable agent runs'})
 
 
 def write_decision_book(output, runs):
@@ -204,7 +204,7 @@ def build_studio(output, days=90, native=False, input_path=None, events_path=Non
                     writer = csv.writer(file); writer.writerow([d[0] for d in cur.description])
                     for row in cur:
                         writer.writerow(["'"+v if isinstance(v,str) and v.startswith(('=','+','-','@')) else v for v in row])
-        for folder in ('processes','specs','agents'):
+        for folder in ('processes','specs','agents','contracts'):
             if (ROOT/folder).exists(): shutil.copytree(ROOT/folder,stage/folder)
         processes = [json.loads(p.read_text(encoding='utf-8-sig')) for p in sorted((stage/'processes').glob('*.json'))]
         for process in processes:
@@ -229,9 +229,11 @@ def build_studio(output, days=90, native=False, input_path=None, events_path=Non
         write_json(stage/'workbook_check.json',workbook)
         write_decision_book(stage,runs)
         render_charts(analysis,stage/'charts'); render_dossier(stage,analysis,catalog,processes,runs)
+        from .operating_delivery import build_operating_delivery
+        operating = build_operating_delivery(stage)
         seal_studio(stage)
         stage.rename(output)
         return {'status':'pass','output':str(output),'physical_source_tables':len(catalog['tables']),
-                'marts':len(analysis['marts']),'processes':len(processes),'agents':len(runs),'worksheets':workbook['worksheets']}
+                'marts':len(analysis['marts']),'processes':len(processes),'agents':len(runs),'worksheets':workbook['worksheets'],**operating}
     finally:
         if stage.exists() and stage.parent==output.parent and stage.name.startswith('.studio-'): shutil.rmtree(stage)

@@ -1,0 +1,4 @@
+﻿id,version,synthetic,created_at,updated_at,part_id,quantity,unit_cost_cents,expected_at,status
+PO-001,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,P-001,8,1800,2026-09-24T18:00:00Z,received
+PO-002,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,P-002,205,1800,2026-09-24T18:00:00Z,ordered
+PO-003,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,P-003,8,1800,2026-09-24T18:00:00Z,cancelled

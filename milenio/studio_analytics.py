@@ -11,6 +11,33 @@ from .contracts import DEMO_NOW
 from .domain import date_value
 
 
+# Stable source-facing mart shapes. Empty populations must still materialize a
+# typed table, and nullable measurements keep their numerical SQL type.
+MART_SCHEMAS = {
+    'mart_service_journey': [('work_order_id', 'TEXT'), ('customer_id', 'TEXT'), ('segment', 'TEXT'),
+        ('vehicle_id', 'TEXT'), ('status', 'TEXT'), ('opened_at', 'TEXT'), ('completed_at', 'TEXT'),
+        ('cycle_hours', 'REAL'), ('age_hours', 'REAL'), ('history_available', 'INTEGER'),
+        ('waiting_parts_hours', 'REAL'), ('in_service_hours', 'REAL'), ('rework_observed', 'INTEGER'),
+        ('contract_id', 'TEXT'), ('sla_status', 'TEXT'), ('invoiced_cents', 'INTEGER'),
+        ('paid_cents', 'INTEGER'), ('receivable_cents', 'INTEGER')],
+    'mart_receivables': [('invoice_id', 'TEXT'), ('customer_id', 'TEXT'), ('segment', 'TEXT'),
+        ('due_at', 'TEXT'), ('invoiced_cents', 'INTEGER'), ('paid_cents', 'INTEGER'),
+        ('balance_cents', 'INTEGER'), ('days_overdue', 'INTEGER'), ('aging_bucket', 'TEXT')],
+    'mart_daily_operations': [('day', 'TEXT'), ('opened', 'INTEGER'), ('delivered', 'INTEGER'),
+        ('collected_cents', 'INTEGER'), ('expense_cents', 'INTEGER')],
+    'mart_fleet_scorecard': [('fleet_account_id', 'TEXT'), ('customer_id', 'TEXT'), ('industry', 'TEXT'),
+        ('declared_vehicles', 'INTEGER'), ('captured_vehicles', 'INTEGER'), ('services', 'INTEGER'),
+        ('eligible_delivered', 'INTEGER'), ('sla_met', 'INTEGER'), ('sla_breached', 'INTEGER'),
+        ('sla_unknown', 'INTEGER'), ('cycle_p90_hours', 'REAL'), ('pipeline_cents', 'INTEGER'),
+        ('receivable_cents', 'INTEGER')],
+    'mart_inventory': [('part_id', 'TEXT'), ('name', 'TEXT'), ('on_hand', 'INTEGER'),
+        ('reserved', 'INTEGER'), ('available', 'INTEGER'), ('reorder_point', 'INTEGER'),
+        ('net_consumed_cost_cents', 'INTEGER')],
+    'mart_process_waits': [('entity_type', 'TEXT'), ('stage', 'TEXT'), ('intervals', 'INTEGER'),
+        ('cases', 'INTEGER'), ('total_hours', 'REAL'), ('mean_interval_hours', 'REAL')],
+}
+
+
 def percentile(values, p):
     if not values:
         return None
@@ -63,10 +90,14 @@ def build_marts(database, as_of=DEMO_NOW):
         else: sla = 'breached' if elapsed > contract['sla_hours'] else 'at_risk' if contract['sla_hours'] - elapsed <= 4 else 'on_track'
         billed = sum(x['amount_cents'] for x in invoices[row['id']])
         paid = sum(p['amount_cents'] for inv in invoices[row['id']] for p in payments[inv['id']])
+        # Snapshot endpoints alone do not establish an observed service journey.
+        # Keep open-order age separate from delivered cycle time.
+        delivered_cycle = round(elapsed, 3) if row['status'] == 'delivered' and observed else None
         services.append({'work_order_id': row['id'], 'customer_id': row['customer_id'],
             'segment': customers[row['customer_id']]['segment'], 'vehicle_id': row['vehicle_id'],
             'status': row['status'], 'opened_at': row['opened_at'], 'completed_at': row['completed_at'],
-            'cycle_hours': round(elapsed, 3), 'history_available': int(observed),
+            'cycle_hours': delivered_cycle, 'age_hours': round(elapsed, 3) if row['status'] not in ('delivered', 'cancelled') else None,
+            'history_available': int(observed),
             'waiting_parts_hours': round(waiting, 3) if observed else None,
             'in_service_hours': round(hands_on, 3) if observed else None,
             'rework_observed': int(any(e['to_state'] == 'rework' for e in events)) if observed else None,
@@ -101,7 +132,7 @@ def build_marts(database, as_of=DEMO_NOW):
             'sla_met': sum(w['sla_status'] == 'met' for w in measured),
             'sla_breached': sum(w['sla_status'] == 'breached' for w in measured),
             'sla_unknown': sum(w['sla_status'] == 'unknown' for w in own),
-            'cycle_p90_hours': percentile([w['cycle_hours'] for w in own if w['status'] == 'delivered'], .9),
+            'cycle_p90_hours': percentile([w['cycle_hours'] for w in own if w['cycle_hours'] is not None], .9),
             'pipeline_cents': sum(o['value_cents'] for o in opps),
             'receivable_cents': sum(x['balance_cents'] for x in aging if x['customer_id'] == account['customer_id'])})
     stock = []
@@ -116,37 +147,32 @@ def build_marts(database, as_of=DEMO_NOW):
     for key, events in histories.items():
         events.sort(key=lambda e: (date_value(e['at']), e['event_id']))
         for a, b in zip(events, events[1:]):
-            stage = stages[a['to_state']]
+            stage = stages[(a['entity_type'], a['to_state'])]
             stage['intervals'] += 1
             stage['hours'] += (date_value(b['at']) - date_value(a['at'])).total_seconds() / 3600
             stage['cases'].add(key)
-    stage_rows = [{'stage': stage, 'intervals': v['intervals'], 'cases': len(v['cases']),
+    stage_rows = [{'entity_type': entity_type, 'stage': stage,
+                   'intervals': v['intervals'], 'cases': len(v['cases']),
                    'total_hours': round(v['hours'], 3), 'mean_interval_hours': round(v['hours'] / v['intervals'], 3)}
-                  for stage, v in sorted(stages.items())]
+                  for (entity_type, stage), v in sorted(stages.items())]
     marts = {'mart_service_journey': services, 'mart_receivables': aging, 'mart_daily_operations': daily_rows,
              'mart_fleet_scorecard': fleet_rows, 'mart_inventory': stock, 'mart_process_waits': stage_rows}
-    empty_schemas = {'mart_process_waits': [('stage', 'TEXT'), ('intervals', 'INTEGER'), ('cases', 'INTEGER'), ('total_hours', 'REAL'), ('mean_interval_hours', 'REAL')]}
     try:
         with con:
             for name, rows in marts.items():
-                if not rows:
-                    if name in empty_schemas:
-                        con.execute('CREATE TABLE "' + name + '" (' + ','.join('"' + c + '" ' + t for c, t in empty_schemas[name]) + ')')
-                    continue
-                columns = list(rows[0])
-                definitions = []
-                for column in columns:
-                    sample = next((r[column] for r in rows if r[column] is not None), None)
-                    typ = 'INTEGER' if type(sample) is int else 'REAL' if type(sample) is float else 'TEXT'
-                    definitions.append('"' + column + '" ' + typ)
-                con.execute('CREATE TABLE "' + name + '" (' + ','.join(definitions) + ')')
-                con.executemany('INSERT INTO "' + name + '" VALUES (' + ','.join('?' for _ in columns) + ')',
-                                [tuple(row[c] for c in columns) for row in rows])
+                schema = MART_SCHEMAS[name]
+                columns = [column for column, _ in schema]
+                if rows and any(set(row) != set(columns) for row in rows):
+                    raise ValueError('mart row does not match declared schema: ' + name)
+                con.execute('CREATE TABLE "' + name + '" (' + ','.join('"' + c + '" ' + t for c, t in schema) + ')')
+                if rows:
+                    con.executemany('INSERT INTO "' + name + '" VALUES (' + ','.join('?' for _ in columns) + ')',
+                                    [tuple(row[c] for c in columns) for row in rows])
         delivered = [r for r in services if r['status'] == 'delivered']
         measured = [r for r in delivered if r['history_available']]
         summary = {'as_of': as_of, 'synthetic': True, 'open_orders': sum(r['status'] not in ('delivered', 'cancelled') for r in services),
-            'delivered': len(delivered), 'cycle_p50_hours': percentile([r['cycle_hours'] for r in delivered], .5),
-            'cycle_p90_hours': percentile([r['cycle_hours'] for r in delivered], .9),
+            'delivered': len(delivered), 'cycle_p50_hours': percentile([r['cycle_hours'] for r in measured], .5),
+            'cycle_p90_hours': percentile([r['cycle_hours'] for r in measured], .9),
             'history_coverage': {'numerator': len(measured), 'denominator': len(delivered)},
             'rework': {'numerator': sum(r['rework_observed'] for r in measured), 'denominator': len(measured)},
             'invoiced_cents': sum(r['invoiced_cents'] for r in aging), 'paid_cents': sum(r['paid_cents'] for r in aging),

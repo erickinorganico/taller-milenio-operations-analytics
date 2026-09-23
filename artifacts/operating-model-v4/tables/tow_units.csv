@@ -1,0 +1,5 @@
+﻿id,version,synthetic,created_at,updated_at,name,capability
+TU-001,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Grúa demo 1,plataforma
+TU-002,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Grúa demo 2,arrastre
+TU-003,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Grúa demo 3,plataforma
+TU-004,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Grúa demo 4,rescate

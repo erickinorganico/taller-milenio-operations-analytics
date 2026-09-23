@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Taller Milenio ActionProposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "agent", "title", "rationale", "evidence", "approval_required", "external_execution", "status"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^AP-[a-f0-9]{20}$"},
+    "agent": {"enum": ["intake_admin", "operations_controller", "maintenance_planner", "fleet_sales_research", "fleet_sla_watcher", "tow_dispatch_assistant", "collections_assistant", "marketing_planner", "weekly_operator"]},
+    "title": {"type": "string", "minLength": 1},
+    "rationale": {"type": "string", "minLength": 1},
+    "approval_required": {"const": true},
+    "external_execution": {"const": false},
+    "status": {"const": "pending"},
+    "evidence": {"type": "array", "minItems": 1, "maxItems": 100, "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["entity_type", "entity_id", "field", "value", "version"],
+      "properties": {"entity_type": {"type": "string"}, "entity_id": {"type": "string"}, "field": {"type": "string"}, "value": {}, "version": {"type": "integer", "minimum": 1}}
+    }}
+  }
+}

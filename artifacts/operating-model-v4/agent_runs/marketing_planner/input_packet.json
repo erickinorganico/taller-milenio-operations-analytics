@@ -1,0 +1,621 @@
+{
+  "agent_id": "marketing_planner",
+  "allowed_tools": [
+    "inspect_scoped_cases",
+    "read_evidence",
+    "query_metrics"
+  ],
+  "as_of": "2026-09-21T18:00:00Z",
+  "prepared_at": "2026-09-23T00:58:33.529277Z",
+  "profile": {
+    "allowed_read_tools": [
+      "inspect_scoped_cases",
+      "read_evidence",
+      "query_metrics"
+    ],
+    "criteria": [
+      "citar campos de campaña",
+      "respetar consentimiento",
+      "no publicar ni enviar mensajes"
+    ],
+    "id": "marketing_planner",
+    "metric_ids": [
+      "review_campaigns",
+      "M-B2C-LEADS",
+      "M-B2C-QUOTE-MATCH",
+      "M-WEEKLY-EXCEPTIONS",
+      "M-WEEKLY-PROPOSALS"
+    ],
+    "name": "Planificador de revisión de marketing",
+    "objective": "Revisar borradores de campaña y evidencia de audiencia antes de una decisión humana de publicación.",
+    "persona": "Profesional de marketing que prioriza consentimiento y crea texto solo para revisión.",
+    "required_deliverable": "Indicar preguntas de revisión de campaña y texto opcional para aprobación humana.",
+    "scope": [
+      "campaigns",
+      "customers",
+      "contacts"
+    ]
+  },
+  "prohibited_capabilities": [
+    "network",
+    "contact",
+    "business_write",
+    "external_execution",
+    "arbitrary_sql"
+  ],
+  "schema_version": 1,
+  "synthetic": true,
+  "tool_context": {
+    "cases": [
+      {
+        "entity_id": "CAM-001",
+        "entity_type": "campaigns",
+        "record": {
+          "audience": "particular",
+          "created_at": "2026-09-21T18:00:00Z",
+          "draft": "Borrador sintético",
+          "id": "CAM-001",
+          "name": "Recordatorio mantenimiento",
+          "objective": "Recurrencia",
+          "status": "review",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-002",
+        "entity_type": "campaigns",
+        "record": {
+          "audience": "fleet",
+          "created_at": "2026-09-21T18:00:00Z",
+          "draft": "Borrador sintético",
+          "id": "CAM-002",
+          "name": "Flotillas septiembre",
+          "objective": "Pipeline B2B",
+          "status": "approved",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "C-001",
+        "entity_type": "customers",
+        "record": {
+          "consent": 1,
+          "contact": "c-001@demo.milenio.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "C-001",
+          "name": "Demo Ana López",
+          "segment": "particular",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "C-002",
+        "entity_type": "customers",
+        "record": {
+          "consent": 1,
+          "contact": "c-002@demo.milenio.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "C-002",
+          "name": "Demo Bruno Ruiz",
+          "segment": "particular",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "C-003",
+        "entity_type": "customers",
+        "record": {
+          "consent": 0,
+          "contact": null,
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "C-003",
+          "name": "Demo Carla Méndez",
+          "segment": "particular",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "C-004",
+        "entity_type": "customers",
+        "record": {
+          "consent": 1,
+          "contact": "c-004@demo.milenio.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "C-004",
+          "name": "Demo Diego Soto",
+          "segment": "particular",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-001",
+        "entity_type": "contacts",
+        "record": {
+          "consent": 1,
+          "contact": "contacto1@demo.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-001",
+          "id": "CTC-001",
+          "name": "Contacto 1",
+          "role": "Operaciones",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-002",
+        "entity_type": "contacts",
+        "record": {
+          "consent": 1,
+          "contact": "contacto2@demo.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-001",
+          "id": "CTC-002",
+          "name": "Contacto 2",
+          "role": "Operaciones",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-003",
+        "entity_type": "contacts",
+        "record": {
+          "consent": 1,
+          "contact": "contacto3@demo.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-002",
+          "id": "CTC-003",
+          "name": "Contacto 3",
+          "role": "Operaciones",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "CAM-001",
+        "entity_type": "campaigns",
+        "field": "status",
+        "value": "review",
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-002",
+        "entity_type": "campaigns",
+        "field": "status",
+        "value": "approved",
+        "version": 1
+      },
+      {
+        "entity_id": "C-001",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "C-002",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "C-003",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 0,
+        "version": 1
+      },
+      {
+        "entity_id": "C-004",
+        "entity_type": "customers",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-001",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-002",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-003",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      }
+    ],
+    "metrics": {
+      "M-B2C-LEADS": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Dimensionar la cola de seguimiento de particulares.",
+        "definition": "Count particular leads at cutoff.",
+        "definition_es": "Leads de clientes particulares presentes al corte.",
+        "denominator": 112,
+        "domain": "b2c",
+        "evidence_rows": [
+          {
+            "fields": {
+              "customer_id": "C-001"
+            },
+            "record_id": "L-001",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-002"
+            },
+            "record_id": "L-002",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-003"
+            },
+            "record_id": "L-003",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-004"
+            },
+            "record_id": "L-004",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-009"
+            },
+            "record_id": "L-005",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-010"
+            },
+            "record_id": "L-006",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-001"
+            },
+            "record_id": "L-H001",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-002"
+            },
+            "record_id": "L-H002",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-003"
+            },
+            "record_id": "L-H003",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-004"
+            },
+            "record_id": "L-H004",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-005"
+            },
+            "record_id": "L-H005",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-006"
+            },
+            "record_id": "L-H006",
+            "table": "leads",
+            "version": 1
+          }
+        ],
+        "evidence_total": 176,
+        "formula_es": "Contar leads unidos a customers con segment='particular'.",
+        "grain": "lead",
+        "label": "Leads particulares",
+        "limitations": "Snapshot population, not arrivals.",
+        "limitations_es": "Es población de estado actual; no mide llegadas del periodo.",
+        "metric_id": "M-B2C-LEADS",
+        "null_policy_es": "Sin leads particulares: unknown; un conteo cero no se publica como cobertura confirmada.",
+        "numerator": 112,
+        "owner_role": "Recepción",
+        "population_es": "Todos los leads particulares del extracto.",
+        "process_ids": [
+          "b2c_workshop"
+        ],
+        "query": "SELECT COUNT(*) n, COUNT(*) d FROM leads l JOIN customers c ON c.id=l.customer_id WHERE c.segment='particular'",
+        "reason": null,
+        "source_counts": {
+          "customers": 10,
+          "leads": 166
+        },
+        "source_fields": [
+          "leads.id",
+          "leads.customer_id",
+          "customers.segment"
+        ],
+        "source_tables": [
+          "leads",
+          "customers"
+        ],
+        "status": "measured",
+        "unit": "count",
+        "value": 112
+      },
+      "M-B2C-QUOTE-MATCH": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Revisar cobertura de atribución antes de hablar de conversión.",
+        "definition": "Particular leads with an explicit journey link divided by particular leads.",
+        "definition_es": "Proporción de leads particulares con vínculo explícito a cotización.",
+        "denominator": 112,
+        "domain": "b2c",
+        "evidence_rows": [
+          {
+            "fields": {},
+            "record_id": "L-001",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-002",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-003",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-004",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-005",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-006",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-H001",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-H002",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-H003",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-H004",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-H005",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-H006",
+            "table": "leads",
+            "version": 1
+          }
+        ],
+        "evidence_total": 336,
+        "formula_es": "Leads particulares distintos con journey_links.lead_id / leads particulares distintos.",
+        "grain": "lead",
+        "label": "Vínculo explícito a cotización",
+        "limitations": "Without supplied journey links attribution is unknown; coincidence is insufficient.",
+        "limitations_es": "Coincidir en cliente o vehículo no acredita atribución.",
+        "metric_id": "M-B2C-QUOTE-MATCH",
+        "null_policy_es": "Sin vínculos explícitos: unknown, aunque existan candidatos.",
+        "numerator": 108,
+        "owner_role": "Recepción",
+        "population_es": "Todos los leads particulares; los vínculos provienen de journey_links.",
+        "process_ids": [
+          "b2c_workshop"
+        ],
+        "query": "SELECT COUNT(DISTINCT CASE WHEN j.lead_id IS NOT NULL THEN l.id END) n, COUNT(DISTINCT l.id) d FROM leads l JOIN customers c ON c.id=l.customer_id LEFT JOIN journey_links j ON j.lead_id=l.id WHERE c.segment='particular'",
+        "reason": null,
+        "source_counts": {
+          "customers": 10,
+          "journey_links": 160,
+          "leads": 166
+        },
+        "source_fields": [
+          "leads.id",
+          "customers.segment",
+          "journey_links.lead_id",
+          "journey_links.quote_id"
+        ],
+        "source_tables": [
+          "leads",
+          "customers",
+          "journey_links"
+        ],
+        "status": "measured",
+        "unit": "ratio",
+        "value": 0.964286
+      },
+      "M-WEEKLY-EXCEPTIONS": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Abrir una pregunta de cobertura en la revisión semanal.",
+        "definition": "Count validated exceptions by severity and module.",
+        "definition_es": "Excepciones validadas por módulo y severidad.",
+        "denominator": null,
+        "domain": "governance",
+        "evidence_rows": [],
+        "evidence_total": 0,
+        "formula_es": "Sin SQL medidor en este warehouse; valor, numerador y denominador quedan null.",
+        "grain": "exception",
+        "label": "Excepciones semanales",
+        "limitations": "No validated exceptions table is materialized in this warehouse; unknown until linked to a versioned exception source.",
+        "limitations_es": "El warehouse no materializa una tabla versionada de excepciones; la cola OPS separada no es esta fuente.",
+        "metric_id": "M-WEEKLY-EXCEPTIONS",
+        "null_policy_es": "Siempre unknown en este contrato hasta incorporar y validar una fuente homogénea.",
+        "numerator": null,
+        "owner_role": "Gerencia",
+        "population_es": "Se requeriría una fuente de excepciones versionada y vinculada al mismo corte.",
+        "process_ids": [
+          "weekly_review"
+        ],
+        "query": null,
+        "reason": "No versioned exception source is materialized in this warehouse",
+        "source_counts": {},
+        "source_fields": [],
+        "source_tables": [],
+        "status": "unknown",
+        "unit": "count",
+        "value": null
+      },
+      "M-WEEKLY-PROPOSALS": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Preparar agenda humana de revisión de borradores.",
+        "definition": "Count validated pending proposals by agent.",
+        "definition_es": "Número de propuestas pendientes con controles de aprobación y no ejecución.",
+        "denominator": 2,
+        "domain": "governance",
+        "evidence_rows": [
+          {
+            "fields": {
+              "agent": "operations_controller",
+              "approval_required": 1,
+              "external_execution": 0,
+              "status": "pending"
+            },
+            "record_id": "PR-001",
+            "table": "proposals",
+            "version": 1
+          },
+          {
+            "fields": {
+              "agent": "fleet_sla_watcher",
+              "approval_required": 1,
+              "external_execution": 0,
+              "status": "pending"
+            },
+            "record_id": "PR-002",
+            "table": "proposals",
+            "version": 1
+          }
+        ],
+        "evidence_total": 2,
+        "formula_es": "Contar proposals con status='pending', approval_required=1 y external_execution=0.",
+        "grain": "proposal",
+        "label": "Propuestas pendientes",
+        "limitations": "Count of drafts, not decisions or completed actions.",
+        "limitations_es": "No mide decisiones humanas ni acciones terminadas.",
+        "metric_id": "M-WEEKLY-PROPOSALS",
+        "null_policy_es": "Sin propuestas fuente: unknown; cero pendientes con propuestas presentes es medido.",
+        "numerator": 2,
+        "owner_role": "Gerencia",
+        "population_es": "Todas las propuestas presentes en la tabla del warehouse.",
+        "process_ids": [
+          "weekly_review"
+        ],
+        "query": "SELECT COALESCE(SUM(status='pending' AND approval_required=1 AND external_execution=0),0) n, COUNT(*) d FROM proposals",
+        "reason": null,
+        "source_counts": {
+          "proposals": 2
+        },
+        "source_fields": [
+          "proposals.id",
+          "proposals.agent",
+          "proposals.status",
+          "proposals.approval_required",
+          "proposals.external_execution"
+        ],
+        "source_tables": [
+          "proposals"
+        ],
+        "status": "measured",
+        "unit": "count",
+        "value": 2
+      },
+      "review_campaigns": 1
+    }
+  },
+  "warehouse_path": "..\\..\\warehouse.sqlite",
+  "warehouse_sha256": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7"
+}

@@ -1,0 +1,1464 @@
+{
+  "backend": "rules",
+  "cases_reviewed": 12,
+  "context": {
+    "cases": [
+      {
+        "entity_id": "INV-H160",
+        "entity_type": "invoices",
+        "record": {
+          "amount_cents": 140000,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-004",
+          "due_at": "2026-07-04T08:00:00Z",
+          "id": "INV-H160",
+          "status": "issued",
+          "synthetic": 1,
+          "tow_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-H160"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H159",
+        "entity_type": "invoices",
+        "record": {
+          "amount_cents": 127500,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-003",
+          "due_at": "2026-07-04T19:00:00Z",
+          "id": "INV-H159",
+          "status": "issued",
+          "synthetic": 1,
+          "tow_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-H159"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H158",
+        "entity_type": "invoices",
+        "record": {
+          "amount_cents": 115000,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-002",
+          "due_at": "2026-07-05T06:00:00Z",
+          "id": "INV-H158",
+          "status": "issued",
+          "synthetic": 1,
+          "tow_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-H158"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H157",
+        "entity_type": "invoices",
+        "record": {
+          "amount_cents": 102500,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-001",
+          "due_at": "2026-07-05T17:00:00Z",
+          "id": "INV-H157",
+          "status": "issued",
+          "synthetic": 1,
+          "tow_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-H157"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H156",
+        "entity_type": "invoices",
+        "record": {
+          "amount_cents": 90000,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-010",
+          "due_at": "2026-07-06T04:00:00Z",
+          "id": "INV-H156",
+          "status": "issued",
+          "synthetic": 1,
+          "tow_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-H156"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H155",
+        "entity_type": "invoices",
+        "record": {
+          "amount_cents": 77500,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-010",
+          "due_at": "2026-07-06T15:00:00Z",
+          "id": "INV-H155",
+          "status": "issued",
+          "synthetic": 1,
+          "tow_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-H155"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H160",
+        "entity_type": "payments",
+        "record": {
+          "amount_cents": 140000,
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "PAY-H160",
+          "invoice_id": "INV-H160",
+          "method": "card",
+          "paid_at": "2026-06-29T08:00:00Z",
+          "reference": "DEMO-H160",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H159",
+        "entity_type": "payments",
+        "record": {
+          "amount_cents": 63750,
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "PAY-H159",
+          "invoice_id": "INV-H159",
+          "method": "transfer",
+          "paid_at": "2026-06-29T19:00:00Z",
+          "reference": "DEMO-H159",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H158",
+        "entity_type": "payments",
+        "record": {
+          "amount_cents": 115000,
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "PAY-H158",
+          "invoice_id": "INV-H158",
+          "method": "cash",
+          "paid_at": "2026-06-30T06:00:00Z",
+          "reference": "DEMO-H158",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H157",
+        "entity_type": "payments",
+        "record": {
+          "amount_cents": 102500,
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "PAY-H157",
+          "invoice_id": "INV-H157",
+          "method": "card",
+          "paid_at": "2026-06-30T17:00:00Z",
+          "reference": "DEMO-H157",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H156",
+        "entity_type": "payments",
+        "record": {
+          "amount_cents": 45000,
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "PAY-H156",
+          "invoice_id": "INV-H156",
+          "method": "transfer",
+          "paid_at": "2026-07-01T04:00:00Z",
+          "reference": "DEMO-H156",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H155",
+        "entity_type": "payments",
+        "record": {
+          "amount_cents": 77500,
+          "created_at": "2026-09-21T18:00:00Z",
+          "id": "PAY-H155",
+          "invoice_id": "INV-H155",
+          "method": "cash",
+          "paid_at": "2026-07-01T15:00:00Z",
+          "reference": "DEMO-H155",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "INV-H160",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H159",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H158",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H157",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H156",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H155",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H160",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 140000,
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H159",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 63750,
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H158",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 115000,
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H157",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 102500,
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H156",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 45000,
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H155",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 77500,
+        "version": 1
+      }
+    ],
+    "metrics": {
+      "M-AR-OVERDUE": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Identificar saldos para revisión y conciliación humana.",
+        "definition": "Positive receivable for issued invoices with due date before cutoff.",
+        "definition_es": "Saldo positivo vencido de facturas emitidas.",
+        "denominator": 164,
+        "domain": "finance",
+        "evidence_rows": [
+          {
+            "fields": {
+              "amount_cents": 185000,
+              "due_at": "2026-09-20T00:00:00Z"
+            },
+            "record_id": "INV-001",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 300000,
+              "due_at": "2026-10-01T00:00:00Z"
+            },
+            "record_id": "INV-002",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 85000,
+              "due_at": "2026-10-01T00:00:00Z"
+            },
+            "record_id": "INV-003",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 125000,
+              "due_at": "2026-10-01T00:00:00Z"
+            },
+            "record_id": "INV-004",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 77500,
+              "due_at": "2026-09-28T01:00:00Z"
+            },
+            "record_id": "INV-H001",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 90000,
+              "due_at": "2026-09-27T14:00:00Z"
+            },
+            "record_id": "INV-H002",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 102500,
+              "due_at": "2026-09-27T03:00:00Z"
+            },
+            "record_id": "INV-H003",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 115000,
+              "due_at": "2026-09-26T16:00:00Z"
+            },
+            "record_id": "INV-H004",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 127500,
+              "due_at": "2026-09-26T05:00:00Z"
+            },
+            "record_id": "INV-H005",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 140000,
+              "due_at": "2026-09-25T18:00:00Z"
+            },
+            "record_id": "INV-H006",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 152500,
+              "due_at": "2026-09-24T17:00:00Z"
+            },
+            "record_id": "INV-H007",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 165000,
+              "due_at": "2026-09-24T06:00:00Z"
+            },
+            "record_id": "INV-H008",
+            "table": "invoices",
+            "version": 1
+          }
+        ],
+        "evidence_total": 326,
+        "formula_es": "SUM(saldo por factura issued) sólo si due_at < corte; el control de dominio excluye sobrepago.",
+        "grain": "invoice",
+        "label": "Saldo vencido",
+        "limitations": "No automatic reminder; due dates and payment completeness matter.",
+        "limitations_es": "No activa recordatorio automático; pagos omitidos sobrestiman saldo.",
+        "metric_id": "M-AR-OVERDUE",
+        "null_policy_es": "Sin facturas emitidas: unknown; cero vencido con población es medido.",
+        "numerator": 3227500,
+        "owner_role": "Administración",
+        "population_es": "Todas las facturas emitidas; aportan saldo las vencidas.",
+        "process_ids": [
+          "collections"
+        ],
+        "query": "SELECT COALESCE(SUM(CASE WHEN julianday(i.due_at)<julianday(?) THEN i.amount_cents-COALESCE(p.paid,0) ELSE 0 END),0) n, COUNT(*) d FROM invoices i LEFT JOIN (SELECT invoice_id,SUM(amount_cents) paid FROM payments GROUP BY invoice_id) p ON p.invoice_id=i.id WHERE i.status='issued'",
+        "reason": null,
+        "source_counts": {
+          "invoices": 164,
+          "payments": 162
+        },
+        "source_fields": [
+          "invoices.id",
+          "invoices.due_at",
+          "invoices.amount_cents",
+          "payments.amount_cents"
+        ],
+        "source_tables": [
+          "invoices",
+          "payments"
+        ],
+        "status": "measured",
+        "unit": "MXN_cents",
+        "value": 3227500
+      },
+      "M-AR-RECEIVABLE": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Priorizar conciliación de cartera con base en saldos documentados.",
+        "definition": "Issued invoice amounts less linked payments.",
+        "definition_es": "Saldo pendiente en facturas emitidas.",
+        "denominator": 164,
+        "domain": "finance",
+        "evidence_rows": [
+          {
+            "fields": {
+              "amount_cents": 185000,
+              "status": "issued"
+            },
+            "record_id": "INV-001",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 300000,
+              "status": "issued"
+            },
+            "record_id": "INV-002",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 85000,
+              "status": "issued"
+            },
+            "record_id": "INV-003",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 125000,
+              "status": "issued"
+            },
+            "record_id": "INV-004",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 77500,
+              "status": "issued"
+            },
+            "record_id": "INV-H001",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 90000,
+              "status": "issued"
+            },
+            "record_id": "INV-H002",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 102500,
+              "status": "issued"
+            },
+            "record_id": "INV-H003",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 115000,
+              "status": "issued"
+            },
+            "record_id": "INV-H004",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 127500,
+              "status": "issued"
+            },
+            "record_id": "INV-H005",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 140000,
+              "status": "issued"
+            },
+            "record_id": "INV-H006",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 152500,
+              "status": "issued"
+            },
+            "record_id": "INV-H007",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 165000,
+              "status": "issued"
+            },
+            "record_id": "INV-H008",
+            "table": "invoices",
+            "version": 1
+          }
+        ],
+        "evidence_total": 326,
+        "formula_es": "SUM(invoice.amount_cents - pagos vinculados) sobre facturas issued.",
+        "grain": "invoice",
+        "label": "Saldo por cobrar",
+        "limitations": "Requires complete payments for each invoice at cutoff.",
+        "limitations_es": "Depende de que estén todos los pagos vinculados al corte.",
+        "metric_id": "M-AR-RECEIVABLE",
+        "null_policy_es": "Sin facturas emitidas: unknown; saldo cero con población presente es medido.",
+        "numerator": 3901250,
+        "owner_role": "Administración",
+        "population_es": "Todas las facturas emitidas.",
+        "process_ids": [
+          "collections"
+        ],
+        "query": "SELECT COALESCE(SUM(i.amount_cents-COALESCE(p.paid,0)),0) n, COUNT(*) d FROM invoices i LEFT JOIN (SELECT invoice_id,SUM(amount_cents) paid FROM payments GROUP BY invoice_id) p ON p.invoice_id=i.id WHERE i.status='issued'",
+        "reason": null,
+        "source_counts": {
+          "invoices": 164,
+          "payments": 162
+        },
+        "source_fields": [
+          "invoices.id",
+          "invoices.amount_cents",
+          "invoices.status",
+          "payments.invoice_id",
+          "payments.amount_cents"
+        ],
+        "source_tables": [
+          "invoices",
+          "payments"
+        ],
+        "status": "measured",
+        "unit": "MXN_cents",
+        "value": 3901250
+      },
+      "M-FIN-CASH-NET": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Revisar flujo de efectivo registrado separadamente de facturación.",
+        "definition": "Cash-method payments less cash-method expenses.",
+        "definition_es": "Flujo neto registrado en método cash.",
+        "denominator": 170,
+        "domain": "finance",
+        "evidence_rows": [
+          {
+            "fields": {
+              "amount_cents": 100000,
+              "method": "transfer"
+            },
+            "record_id": "PAY-001",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 85000,
+              "method": "card"
+            },
+            "record_id": "PAY-002",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 77500,
+              "method": "card"
+            },
+            "record_id": "PAY-H001",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 90000,
+              "method": "cash"
+            },
+            "record_id": "PAY-H002",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 51250,
+              "method": "transfer"
+            },
+            "record_id": "PAY-H003",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 115000,
+              "method": "card"
+            },
+            "record_id": "PAY-H004",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 127500,
+              "method": "cash"
+            },
+            "record_id": "PAY-H005",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 70000,
+              "method": "transfer"
+            },
+            "record_id": "PAY-H006",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 152500,
+              "method": "card"
+            },
+            "record_id": "PAY-H007",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 165000,
+              "method": "cash"
+            },
+            "record_id": "PAY-H008",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 88750,
+              "method": "transfer"
+            },
+            "record_id": "PAY-H009",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 190000,
+              "method": "card"
+            },
+            "record_id": "PAY-H010",
+            "table": "payments",
+            "version": 1
+          }
+        ],
+        "evidence_total": 170,
+        "formula_es": "SUM(pagos method='cash') - SUM(gastos method='cash').",
+        "grain": "cash_transaction",
+        "label": "Flujo neto efectivo",
+        "limitations": "Not a bank balance.",
+        "limitations_es": "No es saldo de caja o banco.",
+        "metric_id": "M-FIN-CASH-NET",
+        "null_policy_es": "Sin pagos ni gastos: unknown; cero neto con movimientos presentes es medido.",
+        "numerator": 6652000,
+        "owner_role": "Administración",
+        "population_es": "Todos los pagos y gastos registrados; aportan los de método cash.",
+        "process_ids": [
+          "collections"
+        ],
+        "query": "SELECT (SELECT COALESCE(SUM(amount_cents),0) FROM payments WHERE method='cash')-(SELECT COALESCE(SUM(amount_cents),0) FROM expenses WHERE method='cash') n, (SELECT COUNT(*) FROM payments)+(SELECT COUNT(*) FROM expenses) d",
+        "reason": null,
+        "source_counts": {
+          "expenses": 8,
+          "payments": 162
+        },
+        "source_fields": [
+          "payments.amount_cents",
+          "payments.method",
+          "expenses.amount_cents",
+          "expenses.method"
+        ],
+        "source_tables": [
+          "payments",
+          "expenses"
+        ],
+        "status": "measured",
+        "unit": "MXN_cents",
+        "value": 6652000
+      },
+      "M-FIN-EXPENSES": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Dimensionar egresos documentados antes de evaluar margen.",
+        "definition": "Sum of recorded expenses.",
+        "definition_es": "Importe total de gastos registrados.",
+        "denominator": 8,
+        "domain": "finance",
+        "evidence_rows": [
+          {
+            "fields": {
+              "amount_cents": 24000
+            },
+            "record_id": "EXP-001",
+            "table": "expenses",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 18000
+            },
+            "record_id": "EXP-002",
+            "table": "expenses",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 10000
+            },
+            "record_id": "EXP-H001",
+            "table": "expenses",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 11000
+            },
+            "record_id": "EXP-H002",
+            "table": "expenses",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 12000
+            },
+            "record_id": "EXP-H003",
+            "table": "expenses",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 13000
+            },
+            "record_id": "EXP-H004",
+            "table": "expenses",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 14000
+            },
+            "record_id": "EXP-H005",
+            "table": "expenses",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 15000
+            },
+            "record_id": "EXP-H006",
+            "table": "expenses",
+            "version": 1
+          }
+        ],
+        "evidence_total": 8,
+        "formula_es": "SUM(expenses.amount_cents).",
+        "grain": "expense",
+        "label": "Gastos registrados",
+        "limitations": "Managerial observed expense only.",
+        "limitations_es": "Gasto gerencial sintético; no incluye costos no aportados.",
+        "metric_id": "M-FIN-EXPENSES",
+        "null_policy_es": "Sin gastos: unknown; cero sólo se mide con población fuente.",
+        "numerator": 117000,
+        "owner_role": "Administración",
+        "population_es": "Todos los gastos registrados.",
+        "process_ids": [
+          "collections"
+        ],
+        "query": "SELECT COALESCE(SUM(amount_cents),0) n, COUNT(*) d FROM expenses",
+        "reason": null,
+        "source_counts": {
+          "expenses": 8
+        },
+        "source_fields": [
+          "expenses.id",
+          "expenses.amount_cents"
+        ],
+        "source_tables": [
+          "expenses"
+        ],
+        "status": "measured",
+        "unit": "MXN_cents",
+        "value": 117000
+      },
+      "M-FIN-INVOICED": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Reconciliar facturación emitida con pagos y saldo.",
+        "definition": "Sum of issued invoice face amounts.",
+        "definition_es": "Importe de facturas en estado issued.",
+        "denominator": 164,
+        "domain": "finance",
+        "evidence_rows": [
+          {
+            "fields": {
+              "amount_cents": 185000,
+              "status": "issued"
+            },
+            "record_id": "INV-001",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 300000,
+              "status": "issued"
+            },
+            "record_id": "INV-002",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 85000,
+              "status": "issued"
+            },
+            "record_id": "INV-003",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 125000,
+              "status": "issued"
+            },
+            "record_id": "INV-004",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 77500,
+              "status": "issued"
+            },
+            "record_id": "INV-H001",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 90000,
+              "status": "issued"
+            },
+            "record_id": "INV-H002",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 102500,
+              "status": "issued"
+            },
+            "record_id": "INV-H003",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 115000,
+              "status": "issued"
+            },
+            "record_id": "INV-H004",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 127500,
+              "status": "issued"
+            },
+            "record_id": "INV-H005",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 140000,
+              "status": "issued"
+            },
+            "record_id": "INV-H006",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 152500,
+              "status": "issued"
+            },
+            "record_id": "INV-H007",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 165000,
+              "status": "issued"
+            },
+            "record_id": "INV-H008",
+            "table": "invoices",
+            "version": 1
+          }
+        ],
+        "evidence_total": 164,
+        "formula_es": "SUM(invoices.amount_cents) sólo cuando status='issued'.",
+        "grain": "invoice",
+        "label": "Importe facturado",
+        "limitations": "Managerial, non-fiscal demonstration amount.",
+        "limitations_es": "Cifra gerencial sintética, no fiscal.",
+        "metric_id": "M-FIN-INVOICED",
+        "null_policy_es": "Sin facturas: unknown; cero emitido con facturas presentes es medido.",
+        "numerator": 20982500,
+        "owner_role": "Administración",
+        "population_es": "Todas las facturas presentes; aportan importe las emitidas.",
+        "process_ids": [
+          "collections"
+        ],
+        "query": "SELECT COALESCE(SUM(CASE WHEN status='issued' THEN amount_cents ELSE 0 END),0) n, COUNT(*) d FROM invoices",
+        "reason": null,
+        "source_counts": {
+          "invoices": 164
+        },
+        "source_fields": [
+          "invoices.id",
+          "invoices.amount_cents",
+          "invoices.status"
+        ],
+        "source_tables": [
+          "invoices"
+        ],
+        "status": "measured",
+        "unit": "MXN_cents",
+        "value": 20982500
+      },
+      "M-FIN-PAID": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Comprobar cobros registrados y su vínculo a factura.",
+        "definition": "Sum of validated payment amounts.",
+        "definition_es": "Importe de pagos registrados.",
+        "denominator": 162,
+        "domain": "finance",
+        "evidence_rows": [
+          {
+            "fields": {
+              "amount_cents": 100000,
+              "invoice_id": "INV-001"
+            },
+            "record_id": "PAY-001",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 85000,
+              "invoice_id": "INV-003"
+            },
+            "record_id": "PAY-002",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 77500,
+              "invoice_id": "INV-H001"
+            },
+            "record_id": "PAY-H001",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 90000,
+              "invoice_id": "INV-H002"
+            },
+            "record_id": "PAY-H002",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 51250,
+              "invoice_id": "INV-H003"
+            },
+            "record_id": "PAY-H003",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 115000,
+              "invoice_id": "INV-H004"
+            },
+            "record_id": "PAY-H004",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 127500,
+              "invoice_id": "INV-H005"
+            },
+            "record_id": "PAY-H005",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 70000,
+              "invoice_id": "INV-H006"
+            },
+            "record_id": "PAY-H006",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 152500,
+              "invoice_id": "INV-H007"
+            },
+            "record_id": "PAY-H007",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 165000,
+              "invoice_id": "INV-H008"
+            },
+            "record_id": "PAY-H008",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 88750,
+              "invoice_id": "INV-H009"
+            },
+            "record_id": "PAY-H009",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 190000,
+              "invoice_id": "INV-H010"
+            },
+            "record_id": "PAY-H010",
+            "table": "payments",
+            "version": 1
+          }
+        ],
+        "evidence_total": 326,
+        "formula_es": "SUM(payments.amount_cents).",
+        "grain": "payment",
+        "label": "Pagos registrados",
+        "limitations": "Recorded collection, not revenue recognition.",
+        "limitations_es": "Cobro registrado no es ingreso reconocido ni saldo bancario.",
+        "metric_id": "M-FIN-PAID",
+        "null_policy_es": "Sin pagos: unknown; cero sólo se mide con población fuente.",
+        "numerator": 17081250,
+        "owner_role": "Administración",
+        "population_es": "Todos los pagos validados y vinculados a facturas.",
+        "process_ids": [
+          "collections"
+        ],
+        "query": "SELECT COALESCE(SUM(amount_cents),0) n, COUNT(*) d FROM payments",
+        "reason": null,
+        "source_counts": {
+          "invoices": 164,
+          "payments": 162
+        },
+        "source_fields": [
+          "payments.id",
+          "payments.invoice_id",
+          "payments.amount_cents"
+        ],
+        "source_tables": [
+          "payments",
+          "invoices"
+        ],
+        "status": "measured",
+        "unit": "MXN_cents",
+        "value": 17081250
+      },
+      "M-FIN-QUOTES": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Separar demanda cotizada de servicio e ingreso.",
+        "definition": "Sum of quote face amounts.",
+        "definition_es": "Importe total de cotizaciones registradas.",
+        "denominator": 170,
+        "domain": "finance",
+        "evidence_rows": [
+          {
+            "fields": {
+              "amount_cents": 185000
+            },
+            "record_id": "Q-001",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 92000
+            },
+            "record_id": "Q-002",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 47500
+            },
+            "record_id": "Q-003",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 210000
+            },
+            "record_id": "Q-004",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 300000
+            },
+            "record_id": "Q-005",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 125000
+            },
+            "record_id": "Q-006",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 110000
+            },
+            "record_id": "Q-007",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 99000
+            },
+            "record_id": "Q-008",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 65000
+            },
+            "record_id": "Q-009",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 72000
+            },
+            "record_id": "Q-010",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 77500
+            },
+            "record_id": "Q-H001",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 90000
+            },
+            "record_id": "Q-H002",
+            "table": "quotes",
+            "version": 1
+          }
+        ],
+        "evidence_total": 170,
+        "formula_es": "SUM(quotes.amount_cents), sin filtrar estado.",
+        "grain": "quote",
+        "label": "Importe cotizado",
+        "limitations": "Not invoiced or recognized revenue.",
+        "limitations_es": "No es facturación ni ingreso.",
+        "metric_id": "M-FIN-QUOTES",
+        "null_policy_es": "Sin cotizaciones: unknown; suma cero con población presente es medido.",
+        "numerator": 21593000,
+        "owner_role": "Administración",
+        "population_es": "Todas las cotizaciones presentes.",
+        "process_ids": [
+          "b2c_workshop",
+          "collections"
+        ],
+        "query": "SELECT COALESCE(SUM(amount_cents),0) n, COUNT(*) d FROM quotes",
+        "reason": null,
+        "source_counts": {
+          "quotes": 170
+        },
+        "source_fields": [
+          "quotes.id",
+          "quotes.amount_cents"
+        ],
+        "source_tables": [
+          "quotes"
+        ],
+        "status": "measured",
+        "unit": "MXN_cents",
+        "value": 21593000
+      },
+      "invoice_payment_summary": [
+        {
+          "amount_cents": 127500,
+          "balance_cents": 63750,
+          "invoice_id": "INV-H159",
+          "paid_cents": 63750,
+          "payment_count": 1
+        },
+        {
+          "amount_cents": 90000,
+          "balance_cents": 45000,
+          "invoice_id": "INV-H156",
+          "paid_cents": 45000,
+          "payment_count": 1
+        },
+        {
+          "amount_cents": 140000,
+          "balance_cents": 0,
+          "invoice_id": "INV-H160",
+          "paid_cents": 140000,
+          "payment_count": 1
+        },
+        {
+          "amount_cents": 115000,
+          "balance_cents": 0,
+          "invoice_id": "INV-H158",
+          "paid_cents": 115000,
+          "payment_count": 1
+        },
+        {
+          "amount_cents": 102500,
+          "balance_cents": 0,
+          "invoice_id": "INV-H157",
+          "paid_cents": 102500,
+          "payment_count": 1
+        },
+        {
+          "amount_cents": 77500,
+          "balance_cents": 0,
+          "invoice_id": "INV-H155",
+          "paid_cents": 77500,
+          "payment_count": 1
+        }
+      ],
+      "issued_invoices": 164,
+      "unpaid_invoices": 56
+    }
+  },
+  "external_execution": false,
+  "human_review_required": true,
+  "mode_label": "offline deterministic baseline; no LLM invoked",
+  "model_invoked": false,
+  "result": {
+    "alternatives": [
+      "Revisar el registro citado con su responsable actual antes de decidir un cambio.",
+      "Diferir la decisión y solicitar la evidencia operativa faltante."
+    ],
+    "diagnosis": "Línea base offline por reglas: invoices:INV-H160 tiene status='issued' en la versión 1; revíselo con la cola acotada (issued_invoices=164, unpaid_invoices=56, invoice_payment_summary=[{'invoice_id': 'INV-H159', 'amount_cents': 127500, 'paid_cents': 63750, 'balance_cents': 63750, 'payment_count': 1}, {'invoice_id': 'INV-H156', 'amount_cents': 90000, 'paid_cents': 45000, 'balance_cents': 45000, 'payment_count': 1}, {'invoice_id': 'INV-H160', 'amount_cents': 140000, 'paid_cents': 140000, 'balance_cents': 0, 'payment_count': 1}, {'invoice_id': 'INV-H158', 'amount_cents': 115000, 'paid_cents': 115000, 'balance_cents': 0, 'payment_count': 1}, {'invoice_id': 'INV-H157', 'amount_cents': 102500, 'paid_cents': 102500, 'balance_cents': 0, 'payment_count': 1}, {'invoice_id': 'INV-H155', 'amount_cents': 77500, 'paid_cents': 77500, 'balance_cents': 0, 'payment_count': 1}], M-FIN-QUOTES=21593000, M-FIN-INVOICED=20982500, M-FIN-PAID=17081250, M-AR-RECEIVABLE=3901250, M-AR-OVERDUE=3227500, M-FIN-CASH-NET=6652000, M-FIN-EXPENSES=117000).",
+    "drafts": [
+      {
+        "kind": "followup",
+        "requires_human_review": true,
+        "text": "Borrador interno de revisión para invoices:INV-H160: confirme el registro citado antes de cualquier acción."
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "INV-H160",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H159",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H158",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H157",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H156",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H155",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H160",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 140000,
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H159",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 63750,
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H158",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 115000,
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H157",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 102500,
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H156",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 45000,
+        "version": 1
+      },
+      {
+        "entity_id": "PAY-H155",
+        "entity_type": "payments",
+        "field": "amount_cents",
+        "value": 77500,
+        "version": 1
+      }
+    ],
+    "manual_next_steps": [
+      "Una persona revisora confirma el valor citado y su contexto.",
+      "Una persona revisora registra cualquier decisión; este workbench no ejecuta acciones externas."
+    ],
+    "missing_information": [
+      "Este corte sintético no contiene contexto operativo, aprobación ni resultado en vivo."
+    ],
+    "sensitivity": {
+      "level": "medium",
+      "reason": "El paquete puede contener campos operativos y de contacto; mantenga los borradores bajo revisión humana."
+    },
+    "workplan": [
+      "Inspeccionar los registros dentro del alcance.",
+      "Verificar valores y versiones exactas de la evidencia.",
+      "Revisar el borrador y decidir manualmente."
+    ]
+  },
+  "status": "completed"
+}

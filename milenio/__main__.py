@@ -37,6 +37,11 @@ def main(argv=None):
     studio.add_argument('--journeys',help='Vínculos explícitos entre lead, cotización, cita y orden')
     studio_verify = sub.add_parser('verify-studio',help='Comprobar integridad de la entrega v2')
     studio_verify.add_argument('--input',required=True)
+    sr = sub.add_parser('studio-review',help='Importar seguimiento fuera del estudio sellado')
+    sr.add_argument('--report',required=True)
+    sr.add_argument('--input',required=True)
+    sr.add_argument('--output',required=True)
+    sr.add_argument('--reviewer',required=True)
     agent = sub.add_parser("agent", help="Ejecutar un perfil de agente sobre un warehouse")
     agent.add_argument("--warehouse", required=True)
     agent.add_argument("--output", required=True)
@@ -80,6 +85,10 @@ def main(argv=None):
     if args.command == 'verify-studio':
         from .studio import verify_studio
         print(json.dumps(verify_studio(args.input)))
+        return 0
+    if args.command == 'studio-review':
+        from .operating_delivery import import_operating_review
+        print(json.dumps(import_operating_review(args.report,args.input,args.output,args.reviewer),ensure_ascii=True))
         return 0
     if args.command in ('agent','agents','review'):
         from .agent_runtime import prepare_agent_run, list_available_agents, record_review_decision

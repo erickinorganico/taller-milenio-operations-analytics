@@ -1,0 +1,56 @@
+[
+  {
+    "agent_id": "intake_admin",
+    "backend": "rules",
+    "folder": "agent_runs/intake_admin",
+    "status": "completed"
+  },
+  {
+    "agent_id": "operations_controller",
+    "backend": "rules",
+    "folder": "agent_runs/operations_controller",
+    "status": "completed"
+  },
+  {
+    "agent_id": "maintenance_planner",
+    "backend": "rules",
+    "folder": "agent_runs/maintenance_planner",
+    "status": "completed"
+  },
+  {
+    "agent_id": "fleet_sales_research",
+    "backend": "rules",
+    "folder": "agent_runs/fleet_sales_research",
+    "status": "completed"
+  },
+  {
+    "agent_id": "fleet_sla_watcher",
+    "backend": "rules",
+    "folder": "agent_runs/fleet_sla_watcher",
+    "status": "completed"
+  },
+  {
+    "agent_id": "tow_dispatch_assistant",
+    "backend": "rules",
+    "folder": "agent_runs/tow_dispatch_assistant",
+    "status": "completed"
+  },
+  {
+    "agent_id": "collections_assistant",
+    "backend": "rules",
+    "folder": "agent_runs/collections_assistant",
+    "status": "completed"
+  },
+  {
+    "agent_id": "marketing_planner",
+    "backend": "rules",
+    "folder": "agent_runs/marketing_planner",
+    "status": "completed"
+  },
+  {
+    "agent_id": "weekly_operator",
+    "backend": "rules",
+    "folder": "agent_runs/weekly_operator",
+    "status": "completed"
+  }
+]

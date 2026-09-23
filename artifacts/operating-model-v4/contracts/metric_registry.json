@@ -1,0 +1,882 @@
+{
+  "schema_version": 1,
+  "time_basis": "Synthetic snapshot at DEMO_NOW; event intervals require validated lifecycle_events.",
+  "metrics": [
+    {
+      "metric_id": "M-B2C-LEADS",
+      "label": "Leads particulares",
+      "domain": "b2c",
+      "definition": "Count particular leads at cutoff.",
+      "grain": "lead",
+      "unit": "count",
+      "source_tables": [
+        "leads",
+        "customers"
+      ],
+      "source_fields": [
+        "leads.id",
+        "leads.customer_id",
+        "customers.segment"
+      ],
+      "process_ids": [
+        "b2c_workshop"
+      ],
+      "owner_role": "Recepción",
+      "limitations": "Snapshot population, not arrivals.",
+      "definition_es": "Leads de clientes particulares presentes al corte.",
+      "limitations_es": "Es población de estado actual; no mide llegadas del periodo.",
+      "formula_es": "Contar leads unidos a customers con segment='particular'.",
+      "population_es": "Todos los leads particulares del extracto.",
+      "null_policy_es": "Sin leads particulares: unknown; un conteo cero no se publica como cobertura confirmada.",
+      "decision_use_es": "Dimensionar la cola de seguimiento de particulares."
+    },
+    {
+      "metric_id": "M-B2C-WON",
+      "label": "Leads ganados",
+      "domain": "b2c",
+      "definition": "Particular leads in won state divided by all particular leads.",
+      "grain": "lead",
+      "unit": "ratio",
+      "source_tables": [
+        "leads",
+        "customers"
+      ],
+      "source_fields": [
+        "leads.id",
+        "leads.status",
+        "customers.segment"
+      ],
+      "process_ids": [
+        "b2c_workshop"
+      ],
+      "owner_role": "Recepción",
+      "limitations": "Current-state share, not attributed conversion.",
+      "definition_es": "Proporción de leads particulares en estado won.",
+      "limitations_es": "No atribuye conversiones ni representa un embudo temporal.",
+      "formula_es": "Leads particulares con status='won' / todos los leads particulares.",
+      "population_es": "Todos los leads particulares al corte.",
+      "null_policy_es": "Denominador cero: unknown; un numerador cero con población presente sí es medido.",
+      "decision_use_es": "Revisar la distribución actual de estados comerciales."
+    },
+    {
+      "metric_id": "M-B2C-QUOTE-MATCH",
+      "label": "Vínculo explícito a cotización",
+      "domain": "b2c",
+      "definition": "Particular leads with an explicit journey link divided by particular leads.",
+      "grain": "lead",
+      "unit": "ratio",
+      "source_tables": [
+        "leads",
+        "customers",
+        "journey_links"
+      ],
+      "source_fields": [
+        "leads.id",
+        "customers.segment",
+        "journey_links.lead_id",
+        "journey_links.quote_id"
+      ],
+      "process_ids": [
+        "b2c_workshop"
+      ],
+      "owner_role": "Recepción",
+      "limitations": "Without supplied journey links attribution is unknown; coincidence is insufficient.",
+      "definition_es": "Proporción de leads particulares con vínculo explícito a cotización.",
+      "limitations_es": "Coincidir en cliente o vehículo no acredita atribución.",
+      "formula_es": "Leads particulares distintos con journey_links.lead_id / leads particulares distintos.",
+      "population_es": "Todos los leads particulares; los vínculos provienen de journey_links.",
+      "null_policy_es": "Sin vínculos explícitos: unknown, aunque existan candidatos.",
+      "decision_use_es": "Revisar cobertura de atribución antes de hablar de conversión."
+    },
+    {
+      "metric_id": "M-WIP-OPEN",
+      "label": "Órdenes abiertas",
+      "domain": "workshop",
+      "definition": "Work orders excluding delivered and cancelled.",
+      "grain": "work_order",
+      "unit": "count",
+      "source_tables": [
+        "work_orders"
+      ],
+      "source_fields": [
+        "work_orders.id",
+        "work_orders.status"
+      ],
+      "process_ids": [
+        "b2c_workshop"
+      ],
+      "owner_role": "Jefatura de taller",
+      "limitations": "Snapshot WIP, not throughput.",
+      "definition_es": "Órdenes de trabajo abiertas al corte.",
+      "limitations_es": "Es inventario de trabajo en curso, no productividad del periodo.",
+      "formula_es": "Contar work_orders cuyo status no sea delivered ni cancelled.",
+      "population_es": "Todas las órdenes de trabajo presentes.",
+      "null_policy_es": "Sin órdenes fuente: unknown; cero abiertas con órdenes presentes es medido.",
+      "decision_use_es": "Asignar revisión de carga y bloqueos del taller."
+    },
+    {
+      "metric_id": "M-WIP-WAITING-PARTS",
+      "label": "WIP en espera de partes",
+      "domain": "workshop",
+      "definition": "Waiting-parts work orders divided by open work orders.",
+      "grain": "work_order",
+      "unit": "ratio",
+      "source_tables": [
+        "work_orders"
+      ],
+      "source_fields": [
+        "work_orders.id",
+        "work_orders.status"
+      ],
+      "process_ids": [
+        "b2c_workshop",
+        "parts_procurement"
+      ],
+      "owner_role": "Jefatura de taller",
+      "limitations": "Does not prove purchase resolves a delay.",
+      "definition_es": "Proporción de órdenes abiertas en espera de partes.",
+      "limitations_es": "La espera no demuestra que comprar una parte resuelva el atraso.",
+      "formula_es": "Órdenes status='waiting_parts' / órdenes no delivered ni cancelled.",
+      "population_es": "Órdenes abiertas al corte.",
+      "null_policy_es": "Sin órdenes abiertas: unknown; cero en espera con WIP presente es medido.",
+      "decision_use_es": "Priorizar revisión de bloqueos con responsable de partes."
+    },
+    {
+      "metric_id": "M-BAY-OCCUPANCY",
+      "label": "Ocupación de bahías",
+      "domain": "workshop",
+      "definition": "Distinct bays assigned to busy work orders divided by bays.",
+      "grain": "bay",
+      "unit": "ratio",
+      "source_tables": [
+        "bays",
+        "work_orders"
+      ],
+      "source_fields": [
+        "bays.id",
+        "work_orders.bay_id",
+        "work_orders.status"
+      ],
+      "process_ids": [
+        "b2c_workshop"
+      ],
+      "owner_role": "Jefatura de taller",
+      "limitations": "Instantaneous occupancy, not utilization hours.",
+      "definition_es": "Fracción de bahías asignadas a órdenes en estados ocupados.",
+      "limitations_es": "Ocupación instantánea; no mide utilización en horas.",
+      "formula_es": "Bahías distintas asignadas a scheduled, in_service, quality_check o rework / bahías.",
+      "population_es": "Todas las bahías declaradas al corte.",
+      "null_policy_es": "Sin bahías: unknown; cero ocupadas con bahías presentes es medido.",
+      "decision_use_es": "Revisar capacidad física aparente antes de prometer espacio."
+    },
+    {
+      "metric_id": "M-SERVICE-CYCLE",
+      "label": "Ciclo de servicio p50",
+      "domain": "workshop",
+      "definition": "Median elapsed hours from validated initial to delivered event for delivered orders with history.",
+      "grain": "delivered_work_order",
+      "unit": "hours",
+      "source_tables": [
+        "work_orders",
+        "lifecycle_events"
+      ],
+      "source_fields": [
+        "work_orders.id",
+        "work_orders.opened_at",
+        "work_orders.completed_at",
+        "lifecycle_events.at",
+        "lifecycle_events.to_state"
+      ],
+      "process_ids": [
+        "b2c_workshop"
+      ],
+      "owner_role": "Jefatura de taller",
+      "limitations": "Only history-covered delivered cases; calendar elapsed time, not labor.",
+      "definition_es": "Mediana de horas calendario de órdenes entregadas con historial validado.",
+      "limitations_es": "No mide mano de obra ni atribuye desempeño real; casos sin historia quedan fuera.",
+      "formula_es": "Mediana(cycle_hours) de delivered con history_available=1; numerator = casos medidos, denominator = todas las entregadas.",
+      "population_es": "Órdenes entregadas; la mediana usa sólo las que tienen eventos validados.",
+      "null_policy_es": "Sin observaciones con historia: unknown; el cociente de conteos indica cobertura, no valor del ciclo.",
+      "decision_use_es": "Identificar casos largos y revisar cobertura del historial."
+    },
+    {
+      "metric_id": "M-PROCESS-WAIT",
+      "label": "Tiempo observado en estados",
+      "domain": "workshop",
+      "definition": "Sum of validated lifecycle interval hours across entity and state.",
+      "grain": "entity_type_state",
+      "unit": "hours",
+      "source_tables": [
+        "lifecycle_events"
+      ],
+      "source_fields": [
+        "lifecycle_events.entity_type",
+        "lifecycle_events.entity_id",
+        "lifecycle_events.to_state",
+        "lifecycle_events.at"
+      ],
+      "process_ids": [
+        "b2c_workshop",
+        "parts_procurement",
+        "fleet_sales_service",
+        "towing"
+      ],
+      "owner_role": "Analista",
+      "limitations": "Intervals without a following event are not measured; not labor hours.",
+      "definition_es": "Horas acumuladas observadas entre eventos por estado.",
+      "limitations_es": "Excluye intervalos abiertos; no equivale a horas pagadas.",
+      "formula_es": "SUM(mart_process_waits.total_hours); numerator = horas, denominator = parejas entidad/estado con intervalos.",
+      "population_es": "Estados de entidades con dos eventos consecutivos validados.",
+      "null_policy_es": "Sin intervalos: unknown; no se infiere espera desde status.",
+      "decision_use_es": "Localizar estados que concentran tiempo observado."
+    },
+    {
+      "metric_id": "M-STOCK-ON-HAND",
+      "label": "Existencia registrada",
+      "domain": "parts",
+      "definition": "Receive, return and adjustment quantities less consumption, across parts.",
+      "grain": "part",
+      "unit": "units",
+      "source_tables": [
+        "parts",
+        "stock_moves"
+      ],
+      "source_fields": [
+        "parts.id",
+        "stock_moves.part_id",
+        "stock_moves.move_type",
+        "stock_moves.quantity"
+      ],
+      "process_ids": [
+        "parts_procurement"
+      ],
+      "owner_role": "Responsable de partes",
+      "limitations": "Ordered purchases excluded until receipt movement.",
+      "definition_es": "Existencia total reconstruida desde movimientos.",
+      "limitations_es": "La compra ordenada se excluye hasta recepción registrada.",
+      "formula_es": "SUM(mart_inventory.on_hand), donde on_hand incorpora receive, return, adjust y consume.",
+      "population_es": "Partes presentes en el inventario reconciliado.",
+      "null_policy_es": "Sin partes: unknown; cantidad cero con partes presentes es medido.",
+      "decision_use_es": "Comprobar existencia antes de revisar reservas o reposición."
+    },
+    {
+      "metric_id": "M-STOCK-RESERVED",
+      "label": "Unidades reservadas",
+      "domain": "parts",
+      "definition": "Active reservation quantity across parts.",
+      "grain": "reservation",
+      "unit": "units",
+      "source_tables": [
+        "reservations",
+        "parts"
+      ],
+      "source_fields": [
+        "reservations.id",
+        "reservations.part_id",
+        "reservations.quantity",
+        "reservations.status"
+      ],
+      "process_ids": [
+        "parts_procurement"
+      ],
+      "owner_role": "Responsable de partes",
+      "limitations": "Requires validated references.",
+      "definition_es": "Unidades en reservas activas.",
+      "limitations_es": "Reservado no significa consumido.",
+      "formula_es": "SUM(mart_inventory.reserved) de reservas con status='reserved'.",
+      "population_es": "Partes presentes en el inventario reconciliado.",
+      "null_policy_es": "Sin partes: unknown; cero reservas con partes presentes es medido.",
+      "decision_use_es": "Detectar presión sobre disponibilidad por compromisos existentes."
+    },
+    {
+      "metric_id": "M-STOCK-AVAILABLE",
+      "label": "Unidades disponibles",
+      "domain": "parts",
+      "definition": "On-hand quantity minus active reservations across parts.",
+      "grain": "part",
+      "unit": "units",
+      "source_tables": [
+        "parts",
+        "stock_moves",
+        "reservations"
+      ],
+      "source_fields": [
+        "parts.id",
+        "stock_moves.quantity",
+        "stock_moves.move_type",
+        "reservations.quantity",
+        "reservations.status"
+      ],
+      "process_ids": [
+        "parts_procurement"
+      ],
+      "owner_role": "Responsable de partes",
+      "limitations": "Quantity only; no demand forecast.",
+      "definition_es": "Unidades disponibles tras reservas activas.",
+      "limitations_es": "No incorpora demanda futura ni compras todavía sin recepción.",
+      "formula_es": "SUM(mart_inventory.available), con available = on_hand - reserved por parte.",
+      "population_es": "Partes presentes en el inventario reconciliado.",
+      "null_policy_es": "Sin partes: unknown; cero disponible con partes presentes es medido.",
+      "decision_use_es": "Revisar faltantes por SKU y compromisos existentes."
+    },
+    {
+      "metric_id": "M-STOCK-REORDER",
+      "label": "Partes en punto de reposición",
+      "domain": "parts",
+      "definition": "Parts with available quantity at or below reorder point divided by parts.",
+      "grain": "part",
+      "unit": "ratio",
+      "source_tables": [
+        "parts",
+        "stock_moves",
+        "reservations"
+      ],
+      "source_fields": [
+        "parts.id",
+        "parts.reorder_point",
+        "stock_moves.quantity",
+        "reservations.quantity"
+      ],
+      "process_ids": [
+        "parts_procurement"
+      ],
+      "owner_role": "Responsable de partes",
+      "limitations": "Review signal, not purchase authorization.",
+      "definition_es": "Fracción de partes en o bajo el punto de reposición.",
+      "limitations_es": "Es señal de revisión, no autorización de compra.",
+      "formula_es": "Partes con available <= reorder_point / todas las partes del mart.",
+      "population_es": "Partes presentes en el inventario reconciliado.",
+      "null_policy_es": "Denominador cero: unknown; cero partes bajo umbral con población es medido.",
+      "decision_use_es": "Abrir una revisión de conteo, reservas y reposiciones en tránsito."
+    },
+    {
+      "metric_id": "M-FLEET-OPEN-OPPS",
+      "label": "Oportunidades abiertas",
+      "domain": "fleet",
+      "definition": "Opportunities not won or lost.",
+      "grain": "opportunity",
+      "unit": "count",
+      "source_tables": [
+        "opportunities"
+      ],
+      "source_fields": [
+        "opportunities.id",
+        "opportunities.status"
+      ],
+      "process_ids": [
+        "fleet_sales_service"
+      ],
+      "owner_role": "Comercial flotillas",
+      "limitations": "Pipeline is not contract or revenue.",
+      "definition_es": "Oportunidades de flotilla no ganadas ni perdidas.",
+      "limitations_es": "No representan contratos ni ingresos.",
+      "formula_es": "Contar opportunities con status distinto de won y lost.",
+      "population_es": "Todas las oportunidades presentes al corte.",
+      "null_policy_es": "Sin oportunidades: unknown; cero abiertas con oportunidades presentes es medido.",
+      "decision_use_es": "Revisar siguientes pasos de la cartera comercial."
+    },
+    {
+      "metric_id": "M-FLEET-PIPELINE",
+      "label": "Valor de pipeline abierto",
+      "domain": "fleet",
+      "definition": "Sum of stated value of open opportunities.",
+      "grain": "opportunity",
+      "unit": "MXN_cents",
+      "source_tables": [
+        "opportunities"
+      ],
+      "source_fields": [
+        "opportunities.id",
+        "opportunities.status",
+        "opportunities.value_cents"
+      ],
+      "process_ids": [
+        "fleet_sales_service"
+      ],
+      "owner_role": "Comercial flotillas",
+      "limitations": "Hypothetical commercial value.",
+      "definition_es": "Suma del valor declarado de oportunidades abiertas.",
+      "limitations_es": "Es valor comercial hipotético, no ingreso esperado verificado.",
+      "formula_es": "SUM(value_cents) sólo donde status no sea won ni lost.",
+      "population_es": "Todas las oportunidades presentes; aportan importe las abiertas.",
+      "null_policy_es": "Sin oportunidades: unknown; cero valor abierto con población es medido.",
+      "decision_use_es": "Dimensionar el seguimiento comercial sin tratarlo como venta."
+    },
+    {
+      "metric_id": "M-FLEET-ACCOUNT-COVERAGE",
+      "label": "Cuentas con oportunidad",
+      "domain": "fleet",
+      "definition": "Fleet accounts with at least one opportunity divided by fleet accounts.",
+      "grain": "fleet_account",
+      "unit": "ratio",
+      "source_tables": [
+        "fleet_accounts",
+        "opportunities"
+      ],
+      "source_fields": [
+        "fleet_accounts.id",
+        "opportunities.fleet_account_id"
+      ],
+      "process_ids": [
+        "fleet_sales_service"
+      ],
+      "owner_role": "Comercial flotillas",
+      "limitations": "Coverage, not prospect quality.",
+      "definition_es": "Proporción de cuentas de flotilla con alguna oportunidad.",
+      "limitations_es": "Cobertura no indica calidad del prospecto.",
+      "formula_es": "Cuentas con EXISTS(opportunities por fleet_account_id) / todas las fleet_accounts.",
+      "population_es": "Todas las cuentas de flotilla declaradas.",
+      "null_policy_es": "Sin cuentas: unknown; cero cubiertas con cuentas presentes es medido.",
+      "decision_use_es": "Identificar cuentas sin oportunidad registrada para revisión."
+    },
+    {
+      "metric_id": "M-FLEET-ACTIVE-CONTRACTS",
+      "label": "Contratos vigentes",
+      "domain": "fleet",
+      "definition": "Approved active contracts within the effective date window at cutoff.",
+      "grain": "contract",
+      "unit": "count",
+      "source_tables": [
+        "contracts"
+      ],
+      "source_fields": [
+        "contracts.id",
+        "contracts.status",
+        "contracts.approval_ref",
+        "contracts.starts_at",
+        "contracts.ends_at"
+      ],
+      "process_ids": [
+        "fleet_sales_service"
+      ],
+      "owner_role": "Comercial flotillas",
+      "limitations": "Approval reference presence is not external authenticity verification.",
+      "definition_es": "Contratos activos, con referencia de aprobación y vigentes al corte.",
+      "limitations_es": "La presencia de referencia no acredita autenticidad fuera del fixture.",
+      "formula_es": "Contar contracts activos con approval_ref no vacío, starts_at <= corte y ends_at > corte.",
+      "population_es": "Todos los contratos declarados.",
+      "null_policy_es": "Sin contratos: unknown; cero vigentes con contratos presentes es medido.",
+      "decision_use_es": "Separar contratos vigentes de oportunidad o borrador."
+    },
+    {
+      "metric_id": "M-FLEET-MAINTENANCE",
+      "label": "Mantenimiento por revisar",
+      "domain": "fleet",
+      "definition": "Due or scheduled maintenance with due date reached or vehicle odometer at due mileage.",
+      "grain": "maintenance_item",
+      "unit": "count",
+      "source_tables": [
+        "maintenance",
+        "vehicles"
+      ],
+      "source_fields": [
+        "maintenance.id",
+        "maintenance.status",
+        "maintenance.due_at",
+        "maintenance.due_km",
+        "vehicles.odometer_km"
+      ],
+      "process_ids": [
+        "fleet_sales_service"
+      ],
+      "owner_role": "Planificación flotillas",
+      "limitations": "Depends on synthetic date and odometer assumptions.",
+      "definition_es": "Mantenimientos pendientes cuya fecha o kilometraje ya activa revisión.",
+      "limitations_es": "Fecha y odómetro proceden de supuestos sintéticos.",
+      "formula_es": "Contar maintenance due/scheduled con due_at <= corte o vehicles.odometer_km >= due_km.",
+      "population_es": "Todos los mantenimientos vinculados a vehículos.",
+      "null_policy_es": "Sin mantenimientos: unknown; cero vencidos con población presente es medido.",
+      "decision_use_es": "Preparar revisión humana de planificación por fecha o kilometraje."
+    },
+    {
+      "metric_id": "M-FLEET-SLA-ELIGIBILITY",
+      "label": "Cobertura SLA elegible",
+      "domain": "fleet",
+      "definition": "Contract-linked work orders with sufficient SLA evidence divided by contract-linked work orders.",
+      "grain": "work_order",
+      "unit": "ratio",
+      "source_tables": [
+        "work_orders",
+        "contracts",
+        "customers"
+      ],
+      "source_fields": [
+        "work_orders.id",
+        "work_orders.contract_id",
+        "work_orders.status",
+        "contracts.approval_ref",
+        "contracts.starts_at",
+        "contracts.ends_at"
+      ],
+      "process_ids": [
+        "fleet_sales_service"
+      ],
+      "owner_role": "Coordinación flotillas",
+      "limitations": "Cancelled work excluded; unknown eligibility stays outside numerator.",
+      "definition_es": "Fracción de trabajo contractual de flotilla con evidencia SLA suficiente.",
+      "limitations_es": "Canceladas y cobertura desconocida no entran al numerador.",
+      "formula_es": "Filas mart_service_journey con SLA met/breached/at_risk/on_track / filas fleet con contract_id y no cancelled.",
+      "population_es": "Órdenes no canceladas de flotilla vinculadas a contrato.",
+      "null_policy_es": "Sin órdenes contractuales elegibles para denominador: unknown.",
+      "decision_use_es": "Evaluar si puede calcularse riesgo o cumplimiento SLA."
+    },
+    {
+      "metric_id": "M-FLEET-SLA-RISK",
+      "label": "Riesgo SLA abierto",
+      "domain": "fleet",
+      "definition": "At-risk or breached open eligible fleet work divided by open eligible fleet work.",
+      "grain": "work_order",
+      "unit": "ratio",
+      "source_tables": [
+        "work_orders",
+        "contracts",
+        "customers"
+      ],
+      "source_fields": [
+        "work_orders.id",
+        "work_orders.opened_at",
+        "work_orders.completed_at",
+        "contracts.sla_hours",
+        "contracts.approval_ref"
+      ],
+      "process_ids": [
+        "fleet_sales_service"
+      ],
+      "owner_role": "Coordinación flotillas",
+      "limitations": "Synthetic terms; elapsed calendar hours without contractual pauses.",
+      "definition_es": "Fracción de trabajo abierto elegible en riesgo o incumplido.",
+      "limitations_es": "SLA sintético; horas calendario sin pausas contractuales.",
+      "formula_es": "Órdenes abiertas fleet con sla_status at_risk o breached / abiertas fleet con SLA conocido.",
+      "population_es": "Órdenes abiertas de flotilla con cobertura SLA evaluable.",
+      "null_policy_es": "Sin órdenes abiertas elegibles: unknown; cobertura desconocida se excluye.",
+      "decision_use_es": "Revisar casos que requieren intervención contractual humana."
+    },
+    {
+      "metric_id": "M-TOW-OPEN",
+      "label": "Solicitudes de grúa abiertas",
+      "domain": "towing",
+      "definition": "Tow requests neither closed nor cancelled.",
+      "grain": "tow",
+      "unit": "count",
+      "source_tables": [
+        "tows"
+      ],
+      "source_fields": [
+        "tows.id",
+        "tows.status"
+      ],
+      "process_ids": [
+        "towing"
+      ],
+      "owner_role": "Coordinación grúas",
+      "limitations": "Status count, not authorized dispatch.",
+      "definition_es": "Solicitudes de grúa que no están cerradas ni canceladas.",
+      "limitations_es": "Estado abierto no autoriza despacho.",
+      "formula_es": "Contar tows cuyo status no sea closed ni cancelled.",
+      "population_es": "Todas las solicitudes de grúa presentes.",
+      "null_policy_es": "Sin solicitudes: unknown; cero abiertas con solicitudes presentes es medido.",
+      "decision_use_es": "Revisar la cola de solicitudes y sus gates humanos."
+    },
+    {
+      "metric_id": "M-TOW-HUMAN-REFS",
+      "label": "Grúas con referencias humanas",
+      "domain": "towing",
+      "definition": "Tow requests with both safety and human approval references divided by tow requests.",
+      "grain": "tow",
+      "unit": "ratio",
+      "source_tables": [
+        "tows"
+      ],
+      "source_fields": [
+        "tows.id",
+        "tows.safety_ref",
+        "tows.human_approval_ref"
+      ],
+      "process_ids": [
+        "towing"
+      ],
+      "owner_role": "Coordinación grúas",
+      "limitations": "Reference presence does not establish safety or approval validity.",
+      "definition_es": "Fracción de solicitudes con referencias de seguridad y aprobación humana.",
+      "limitations_es": "Presencia de texto no certifica seguridad ni validez de aprobación.",
+      "formula_es": "Tows con safety_ref y human_approval_ref no vacíos / todas las tows.",
+      "population_es": "Todas las solicitudes de grúa presentes.",
+      "null_policy_es": "Sin solicitudes: unknown; cero referencias completas con población es medido.",
+      "decision_use_es": "Detectar expedientes que requieren revisión humana documental."
+    },
+    {
+      "metric_id": "M-TOW-CLOSE-HOURS",
+      "label": "Horas solicitud a cierre",
+      "domain": "towing",
+      "definition": "Median request-to-close elapsed hours for valid closed tow requests.",
+      "grain": "closed_tow",
+      "unit": "hours",
+      "source_tables": [
+        "tows"
+      ],
+      "source_fields": [
+        "tows.id",
+        "tows.requested_at",
+        "tows.closed_at",
+        "tows.status"
+      ],
+      "process_ids": [
+        "towing"
+      ],
+      "owner_role": "Coordinación grúas",
+      "limitations": "Not response or arrival duration.",
+      "definition_es": "Mediana de horas desde solicitud hasta cierre de grúa.",
+      "limitations_es": "No mide respuesta, llegada ni seguridad.",
+      "formula_es": "Mediana de (closed_at - requested_at) en closed con fechas válidas; numerator = cierres medidos, denominator = todos los cierres.",
+      "population_es": "Solicitudes cerradas; valor usa sólo las que tienen dos fechas válidas.",
+      "null_policy_es": "Sin cierres con duración válida: unknown; la cobertura de conteos no es la duración.",
+      "decision_use_es": "Revisar duraciones extensas sin confundirlas con tiempo de respuesta."
+    },
+    {
+      "metric_id": "M-FIN-QUOTES",
+      "label": "Importe cotizado",
+      "domain": "finance",
+      "definition": "Sum of quote face amounts.",
+      "grain": "quote",
+      "unit": "MXN_cents",
+      "source_tables": [
+        "quotes"
+      ],
+      "source_fields": [
+        "quotes.id",
+        "quotes.amount_cents"
+      ],
+      "process_ids": [
+        "b2c_workshop",
+        "collections"
+      ],
+      "owner_role": "Administración",
+      "limitations": "Not invoiced or recognized revenue.",
+      "definition_es": "Importe total de cotizaciones registradas.",
+      "limitations_es": "No es facturación ni ingreso.",
+      "formula_es": "SUM(quotes.amount_cents), sin filtrar estado.",
+      "population_es": "Todas las cotizaciones presentes.",
+      "null_policy_es": "Sin cotizaciones: unknown; suma cero con población presente es medido.",
+      "decision_use_es": "Separar demanda cotizada de servicio e ingreso."
+    },
+    {
+      "metric_id": "M-FIN-INVOICED",
+      "label": "Importe facturado",
+      "domain": "finance",
+      "definition": "Sum of issued invoice face amounts.",
+      "grain": "invoice",
+      "unit": "MXN_cents",
+      "source_tables": [
+        "invoices"
+      ],
+      "source_fields": [
+        "invoices.id",
+        "invoices.amount_cents",
+        "invoices.status"
+      ],
+      "process_ids": [
+        "collections"
+      ],
+      "owner_role": "Administración",
+      "limitations": "Managerial, non-fiscal demonstration amount.",
+      "definition_es": "Importe de facturas en estado issued.",
+      "limitations_es": "Cifra gerencial sintética, no fiscal.",
+      "formula_es": "SUM(invoices.amount_cents) sólo cuando status='issued'.",
+      "population_es": "Todas las facturas presentes; aportan importe las emitidas.",
+      "null_policy_es": "Sin facturas: unknown; cero emitido con facturas presentes es medido.",
+      "decision_use_es": "Reconciliar facturación emitida con pagos y saldo."
+    },
+    {
+      "metric_id": "M-FIN-PAID",
+      "label": "Pagos registrados",
+      "domain": "finance",
+      "definition": "Sum of validated payment amounts.",
+      "grain": "payment",
+      "unit": "MXN_cents",
+      "source_tables": [
+        "payments",
+        "invoices"
+      ],
+      "source_fields": [
+        "payments.id",
+        "payments.invoice_id",
+        "payments.amount_cents"
+      ],
+      "process_ids": [
+        "collections"
+      ],
+      "owner_role": "Administración",
+      "limitations": "Recorded collection, not revenue recognition.",
+      "definition_es": "Importe de pagos registrados.",
+      "limitations_es": "Cobro registrado no es ingreso reconocido ni saldo bancario.",
+      "formula_es": "SUM(payments.amount_cents).",
+      "population_es": "Todos los pagos validados y vinculados a facturas.",
+      "null_policy_es": "Sin pagos: unknown; cero sólo se mide con población fuente.",
+      "decision_use_es": "Comprobar cobros registrados y su vínculo a factura."
+    },
+    {
+      "metric_id": "M-AR-RECEIVABLE",
+      "label": "Saldo por cobrar",
+      "domain": "finance",
+      "definition": "Issued invoice amounts less linked payments.",
+      "grain": "invoice",
+      "unit": "MXN_cents",
+      "source_tables": [
+        "invoices",
+        "payments"
+      ],
+      "source_fields": [
+        "invoices.id",
+        "invoices.amount_cents",
+        "invoices.status",
+        "payments.invoice_id",
+        "payments.amount_cents"
+      ],
+      "process_ids": [
+        "collections"
+      ],
+      "owner_role": "Administración",
+      "limitations": "Requires complete payments for each invoice at cutoff.",
+      "definition_es": "Saldo pendiente en facturas emitidas.",
+      "limitations_es": "Depende de que estén todos los pagos vinculados al corte.",
+      "formula_es": "SUM(invoice.amount_cents - pagos vinculados) sobre facturas issued.",
+      "population_es": "Todas las facturas emitidas.",
+      "null_policy_es": "Sin facturas emitidas: unknown; saldo cero con población presente es medido.",
+      "decision_use_es": "Priorizar conciliación de cartera con base en saldos documentados."
+    },
+    {
+      "metric_id": "M-AR-OVERDUE",
+      "label": "Saldo vencido",
+      "domain": "finance",
+      "definition": "Positive receivable for issued invoices with due date before cutoff.",
+      "grain": "invoice",
+      "unit": "MXN_cents",
+      "source_tables": [
+        "invoices",
+        "payments"
+      ],
+      "source_fields": [
+        "invoices.id",
+        "invoices.due_at",
+        "invoices.amount_cents",
+        "payments.amount_cents"
+      ],
+      "process_ids": [
+        "collections"
+      ],
+      "owner_role": "Administración",
+      "limitations": "No automatic reminder; due dates and payment completeness matter.",
+      "definition_es": "Saldo positivo vencido de facturas emitidas.",
+      "limitations_es": "No activa recordatorio automático; pagos omitidos sobrestiman saldo.",
+      "formula_es": "SUM(saldo por factura issued) sólo si due_at < corte; el control de dominio excluye sobrepago.",
+      "population_es": "Todas las facturas emitidas; aportan saldo las vencidas.",
+      "null_policy_es": "Sin facturas emitidas: unknown; cero vencido con población es medido.",
+      "decision_use_es": "Identificar saldos para revisión y conciliación humana."
+    },
+    {
+      "metric_id": "M-FIN-CASH-NET",
+      "label": "Flujo neto efectivo",
+      "domain": "finance",
+      "definition": "Cash-method payments less cash-method expenses.",
+      "grain": "cash_transaction",
+      "unit": "MXN_cents",
+      "source_tables": [
+        "payments",
+        "expenses"
+      ],
+      "source_fields": [
+        "payments.amount_cents",
+        "payments.method",
+        "expenses.amount_cents",
+        "expenses.method"
+      ],
+      "process_ids": [
+        "collections"
+      ],
+      "owner_role": "Administración",
+      "limitations": "Not a bank balance.",
+      "definition_es": "Flujo neto registrado en método cash.",
+      "limitations_es": "No es saldo de caja o banco.",
+      "formula_es": "SUM(pagos method='cash') - SUM(gastos method='cash').",
+      "population_es": "Todos los pagos y gastos registrados; aportan los de método cash.",
+      "null_policy_es": "Sin pagos ni gastos: unknown; cero neto con movimientos presentes es medido.",
+      "decision_use_es": "Revisar flujo de efectivo registrado separadamente de facturación."
+    },
+    {
+      "metric_id": "M-FIN-EXPENSES",
+      "label": "Gastos registrados",
+      "domain": "finance",
+      "definition": "Sum of recorded expenses.",
+      "grain": "expense",
+      "unit": "MXN_cents",
+      "source_tables": [
+        "expenses"
+      ],
+      "source_fields": [
+        "expenses.id",
+        "expenses.amount_cents"
+      ],
+      "process_ids": [
+        "collections"
+      ],
+      "owner_role": "Administración",
+      "limitations": "Managerial observed expense only.",
+      "definition_es": "Importe total de gastos registrados.",
+      "limitations_es": "Gasto gerencial sintético; no incluye costos no aportados.",
+      "formula_es": "SUM(expenses.amount_cents).",
+      "population_es": "Todos los gastos registrados.",
+      "null_policy_es": "Sin gastos: unknown; cero sólo se mide con población fuente.",
+      "decision_use_es": "Dimensionar egresos documentados antes de evaluar margen."
+    },
+    {
+      "metric_id": "M-WEEKLY-EXCEPTIONS",
+      "label": "Excepciones semanales",
+      "domain": "governance",
+      "definition": "Count validated exceptions by severity and module.",
+      "grain": "exception",
+      "unit": "count",
+      "source_tables": [],
+      "source_fields": [],
+      "process_ids": [
+        "weekly_review"
+      ],
+      "owner_role": "Gerencia",
+      "limitations": "No validated exceptions table is materialized in this warehouse; unknown until linked to a versioned exception source.",
+      "definition_es": "Excepciones validadas por módulo y severidad.",
+      "limitations_es": "El warehouse no materializa una tabla versionada de excepciones; la cola OPS separada no es esta fuente.",
+      "formula_es": "Sin SQL medidor en este warehouse; valor, numerador y denominador quedan null.",
+      "population_es": "Se requeriría una fuente de excepciones versionada y vinculada al mismo corte.",
+      "null_policy_es": "Siempre unknown en este contrato hasta incorporar y validar una fuente homogénea.",
+      "decision_use_es": "Abrir una pregunta de cobertura en la revisión semanal."
+    },
+    {
+      "metric_id": "M-WEEKLY-PROPOSALS",
+      "label": "Propuestas pendientes",
+      "domain": "governance",
+      "definition": "Count validated pending proposals by agent.",
+      "grain": "proposal",
+      "unit": "count",
+      "source_tables": [
+        "proposals"
+      ],
+      "source_fields": [
+        "proposals.id",
+        "proposals.agent",
+        "proposals.status",
+        "proposals.approval_required",
+        "proposals.external_execution"
+      ],
+      "process_ids": [
+        "weekly_review"
+      ],
+      "owner_role": "Gerencia",
+      "limitations": "Count of drafts, not decisions or completed actions.",
+      "definition_es": "Número de propuestas pendientes con controles de aprobación y no ejecución.",
+      "limitations_es": "No mide decisiones humanas ni acciones terminadas.",
+      "formula_es": "Contar proposals con status='pending', approval_required=1 y external_execution=0.",
+      "population_es": "Todas las propuestas presentes en la tabla del warehouse.",
+      "null_policy_es": "Sin propuestas fuente: unknown; cero pendientes con propuestas presentes es medido.",
+      "decision_use_es": "Preparar agenda humana de revisión de borradores."
+    }
+  ]
+}

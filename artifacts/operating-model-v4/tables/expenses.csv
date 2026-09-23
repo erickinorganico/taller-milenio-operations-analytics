@@ -1,0 +1,9 @@
+﻿id,version,synthetic,created_at,updated_at,description,amount_cents,category,method,paid_at
+EXP-001,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Compra de consumibles demo,24000,parts,transfer,2026-09-18T18:00:00Z
+EXP-002,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Servicios del local demo,18000,utilities,cash,2026-09-15T18:00:00Z
+EXP-H001,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Gasto histórico sintético,10000,parts,transfer,2026-09-11T18:00:00Z
+EXP-H002,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Gasto histórico sintético,11000,utilities,transfer,2026-09-01T18:00:00Z
+EXP-H003,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Gasto histórico sintético,12000,parts,transfer,2026-08-22T18:00:00Z
+EXP-H004,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Gasto histórico sintético,13000,utilities,transfer,2026-08-12T18:00:00Z
+EXP-H005,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Gasto histórico sintético,14000,parts,transfer,2026-08-02T18:00:00Z
+EXP-H006,1,1,2026-09-21T18:00:00Z,2026-09-21T18:00:00Z,Gasto histórico sintético,15000,utilities,transfer,2026-07-23T18:00:00Z

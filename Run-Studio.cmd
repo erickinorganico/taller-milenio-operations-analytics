@@ -3,6 +3,10 @@ setlocal
 set "ROOT=%~dp0"
 set "MPLBACKEND=Agg"
 cd /d "%ROOT%"
+if "%~1"=="" if exist "%ROOT%artifacts\operating-model-v4\INICIO.html" (
+  start "" "%ROOT%artifacts\operating-model-v4\INICIO.html"
+  exit /b 0
+)
 if "%~1"=="" if exist "%ROOT%artifacts\workbench-v2\DOSSIER.html" (
   start "" "%ROOT%artifacts\workbench-v2\DOSSIER.html"
   exit /b 0

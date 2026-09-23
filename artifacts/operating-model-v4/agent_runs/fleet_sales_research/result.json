@@ -1,0 +1,580 @@
+{
+  "backend": "rules",
+  "cases_reviewed": 9,
+  "context": {
+    "cases": [
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-001",
+          "follow_up_at": "2026-09-26T18:00:00Z",
+          "id": "OP-001",
+          "next_step": "Enviar propuesta",
+          "status": "proposal",
+          "synthetic": 1,
+          "title": "Mantenimiento anual",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "value_cents": 1250000,
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-002",
+          "follow_up_at": "2026-09-28T18:00:00Z",
+          "id": "OP-002",
+          "next_step": "Calificar",
+          "status": "qualified",
+          "synthetic": 1,
+          "title": "Servicio de flotilla",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "value_cents": 780000,
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "FA-001",
+        "entity_type": "fleet_accounts",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-009",
+          "fleet_size": 12,
+          "id": "FA-001",
+          "industry": "logística",
+          "owner": "Laura Campos",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "FA-002",
+        "entity_type": "fleet_accounts",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-010",
+          "fleet_size": 8,
+          "id": "FA-002",
+          "industry": "servicios",
+          "owner": "Mario León",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "record": {
+          "approval_ref": "APP-CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "ends_at": "2026-12-31T23:59:59Z",
+          "fleet_account_id": "FA-001",
+          "id": "CT-001",
+          "name": "SLA demo Norte",
+          "sla_hours": 48,
+          "starts_at": "2026-01-01T00:00:00Z",
+          "status": "active",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CT-002",
+        "entity_type": "contracts",
+        "record": {
+          "approval_ref": "APP-CT-002",
+          "created_at": "2026-09-21T18:00:00Z",
+          "ends_at": "2025-12-31T23:59:59Z",
+          "fleet_account_id": "FA-002",
+          "id": "CT-002",
+          "name": "Contrato vencido demo",
+          "sla_hours": 72,
+          "starts_at": "2025-01-01T00:00:00Z",
+          "status": "expired",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-001",
+        "entity_type": "contacts",
+        "record": {
+          "consent": 1,
+          "contact": "contacto1@demo.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-001",
+          "id": "CTC-001",
+          "name": "Contacto 1",
+          "role": "Operaciones",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-002",
+        "entity_type": "contacts",
+        "record": {
+          "consent": 1,
+          "contact": "contacto2@demo.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-001",
+          "id": "CTC-002",
+          "name": "Contacto 2",
+          "role": "Operaciones",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-003",
+        "entity_type": "contacts",
+        "record": {
+          "consent": 1,
+          "contact": "contacto3@demo.local",
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-002",
+          "id": "CTC-003",
+          "name": "Contacto 3",
+          "role": "Operaciones",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "proposal",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "qualified",
+        "version": 1
+      },
+      {
+        "entity_id": "FA-001",
+        "entity_type": "fleet_accounts",
+        "field": "customer_id",
+        "value": "C-009",
+        "version": 1
+      },
+      {
+        "entity_id": "FA-002",
+        "entity_type": "fleet_accounts",
+        "field": "customer_id",
+        "value": "C-010",
+        "version": 1
+      },
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "field": "status",
+        "value": "active",
+        "version": 1
+      },
+      {
+        "entity_id": "CT-002",
+        "entity_type": "contracts",
+        "field": "status",
+        "value": "expired",
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-001",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-002",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-003",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      }
+    ],
+    "metrics": {
+      "M-FLEET-ACCOUNT-COVERAGE": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Identificar cuentas sin oportunidad registrada para revisión.",
+        "definition": "Fleet accounts with at least one opportunity divided by fleet accounts.",
+        "definition_es": "Proporción de cuentas de flotilla con alguna oportunidad.",
+        "denominator": 2,
+        "domain": "fleet",
+        "evidence_rows": [
+          {
+            "fields": {},
+            "record_id": "FA-001",
+            "table": "fleet_accounts",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "FA-002",
+            "table": "fleet_accounts",
+            "version": 1
+          },
+          {
+            "fields": {
+              "fleet_account_id": "FA-001"
+            },
+            "record_id": "OP-001",
+            "table": "opportunities",
+            "version": 1
+          },
+          {
+            "fields": {
+              "fleet_account_id": "FA-002"
+            },
+            "record_id": "OP-002",
+            "table": "opportunities",
+            "version": 1
+          }
+        ],
+        "evidence_total": 4,
+        "formula_es": "Cuentas con EXISTS(opportunities por fleet_account_id) / todas las fleet_accounts.",
+        "grain": "fleet_account",
+        "label": "Cuentas con oportunidad",
+        "limitations": "Coverage, not prospect quality.",
+        "limitations_es": "Cobertura no indica calidad del prospecto.",
+        "metric_id": "M-FLEET-ACCOUNT-COVERAGE",
+        "null_policy_es": "Sin cuentas: unknown; cero cubiertas con cuentas presentes es medido.",
+        "numerator": 2,
+        "owner_role": "Comercial flotillas",
+        "population_es": "Todas las cuentas de flotilla declaradas.",
+        "process_ids": [
+          "fleet_sales_service"
+        ],
+        "query": "SELECT COALESCE(SUM(EXISTS(SELECT 1 FROM opportunities o WHERE o.fleet_account_id=a.id)),0) n, COUNT(*) d FROM fleet_accounts a",
+        "reason": null,
+        "source_counts": {
+          "fleet_accounts": 2,
+          "opportunities": 2
+        },
+        "source_fields": [
+          "fleet_accounts.id",
+          "opportunities.fleet_account_id"
+        ],
+        "source_tables": [
+          "fleet_accounts",
+          "opportunities"
+        ],
+        "status": "measured",
+        "unit": "ratio",
+        "value": 1.0
+      },
+      "M-FLEET-ACTIVE-CONTRACTS": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Separar contratos vigentes de oportunidad o borrador.",
+        "definition": "Approved active contracts within the effective date window at cutoff.",
+        "definition_es": "Contratos activos, con referencia de aprobación y vigentes al corte.",
+        "denominator": 2,
+        "domain": "fleet",
+        "evidence_rows": [
+          {
+            "fields": {
+              "approval_ref": "APP-CT-001",
+              "ends_at": "2026-12-31T23:59:59Z",
+              "starts_at": "2026-01-01T00:00:00Z",
+              "status": "active"
+            },
+            "record_id": "CT-001",
+            "table": "contracts",
+            "version": 1
+          },
+          {
+            "fields": {
+              "approval_ref": "APP-CT-002",
+              "ends_at": "2025-12-31T23:59:59Z",
+              "starts_at": "2025-01-01T00:00:00Z",
+              "status": "expired"
+            },
+            "record_id": "CT-002",
+            "table": "contracts",
+            "version": 1
+          }
+        ],
+        "evidence_total": 2,
+        "formula_es": "Contar contracts activos con approval_ref no vacío, starts_at <= corte y ends_at > corte.",
+        "grain": "contract",
+        "label": "Contratos vigentes",
+        "limitations": "Approval reference presence is not external authenticity verification.",
+        "limitations_es": "La presencia de referencia no acredita autenticidad fuera del fixture.",
+        "metric_id": "M-FLEET-ACTIVE-CONTRACTS",
+        "null_policy_es": "Sin contratos: unknown; cero vigentes con contratos presentes es medido.",
+        "numerator": 1,
+        "owner_role": "Comercial flotillas",
+        "population_es": "Todos los contratos declarados.",
+        "process_ids": [
+          "fleet_sales_service"
+        ],
+        "query": "SELECT COALESCE(SUM(status='active' AND approval_ref IS NOT NULL AND trim(approval_ref)<>'' AND julianday(starts_at)<=julianday(?) AND julianday(ends_at)>julianday(?)),0) n, COUNT(*) d FROM contracts",
+        "reason": null,
+        "source_counts": {
+          "contracts": 2
+        },
+        "source_fields": [
+          "contracts.id",
+          "contracts.status",
+          "contracts.approval_ref",
+          "contracts.starts_at",
+          "contracts.ends_at"
+        ],
+        "source_tables": [
+          "contracts"
+        ],
+        "status": "measured",
+        "unit": "count",
+        "value": 1
+      },
+      "M-FLEET-OPEN-OPPS": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Revisar siguientes pasos de la cartera comercial.",
+        "definition": "Opportunities not won or lost.",
+        "definition_es": "Oportunidades de flotilla no ganadas ni perdidas.",
+        "denominator": 2,
+        "domain": "fleet",
+        "evidence_rows": [
+          {
+            "fields": {
+              "status": "proposal"
+            },
+            "record_id": "OP-001",
+            "table": "opportunities",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "qualified"
+            },
+            "record_id": "OP-002",
+            "table": "opportunities",
+            "version": 1
+          }
+        ],
+        "evidence_total": 2,
+        "formula_es": "Contar opportunities con status distinto de won y lost.",
+        "grain": "opportunity",
+        "label": "Oportunidades abiertas",
+        "limitations": "Pipeline is not contract or revenue.",
+        "limitations_es": "No representan contratos ni ingresos.",
+        "metric_id": "M-FLEET-OPEN-OPPS",
+        "null_policy_es": "Sin oportunidades: unknown; cero abiertas con oportunidades presentes es medido.",
+        "numerator": 2,
+        "owner_role": "Comercial flotillas",
+        "population_es": "Todas las oportunidades presentes al corte.",
+        "process_ids": [
+          "fleet_sales_service"
+        ],
+        "query": "SELECT COALESCE(SUM(status NOT IN ('won','lost')),0) n, COUNT(*) d FROM opportunities",
+        "reason": null,
+        "source_counts": {
+          "opportunities": 2
+        },
+        "source_fields": [
+          "opportunities.id",
+          "opportunities.status"
+        ],
+        "source_tables": [
+          "opportunities"
+        ],
+        "status": "measured",
+        "unit": "count",
+        "value": 2
+      },
+      "M-FLEET-PIPELINE": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Dimensionar el seguimiento comercial sin tratarlo como venta.",
+        "definition": "Sum of stated value of open opportunities.",
+        "definition_es": "Suma del valor declarado de oportunidades abiertas.",
+        "denominator": 2,
+        "domain": "fleet",
+        "evidence_rows": [
+          {
+            "fields": {
+              "status": "proposal",
+              "value_cents": 1250000
+            },
+            "record_id": "OP-001",
+            "table": "opportunities",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "qualified",
+              "value_cents": 780000
+            },
+            "record_id": "OP-002",
+            "table": "opportunities",
+            "version": 1
+          }
+        ],
+        "evidence_total": 2,
+        "formula_es": "SUM(value_cents) sólo donde status no sea won ni lost.",
+        "grain": "opportunity",
+        "label": "Valor de pipeline abierto",
+        "limitations": "Hypothetical commercial value.",
+        "limitations_es": "Es valor comercial hipotético, no ingreso esperado verificado.",
+        "metric_id": "M-FLEET-PIPELINE",
+        "null_policy_es": "Sin oportunidades: unknown; cero valor abierto con población es medido.",
+        "numerator": 2030000,
+        "owner_role": "Comercial flotillas",
+        "population_es": "Todas las oportunidades presentes; aportan importe las abiertas.",
+        "process_ids": [
+          "fleet_sales_service"
+        ],
+        "query": "SELECT COALESCE(SUM(CASE WHEN status NOT IN ('won','lost') THEN value_cents ELSE 0 END),0) n, COUNT(*) d FROM opportunities",
+        "reason": null,
+        "source_counts": {
+          "opportunities": 2
+        },
+        "source_fields": [
+          "opportunities.id",
+          "opportunities.status",
+          "opportunities.value_cents"
+        ],
+        "source_tables": [
+          "opportunities"
+        ],
+        "status": "measured",
+        "unit": "MXN_cents",
+        "value": 2030000
+      },
+      "active_contracts": 1,
+      "open_opportunities": 2
+    }
+  },
+  "external_execution": false,
+  "human_review_required": true,
+  "mode_label": "offline deterministic baseline; no LLM invoked",
+  "model_invoked": false,
+  "result": {
+    "alternatives": [
+      "Revisar el registro citado con su responsable actual antes de decidir un cambio.",
+      "Diferir la decisión y solicitar la evidencia operativa faltante."
+    ],
+    "diagnosis": "Línea base offline por reglas: opportunities:OP-001 tiene status='proposal' en la versión 1; revíselo con la cola acotada (open_opportunities=2, active_contracts=1, M-FLEET-OPEN-OPPS=2, M-FLEET-PIPELINE=2030000, M-FLEET-ACCOUNT-COVERAGE=1.0, M-FLEET-ACTIVE-CONTRACTS=1).",
+    "drafts": [
+      {
+        "kind": "followup",
+        "requires_human_review": true,
+        "text": "Borrador interno de revisión para opportunities:OP-001: confirme el registro citado antes de cualquier acción."
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "proposal",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "qualified",
+        "version": 1
+      },
+      {
+        "entity_id": "FA-001",
+        "entity_type": "fleet_accounts",
+        "field": "customer_id",
+        "value": "C-009",
+        "version": 1
+      },
+      {
+        "entity_id": "FA-002",
+        "entity_type": "fleet_accounts",
+        "field": "customer_id",
+        "value": "C-010",
+        "version": 1
+      },
+      {
+        "entity_id": "CT-001",
+        "entity_type": "contracts",
+        "field": "status",
+        "value": "active",
+        "version": 1
+      },
+      {
+        "entity_id": "CT-002",
+        "entity_type": "contracts",
+        "field": "status",
+        "value": "expired",
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-001",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-002",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      },
+      {
+        "entity_id": "CTC-003",
+        "entity_type": "contacts",
+        "field": "consent",
+        "value": 1,
+        "version": 1
+      }
+    ],
+    "manual_next_steps": [
+      "Una persona revisora confirma el valor citado y su contexto.",
+      "Una persona revisora registra cualquier decisión; este workbench no ejecuta acciones externas."
+    ],
+    "missing_information": [
+      "Este corte sintético no contiene contexto operativo, aprobación ni resultado en vivo."
+    ],
+    "sensitivity": {
+      "level": "medium",
+      "reason": "El paquete puede contener campos operativos y de contacto; mantenga los borradores bajo revisión humana."
+    },
+    "workplan": [
+      "Inspeccionar los registros dentro del alcance.",
+      "Verificar valores y versiones exactas de la evidencia.",
+      "Revisar el borrador y decidir manualmente."
+    ]
+  },
+  "status": "completed"
+}

@@ -1,0 +1,14 @@
+{
+  "agent_id": "weekly_operator",
+  "backend": "rules",
+  "completed_at": "2026-09-23T00:58:33.645264Z",
+  "external_execution": false,
+  "prepared_at": "2026-09-23T00:58:33.583317Z",
+  "run_schema_version": 1,
+  "source_hash_verified": true,
+  "status": "completed",
+  "synthetic": true,
+  "updated_at": "2026-09-23T00:58:33.645264Z",
+  "warehouse_path": "..\\..\\warehouse.sqlite",
+  "warehouse_sha256": "65369f3ee5e5c62b83ad59af86b10496753838869968053aaee6777a8db654d7"
+}

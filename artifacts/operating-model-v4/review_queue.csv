@@ -1,0 +1,10 @@
+﻿proposal_id,agent,kind,draft,status,human_reviewer,human_decision,decision_note,evidence_file
+intake_admin-1,intake_admin,followup,Borrador interno de revisión para leads:L-001: confirme el registro citado antes de cualquier acción.,pending_review,,,,agent_runs/intake_admin/result.json
+operations_controller-1,operations_controller,followup,Borrador interno de revisión para work_orders:WO-003: confirme el registro citado antes de cualquier acción.,pending_review,,,,agent_runs/operations_controller/result.json
+maintenance_planner-1,maintenance_planner,followup,Borrador interno de revisión para maintenance:M-001: confirme el registro citado antes de cualquier acción.,pending_review,,,,agent_runs/maintenance_planner/result.json
+fleet_sales_research-1,fleet_sales_research,followup,Borrador interno de revisión para opportunities:OP-001: confirme el registro citado antes de cualquier acción.,pending_review,,,,agent_runs/fleet_sales_research/result.json
+fleet_sla_watcher-1,fleet_sla_watcher,followup,Borrador interno de revisión para contracts:CT-001: confirme el registro citado antes de cualquier acción.,pending_review,,,,agent_runs/fleet_sla_watcher/result.json
+tow_dispatch_assistant-1,tow_dispatch_assistant,followup,Borrador interno de revisión para tows:TW-002: confirme el registro citado antes de cualquier acción.,pending_review,,,,agent_runs/tow_dispatch_assistant/result.json
+collections_assistant-1,collections_assistant,followup,Borrador interno de revisión para invoices:INV-H160: confirme el registro citado antes de cualquier acción.,pending_review,,,,agent_runs/collections_assistant/result.json
+marketing_planner-1,marketing_planner,followup,Borrador interno de revisión para campaigns:CAM-001: confirme el registro citado antes de cualquier acción.,pending_review,,,,agent_runs/marketing_planner/result.json
+weekly_operator-1,weekly_operator,followup,Borrador interno de revisión para work_orders:WO-003: confirme el registro citado antes de cualquier acción.,pending_review,,,,agent_runs/weekly_operator/result.json

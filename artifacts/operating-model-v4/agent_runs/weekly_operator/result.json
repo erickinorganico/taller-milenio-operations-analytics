@@ -1,0 +1,4219 @@
+{
+  "backend": "rules",
+  "cases_reviewed": 12,
+  "context": {
+    "cases": [
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-WO",
+          "bay_id": null,
+          "block_reason": "Falta filtro",
+          "completed_at": null,
+          "contract_id": null,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-003",
+          "description": "Orden sintética",
+          "due_at": "2026-09-23T20:00:00Z",
+          "id": "WO-003",
+          "inspection": "Inspección demo",
+          "opened_at": "2026-09-18T16:00:00Z",
+          "qc_ref": null,
+          "quote_id": "Q-003",
+          "status": "waiting_parts",
+          "synthetic": 1,
+          "technician_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-003",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "record": {
+          "authorization_ref": "AUTH-WO",
+          "bay_id": "B-003",
+          "block_reason": null,
+          "completed_at": null,
+          "contract_id": null,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-004",
+          "description": "Orden sintética",
+          "due_at": "2026-09-23T20:00:00Z",
+          "id": "WO-004",
+          "inspection": "Inspección demo",
+          "opened_at": "2026-09-18T16:00:00Z",
+          "qc_ref": null,
+          "quote_id": "Q-004",
+          "status": "rework",
+          "synthetic": 1,
+          "technician_id": "T-003",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-004",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "M-001",
+        "entity_type": "maintenance",
+        "record": {
+          "contract_id": "CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "due_at": "2026-09-25T18:00:00Z",
+          "due_km": 30000,
+          "id": "M-001",
+          "service": "Revisión 10,000 km",
+          "status": "scheduled",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-009",
+          "version": 1,
+          "work_order_id": null
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "M-002",
+        "entity_type": "maintenance",
+        "record": {
+          "contract_id": "CT-001",
+          "created_at": "2026-09-21T18:00:00Z",
+          "due_at": "2026-09-30T18:00:00Z",
+          "due_km": 30000,
+          "id": "M-002",
+          "service": "Revisión 10,000 km",
+          "status": "due",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-010",
+          "version": 1,
+          "work_order_id": null
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "TW-002",
+        "entity_type": "tows",
+        "record": {
+          "amount_cents": 65000,
+          "closed_at": null,
+          "conditions": "Tráfico normal",
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-007",
+          "destination": "Taller Milenio",
+          "due_at": "2026-09-20T22:00:00Z",
+          "human_approval_ref": "HUMAN-APP-001",
+          "id": "TW-002",
+          "pickup": "Av. Demo 100",
+          "requested_at": "2026-09-20T18:00:00Z",
+          "safety_ref": "SAFE-HUMAN-001",
+          "status": "en_route",
+          "synthetic": 1,
+          "unit_id": "TU-002",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-007",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "TW-003",
+        "entity_type": "tows",
+        "record": {
+          "amount_cents": null,
+          "closed_at": null,
+          "conditions": "Tráfico normal",
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-008",
+          "destination": "Taller Milenio",
+          "due_at": "2026-09-20T22:00:00Z",
+          "human_approval_ref": null,
+          "id": "TW-003",
+          "pickup": "Av. Demo 100",
+          "requested_at": "2026-09-20T18:00:00Z",
+          "safety_ref": null,
+          "status": "requested",
+          "synthetic": 1,
+          "unit_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "vehicle_id": "V-008",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H160",
+        "entity_type": "invoices",
+        "record": {
+          "amount_cents": 140000,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-004",
+          "due_at": "2026-07-04T08:00:00Z",
+          "id": "INV-H160",
+          "status": "issued",
+          "synthetic": 1,
+          "tow_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-H160"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H159",
+        "entity_type": "invoices",
+        "record": {
+          "amount_cents": 127500,
+          "created_at": "2026-09-21T18:00:00Z",
+          "customer_id": "C-003",
+          "due_at": "2026-07-04T19:00:00Z",
+          "id": "INV-H159",
+          "status": "issued",
+          "synthetic": 1,
+          "tow_id": null,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1,
+          "work_order_id": "WO-H159"
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-001",
+        "entity_type": "campaigns",
+        "record": {
+          "audience": "particular",
+          "created_at": "2026-09-21T18:00:00Z",
+          "draft": "Borrador sintético",
+          "id": "CAM-001",
+          "name": "Recordatorio mantenimiento",
+          "objective": "Recurrencia",
+          "status": "review",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-002",
+        "entity_type": "campaigns",
+        "record": {
+          "audience": "fleet",
+          "created_at": "2026-09-21T18:00:00Z",
+          "draft": "Borrador sintético",
+          "id": "CAM-002",
+          "name": "Flotillas septiembre",
+          "objective": "Pipeline B2B",
+          "status": "approved",
+          "synthetic": 1,
+          "updated_at": "2026-09-21T18:00:00Z",
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-001",
+          "follow_up_at": "2026-09-26T18:00:00Z",
+          "id": "OP-001",
+          "next_step": "Enviar propuesta",
+          "status": "proposal",
+          "synthetic": 1,
+          "title": "Mantenimiento anual",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "value_cents": 1250000,
+          "version": 1
+        },
+        "version": 1
+      },
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "record": {
+          "created_at": "2026-09-21T18:00:00Z",
+          "fleet_account_id": "FA-002",
+          "follow_up_at": "2026-09-28T18:00:00Z",
+          "id": "OP-002",
+          "next_step": "Calificar",
+          "status": "qualified",
+          "synthetic": 1,
+          "title": "Servicio de flotilla",
+          "updated_at": "2026-09-21T18:00:00Z",
+          "value_cents": 780000,
+          "version": 1
+        },
+        "version": 1
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "waiting_parts",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "rework",
+        "version": 1
+      },
+      {
+        "entity_id": "M-001",
+        "entity_type": "maintenance",
+        "field": "status",
+        "value": "scheduled",
+        "version": 1
+      },
+      {
+        "entity_id": "M-002",
+        "entity_type": "maintenance",
+        "field": "status",
+        "value": "due",
+        "version": 1
+      },
+      {
+        "entity_id": "TW-002",
+        "entity_type": "tows",
+        "field": "status",
+        "value": "en_route",
+        "version": 1
+      },
+      {
+        "entity_id": "TW-003",
+        "entity_type": "tows",
+        "field": "status",
+        "value": "requested",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H160",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H159",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-001",
+        "entity_type": "campaigns",
+        "field": "status",
+        "value": "review",
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-002",
+        "entity_type": "campaigns",
+        "field": "status",
+        "value": "approved",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "proposal",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "qualified",
+        "version": 1
+      }
+    ],
+    "metrics": {
+      "M-AR-OVERDUE": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Identificar saldos para revisión y conciliación humana.",
+        "definition": "Positive receivable for issued invoices with due date before cutoff.",
+        "definition_es": "Saldo positivo vencido de facturas emitidas.",
+        "denominator": 164,
+        "domain": "finance",
+        "evidence_rows": [
+          {
+            "fields": {
+              "amount_cents": 185000,
+              "due_at": "2026-09-20T00:00:00Z"
+            },
+            "record_id": "INV-001",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 300000,
+              "due_at": "2026-10-01T00:00:00Z"
+            },
+            "record_id": "INV-002",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 85000,
+              "due_at": "2026-10-01T00:00:00Z"
+            },
+            "record_id": "INV-003",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 125000,
+              "due_at": "2026-10-01T00:00:00Z"
+            },
+            "record_id": "INV-004",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 77500,
+              "due_at": "2026-09-28T01:00:00Z"
+            },
+            "record_id": "INV-H001",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 90000,
+              "due_at": "2026-09-27T14:00:00Z"
+            },
+            "record_id": "INV-H002",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 102500,
+              "due_at": "2026-09-27T03:00:00Z"
+            },
+            "record_id": "INV-H003",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 115000,
+              "due_at": "2026-09-26T16:00:00Z"
+            },
+            "record_id": "INV-H004",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 127500,
+              "due_at": "2026-09-26T05:00:00Z"
+            },
+            "record_id": "INV-H005",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 140000,
+              "due_at": "2026-09-25T18:00:00Z"
+            },
+            "record_id": "INV-H006",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 152500,
+              "due_at": "2026-09-24T17:00:00Z"
+            },
+            "record_id": "INV-H007",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 165000,
+              "due_at": "2026-09-24T06:00:00Z"
+            },
+            "record_id": "INV-H008",
+            "table": "invoices",
+            "version": 1
+          }
+        ],
+        "evidence_total": 326,
+        "formula_es": "SUM(saldo por factura issued) sólo si due_at < corte; el control de dominio excluye sobrepago.",
+        "grain": "invoice",
+        "label": "Saldo vencido",
+        "limitations": "No automatic reminder; due dates and payment completeness matter.",
+        "limitations_es": "No activa recordatorio automático; pagos omitidos sobrestiman saldo.",
+        "metric_id": "M-AR-OVERDUE",
+        "null_policy_es": "Sin facturas emitidas: unknown; cero vencido con población es medido.",
+        "numerator": 3227500,
+        "owner_role": "Administración",
+        "population_es": "Todas las facturas emitidas; aportan saldo las vencidas.",
+        "process_ids": [
+          "collections"
+        ],
+        "query": "SELECT COALESCE(SUM(CASE WHEN julianday(i.due_at)<julianday(?) THEN i.amount_cents-COALESCE(p.paid,0) ELSE 0 END),0) n, COUNT(*) d FROM invoices i LEFT JOIN (SELECT invoice_id,SUM(amount_cents) paid FROM payments GROUP BY invoice_id) p ON p.invoice_id=i.id WHERE i.status='issued'",
+        "reason": null,
+        "source_counts": {
+          "invoices": 164,
+          "payments": 162
+        },
+        "source_fields": [
+          "invoices.id",
+          "invoices.due_at",
+          "invoices.amount_cents",
+          "payments.amount_cents"
+        ],
+        "source_tables": [
+          "invoices",
+          "payments"
+        ],
+        "status": "measured",
+        "unit": "MXN_cents",
+        "value": 3227500
+      },
+      "M-AR-RECEIVABLE": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Priorizar conciliación de cartera con base en saldos documentados.",
+        "definition": "Issued invoice amounts less linked payments.",
+        "definition_es": "Saldo pendiente en facturas emitidas.",
+        "denominator": 164,
+        "domain": "finance",
+        "evidence_rows": [
+          {
+            "fields": {
+              "amount_cents": 185000,
+              "status": "issued"
+            },
+            "record_id": "INV-001",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 300000,
+              "status": "issued"
+            },
+            "record_id": "INV-002",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 85000,
+              "status": "issued"
+            },
+            "record_id": "INV-003",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 125000,
+              "status": "issued"
+            },
+            "record_id": "INV-004",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 77500,
+              "status": "issued"
+            },
+            "record_id": "INV-H001",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 90000,
+              "status": "issued"
+            },
+            "record_id": "INV-H002",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 102500,
+              "status": "issued"
+            },
+            "record_id": "INV-H003",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 115000,
+              "status": "issued"
+            },
+            "record_id": "INV-H004",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 127500,
+              "status": "issued"
+            },
+            "record_id": "INV-H005",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 140000,
+              "status": "issued"
+            },
+            "record_id": "INV-H006",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 152500,
+              "status": "issued"
+            },
+            "record_id": "INV-H007",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 165000,
+              "status": "issued"
+            },
+            "record_id": "INV-H008",
+            "table": "invoices",
+            "version": 1
+          }
+        ],
+        "evidence_total": 326,
+        "formula_es": "SUM(invoice.amount_cents - pagos vinculados) sobre facturas issued.",
+        "grain": "invoice",
+        "label": "Saldo por cobrar",
+        "limitations": "Requires complete payments for each invoice at cutoff.",
+        "limitations_es": "Depende de que estén todos los pagos vinculados al corte.",
+        "metric_id": "M-AR-RECEIVABLE",
+        "null_policy_es": "Sin facturas emitidas: unknown; saldo cero con población presente es medido.",
+        "numerator": 3901250,
+        "owner_role": "Administración",
+        "population_es": "Todas las facturas emitidas.",
+        "process_ids": [
+          "collections"
+        ],
+        "query": "SELECT COALESCE(SUM(i.amount_cents-COALESCE(p.paid,0)),0) n, COUNT(*) d FROM invoices i LEFT JOIN (SELECT invoice_id,SUM(amount_cents) paid FROM payments GROUP BY invoice_id) p ON p.invoice_id=i.id WHERE i.status='issued'",
+        "reason": null,
+        "source_counts": {
+          "invoices": 164,
+          "payments": 162
+        },
+        "source_fields": [
+          "invoices.id",
+          "invoices.amount_cents",
+          "invoices.status",
+          "payments.invoice_id",
+          "payments.amount_cents"
+        ],
+        "source_tables": [
+          "invoices",
+          "payments"
+        ],
+        "status": "measured",
+        "unit": "MXN_cents",
+        "value": 3901250
+      },
+      "M-B2C-LEADS": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Dimensionar la cola de seguimiento de particulares.",
+        "definition": "Count particular leads at cutoff.",
+        "definition_es": "Leads de clientes particulares presentes al corte.",
+        "denominator": 112,
+        "domain": "b2c",
+        "evidence_rows": [
+          {
+            "fields": {
+              "customer_id": "C-001"
+            },
+            "record_id": "L-001",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-002"
+            },
+            "record_id": "L-002",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-003"
+            },
+            "record_id": "L-003",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-004"
+            },
+            "record_id": "L-004",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-009"
+            },
+            "record_id": "L-005",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-010"
+            },
+            "record_id": "L-006",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-001"
+            },
+            "record_id": "L-H001",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-002"
+            },
+            "record_id": "L-H002",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-003"
+            },
+            "record_id": "L-H003",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-004"
+            },
+            "record_id": "L-H004",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-005"
+            },
+            "record_id": "L-H005",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "customer_id": "C-006"
+            },
+            "record_id": "L-H006",
+            "table": "leads",
+            "version": 1
+          }
+        ],
+        "evidence_total": 176,
+        "formula_es": "Contar leads unidos a customers con segment='particular'.",
+        "grain": "lead",
+        "label": "Leads particulares",
+        "limitations": "Snapshot population, not arrivals.",
+        "limitations_es": "Es población de estado actual; no mide llegadas del periodo.",
+        "metric_id": "M-B2C-LEADS",
+        "null_policy_es": "Sin leads particulares: unknown; un conteo cero no se publica como cobertura confirmada.",
+        "numerator": 112,
+        "owner_role": "Recepción",
+        "population_es": "Todos los leads particulares del extracto.",
+        "process_ids": [
+          "b2c_workshop"
+        ],
+        "query": "SELECT COUNT(*) n, COUNT(*) d FROM leads l JOIN customers c ON c.id=l.customer_id WHERE c.segment='particular'",
+        "reason": null,
+        "source_counts": {
+          "customers": 10,
+          "leads": 166
+        },
+        "source_fields": [
+          "leads.id",
+          "leads.customer_id",
+          "customers.segment"
+        ],
+        "source_tables": [
+          "leads",
+          "customers"
+        ],
+        "status": "measured",
+        "unit": "count",
+        "value": 112
+      },
+      "M-B2C-QUOTE-MATCH": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Revisar cobertura de atribución antes de hablar de conversión.",
+        "definition": "Particular leads with an explicit journey link divided by particular leads.",
+        "definition_es": "Proporción de leads particulares con vínculo explícito a cotización.",
+        "denominator": 112,
+        "domain": "b2c",
+        "evidence_rows": [
+          {
+            "fields": {},
+            "record_id": "L-001",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-002",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-003",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-004",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-005",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-006",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-H001",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-H002",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-H003",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-H004",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-H005",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "L-H006",
+            "table": "leads",
+            "version": 1
+          }
+        ],
+        "evidence_total": 336,
+        "formula_es": "Leads particulares distintos con journey_links.lead_id / leads particulares distintos.",
+        "grain": "lead",
+        "label": "Vínculo explícito a cotización",
+        "limitations": "Without supplied journey links attribution is unknown; coincidence is insufficient.",
+        "limitations_es": "Coincidir en cliente o vehículo no acredita atribución.",
+        "metric_id": "M-B2C-QUOTE-MATCH",
+        "null_policy_es": "Sin vínculos explícitos: unknown, aunque existan candidatos.",
+        "numerator": 108,
+        "owner_role": "Recepción",
+        "population_es": "Todos los leads particulares; los vínculos provienen de journey_links.",
+        "process_ids": [
+          "b2c_workshop"
+        ],
+        "query": "SELECT COUNT(DISTINCT CASE WHEN j.lead_id IS NOT NULL THEN l.id END) n, COUNT(DISTINCT l.id) d FROM leads l JOIN customers c ON c.id=l.customer_id LEFT JOIN journey_links j ON j.lead_id=l.id WHERE c.segment='particular'",
+        "reason": null,
+        "source_counts": {
+          "customers": 10,
+          "journey_links": 160,
+          "leads": 166
+        },
+        "source_fields": [
+          "leads.id",
+          "customers.segment",
+          "journey_links.lead_id",
+          "journey_links.quote_id"
+        ],
+        "source_tables": [
+          "leads",
+          "customers",
+          "journey_links"
+        ],
+        "status": "measured",
+        "unit": "ratio",
+        "value": 0.964286
+      },
+      "M-B2C-WON": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Revisar la distribución actual de estados comerciales.",
+        "definition": "Particular leads in won state divided by all particular leads.",
+        "definition_es": "Proporción de leads particulares en estado won.",
+        "denominator": 112,
+        "domain": "b2c",
+        "evidence_rows": [
+          {
+            "fields": {
+              "status": "new"
+            },
+            "record_id": "L-001",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "qualified"
+            },
+            "record_id": "L-002",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "quoted"
+            },
+            "record_id": "L-003",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "lost"
+            },
+            "record_id": "L-004",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "won"
+            },
+            "record_id": "L-005",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "new"
+            },
+            "record_id": "L-006",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "won"
+            },
+            "record_id": "L-H001",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "won"
+            },
+            "record_id": "L-H002",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "won"
+            },
+            "record_id": "L-H003",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "won"
+            },
+            "record_id": "L-H004",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "won"
+            },
+            "record_id": "L-H005",
+            "table": "leads",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "won"
+            },
+            "record_id": "L-H006",
+            "table": "leads",
+            "version": 1
+          }
+        ],
+        "evidence_total": 176,
+        "formula_es": "Leads particulares con status='won' / todos los leads particulares.",
+        "grain": "lead",
+        "label": "Leads ganados",
+        "limitations": "Current-state share, not attributed conversion.",
+        "limitations_es": "No atribuye conversiones ni representa un embudo temporal.",
+        "metric_id": "M-B2C-WON",
+        "null_policy_es": "Denominador cero: unknown; un numerador cero con población presente sí es medido.",
+        "numerator": 108,
+        "owner_role": "Recepción",
+        "population_es": "Todos los leads particulares al corte.",
+        "process_ids": [
+          "b2c_workshop"
+        ],
+        "query": "SELECT COALESCE(SUM(l.status='won'),0) n, COUNT(*) d FROM leads l JOIN customers c ON c.id=l.customer_id WHERE c.segment='particular'",
+        "reason": null,
+        "source_counts": {
+          "customers": 10,
+          "leads": 166
+        },
+        "source_fields": [
+          "leads.id",
+          "leads.status",
+          "customers.segment"
+        ],
+        "source_tables": [
+          "leads",
+          "customers"
+        ],
+        "status": "measured",
+        "unit": "ratio",
+        "value": 0.964286
+      },
+      "M-BAY-OCCUPANCY": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Revisar capacidad física aparente antes de prometer espacio.",
+        "definition": "Distinct bays assigned to busy work orders divided by bays.",
+        "definition_es": "Fracción de bahías asignadas a órdenes en estados ocupados.",
+        "denominator": 4,
+        "domain": "workshop",
+        "evidence_rows": [
+          {
+            "fields": {},
+            "record_id": "B-001",
+            "table": "bays",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "B-002",
+            "table": "bays",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "B-003",
+            "table": "bays",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "B-004",
+            "table": "bays",
+            "version": 1
+          },
+          {
+            "fields": {
+              "bay_id": "B-001",
+              "status": "delivered"
+            },
+            "record_id": "WO-001",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "bay_id": "B-002",
+              "status": "in_service"
+            },
+            "record_id": "WO-002",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "bay_id": null,
+              "status": "waiting_parts"
+            },
+            "record_id": "WO-003",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "bay_id": "B-003",
+              "status": "rework"
+            },
+            "record_id": "WO-004",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "bay_id": null,
+              "status": "cancelled"
+            },
+            "record_id": "WO-005",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "bay_id": "B-001",
+              "status": "quality_check"
+            },
+            "record_id": "WO-006",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "bay_id": null,
+              "status": "received"
+            },
+            "record_id": "WO-007",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "bay_id": null,
+              "status": "authorized"
+            },
+            "record_id": "WO-008",
+            "table": "work_orders",
+            "version": 1
+          }
+        ],
+        "evidence_total": 174,
+        "formula_es": "Bahías distintas asignadas a scheduled, in_service, quality_check o rework / bahías.",
+        "grain": "bay",
+        "label": "Ocupación de bahías",
+        "limitations": "Instantaneous occupancy, not utilization hours.",
+        "limitations_es": "Ocupación instantánea; no mide utilización en horas.",
+        "metric_id": "M-BAY-OCCUPANCY",
+        "null_policy_es": "Sin bahías: unknown; cero ocupadas con bahías presentes es medido.",
+        "numerator": 4,
+        "owner_role": "Jefatura de taller",
+        "population_es": "Todas las bahías declaradas al corte.",
+        "process_ids": [
+          "b2c_workshop"
+        ],
+        "query": "SELECT (SELECT COUNT(DISTINCT bay_id) FROM work_orders WHERE status IN ('scheduled','in_service','quality_check','rework') AND bay_id IS NOT NULL) n, COUNT(*) d FROM bays",
+        "reason": null,
+        "source_counts": {
+          "bays": 4,
+          "work_orders": 170
+        },
+        "source_fields": [
+          "bays.id",
+          "work_orders.bay_id",
+          "work_orders.status"
+        ],
+        "source_tables": [
+          "bays",
+          "work_orders"
+        ],
+        "status": "measured",
+        "unit": "ratio",
+        "value": 1.0
+      },
+      "M-FIN-CASH-NET": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Revisar flujo de efectivo registrado separadamente de facturación.",
+        "definition": "Cash-method payments less cash-method expenses.",
+        "definition_es": "Flujo neto registrado en método cash.",
+        "denominator": 170,
+        "domain": "finance",
+        "evidence_rows": [
+          {
+            "fields": {
+              "amount_cents": 100000,
+              "method": "transfer"
+            },
+            "record_id": "PAY-001",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 85000,
+              "method": "card"
+            },
+            "record_id": "PAY-002",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 77500,
+              "method": "card"
+            },
+            "record_id": "PAY-H001",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 90000,
+              "method": "cash"
+            },
+            "record_id": "PAY-H002",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 51250,
+              "method": "transfer"
+            },
+            "record_id": "PAY-H003",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 115000,
+              "method": "card"
+            },
+            "record_id": "PAY-H004",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 127500,
+              "method": "cash"
+            },
+            "record_id": "PAY-H005",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 70000,
+              "method": "transfer"
+            },
+            "record_id": "PAY-H006",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 152500,
+              "method": "card"
+            },
+            "record_id": "PAY-H007",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 165000,
+              "method": "cash"
+            },
+            "record_id": "PAY-H008",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 88750,
+              "method": "transfer"
+            },
+            "record_id": "PAY-H009",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 190000,
+              "method": "card"
+            },
+            "record_id": "PAY-H010",
+            "table": "payments",
+            "version": 1
+          }
+        ],
+        "evidence_total": 170,
+        "formula_es": "SUM(pagos method='cash') - SUM(gastos method='cash').",
+        "grain": "cash_transaction",
+        "label": "Flujo neto efectivo",
+        "limitations": "Not a bank balance.",
+        "limitations_es": "No es saldo de caja o banco.",
+        "metric_id": "M-FIN-CASH-NET",
+        "null_policy_es": "Sin pagos ni gastos: unknown; cero neto con movimientos presentes es medido.",
+        "numerator": 6652000,
+        "owner_role": "Administración",
+        "population_es": "Todos los pagos y gastos registrados; aportan los de método cash.",
+        "process_ids": [
+          "collections"
+        ],
+        "query": "SELECT (SELECT COALESCE(SUM(amount_cents),0) FROM payments WHERE method='cash')-(SELECT COALESCE(SUM(amount_cents),0) FROM expenses WHERE method='cash') n, (SELECT COUNT(*) FROM payments)+(SELECT COUNT(*) FROM expenses) d",
+        "reason": null,
+        "source_counts": {
+          "expenses": 8,
+          "payments": 162
+        },
+        "source_fields": [
+          "payments.amount_cents",
+          "payments.method",
+          "expenses.amount_cents",
+          "expenses.method"
+        ],
+        "source_tables": [
+          "payments",
+          "expenses"
+        ],
+        "status": "measured",
+        "unit": "MXN_cents",
+        "value": 6652000
+      },
+      "M-FIN-EXPENSES": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Dimensionar egresos documentados antes de evaluar margen.",
+        "definition": "Sum of recorded expenses.",
+        "definition_es": "Importe total de gastos registrados.",
+        "denominator": 8,
+        "domain": "finance",
+        "evidence_rows": [
+          {
+            "fields": {
+              "amount_cents": 24000
+            },
+            "record_id": "EXP-001",
+            "table": "expenses",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 18000
+            },
+            "record_id": "EXP-002",
+            "table": "expenses",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 10000
+            },
+            "record_id": "EXP-H001",
+            "table": "expenses",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 11000
+            },
+            "record_id": "EXP-H002",
+            "table": "expenses",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 12000
+            },
+            "record_id": "EXP-H003",
+            "table": "expenses",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 13000
+            },
+            "record_id": "EXP-H004",
+            "table": "expenses",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 14000
+            },
+            "record_id": "EXP-H005",
+            "table": "expenses",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 15000
+            },
+            "record_id": "EXP-H006",
+            "table": "expenses",
+            "version": 1
+          }
+        ],
+        "evidence_total": 8,
+        "formula_es": "SUM(expenses.amount_cents).",
+        "grain": "expense",
+        "label": "Gastos registrados",
+        "limitations": "Managerial observed expense only.",
+        "limitations_es": "Gasto gerencial sintético; no incluye costos no aportados.",
+        "metric_id": "M-FIN-EXPENSES",
+        "null_policy_es": "Sin gastos: unknown; cero sólo se mide con población fuente.",
+        "numerator": 117000,
+        "owner_role": "Administración",
+        "population_es": "Todos los gastos registrados.",
+        "process_ids": [
+          "collections"
+        ],
+        "query": "SELECT COALESCE(SUM(amount_cents),0) n, COUNT(*) d FROM expenses",
+        "reason": null,
+        "source_counts": {
+          "expenses": 8
+        },
+        "source_fields": [
+          "expenses.id",
+          "expenses.amount_cents"
+        ],
+        "source_tables": [
+          "expenses"
+        ],
+        "status": "measured",
+        "unit": "MXN_cents",
+        "value": 117000
+      },
+      "M-FIN-INVOICED": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Reconciliar facturación emitida con pagos y saldo.",
+        "definition": "Sum of issued invoice face amounts.",
+        "definition_es": "Importe de facturas en estado issued.",
+        "denominator": 164,
+        "domain": "finance",
+        "evidence_rows": [
+          {
+            "fields": {
+              "amount_cents": 185000,
+              "status": "issued"
+            },
+            "record_id": "INV-001",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 300000,
+              "status": "issued"
+            },
+            "record_id": "INV-002",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 85000,
+              "status": "issued"
+            },
+            "record_id": "INV-003",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 125000,
+              "status": "issued"
+            },
+            "record_id": "INV-004",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 77500,
+              "status": "issued"
+            },
+            "record_id": "INV-H001",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 90000,
+              "status": "issued"
+            },
+            "record_id": "INV-H002",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 102500,
+              "status": "issued"
+            },
+            "record_id": "INV-H003",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 115000,
+              "status": "issued"
+            },
+            "record_id": "INV-H004",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 127500,
+              "status": "issued"
+            },
+            "record_id": "INV-H005",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 140000,
+              "status": "issued"
+            },
+            "record_id": "INV-H006",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 152500,
+              "status": "issued"
+            },
+            "record_id": "INV-H007",
+            "table": "invoices",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 165000,
+              "status": "issued"
+            },
+            "record_id": "INV-H008",
+            "table": "invoices",
+            "version": 1
+          }
+        ],
+        "evidence_total": 164,
+        "formula_es": "SUM(invoices.amount_cents) sólo cuando status='issued'.",
+        "grain": "invoice",
+        "label": "Importe facturado",
+        "limitations": "Managerial, non-fiscal demonstration amount.",
+        "limitations_es": "Cifra gerencial sintética, no fiscal.",
+        "metric_id": "M-FIN-INVOICED",
+        "null_policy_es": "Sin facturas: unknown; cero emitido con facturas presentes es medido.",
+        "numerator": 20982500,
+        "owner_role": "Administración",
+        "population_es": "Todas las facturas presentes; aportan importe las emitidas.",
+        "process_ids": [
+          "collections"
+        ],
+        "query": "SELECT COALESCE(SUM(CASE WHEN status='issued' THEN amount_cents ELSE 0 END),0) n, COUNT(*) d FROM invoices",
+        "reason": null,
+        "source_counts": {
+          "invoices": 164
+        },
+        "source_fields": [
+          "invoices.id",
+          "invoices.amount_cents",
+          "invoices.status"
+        ],
+        "source_tables": [
+          "invoices"
+        ],
+        "status": "measured",
+        "unit": "MXN_cents",
+        "value": 20982500
+      },
+      "M-FIN-PAID": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Comprobar cobros registrados y su vínculo a factura.",
+        "definition": "Sum of validated payment amounts.",
+        "definition_es": "Importe de pagos registrados.",
+        "denominator": 162,
+        "domain": "finance",
+        "evidence_rows": [
+          {
+            "fields": {
+              "amount_cents": 100000,
+              "invoice_id": "INV-001"
+            },
+            "record_id": "PAY-001",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 85000,
+              "invoice_id": "INV-003"
+            },
+            "record_id": "PAY-002",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 77500,
+              "invoice_id": "INV-H001"
+            },
+            "record_id": "PAY-H001",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 90000,
+              "invoice_id": "INV-H002"
+            },
+            "record_id": "PAY-H002",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 51250,
+              "invoice_id": "INV-H003"
+            },
+            "record_id": "PAY-H003",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 115000,
+              "invoice_id": "INV-H004"
+            },
+            "record_id": "PAY-H004",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 127500,
+              "invoice_id": "INV-H005"
+            },
+            "record_id": "PAY-H005",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 70000,
+              "invoice_id": "INV-H006"
+            },
+            "record_id": "PAY-H006",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 152500,
+              "invoice_id": "INV-H007"
+            },
+            "record_id": "PAY-H007",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 165000,
+              "invoice_id": "INV-H008"
+            },
+            "record_id": "PAY-H008",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 88750,
+              "invoice_id": "INV-H009"
+            },
+            "record_id": "PAY-H009",
+            "table": "payments",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 190000,
+              "invoice_id": "INV-H010"
+            },
+            "record_id": "PAY-H010",
+            "table": "payments",
+            "version": 1
+          }
+        ],
+        "evidence_total": 326,
+        "formula_es": "SUM(payments.amount_cents).",
+        "grain": "payment",
+        "label": "Pagos registrados",
+        "limitations": "Recorded collection, not revenue recognition.",
+        "limitations_es": "Cobro registrado no es ingreso reconocido ni saldo bancario.",
+        "metric_id": "M-FIN-PAID",
+        "null_policy_es": "Sin pagos: unknown; cero sólo se mide con población fuente.",
+        "numerator": 17081250,
+        "owner_role": "Administración",
+        "population_es": "Todos los pagos validados y vinculados a facturas.",
+        "process_ids": [
+          "collections"
+        ],
+        "query": "SELECT COALESCE(SUM(amount_cents),0) n, COUNT(*) d FROM payments",
+        "reason": null,
+        "source_counts": {
+          "invoices": 164,
+          "payments": 162
+        },
+        "source_fields": [
+          "payments.id",
+          "payments.invoice_id",
+          "payments.amount_cents"
+        ],
+        "source_tables": [
+          "payments",
+          "invoices"
+        ],
+        "status": "measured",
+        "unit": "MXN_cents",
+        "value": 17081250
+      },
+      "M-FIN-QUOTES": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Separar demanda cotizada de servicio e ingreso.",
+        "definition": "Sum of quote face amounts.",
+        "definition_es": "Importe total de cotizaciones registradas.",
+        "denominator": 170,
+        "domain": "finance",
+        "evidence_rows": [
+          {
+            "fields": {
+              "amount_cents": 185000
+            },
+            "record_id": "Q-001",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 92000
+            },
+            "record_id": "Q-002",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 47500
+            },
+            "record_id": "Q-003",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 210000
+            },
+            "record_id": "Q-004",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 300000
+            },
+            "record_id": "Q-005",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 125000
+            },
+            "record_id": "Q-006",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 110000
+            },
+            "record_id": "Q-007",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 99000
+            },
+            "record_id": "Q-008",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 65000
+            },
+            "record_id": "Q-009",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 72000
+            },
+            "record_id": "Q-010",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 77500
+            },
+            "record_id": "Q-H001",
+            "table": "quotes",
+            "version": 1
+          },
+          {
+            "fields": {
+              "amount_cents": 90000
+            },
+            "record_id": "Q-H002",
+            "table": "quotes",
+            "version": 1
+          }
+        ],
+        "evidence_total": 170,
+        "formula_es": "SUM(quotes.amount_cents), sin filtrar estado.",
+        "grain": "quote",
+        "label": "Importe cotizado",
+        "limitations": "Not invoiced or recognized revenue.",
+        "limitations_es": "No es facturación ni ingreso.",
+        "metric_id": "M-FIN-QUOTES",
+        "null_policy_es": "Sin cotizaciones: unknown; suma cero con población presente es medido.",
+        "numerator": 21593000,
+        "owner_role": "Administración",
+        "population_es": "Todas las cotizaciones presentes.",
+        "process_ids": [
+          "b2c_workshop",
+          "collections"
+        ],
+        "query": "SELECT COALESCE(SUM(amount_cents),0) n, COUNT(*) d FROM quotes",
+        "reason": null,
+        "source_counts": {
+          "quotes": 170
+        },
+        "source_fields": [
+          "quotes.id",
+          "quotes.amount_cents"
+        ],
+        "source_tables": [
+          "quotes"
+        ],
+        "status": "measured",
+        "unit": "MXN_cents",
+        "value": 21593000
+      },
+      "M-FLEET-ACCOUNT-COVERAGE": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Identificar cuentas sin oportunidad registrada para revisión.",
+        "definition": "Fleet accounts with at least one opportunity divided by fleet accounts.",
+        "definition_es": "Proporción de cuentas de flotilla con alguna oportunidad.",
+        "denominator": 2,
+        "domain": "fleet",
+        "evidence_rows": [
+          {
+            "fields": {},
+            "record_id": "FA-001",
+            "table": "fleet_accounts",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "FA-002",
+            "table": "fleet_accounts",
+            "version": 1
+          },
+          {
+            "fields": {
+              "fleet_account_id": "FA-001"
+            },
+            "record_id": "OP-001",
+            "table": "opportunities",
+            "version": 1
+          },
+          {
+            "fields": {
+              "fleet_account_id": "FA-002"
+            },
+            "record_id": "OP-002",
+            "table": "opportunities",
+            "version": 1
+          }
+        ],
+        "evidence_total": 4,
+        "formula_es": "Cuentas con EXISTS(opportunities por fleet_account_id) / todas las fleet_accounts.",
+        "grain": "fleet_account",
+        "label": "Cuentas con oportunidad",
+        "limitations": "Coverage, not prospect quality.",
+        "limitations_es": "Cobertura no indica calidad del prospecto.",
+        "metric_id": "M-FLEET-ACCOUNT-COVERAGE",
+        "null_policy_es": "Sin cuentas: unknown; cero cubiertas con cuentas presentes es medido.",
+        "numerator": 2,
+        "owner_role": "Comercial flotillas",
+        "population_es": "Todas las cuentas de flotilla declaradas.",
+        "process_ids": [
+          "fleet_sales_service"
+        ],
+        "query": "SELECT COALESCE(SUM(EXISTS(SELECT 1 FROM opportunities o WHERE o.fleet_account_id=a.id)),0) n, COUNT(*) d FROM fleet_accounts a",
+        "reason": null,
+        "source_counts": {
+          "fleet_accounts": 2,
+          "opportunities": 2
+        },
+        "source_fields": [
+          "fleet_accounts.id",
+          "opportunities.fleet_account_id"
+        ],
+        "source_tables": [
+          "fleet_accounts",
+          "opportunities"
+        ],
+        "status": "measured",
+        "unit": "ratio",
+        "value": 1.0
+      },
+      "M-FLEET-ACTIVE-CONTRACTS": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Separar contratos vigentes de oportunidad o borrador.",
+        "definition": "Approved active contracts within the effective date window at cutoff.",
+        "definition_es": "Contratos activos, con referencia de aprobación y vigentes al corte.",
+        "denominator": 2,
+        "domain": "fleet",
+        "evidence_rows": [
+          {
+            "fields": {
+              "approval_ref": "APP-CT-001",
+              "ends_at": "2026-12-31T23:59:59Z",
+              "starts_at": "2026-01-01T00:00:00Z",
+              "status": "active"
+            },
+            "record_id": "CT-001",
+            "table": "contracts",
+            "version": 1
+          },
+          {
+            "fields": {
+              "approval_ref": "APP-CT-002",
+              "ends_at": "2025-12-31T23:59:59Z",
+              "starts_at": "2025-01-01T00:00:00Z",
+              "status": "expired"
+            },
+            "record_id": "CT-002",
+            "table": "contracts",
+            "version": 1
+          }
+        ],
+        "evidence_total": 2,
+        "formula_es": "Contar contracts activos con approval_ref no vacío, starts_at <= corte y ends_at > corte.",
+        "grain": "contract",
+        "label": "Contratos vigentes",
+        "limitations": "Approval reference presence is not external authenticity verification.",
+        "limitations_es": "La presencia de referencia no acredita autenticidad fuera del fixture.",
+        "metric_id": "M-FLEET-ACTIVE-CONTRACTS",
+        "null_policy_es": "Sin contratos: unknown; cero vigentes con contratos presentes es medido.",
+        "numerator": 1,
+        "owner_role": "Comercial flotillas",
+        "population_es": "Todos los contratos declarados.",
+        "process_ids": [
+          "fleet_sales_service"
+        ],
+        "query": "SELECT COALESCE(SUM(status='active' AND approval_ref IS NOT NULL AND trim(approval_ref)<>'' AND julianday(starts_at)<=julianday(?) AND julianday(ends_at)>julianday(?)),0) n, COUNT(*) d FROM contracts",
+        "reason": null,
+        "source_counts": {
+          "contracts": 2
+        },
+        "source_fields": [
+          "contracts.id",
+          "contracts.status",
+          "contracts.approval_ref",
+          "contracts.starts_at",
+          "contracts.ends_at"
+        ],
+        "source_tables": [
+          "contracts"
+        ],
+        "status": "measured",
+        "unit": "count",
+        "value": 1
+      },
+      "M-FLEET-MAINTENANCE": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Preparar revisión humana de planificación por fecha o kilometraje.",
+        "definition": "Due or scheduled maintenance with due date reached or vehicle odometer at due mileage.",
+        "definition_es": "Mantenimientos pendientes cuya fecha o kilometraje ya activa revisión.",
+        "denominator": 3,
+        "domain": "fleet",
+        "evidence_rows": [
+          {
+            "fields": {
+              "due_at": "2026-09-25T18:00:00Z",
+              "due_km": 30000,
+              "status": "scheduled"
+            },
+            "record_id": "M-001",
+            "table": "maintenance",
+            "version": 1
+          },
+          {
+            "fields": {
+              "due_at": "2026-09-30T18:00:00Z",
+              "due_km": 30000,
+              "status": "due"
+            },
+            "record_id": "M-002",
+            "table": "maintenance",
+            "version": 1
+          },
+          {
+            "fields": {
+              "due_at": "2026-09-30T18:00:00Z",
+              "due_km": 30000,
+              "status": "due"
+            },
+            "record_id": "M-003",
+            "table": "maintenance",
+            "version": 1
+          },
+          {
+            "fields": {
+              "odometer_km": 18430
+            },
+            "record_id": "V-001",
+            "table": "vehicles",
+            "version": 1
+          },
+          {
+            "fields": {
+              "odometer_km": 18860
+            },
+            "record_id": "V-002",
+            "table": "vehicles",
+            "version": 1
+          },
+          {
+            "fields": {
+              "odometer_km": 19290
+            },
+            "record_id": "V-003",
+            "table": "vehicles",
+            "version": 1
+          },
+          {
+            "fields": {
+              "odometer_km": 19720
+            },
+            "record_id": "V-004",
+            "table": "vehicles",
+            "version": 1
+          },
+          {
+            "fields": {
+              "odometer_km": 20150
+            },
+            "record_id": "V-005",
+            "table": "vehicles",
+            "version": 1
+          },
+          {
+            "fields": {
+              "odometer_km": 20580
+            },
+            "record_id": "V-006",
+            "table": "vehicles",
+            "version": 1
+          },
+          {
+            "fields": {
+              "odometer_km": 21010
+            },
+            "record_id": "V-007",
+            "table": "vehicles",
+            "version": 1
+          },
+          {
+            "fields": {
+              "odometer_km": 21440
+            },
+            "record_id": "V-008",
+            "table": "vehicles",
+            "version": 1
+          },
+          {
+            "fields": {
+              "odometer_km": 21870
+            },
+            "record_id": "V-009",
+            "table": "vehicles",
+            "version": 1
+          }
+        ],
+        "evidence_total": 15,
+        "formula_es": "Contar maintenance due/scheduled con due_at <= corte o vehicles.odometer_km >= due_km.",
+        "grain": "maintenance_item",
+        "label": "Mantenimiento por revisar",
+        "limitations": "Depends on synthetic date and odometer assumptions.",
+        "limitations_es": "Fecha y odómetro proceden de supuestos sintéticos.",
+        "metric_id": "M-FLEET-MAINTENANCE",
+        "null_policy_es": "Sin mantenimientos: unknown; cero vencidos con población presente es medido.",
+        "numerator": 0,
+        "owner_role": "Planificación flotillas",
+        "population_es": "Todos los mantenimientos vinculados a vehículos.",
+        "process_ids": [
+          "fleet_sales_service"
+        ],
+        "query": "SELECT COALESCE(SUM(m.status IN ('due','scheduled') AND (julianday(m.due_at)<=julianday(?) OR v.odometer_km>=m.due_km)),0) n, COUNT(*) d FROM maintenance m JOIN vehicles v ON v.id=m.vehicle_id",
+        "reason": null,
+        "source_counts": {
+          "maintenance": 3,
+          "vehicles": 12
+        },
+        "source_fields": [
+          "maintenance.id",
+          "maintenance.status",
+          "maintenance.due_at",
+          "maintenance.due_km",
+          "vehicles.odometer_km"
+        ],
+        "source_tables": [
+          "maintenance",
+          "vehicles"
+        ],
+        "status": "measured",
+        "unit": "count",
+        "value": 0
+      },
+      "M-FLEET-OPEN-OPPS": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Revisar siguientes pasos de la cartera comercial.",
+        "definition": "Opportunities not won or lost.",
+        "definition_es": "Oportunidades de flotilla no ganadas ni perdidas.",
+        "denominator": 2,
+        "domain": "fleet",
+        "evidence_rows": [
+          {
+            "fields": {
+              "status": "proposal"
+            },
+            "record_id": "OP-001",
+            "table": "opportunities",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "qualified"
+            },
+            "record_id": "OP-002",
+            "table": "opportunities",
+            "version": 1
+          }
+        ],
+        "evidence_total": 2,
+        "formula_es": "Contar opportunities con status distinto de won y lost.",
+        "grain": "opportunity",
+        "label": "Oportunidades abiertas",
+        "limitations": "Pipeline is not contract or revenue.",
+        "limitations_es": "No representan contratos ni ingresos.",
+        "metric_id": "M-FLEET-OPEN-OPPS",
+        "null_policy_es": "Sin oportunidades: unknown; cero abiertas con oportunidades presentes es medido.",
+        "numerator": 2,
+        "owner_role": "Comercial flotillas",
+        "population_es": "Todas las oportunidades presentes al corte.",
+        "process_ids": [
+          "fleet_sales_service"
+        ],
+        "query": "SELECT COALESCE(SUM(status NOT IN ('won','lost')),0) n, COUNT(*) d FROM opportunities",
+        "reason": null,
+        "source_counts": {
+          "opportunities": 2
+        },
+        "source_fields": [
+          "opportunities.id",
+          "opportunities.status"
+        ],
+        "source_tables": [
+          "opportunities"
+        ],
+        "status": "measured",
+        "unit": "count",
+        "value": 2
+      },
+      "M-FLEET-PIPELINE": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Dimensionar el seguimiento comercial sin tratarlo como venta.",
+        "definition": "Sum of stated value of open opportunities.",
+        "definition_es": "Suma del valor declarado de oportunidades abiertas.",
+        "denominator": 2,
+        "domain": "fleet",
+        "evidence_rows": [
+          {
+            "fields": {
+              "status": "proposal",
+              "value_cents": 1250000
+            },
+            "record_id": "OP-001",
+            "table": "opportunities",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "qualified",
+              "value_cents": 780000
+            },
+            "record_id": "OP-002",
+            "table": "opportunities",
+            "version": 1
+          }
+        ],
+        "evidence_total": 2,
+        "formula_es": "SUM(value_cents) sólo donde status no sea won ni lost.",
+        "grain": "opportunity",
+        "label": "Valor de pipeline abierto",
+        "limitations": "Hypothetical commercial value.",
+        "limitations_es": "Es valor comercial hipotético, no ingreso esperado verificado.",
+        "metric_id": "M-FLEET-PIPELINE",
+        "null_policy_es": "Sin oportunidades: unknown; cero valor abierto con población es medido.",
+        "numerator": 2030000,
+        "owner_role": "Comercial flotillas",
+        "population_es": "Todas las oportunidades presentes; aportan importe las abiertas.",
+        "process_ids": [
+          "fleet_sales_service"
+        ],
+        "query": "SELECT COALESCE(SUM(CASE WHEN status NOT IN ('won','lost') THEN value_cents ELSE 0 END),0) n, COUNT(*) d FROM opportunities",
+        "reason": null,
+        "source_counts": {
+          "opportunities": 2
+        },
+        "source_fields": [
+          "opportunities.id",
+          "opportunities.status",
+          "opportunities.value_cents"
+        ],
+        "source_tables": [
+          "opportunities"
+        ],
+        "status": "measured",
+        "unit": "MXN_cents",
+        "value": 2030000
+      },
+      "M-FLEET-SLA-ELIGIBILITY": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Evaluar si puede calcularse riesgo o cumplimiento SLA.",
+        "definition": "Contract-linked work orders with sufficient SLA evidence divided by contract-linked work orders.",
+        "definition_es": "Fracción de trabajo contractual de flotilla con evidencia SLA suficiente.",
+        "denominator": 53,
+        "domain": "fleet",
+        "evidence_rows": [
+          {
+            "fields": {
+              "contract_id": null,
+              "status": "delivered"
+            },
+            "record_id": "WO-001",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "contract_id": null,
+              "status": "in_service"
+            },
+            "record_id": "WO-002",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "contract_id": null,
+              "status": "waiting_parts"
+            },
+            "record_id": "WO-003",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "contract_id": null,
+              "status": "rework"
+            },
+            "record_id": "WO-004",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "contract_id": null,
+              "status": "cancelled"
+            },
+            "record_id": "WO-005",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "contract_id": null,
+              "status": "quality_check"
+            },
+            "record_id": "WO-006",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "contract_id": null,
+              "status": "received"
+            },
+            "record_id": "WO-007",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "contract_id": null,
+              "status": "authorized"
+            },
+            "record_id": "WO-008",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "contract_id": "CT-001",
+              "status": "delivered"
+            },
+            "record_id": "WO-009",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "contract_id": null,
+              "status": "scheduled"
+            },
+            "record_id": "WO-010",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "contract_id": null,
+              "status": "delivered"
+            },
+            "record_id": "WO-H001",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "contract_id": null,
+              "status": "delivered"
+            },
+            "record_id": "WO-H002",
+            "table": "work_orders",
+            "version": 1
+          }
+        ],
+        "evidence_total": 182,
+        "formula_es": "Filas mart_service_journey con SLA met/breached/at_risk/on_track / filas fleet con contract_id y no cancelled.",
+        "grain": "work_order",
+        "label": "Cobertura SLA elegible",
+        "limitations": "Cancelled work excluded; unknown eligibility stays outside numerator.",
+        "limitations_es": "Canceladas y cobertura desconocida no entran al numerador.",
+        "metric_id": "M-FLEET-SLA-ELIGIBILITY",
+        "null_policy_es": "Sin órdenes contractuales elegibles para denominador: unknown.",
+        "numerator": 27,
+        "owner_role": "Coordinación flotillas",
+        "population_es": "Órdenes no canceladas de flotilla vinculadas a contrato.",
+        "process_ids": [
+          "fleet_sales_service"
+        ],
+        "query": "SELECT COALESCE(SUM(s.sla_status IN ('met','breached','at_risk','on_track')),0) n, COUNT(*) d FROM mart_service_journey s WHERE s.segment='fleet' AND s.contract_id IS NOT NULL AND s.status<>'cancelled'",
+        "reason": null,
+        "source_counts": {
+          "contracts": 2,
+          "customers": 10,
+          "work_orders": 170
+        },
+        "source_fields": [
+          "work_orders.id",
+          "work_orders.contract_id",
+          "work_orders.status",
+          "contracts.approval_ref",
+          "contracts.starts_at",
+          "contracts.ends_at"
+        ],
+        "source_tables": [
+          "work_orders",
+          "contracts",
+          "customers"
+        ],
+        "status": "measured",
+        "unit": "ratio",
+        "value": 0.509434
+      },
+      "M-FLEET-SLA-RISK": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Revisar casos que requieren intervención contractual humana.",
+        "definition": "At-risk or breached open eligible fleet work divided by open eligible fleet work.",
+        "definition_es": "Fracción de trabajo abierto elegible en riesgo o incumplido.",
+        "denominator": 0,
+        "domain": "fleet",
+        "evidence_rows": [
+          {
+            "fields": {
+              "completed_at": "2026-09-20T20:00:00Z",
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-001",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": null,
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-002",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": null,
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-003",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": null,
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-004",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": null,
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-005",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": null,
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-006",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": null,
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-007",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": null,
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-008",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": "2026-09-21T17:00:00Z",
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-009",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": null,
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-010",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": "2026-09-21T01:00:00Z",
+              "opened_at": "2026-09-20T17:00:00Z"
+            },
+            "record_id": "WO-H001",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": "2026-09-20T14:00:00Z",
+              "opened_at": "2026-09-20T04:00:00Z"
+            },
+            "record_id": "WO-H002",
+            "table": "work_orders",
+            "version": 1
+          }
+        ],
+        "evidence_total": 182,
+        "formula_es": "Órdenes abiertas fleet con sla_status at_risk o breached / abiertas fleet con SLA conocido.",
+        "grain": "work_order",
+        "label": "Riesgo SLA abierto",
+        "limitations": "Synthetic terms; elapsed calendar hours without contractual pauses.",
+        "limitations_es": "SLA sintético; horas calendario sin pausas contractuales.",
+        "metric_id": "M-FLEET-SLA-RISK",
+        "null_policy_es": "Sin órdenes abiertas elegibles: unknown; cobertura desconocida se excluye.",
+        "numerator": 0,
+        "owner_role": "Coordinación flotillas",
+        "population_es": "Órdenes abiertas de flotilla con cobertura SLA evaluable.",
+        "process_ids": [
+          "fleet_sales_service"
+        ],
+        "query": "SELECT COALESCE(SUM(s.sla_status IN ('at_risk','breached')),0) n, COUNT(*) d FROM mart_service_journey s WHERE s.segment='fleet' AND s.status NOT IN ('delivered','cancelled') AND s.sla_status IN ('met','breached','at_risk','on_track')",
+        "reason": "No eligible population at the declared cutoff",
+        "source_counts": {
+          "contracts": 2,
+          "customers": 10,
+          "work_orders": 170
+        },
+        "source_fields": [
+          "work_orders.id",
+          "work_orders.opened_at",
+          "work_orders.completed_at",
+          "contracts.sla_hours",
+          "contracts.approval_ref"
+        ],
+        "source_tables": [
+          "work_orders",
+          "contracts",
+          "customers"
+        ],
+        "status": "unknown",
+        "unit": "ratio",
+        "value": null
+      },
+      "M-PROCESS-WAIT": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Localizar estados que concentran tiempo observado.",
+        "definition": "Sum of validated lifecycle interval hours across entity and state.",
+        "definition_es": "Horas acumuladas observadas entre eventos por estado.",
+        "denominator": 9,
+        "domain": "workshop",
+        "evidence_rows": [
+          {
+            "fields": {
+              "at": "2026-09-20T17:00:00Z",
+              "entity_id": "WO-H001",
+              "entity_type": "work_orders",
+              "to_state": "received"
+            },
+            "record_id": "EV-H001-00",
+            "table": "lifecycle_events",
+            "version": null
+          },
+          {
+            "fields": {
+              "at": "2026-09-20T18:08:34.285714Z",
+              "entity_id": "WO-H001",
+              "entity_type": "work_orders",
+              "to_state": "inspected"
+            },
+            "record_id": "EV-H001-01",
+            "table": "lifecycle_events",
+            "version": null
+          },
+          {
+            "fields": {
+              "at": "2026-09-20T19:17:08.571429Z",
+              "entity_id": "WO-H001",
+              "entity_type": "work_orders",
+              "to_state": "authorized"
+            },
+            "record_id": "EV-H001-02",
+            "table": "lifecycle_events",
+            "version": null
+          },
+          {
+            "fields": {
+              "at": "2026-09-20T20:25:42.857143Z",
+              "entity_id": "WO-H001",
+              "entity_type": "work_orders",
+              "to_state": "scheduled"
+            },
+            "record_id": "EV-H001-03",
+            "table": "lifecycle_events",
+            "version": null
+          },
+          {
+            "fields": {
+              "at": "2026-09-20T21:34:17.142857Z",
+              "entity_id": "WO-H001",
+              "entity_type": "work_orders",
+              "to_state": "in_service"
+            },
+            "record_id": "EV-H001-04",
+            "table": "lifecycle_events",
+            "version": null
+          },
+          {
+            "fields": {
+              "at": "2026-09-20T22:42:51.428571Z",
+              "entity_id": "WO-H001",
+              "entity_type": "work_orders",
+              "to_state": "quality_check"
+            },
+            "record_id": "EV-H001-05",
+            "table": "lifecycle_events",
+            "version": null
+          },
+          {
+            "fields": {
+              "at": "2026-09-20T23:51:25.714286Z",
+              "entity_id": "WO-H001",
+              "entity_type": "work_orders",
+              "to_state": "ready"
+            },
+            "record_id": "EV-H001-06",
+            "table": "lifecycle_events",
+            "version": null
+          },
+          {
+            "fields": {
+              "at": "2026-09-21T01:00:00Z",
+              "entity_id": "WO-H001",
+              "entity_type": "work_orders",
+              "to_state": "delivered"
+            },
+            "record_id": "EV-H001-07",
+            "table": "lifecycle_events",
+            "version": null
+          },
+          {
+            "fields": {
+              "at": "2026-09-20T04:00:00Z",
+              "entity_id": "WO-H002",
+              "entity_type": "work_orders",
+              "to_state": "received"
+            },
+            "record_id": "EV-H002-00",
+            "table": "lifecycle_events",
+            "version": null
+          },
+          {
+            "fields": {
+              "at": "2026-09-20T05:25:42.857143Z",
+              "entity_id": "WO-H002",
+              "entity_type": "work_orders",
+              "to_state": "inspected"
+            },
+            "record_id": "EV-H002-01",
+            "table": "lifecycle_events",
+            "version": null
+          },
+          {
+            "fields": {
+              "at": "2026-09-20T06:51:25.714286Z",
+              "entity_id": "WO-H002",
+              "entity_type": "work_orders",
+              "to_state": "authorized"
+            },
+            "record_id": "EV-H002-02",
+            "table": "lifecycle_events",
+            "version": null
+          },
+          {
+            "fields": {
+              "at": "2026-09-20T08:17:08.571429Z",
+              "entity_id": "WO-H002",
+              "entity_type": "work_orders",
+              "to_state": "scheduled"
+            },
+            "record_id": "EV-H002-03",
+            "table": "lifecycle_events",
+            "version": null
+          }
+        ],
+        "evidence_total": 1344,
+        "formula_es": "SUM(mart_process_waits.total_hours); numerator = horas, denominator = parejas entidad/estado con intervalos.",
+        "grain": "entity_type_state",
+        "label": "Tiempo observado en estados",
+        "limitations": "Intervals without a following event are not measured; not labor hours.",
+        "limitations_es": "Excluye intervalos abiertos; no equivale a horas pagadas.",
+        "metric_id": "M-PROCESS-WAIT",
+        "null_policy_es": "Sin intervalos: unknown; no se infiere espera desde status.",
+        "numerator": 2715.002,
+        "owner_role": "Analista",
+        "population_es": "Estados de entidades con dos eventos consecutivos validados.",
+        "process_ids": [
+          "b2c_workshop",
+          "parts_procurement",
+          "fleet_sales_service",
+          "towing"
+        ],
+        "query": "SELECT COALESCE(SUM(total_hours),0) n, COUNT(*) d FROM mart_process_waits",
+        "reason": null,
+        "source_counts": {
+          "lifecycle_events": 1344
+        },
+        "source_fields": [
+          "lifecycle_events.entity_type",
+          "lifecycle_events.entity_id",
+          "lifecycle_events.to_state",
+          "lifecycle_events.at"
+        ],
+        "source_tables": [
+          "lifecycle_events"
+        ],
+        "status": "measured",
+        "unit": "hours",
+        "value": 2715.002
+      },
+      "M-SERVICE-CYCLE": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Identificar casos largos y revisar cobertura del historial.",
+        "definition": "Median elapsed hours from validated initial to delivered event for delivered orders with history.",
+        "definition_es": "Mediana de horas calendario de órdenes entregadas con historial validado.",
+        "denominator": 162,
+        "domain": "workshop",
+        "evidence_rows": [
+          {
+            "fields": {
+              "completed_at": "2026-09-20T20:00:00Z",
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-001",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": null,
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-002",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": null,
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-003",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": null,
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-004",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": null,
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-005",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": null,
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-006",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": null,
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-007",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": null,
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-008",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": "2026-09-21T17:00:00Z",
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-009",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": null,
+              "opened_at": "2026-09-18T16:00:00Z"
+            },
+            "record_id": "WO-010",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": "2026-09-21T01:00:00Z",
+              "opened_at": "2026-09-20T17:00:00Z"
+            },
+            "record_id": "WO-H001",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "completed_at": "2026-09-20T14:00:00Z",
+              "opened_at": "2026-09-20T04:00:00Z"
+            },
+            "record_id": "WO-H002",
+            "table": "work_orders",
+            "version": 1
+          }
+        ],
+        "evidence_total": 1514,
+        "formula_es": "Mediana(cycle_hours) de delivered con history_available=1; numerator = casos medidos, denominator = todas las entregadas.",
+        "grain": "delivered_work_order",
+        "label": "Ciclo de servicio p50",
+        "limitations": "Only history-covered delivered cases; calendar elapsed time, not labor.",
+        "limitations_es": "No mide mano de obra ni atribuye desempeño real; casos sin historia quedan fuera.",
+        "metric_id": "M-SERVICE-CYCLE",
+        "null_policy_es": "Sin observaciones con historia: unknown; el cociente de conteos indica cobertura, no valor del ciclo.",
+        "numerator": 160,
+        "owner_role": "Jefatura de taller",
+        "population_es": "Órdenes entregadas; la mediana usa sólo las que tienen eventos validados.",
+        "process_ids": [
+          "b2c_workshop"
+        ],
+        "query": "SELECT cycle_hours FROM mart_service_journey WHERE status='delivered' AND history_available=1 AND cycle_hours IS NOT NULL ORDER BY cycle_hours",
+        "reason": null,
+        "source_counts": {
+          "lifecycle_events": 1344,
+          "work_orders": 170
+        },
+        "source_fields": [
+          "work_orders.id",
+          "work_orders.opened_at",
+          "work_orders.completed_at",
+          "lifecycle_events.at",
+          "lifecycle_events.to_state"
+        ],
+        "source_tables": [
+          "work_orders",
+          "lifecycle_events"
+        ],
+        "status": "measured",
+        "unit": "hours",
+        "value": 12.0
+      },
+      "M-STOCK-AVAILABLE": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Revisar faltantes por SKU y compromisos existentes.",
+        "definition": "On-hand quantity minus active reservations across parts.",
+        "definition_es": "Unidades disponibles tras reservas activas.",
+        "denominator": 6,
+        "domain": "parts",
+        "evidence_rows": [
+          {
+            "fields": {},
+            "record_id": "P-001",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "P-002",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "P-003",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "P-004",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "P-005",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "P-006",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {
+              "move_type": "receive",
+              "quantity": 8
+            },
+            "record_id": "SM-001",
+            "table": "stock_moves",
+            "version": 1
+          },
+          {
+            "fields": {
+              "move_type": "consume",
+              "quantity": 2
+            },
+            "record_id": "SM-002",
+            "table": "stock_moves",
+            "version": 1
+          },
+          {
+            "fields": {
+              "move_type": "return",
+              "quantity": 1
+            },
+            "record_id": "SM-003",
+            "table": "stock_moves",
+            "version": 1
+          },
+          {
+            "fields": {
+              "move_type": "receive",
+              "quantity": 205
+            },
+            "record_id": "SM-004",
+            "table": "stock_moves",
+            "version": 1
+          },
+          {
+            "fields": {
+              "move_type": "adjust",
+              "quantity": 1
+            },
+            "record_id": "SM-005",
+            "table": "stock_moves",
+            "version": 1
+          },
+          {
+            "fields": {
+              "move_type": "consume",
+              "quantity": 1
+            },
+            "record_id": "SM-H001",
+            "table": "stock_moves",
+            "version": 1
+          }
+        ],
+        "evidence_total": 334,
+        "formula_es": "SUM(mart_inventory.available), con available = on_hand - reserved por parte.",
+        "grain": "part",
+        "label": "Unidades disponibles",
+        "limitations": "Quantity only; no demand forecast.",
+        "limitations_es": "No incorpora demanda futura ni compras todavía sin recepción.",
+        "metric_id": "M-STOCK-AVAILABLE",
+        "null_policy_es": "Sin partes: unknown; cero disponible con partes presentes es medido.",
+        "numerator": 52,
+        "owner_role": "Responsable de partes",
+        "population_es": "Partes presentes en el inventario reconciliado.",
+        "process_ids": [
+          "parts_procurement"
+        ],
+        "query": "SELECT COALESCE(SUM(available),0) n, COUNT(*) d FROM mart_inventory",
+        "reason": null,
+        "source_counts": {
+          "parts": 6,
+          "reservations": 163,
+          "stock_moves": 165
+        },
+        "source_fields": [
+          "parts.id",
+          "stock_moves.quantity",
+          "stock_moves.move_type",
+          "reservations.quantity",
+          "reservations.status"
+        ],
+        "source_tables": [
+          "parts",
+          "stock_moves",
+          "reservations"
+        ],
+        "status": "measured",
+        "unit": "units",
+        "value": 52
+      },
+      "M-STOCK-ON-HAND": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Comprobar existencia antes de revisar reservas o reposición.",
+        "definition": "Receive, return and adjustment quantities less consumption, across parts.",
+        "definition_es": "Existencia total reconstruida desde movimientos.",
+        "denominator": 6,
+        "domain": "parts",
+        "evidence_rows": [
+          {
+            "fields": {},
+            "record_id": "P-001",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "P-002",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "P-003",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "P-004",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "P-005",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {},
+            "record_id": "P-006",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {
+              "move_type": "receive",
+              "part_id": "P-001",
+              "quantity": 8
+            },
+            "record_id": "SM-001",
+            "table": "stock_moves",
+            "version": 1
+          },
+          {
+            "fields": {
+              "move_type": "consume",
+              "part_id": "P-001",
+              "quantity": 2
+            },
+            "record_id": "SM-002",
+            "table": "stock_moves",
+            "version": 1
+          },
+          {
+            "fields": {
+              "move_type": "return",
+              "part_id": "P-001",
+              "quantity": 1
+            },
+            "record_id": "SM-003",
+            "table": "stock_moves",
+            "version": 1
+          },
+          {
+            "fields": {
+              "move_type": "receive",
+              "part_id": "P-002",
+              "quantity": 205
+            },
+            "record_id": "SM-004",
+            "table": "stock_moves",
+            "version": 1
+          },
+          {
+            "fields": {
+              "move_type": "adjust",
+              "part_id": "P-003",
+              "quantity": 1
+            },
+            "record_id": "SM-005",
+            "table": "stock_moves",
+            "version": 1
+          },
+          {
+            "fields": {
+              "move_type": "consume",
+              "part_id": "P-002",
+              "quantity": 1
+            },
+            "record_id": "SM-H001",
+            "table": "stock_moves",
+            "version": 1
+          }
+        ],
+        "evidence_total": 171,
+        "formula_es": "SUM(mart_inventory.on_hand), donde on_hand incorpora receive, return, adjust y consume.",
+        "grain": "part",
+        "label": "Existencia registrada",
+        "limitations": "Ordered purchases excluded until receipt movement.",
+        "limitations_es": "La compra ordenada se excluye hasta recepción registrada.",
+        "metric_id": "M-STOCK-ON-HAND",
+        "null_policy_es": "Sin partes: unknown; cantidad cero con partes presentes es medido.",
+        "numerator": 53,
+        "owner_role": "Responsable de partes",
+        "population_es": "Partes presentes en el inventario reconciliado.",
+        "process_ids": [
+          "parts_procurement"
+        ],
+        "query": "SELECT COALESCE(SUM(on_hand),0) n, COUNT(*) d FROM mart_inventory",
+        "reason": null,
+        "source_counts": {
+          "parts": 6,
+          "stock_moves": 165
+        },
+        "source_fields": [
+          "parts.id",
+          "stock_moves.part_id",
+          "stock_moves.move_type",
+          "stock_moves.quantity"
+        ],
+        "source_tables": [
+          "parts",
+          "stock_moves"
+        ],
+        "status": "measured",
+        "unit": "units",
+        "value": 53
+      },
+      "M-STOCK-REORDER": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Abrir una revisión de conteo, reservas y reposiciones en tránsito.",
+        "definition": "Parts with available quantity at or below reorder point divided by parts.",
+        "definition_es": "Fracción de partes en o bajo el punto de reposición.",
+        "denominator": 6,
+        "domain": "parts",
+        "evidence_rows": [
+          {
+            "fields": {
+              "reorder_point": 2
+            },
+            "record_id": "P-001",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {
+              "reorder_point": 2
+            },
+            "record_id": "P-002",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {
+              "reorder_point": 2
+            },
+            "record_id": "P-003",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {
+              "reorder_point": 2
+            },
+            "record_id": "P-004",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {
+              "reorder_point": 2
+            },
+            "record_id": "P-005",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {
+              "reorder_point": 2
+            },
+            "record_id": "P-006",
+            "table": "parts",
+            "version": 1
+          },
+          {
+            "fields": {
+              "quantity": 8
+            },
+            "record_id": "SM-001",
+            "table": "stock_moves",
+            "version": 1
+          },
+          {
+            "fields": {
+              "quantity": 2
+            },
+            "record_id": "SM-002",
+            "table": "stock_moves",
+            "version": 1
+          },
+          {
+            "fields": {
+              "quantity": 1
+            },
+            "record_id": "SM-003",
+            "table": "stock_moves",
+            "version": 1
+          },
+          {
+            "fields": {
+              "quantity": 205
+            },
+            "record_id": "SM-004",
+            "table": "stock_moves",
+            "version": 1
+          },
+          {
+            "fields": {
+              "quantity": 1
+            },
+            "record_id": "SM-005",
+            "table": "stock_moves",
+            "version": 1
+          },
+          {
+            "fields": {
+              "quantity": 1
+            },
+            "record_id": "SM-H001",
+            "table": "stock_moves",
+            "version": 1
+          }
+        ],
+        "evidence_total": 334,
+        "formula_es": "Partes con available <= reorder_point / todas las partes del mart.",
+        "grain": "part",
+        "label": "Partes en punto de reposición",
+        "limitations": "Review signal, not purchase authorization.",
+        "limitations_es": "Es señal de revisión, no autorización de compra.",
+        "metric_id": "M-STOCK-REORDER",
+        "null_policy_es": "Denominador cero: unknown; cero partes bajo umbral con población es medido.",
+        "numerator": 4,
+        "owner_role": "Responsable de partes",
+        "population_es": "Partes presentes en el inventario reconciliado.",
+        "process_ids": [
+          "parts_procurement"
+        ],
+        "query": "SELECT COALESCE(SUM(available<=reorder_point),0) n, COUNT(*) d FROM mart_inventory",
+        "reason": null,
+        "source_counts": {
+          "parts": 6,
+          "reservations": 163,
+          "stock_moves": 165
+        },
+        "source_fields": [
+          "parts.id",
+          "parts.reorder_point",
+          "stock_moves.quantity",
+          "reservations.quantity"
+        ],
+        "source_tables": [
+          "parts",
+          "stock_moves",
+          "reservations"
+        ],
+        "status": "measured",
+        "unit": "ratio",
+        "value": 0.666667
+      },
+      "M-STOCK-RESERVED": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Detectar presión sobre disponibilidad por compromisos existentes.",
+        "definition": "Active reservation quantity across parts.",
+        "definition_es": "Unidades en reservas activas.",
+        "denominator": 6,
+        "domain": "parts",
+        "evidence_rows": [
+          {
+            "fields": {
+              "part_id": "P-001",
+              "quantity": 2,
+              "status": "consumed"
+            },
+            "record_id": "RS-001",
+            "table": "reservations",
+            "version": 1
+          },
+          {
+            "fields": {
+              "part_id": "P-002",
+              "quantity": 1,
+              "status": "reserved"
+            },
+            "record_id": "RS-002",
+            "table": "reservations",
+            "version": 1
+          },
+          {
+            "fields": {
+              "part_id": "P-003",
+              "quantity": 1,
+              "status": "released"
+            },
+            "record_id": "RS-003",
+            "table": "reservations",
+            "version": 1
+          },
+          {
+            "fields": {
+              "part_id": "P-002",
+              "quantity": 1,
+              "status": "consumed"
+            },
+            "record_id": "RS-H001",
+            "table": "reservations",
+            "version": 1
+          },
+          {
+            "fields": {
+              "part_id": "P-002",
+              "quantity": 1,
+              "status": "consumed"
+            },
+            "record_id": "RS-H002",
+            "table": "reservations",
+            "version": 1
+          },
+          {
+            "fields": {
+              "part_id": "P-002",
+              "quantity": 1,
+              "status": "consumed"
+            },
+            "record_id": "RS-H003",
+            "table": "reservations",
+            "version": 1
+          },
+          {
+            "fields": {
+              "part_id": "P-002",
+              "quantity": 1,
+              "status": "consumed"
+            },
+            "record_id": "RS-H004",
+            "table": "reservations",
+            "version": 1
+          },
+          {
+            "fields": {
+              "part_id": "P-002",
+              "quantity": 1,
+              "status": "consumed"
+            },
+            "record_id": "RS-H005",
+            "table": "reservations",
+            "version": 1
+          },
+          {
+            "fields": {
+              "part_id": "P-002",
+              "quantity": 1,
+              "status": "consumed"
+            },
+            "record_id": "RS-H006",
+            "table": "reservations",
+            "version": 1
+          },
+          {
+            "fields": {
+              "part_id": "P-002",
+              "quantity": 1,
+              "status": "consumed"
+            },
+            "record_id": "RS-H007",
+            "table": "reservations",
+            "version": 1
+          },
+          {
+            "fields": {
+              "part_id": "P-002",
+              "quantity": 1,
+              "status": "consumed"
+            },
+            "record_id": "RS-H008",
+            "table": "reservations",
+            "version": 1
+          },
+          {
+            "fields": {
+              "part_id": "P-002",
+              "quantity": 1,
+              "status": "consumed"
+            },
+            "record_id": "RS-H009",
+            "table": "reservations",
+            "version": 1
+          }
+        ],
+        "evidence_total": 169,
+        "formula_es": "SUM(mart_inventory.reserved) de reservas con status='reserved'.",
+        "grain": "reservation",
+        "label": "Unidades reservadas",
+        "limitations": "Requires validated references.",
+        "limitations_es": "Reservado no significa consumido.",
+        "metric_id": "M-STOCK-RESERVED",
+        "null_policy_es": "Sin partes: unknown; cero reservas con partes presentes es medido.",
+        "numerator": 1,
+        "owner_role": "Responsable de partes",
+        "population_es": "Partes presentes en el inventario reconciliado.",
+        "process_ids": [
+          "parts_procurement"
+        ],
+        "query": "SELECT COALESCE(SUM(reserved),0) n, COUNT(*) d FROM mart_inventory",
+        "reason": null,
+        "source_counts": {
+          "parts": 6,
+          "reservations": 163
+        },
+        "source_fields": [
+          "reservations.id",
+          "reservations.part_id",
+          "reservations.quantity",
+          "reservations.status"
+        ],
+        "source_tables": [
+          "reservations",
+          "parts"
+        ],
+        "status": "measured",
+        "unit": "units",
+        "value": 1
+      },
+      "M-TOW-CLOSE-HOURS": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Revisar duraciones extensas sin confundirlas con tiempo de respuesta.",
+        "definition": "Median request-to-close elapsed hours for valid closed tow requests.",
+        "definition_es": "Mediana de horas desde solicitud hasta cierre de grúa.",
+        "denominator": 2,
+        "domain": "towing",
+        "evidence_rows": [
+          {
+            "fields": {
+              "closed_at": "2026-09-20T21:00:00Z",
+              "requested_at": "2026-09-20T18:00:00Z",
+              "status": "closed"
+            },
+            "record_id": "TW-001",
+            "table": "tows",
+            "version": 1
+          },
+          {
+            "fields": {
+              "closed_at": null,
+              "requested_at": "2026-09-20T18:00:00Z",
+              "status": "en_route"
+            },
+            "record_id": "TW-002",
+            "table": "tows",
+            "version": 1
+          },
+          {
+            "fields": {
+              "closed_at": null,
+              "requested_at": "2026-09-20T18:00:00Z",
+              "status": "requested"
+            },
+            "record_id": "TW-003",
+            "table": "tows",
+            "version": 1
+          },
+          {
+            "fields": {
+              "closed_at": null,
+              "requested_at": "2026-09-20T18:00:00Z",
+              "status": "cancelled"
+            },
+            "record_id": "TW-004",
+            "table": "tows",
+            "version": 1
+          },
+          {
+            "fields": {
+              "closed_at": "2026-09-18T23:00:00Z",
+              "requested_at": "2026-09-18T18:00:00Z",
+              "status": "closed"
+            },
+            "record_id": "TW-005",
+            "table": "tows",
+            "version": 1
+          }
+        ],
+        "evidence_total": 5,
+        "formula_es": "Mediana de (closed_at - requested_at) en closed con fechas válidas; numerator = cierres medidos, denominator = todos los cierres.",
+        "grain": "closed_tow",
+        "label": "Horas solicitud a cierre",
+        "limitations": "Not response or arrival duration.",
+        "limitations_es": "No mide respuesta, llegada ni seguridad.",
+        "metric_id": "M-TOW-CLOSE-HOURS",
+        "null_policy_es": "Sin cierres con duración válida: unknown; la cobertura de conteos no es la duración.",
+        "numerator": 2,
+        "owner_role": "Coordinación grúas",
+        "population_es": "Solicitudes cerradas; valor usa sólo las que tienen dos fechas válidas.",
+        "process_ids": [
+          "towing"
+        ],
+        "query": "SELECT (julianday(closed_at)-julianday(requested_at))*24 FROM tows WHERE status='closed' AND closed_at IS NOT NULL AND julianday(closed_at)>=julianday(requested_at) ORDER BY requested_at,id",
+        "reason": null,
+        "source_counts": {
+          "tows": 5
+        },
+        "source_fields": [
+          "tows.id",
+          "tows.requested_at",
+          "tows.closed_at",
+          "tows.status"
+        ],
+        "source_tables": [
+          "tows"
+        ],
+        "status": "measured",
+        "unit": "hours",
+        "value": 4.0
+      },
+      "M-TOW-HUMAN-REFS": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Detectar expedientes que requieren revisión humana documental.",
+        "definition": "Tow requests with both safety and human approval references divided by tow requests.",
+        "definition_es": "Fracción de solicitudes con referencias de seguridad y aprobación humana.",
+        "denominator": 5,
+        "domain": "towing",
+        "evidence_rows": [
+          {
+            "fields": {
+              "human_approval_ref": "HUMAN-APP-001",
+              "safety_ref": "SAFE-HUMAN-001"
+            },
+            "record_id": "TW-001",
+            "table": "tows",
+            "version": 1
+          },
+          {
+            "fields": {
+              "human_approval_ref": "HUMAN-APP-001",
+              "safety_ref": "SAFE-HUMAN-001"
+            },
+            "record_id": "TW-002",
+            "table": "tows",
+            "version": 1
+          },
+          {
+            "fields": {
+              "human_approval_ref": null,
+              "safety_ref": null
+            },
+            "record_id": "TW-003",
+            "table": "tows",
+            "version": 1
+          },
+          {
+            "fields": {
+              "human_approval_ref": null,
+              "safety_ref": null
+            },
+            "record_id": "TW-004",
+            "table": "tows",
+            "version": 1
+          },
+          {
+            "fields": {
+              "human_approval_ref": "HUMAN-APP-001",
+              "safety_ref": "SAFE-HUMAN-001"
+            },
+            "record_id": "TW-005",
+            "table": "tows",
+            "version": 1
+          }
+        ],
+        "evidence_total": 5,
+        "formula_es": "Tows con safety_ref y human_approval_ref no vacíos / todas las tows.",
+        "grain": "tow",
+        "label": "Grúas con referencias humanas",
+        "limitations": "Reference presence does not establish safety or approval validity.",
+        "limitations_es": "Presencia de texto no certifica seguridad ni validez de aprobación.",
+        "metric_id": "M-TOW-HUMAN-REFS",
+        "null_policy_es": "Sin solicitudes: unknown; cero referencias completas con población es medido.",
+        "numerator": 3,
+        "owner_role": "Coordinación grúas",
+        "population_es": "Todas las solicitudes de grúa presentes.",
+        "process_ids": [
+          "towing"
+        ],
+        "query": "SELECT COALESCE(SUM(safety_ref IS NOT NULL AND trim(safety_ref)<>'' AND human_approval_ref IS NOT NULL AND trim(human_approval_ref)<>''),0) n, COUNT(*) d FROM tows",
+        "reason": null,
+        "source_counts": {
+          "tows": 5
+        },
+        "source_fields": [
+          "tows.id",
+          "tows.safety_ref",
+          "tows.human_approval_ref"
+        ],
+        "source_tables": [
+          "tows"
+        ],
+        "status": "measured",
+        "unit": "ratio",
+        "value": 0.6
+      },
+      "M-TOW-OPEN": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Revisar la cola de solicitudes y sus gates humanos.",
+        "definition": "Tow requests neither closed nor cancelled.",
+        "definition_es": "Solicitudes de grúa que no están cerradas ni canceladas.",
+        "denominator": 5,
+        "domain": "towing",
+        "evidence_rows": [
+          {
+            "fields": {
+              "status": "closed"
+            },
+            "record_id": "TW-001",
+            "table": "tows",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "en_route"
+            },
+            "record_id": "TW-002",
+            "table": "tows",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "requested"
+            },
+            "record_id": "TW-003",
+            "table": "tows",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "cancelled"
+            },
+            "record_id": "TW-004",
+            "table": "tows",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "closed"
+            },
+            "record_id": "TW-005",
+            "table": "tows",
+            "version": 1
+          }
+        ],
+        "evidence_total": 5,
+        "formula_es": "Contar tows cuyo status no sea closed ni cancelled.",
+        "grain": "tow",
+        "label": "Solicitudes de grúa abiertas",
+        "limitations": "Status count, not authorized dispatch.",
+        "limitations_es": "Estado abierto no autoriza despacho.",
+        "metric_id": "M-TOW-OPEN",
+        "null_policy_es": "Sin solicitudes: unknown; cero abiertas con solicitudes presentes es medido.",
+        "numerator": 2,
+        "owner_role": "Coordinación grúas",
+        "population_es": "Todas las solicitudes de grúa presentes.",
+        "process_ids": [
+          "towing"
+        ],
+        "query": "SELECT COALESCE(SUM(status NOT IN ('closed','cancelled')),0) n, COUNT(*) d FROM tows",
+        "reason": null,
+        "source_counts": {
+          "tows": 5
+        },
+        "source_fields": [
+          "tows.id",
+          "tows.status"
+        ],
+        "source_tables": [
+          "tows"
+        ],
+        "status": "measured",
+        "unit": "count",
+        "value": 2
+      },
+      "M-WEEKLY-EXCEPTIONS": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Abrir una pregunta de cobertura en la revisión semanal.",
+        "definition": "Count validated exceptions by severity and module.",
+        "definition_es": "Excepciones validadas por módulo y severidad.",
+        "denominator": null,
+        "domain": "governance",
+        "evidence_rows": [],
+        "evidence_total": 0,
+        "formula_es": "Sin SQL medidor en este warehouse; valor, numerador y denominador quedan null.",
+        "grain": "exception",
+        "label": "Excepciones semanales",
+        "limitations": "No validated exceptions table is materialized in this warehouse; unknown until linked to a versioned exception source.",
+        "limitations_es": "El warehouse no materializa una tabla versionada de excepciones; la cola OPS separada no es esta fuente.",
+        "metric_id": "M-WEEKLY-EXCEPTIONS",
+        "null_policy_es": "Siempre unknown en este contrato hasta incorporar y validar una fuente homogénea.",
+        "numerator": null,
+        "owner_role": "Gerencia",
+        "population_es": "Se requeriría una fuente de excepciones versionada y vinculada al mismo corte.",
+        "process_ids": [
+          "weekly_review"
+        ],
+        "query": null,
+        "reason": "No versioned exception source is materialized in this warehouse",
+        "source_counts": {},
+        "source_fields": [],
+        "source_tables": [],
+        "status": "unknown",
+        "unit": "count",
+        "value": null
+      },
+      "M-WEEKLY-PROPOSALS": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Preparar agenda humana de revisión de borradores.",
+        "definition": "Count validated pending proposals by agent.",
+        "definition_es": "Número de propuestas pendientes con controles de aprobación y no ejecución.",
+        "denominator": 2,
+        "domain": "governance",
+        "evidence_rows": [
+          {
+            "fields": {
+              "agent": "operations_controller",
+              "approval_required": 1,
+              "external_execution": 0,
+              "status": "pending"
+            },
+            "record_id": "PR-001",
+            "table": "proposals",
+            "version": 1
+          },
+          {
+            "fields": {
+              "agent": "fleet_sla_watcher",
+              "approval_required": 1,
+              "external_execution": 0,
+              "status": "pending"
+            },
+            "record_id": "PR-002",
+            "table": "proposals",
+            "version": 1
+          }
+        ],
+        "evidence_total": 2,
+        "formula_es": "Contar proposals con status='pending', approval_required=1 y external_execution=0.",
+        "grain": "proposal",
+        "label": "Propuestas pendientes",
+        "limitations": "Count of drafts, not decisions or completed actions.",
+        "limitations_es": "No mide decisiones humanas ni acciones terminadas.",
+        "metric_id": "M-WEEKLY-PROPOSALS",
+        "null_policy_es": "Sin propuestas fuente: unknown; cero pendientes con propuestas presentes es medido.",
+        "numerator": 2,
+        "owner_role": "Gerencia",
+        "population_es": "Todas las propuestas presentes en la tabla del warehouse.",
+        "process_ids": [
+          "weekly_review"
+        ],
+        "query": "SELECT COALESCE(SUM(status='pending' AND approval_required=1 AND external_execution=0),0) n, COUNT(*) d FROM proposals",
+        "reason": null,
+        "source_counts": {
+          "proposals": 2
+        },
+        "source_fields": [
+          "proposals.id",
+          "proposals.agent",
+          "proposals.status",
+          "proposals.approval_required",
+          "proposals.external_execution"
+        ],
+        "source_tables": [
+          "proposals"
+        ],
+        "status": "measured",
+        "unit": "count",
+        "value": 2
+      },
+      "M-WIP-OPEN": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Asignar revisión de carga y bloqueos del taller.",
+        "definition": "Work orders excluding delivered and cancelled.",
+        "definition_es": "Órdenes de trabajo abiertas al corte.",
+        "denominator": 170,
+        "domain": "workshop",
+        "evidence_rows": [
+          {
+            "fields": {
+              "status": "delivered"
+            },
+            "record_id": "WO-001",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "in_service"
+            },
+            "record_id": "WO-002",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "waiting_parts"
+            },
+            "record_id": "WO-003",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "rework"
+            },
+            "record_id": "WO-004",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "cancelled"
+            },
+            "record_id": "WO-005",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "quality_check"
+            },
+            "record_id": "WO-006",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "received"
+            },
+            "record_id": "WO-007",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "authorized"
+            },
+            "record_id": "WO-008",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "delivered"
+            },
+            "record_id": "WO-009",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "scheduled"
+            },
+            "record_id": "WO-010",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "delivered"
+            },
+            "record_id": "WO-H001",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "delivered"
+            },
+            "record_id": "WO-H002",
+            "table": "work_orders",
+            "version": 1
+          }
+        ],
+        "evidence_total": 170,
+        "formula_es": "Contar work_orders cuyo status no sea delivered ni cancelled.",
+        "grain": "work_order",
+        "label": "Órdenes abiertas",
+        "limitations": "Snapshot WIP, not throughput.",
+        "limitations_es": "Es inventario de trabajo en curso, no productividad del periodo.",
+        "metric_id": "M-WIP-OPEN",
+        "null_policy_es": "Sin órdenes fuente: unknown; cero abiertas con órdenes presentes es medido.",
+        "numerator": 7,
+        "owner_role": "Jefatura de taller",
+        "population_es": "Todas las órdenes de trabajo presentes.",
+        "process_ids": [
+          "b2c_workshop"
+        ],
+        "query": "SELECT COALESCE(SUM(status NOT IN ('delivered','cancelled')),0) n, COUNT(*) d FROM work_orders",
+        "reason": null,
+        "source_counts": {
+          "work_orders": 170
+        },
+        "source_fields": [
+          "work_orders.id",
+          "work_orders.status"
+        ],
+        "source_tables": [
+          "work_orders"
+        ],
+        "status": "measured",
+        "unit": "count",
+        "value": 7
+      },
+      "M-WIP-WAITING-PARTS": {
+        "as_of": "2026-09-21T18:00:00Z",
+        "decision_use_es": "Priorizar revisión de bloqueos con responsable de partes.",
+        "definition": "Waiting-parts work orders divided by open work orders.",
+        "definition_es": "Proporción de órdenes abiertas en espera de partes.",
+        "denominator": 7,
+        "domain": "workshop",
+        "evidence_rows": [
+          {
+            "fields": {
+              "status": "delivered"
+            },
+            "record_id": "WO-001",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "in_service"
+            },
+            "record_id": "WO-002",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "waiting_parts"
+            },
+            "record_id": "WO-003",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "rework"
+            },
+            "record_id": "WO-004",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "cancelled"
+            },
+            "record_id": "WO-005",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "quality_check"
+            },
+            "record_id": "WO-006",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "received"
+            },
+            "record_id": "WO-007",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "authorized"
+            },
+            "record_id": "WO-008",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "delivered"
+            },
+            "record_id": "WO-009",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "scheduled"
+            },
+            "record_id": "WO-010",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "delivered"
+            },
+            "record_id": "WO-H001",
+            "table": "work_orders",
+            "version": 1
+          },
+          {
+            "fields": {
+              "status": "delivered"
+            },
+            "record_id": "WO-H002",
+            "table": "work_orders",
+            "version": 1
+          }
+        ],
+        "evidence_total": 170,
+        "formula_es": "Órdenes status='waiting_parts' / órdenes no delivered ni cancelled.",
+        "grain": "work_order",
+        "label": "WIP en espera de partes",
+        "limitations": "Does not prove purchase resolves a delay.",
+        "limitations_es": "La espera no demuestra que comprar una parte resuelva el atraso.",
+        "metric_id": "M-WIP-WAITING-PARTS",
+        "null_policy_es": "Sin órdenes abiertas: unknown; cero en espera con WIP presente es medido.",
+        "numerator": 1,
+        "owner_role": "Jefatura de taller",
+        "population_es": "Órdenes abiertas al corte.",
+        "process_ids": [
+          "b2c_workshop",
+          "parts_procurement"
+        ],
+        "query": "SELECT COALESCE(SUM(status='waiting_parts'),0) n, COALESCE(SUM(status NOT IN ('delivered','cancelled')),0) d FROM work_orders",
+        "reason": null,
+        "source_counts": {
+          "work_orders": 170
+        },
+        "source_fields": [
+          "work_orders.id",
+          "work_orders.status"
+        ],
+        "source_tables": [
+          "work_orders"
+        ],
+        "status": "measured",
+        "unit": "ratio",
+        "value": 0.142857
+      },
+      "active_tows": 2,
+      "open_work_orders": 7,
+      "unpaid_invoices": 56
+    }
+  },
+  "external_execution": false,
+  "human_review_required": true,
+  "mode_label": "offline deterministic baseline; no LLM invoked",
+  "model_invoked": false,
+  "result": {
+    "alternatives": [
+      "Revisar el registro citado con su responsable actual antes de decidir un cambio.",
+      "Diferir la decisión y solicitar la evidencia operativa faltante."
+    ],
+    "diagnosis": "Línea base offline por reglas: work_orders:WO-003 tiene status='waiting_parts' en la versión 1; revíselo con la cola acotada (open_work_orders=7, active_tows=2, unpaid_invoices=56, M-AR-OVERDUE=3227500, M-FLEET-SLA-RISK=unknown, M-TOW-OPEN=2, M-WEEKLY-EXCEPTIONS=unknown, M-WEEKLY-PROPOSALS=2, M-WIP-OPEN=7, M-B2C-LEADS=112, M-B2C-WON=0.964286, M-B2C-QUOTE-MATCH=0.964286, +22 métricas disponibles en el paquete).",
+    "drafts": [
+      {
+        "kind": "followup",
+        "requires_human_review": true,
+        "text": "Borrador interno de revisión para work_orders:WO-003: confirme el registro citado antes de cualquier acción."
+      }
+    ],
+    "evidence": [
+      {
+        "entity_id": "WO-003",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "waiting_parts",
+        "version": 1
+      },
+      {
+        "entity_id": "WO-004",
+        "entity_type": "work_orders",
+        "field": "status",
+        "value": "rework",
+        "version": 1
+      },
+      {
+        "entity_id": "M-001",
+        "entity_type": "maintenance",
+        "field": "status",
+        "value": "scheduled",
+        "version": 1
+      },
+      {
+        "entity_id": "M-002",
+        "entity_type": "maintenance",
+        "field": "status",
+        "value": "due",
+        "version": 1
+      },
+      {
+        "entity_id": "TW-002",
+        "entity_type": "tows",
+        "field": "status",
+        "value": "en_route",
+        "version": 1
+      },
+      {
+        "entity_id": "TW-003",
+        "entity_type": "tows",
+        "field": "status",
+        "value": "requested",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H160",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "INV-H159",
+        "entity_type": "invoices",
+        "field": "status",
+        "value": "issued",
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-001",
+        "entity_type": "campaigns",
+        "field": "status",
+        "value": "review",
+        "version": 1
+      },
+      {
+        "entity_id": "CAM-002",
+        "entity_type": "campaigns",
+        "field": "status",
+        "value": "approved",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-001",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "proposal",
+        "version": 1
+      },
+      {
+        "entity_id": "OP-002",
+        "entity_type": "opportunities",
+        "field": "status",
+        "value": "qualified",
+        "version": 1
+      }
+    ],
+    "manual_next_steps": [
+      "Una persona revisora confirma el valor citado y su contexto.",
+      "Una persona revisora registra cualquier decisión; este workbench no ejecuta acciones externas."
+    ],
+    "missing_information": [
+      "Este corte sintético no contiene contexto operativo, aprobación ni resultado en vivo."
+    ],
+    "sensitivity": {
+      "level": "medium",
+      "reason": "El paquete puede contener campos operativos y de contacto; mantenga los borradores bajo revisión humana."
+    },
+    "workplan": [
+      "Inspeccionar los registros dentro del alcance.",
+      "Verificar valores y versiones exactas de la evidencia.",
+      "Revisar el borrador y decidir manualmente."
+    ]
+  },
+  "status": "completed"
+}
