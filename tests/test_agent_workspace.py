@@ -87,7 +87,7 @@ class AgentWorkspaceTests(unittest.TestCase):
         self.assertTrue(action["approval_required"])
         self.assertFalse(action["external_execution"])
         self.assertEqual("M-B2C-LEADS", action["metric_ids"][0])
-        self.assertEqual(run_dir.as_posix(), role["current_run"]["run_path"].replace("\\", "/"))
+        self.assertTrue(run_dir.samefile(role["current_run"]["run_path"]))
         workbook = self.root / "Seguimiento.xlsx"
         written = write_action_workbook(workbook, workspace["decisions"], {
             "snapshot_id": workspace["source"]["sha256"], "as_of": workspace["source"]["as_of"], "synthetic": True,

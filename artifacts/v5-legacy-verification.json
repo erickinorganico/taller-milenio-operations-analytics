@@ -77,7 +77,7 @@
     "No production dispatch, tax or accounting certification"
   ],
   "publication_scan": {
-    "files_scanned": 232,
+    "files_scanned": 326,
     "findings": [],
     "scope": "Publication source/templates/docs. Synthetic bundle is validated separately. Heuristic, not anonymization certification.",
     "status": "pass"
@@ -130,7 +130,7 @@
     "requirements.txt": "150b9a2300e91173393a809321c3683dee54f5395a030ccac93082a2cfa71daa"
   },
   "status": "pass",
-  "tested_at_utc": "2026-09-23T02:53:02.997030+00:00",
+  "tested_at_utc": "2026-09-23T04:09:27.625652+00:00",
   "tests": {
     "errors": 0,
     "failures": 0,
