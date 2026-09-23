@@ -25,7 +25,7 @@ V1–V4: toolkit analítico reproducible. V5: producto operativo con autenticaci
 
 ## Estado de verificación local
 
-V5 archivó 22 requisitos, nueve planes y cuatro fases verificados. V6 archivó 14 requisitos, cuatro planes y cuatro fases verificados en alcance técnico local. `artifacts/v6-verification.json` registra 115 pruebas, 0 fallos/errores y 2 omisiones por puertos ocupados; `artifacts/v6-delivery-verification.json` comprueba migración, respaldo/restauración y el candidato 2 extraído e instalado offline. Los recibos separados `v6-browser-verification.json`, `v6-worker-restart.json` y `v6-native-verification.json` registran navegador, cierre del trabajador e inferencia real local con tres revisores GPT-6 Luna sobre demo sintética. [Verificación V6](../docs/V6-VERIFICACION.md). Publicar un ZIP posterior requiere un recibo del mismo hash; no se afirma aceptación comercial.
+V5 archivó 22 requisitos, nueve planes y cuatro fases verificados. V6 archivó 14 requisitos, cuatro planes y cuatro fases verificados en alcance técnico local. `artifacts/v6-verification.json` registra 115 pruebas, 0 fallos/errores y 0 omisiones; `artifacts/v6-delivery-verification.json` comprueba migración, respaldo/restauración y el candidato 2 extraído e instalado offline. Los recibos separados `v6-browser-verification.json`, `v6-worker-restart.json` y `v6-native-verification.json` registran navegador, cierre del trabajador e inferencia real local con tres revisores GPT-6 Luna sobre demo sintética. [Verificación V6](../docs/V6-VERIFICACION.md). Publicar un ZIP posterior requiere un recibo del mismo hash; no se afirma aceptación comercial.
 
 ## Siguiente implantación
 

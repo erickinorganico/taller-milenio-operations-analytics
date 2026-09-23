@@ -14,7 +14,7 @@ El candidato `dist/Milenio-V6-review-candidate2.zip` es una salida de revisión;
 
 ## Evidencia técnica local registrada
 
-- `artifacts/v6-verification.json`: versión 6.0; 115 pruebas ejecutadas, 0 fallos, 0 errores y 2 omisiones de pruebas antiguas cuyos puertos demo/live estaban ocupados. Las 113 restantes pasaron. El recibo registra hashes de fuentes; no se traslada a fuentes posteriores.
+- `artifacts/v6-verification.json`: versión 6.0; 115 pruebas ejecutadas, 0 fallos, 0 errores y 0 omisiones. Las 115 pasaron. El recibo registra hashes de fuentes; no se traslada a fuentes posteriores.
 - `artifacts/v6-delivery-verification.json`: `status=pass` para un candidato extraído de SHA-256 `a0845d2f2a418f863e86d06a0da2a42999849018146c0b92081a4cf916e8fa1f`; 157 archivos del manifiesto comprobados, instalación offline en entorno nuevo, demo inicial de 36 órdenes y un corte, páginas autenticadas analytics/automatizaciones HTTP 200, trabajo de reglas y latido, migración V5→V6, respaldo/restauración y cierre supervisado. Es el **candidato 2 verificado**, no el recibo del ZIP final publicado.
 - `artifacts/v6-browser-verification.json`: filtros, comparación, ranking, seis enlaces de tablas, pausa/reanudación, fallo nativo visible, sesión tras reinicio y vista móvil sin desbordamiento (`clientWidth=scrollWidth=375`). El aislamiento entre roles se probó automáticamente; no se ensayó un login manual por cada rol.
 - `artifacts/v6-worker-restart.json`: al terminar el servidor, el proceso trabajador hijo no quedó vivo.
@@ -25,3 +25,7 @@ La publicación final debe generar un ZIP y recibos con el mismo SHA después de
 ## Qué queda fuera de estas pruebas
 
 La suite sintética y el servidor local no prueban ejecución nativa real con la cuenta Codex de otra instalación, entrega a cliente, calidad de datos de un taller real, aceptación del usuario, eficacia de propuestas ni mejoras financieras. Los comprobantes administrativos no equivalen a facturación fiscal. Los resultados se revisan con las limitaciones de [Analytics V6](V6-ANALYTICS.md) y [Automatizaciones V6](V6-AUTOMATIZACIONES.md).
+
+## Corrección de la comprobación de arranque
+
+CI detectó que la comprobación antigua esperaba dos órdenes demo; V6 crea 38 (36 nuevas y dos del escenario inicial). Se actualizó la aserción y ambos ensayos de arranque usan puertos temporales y cierre supervisado, sin omitirlos cuando Milenio está abierto. Las 11 pruebas afectadas pasaron. El recibo final de suite y el recibo del ZIP publicado identifican la revisión corregida.

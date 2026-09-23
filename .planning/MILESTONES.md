@@ -9,7 +9,7 @@ Cuatro fases, cuatro planes y 14 requisitos. El contador automático reportó 0 
 - Seis marts y cortes inmutables derivados de la operación V5, con fechas de negocio, cobertura y referencias a fuentes.
 - Entrada gerencial con comparación de periodos, piezas/servicios, exploración y exportación sujetas a roles.
 - Trabajador local con cola, pausa, deduplicación, leases, reintentos y cierre con el servidor; reglas predeterminadas e inferencia nativa opcional revisable.
-- Migración V5→V6, respaldo/restauración y candidato extraído instalado offline; 115 pruebas de suite con 0 fallos/errores y 2 omisiones de puertos ocupados.
+- Migración V5→V6, respaldo/restauración y candidato extraído instalado offline; 115 pruebas de suite con 0 fallos/errores y 0 omisiones.
 - Recibos separados de navegador, reinicio del trabajador e inferencia real GPT-6 Luna en demo sintética.
 
 [Auditoría](milestones/v6.0-MILESTONE-AUDIT.md) · [Requisitos](milestones/v6.0-REQUIREMENTS.md) · [Fases](milestones/v6.0-phases/) · [Verificación](../docs/V6-VERIFICACION.md)

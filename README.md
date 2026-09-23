@@ -62,7 +62,7 @@ $env:MILENIO_DATA_DIR=Join-Path $PWD 'private/test'
 .\.venv\Scripts\python.exe manage.py makemigrations --check --dry-run
 ```
 
-La suite V6 ejecutó 115 pruebas: 113 pasaron, dos omitieron el arranque porque los puertos estaban ocupados y no hubo fallos. El paquete extraído se verificó por separado con dependencias offline, servidor autenticado en puerto temporal, trabajador, migración y restauración. Los ensayos usan bases temporales y datos ficticios. No acreditan adopción, rendimiento con la carga del cliente ni impacto comercial. La entrega sirve como aplicación local para un piloto controlado. CFDI, cobros bancarios, mensajería, telemetría, diagnóstico mecánico automático y servicio alojado multiempresa quedan fuera de esta versión.
+La suite V6 ejecutó 115 pruebas: 115 pasaron, sin fallos ni omisiones. El paquete extraído se verificó por separado con dependencias offline, servidor autenticado en puerto temporal, trabajador, migración y restauración. Los ensayos usan bases temporales y datos ficticios. No acreditan adopción, rendimiento con la carga del cliente ni impacto comercial. La entrega sirve como aplicación local para un piloto controlado. CFDI, cobros bancarios, mensajería, telemetría, diagnóstico mecánico automático y servicio alojado multiempresa quedan fuera de esta versión.
 
 ## Versiones anteriores
 

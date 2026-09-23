@@ -13,4 +13,4 @@ status: passed
 | ANA-05 | `test_audited_delivery_wait_and_customer_segmentation`, `test_missing_data_stays_explicit` | passed_local |
 | ANA-06 | `test_snapshot_is_immutable_and_references_stable_after_source_mutation`; modelos y migración `0002_analytics.py` | passed_local |
 
-La revisión cruzada `.planning/V6-INTEGRATION-REVIEW.md` ejecutó 38 pruebas afectadas sin fallos. `artifacts/v6-verification.json` registra la suite local más reciente de 115 pruebas, 0 fallos/errores y 2 omisiones. Son fixtures sintéticos; no prueban datos reales, adopción ni efecto comercial.
+La revisión cruzada `.planning/V6-INTEGRATION-REVIEW.md` ejecutó 38 pruebas afectadas sin fallos. `artifacts/v6-verification.json` registra la suite local más reciente de 115 pruebas, 0 fallos/errores y 0 omisiones. Son fixtures sintéticos; no prueban datos reales, adopción ni efecto comercial.

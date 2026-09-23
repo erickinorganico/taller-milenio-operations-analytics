@@ -31,7 +31,7 @@ Status: Hito técnico V6 cerrado; publicación y aceptación separadas.
 ## Evidence
 
 - `.planning/milestones/v6.0-MILESTONE-AUDIT.md`: 14/14 requisitos, 4/4 fases, 6/6 conexiones y 4/4 recorridos en alcance técnico local. `gsd-tools query audit-open --json` devolvió cero asuntos abiertos; `query init.manager` devolvió `all_complete=true` antes del archivo.
-- `artifacts/v6-verification.json`: versión 6.0, 115 pruebas, 0 fallos, 0 errores, 2 omisiones por puertos ocupados en pruebas antiguas. El arranque extraído se comprobó separadamente.
+- `artifacts/v6-verification.json`: versión 6.0, 115 pruebas, 0 fallos, 0 errores, 0 omisiones. El arranque extraído se comprobó separadamente.
 - `artifacts/v6-delivery-verification.json`: candidato 2 SHA-256 `a0845d2f2a418f863e86d06a0da2a42999849018146c0b92081a4cf916e8fa1f`, instalación offline extraída, HTTP autenticado, trabajo de reglas/latido, migración V5→V6 y respaldo/restauración.
 - `artifacts/v6-browser-verification.json` y `artifacts/v6-worker-restart.json`: filtros, comparación, móvil sin desbordamiento, pausa/reanudación y fin del trabajador hijo con el servidor.
 - `artifacts/v6-native-verification.json`: trabajo nativo real #5 completado con tres revisores GPT-6 Luna y `model_invoked=true`; intento previo #4 fallido preservado sin reintento automático. Demo sintética.
