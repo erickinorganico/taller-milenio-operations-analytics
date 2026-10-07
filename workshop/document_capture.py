@@ -1,5 +1,6 @@
 """Local OCR produces suggestions; only a human review permits an export."""
 import csv
+from decimal import Decimal, InvalidOperation
 import io
 import json
 import os
@@ -132,16 +133,19 @@ def export_content(capture, format):
     provenance = {"capture_id": str(capture.pk), "document_type": capture.get_kind_display(),
                   "reviewed_by": capture.reviewed_by.get_full_name() or capture.reviewed_by.username,
                   "reviewed_at": capture.reviewed_at.isoformat()}
-    items = capture.service_items or [{'description':line.strip()} for line in data.get('services','').splitlines() if line.strip()]
-    item_fields = ['description','quantity','unit_price','unit_cost','sku']
+    service_fields = ["description", "kind", "quantity", "unit_price", "unit_cost", "part_sku"]
+    items = capture.service_items or [{"description":value.strip()} for value in data.get("services", "").splitlines() if value.strip()]
+    def literal(value):
+        value = "" if value is None else str(value)
+        return "'"+value if value.lstrip().startswith(("=", "+", "-", "@")) else value
     if format == "csv":
         output = io.StringIO(newline="")
         writer = csv.writer(output)
-        keys = list(provenance) + fields + ["service_"+key for key in item_fields]
+        keys = list(provenance) + fields + ["service_" + key for key in service_fields]
         writer.writerow(keys)
         for item in items or [{}]:
-            values = [*provenance.values(), *(data.get(key, "") for key in fields), *(item.get(key) for key in item_fields)]
-            writer.writerow(["'"+str(value) if str(value).lstrip().startswith(("=", "+", "-", "@")) else ("" if value is None else str(value)) for value in values])
+            writer.writerow([literal(value) for value in [*provenance.values(),
+                *(data.get(key, "") for key in fields), *(item.get(key) for key in service_fields)]])
         return b"\xef\xbb\xbf" + output.getvalue().encode("utf-8"), "text/csv; charset=utf-8"
     book = Workbook()
     order = book.active
@@ -150,10 +154,24 @@ def export_content(capture, format):
     for key, value in {**{LABELS[k]:data.get(k, "") for k in fields if k != "services"}, **provenance}.items():
         order.append([key, str(value)])
     services = book.create_sheet("Servicios revisados")
-    services.append(["Folio", "Servicio", "Foto origen", "Revisado por", "Cantidad", "Precio unitario", "Costo unitario", "SKU"])
+    services.append(["Folio", "Servicio", "Foto origen", "Revisado por", "Tipo",
+                     "Cantidad observada", "Precio unitario observado", "Costo unitario observado", "SKU"])
+    def observed_number(value):
+        if value in (None, ""):
+            return None
+        try:
+            number = Decimal(str(value))
+            return number if number.is_finite() else str(value)
+        except InvalidOperation:
+            return str(value)
     for item in items:
-        services.append([data.get("order_number", ""), item.get('description',''), str(capture.pk), provenance["reviewed_by"],
-                         *("" if item.get(key) is None else str(item[key]) for key in item_fields[1:])])
+        services.append([data.get("order_number", ""), item.get("description", ""), str(capture.pk),
+            provenance["reviewed_by"], item.get("kind"),
+            *(observed_number(item.get(key)) for key in ("quantity", "unit_price", "unit_cost")), item.get("part_sku")])
+    for row in services.iter_rows(min_row=2):
+        row[5].number_format = '#,##0.000'
+        for cell in row[6:8]:
+            cell.number_format = '#,##0.00'
     for sheet in book:
         sheet.freeze_panes = "A2"
         sheet.auto_filter.ref = sheet.dimensions

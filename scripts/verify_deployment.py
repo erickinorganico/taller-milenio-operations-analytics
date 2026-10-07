@@ -89,7 +89,7 @@ def verify():
                     'backup_restore_verified':True,'mail_disabled_after_install_and_restore':True,
                     'scope':'disposable package; no real Gmail, SSH installation or Windows reboot'}
         except Exception as error:
-            diagnostics={p.name:p.read_text(encoding='utf-8',errors='replace')[-3000:] for p in data.glob('*managed.log')}
+            diagnostics={p.name:p.read_text(encoding='utf-8',errors='replace')[-20000:] for p in data.glob('*managed.log')}
             if process.poll() is not None and process.stderr:
                 diagnostics['supervisor']=process.stderr.read().decode('utf-8',errors='replace')[-3000:]
             raise RuntimeError(str(error)+' '+json.dumps(diagnostics).replace(str(directory),'SYNTHETIC')) from error
