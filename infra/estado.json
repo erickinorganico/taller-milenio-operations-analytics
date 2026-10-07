@@ -1,0 +1,49 @@
+{
+  "schema_version": 2,
+  "as_of": "2026-10-06",
+  "repository": "erickinorganico/taller-milenio-operations-analytics",
+  "baseline_main_sha": "a6d1c188994fec36892f250d3164650403746af6",
+  "scope": "downloadable_server_client_deployment",
+  "desired_topology": "one_windows_server_two_clients_one_mail_worker",
+  "remote_access_deployed": false,
+  "central_host_assigned": false,
+  "gmail_connected": false,
+  "agent_api_implemented": true,
+  "unattended_startup_verified": false,
+  "two_computer_test_passed": false,
+  "catalog_stored_in_github": false,
+  "local_commercial_code_published_in_baseline": false,
+  "deployment_release_sha": null,
+  "source_of_runtime_truth": "central_instance_not_chat_or_git",
+  "backlog": [
+    {
+      "id": "D01",
+      "task": "Probar instalación en el servidor elegido, Gerencia y datos privados",
+      "done": false
+    },
+    {
+      "id": "D02",
+      "task": "Registrar tareas y verificar arranque real de Windows/DPAPI",
+      "done": false
+    },
+    {
+      "id": "D03",
+      "task": "Emparejar llaves SSH e IP privadas y probar dos clientes",
+      "done": false
+    },
+    {
+      "id": "D04",
+      "task": "Conectar Google, prueba controlada y autorización comercial",
+      "done": false
+    },
+    {
+      "id": "D05",
+      "task": "Verificar copia externa y restauración con datos autorizados",
+      "done": false
+    }
+  ],
+  "installer_implemented": true,
+  "supervisor_implemented": true,
+  "transport": "ssh_loopback",
+  "installation_on_target_pending": true
+}

@@ -36,13 +36,22 @@ def require(capability):
     return decorator
 
 def navigation(request):
-    return {"app_mode": settings.MILENIO_MODE, "cap": {key: can(request.user, key) for key in CAPABILITIES}, "role_label": "Gerencia" if request.user.is_authenticated and request.user.is_superuser else ", ".join(ROLES.get(name, name) for name in request.user.groups.values_list("name", flat=True)) if request.user.is_authenticated else "", "native_enabled": settings.MILENIO_CODEX_ENABLED}
+    user = request.user
+    authenticated = user.is_authenticated
+    manager = authenticated and user.is_superuser
+    groups = list(user.groups.values_list("name", flat=True)) if authenticated and not manager else []
+    group_names = set(groups)
+    capabilities = {key: bool(authenticated and (manager or group_names.intersection(roles)))
+                    for key, roles in CAPABILITIES.items()}
+    return {"app_mode": settings.MILENIO_MODE, "cap": capabilities,
+            "role_label": "Gerencia" if manager else ", ".join(ROLES.get(name, name) for name in groups),
+            "native_enabled": settings.MILENIO_CODEX_ENABLED}
 
 class AccessMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
     def __call__(self, request):
-        if not request.path.startswith(("/static/", "/health/")):
+        if not request.path.startswith(("/static/", "/health/", "/agent/v1/")):
             configured = User.objects.filter(is_superuser=True, is_active=True).exists()
             if not configured and request.path != "/setup/":
                 return redirect("/setup/")

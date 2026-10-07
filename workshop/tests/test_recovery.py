@@ -318,6 +318,7 @@ class WebDeliveryTests(unittest.TestCase):
         port = self._unused_local_port()
         with tempfile.TemporaryDirectory() as temp:
             environment = dict(os.environ)
+            environment["MILENIO_LEGACY_LOCAL"] = "1"
             environment["MILENIO_DATA_DIR"] = str(Path(temp) / "live")
             environment.pop("MILENIO_MODE", None)
             kwargs = {"creationflags": getattr(subprocess, "CREATE_NO_WINDOW", 0)} if os.name == "nt" else {}
@@ -371,7 +372,7 @@ class WebDeliveryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             for name in (*package_web.ROOT_FILES, *package_web.OTHER_FILES,
-                         "workshop/models.py", "workshop/static/workshop/app.css", "milenio_web/settings.py",
+                         "infra/README.md", "commercial/models.py", "commercial/migrations/0001_initial.py", "workshop/models.py", "workshop/static/workshop/app.css", "milenio_web/settings.py",
                          "workshop/private/client.sqlite3", "private/operational/live/workshop.sqlite3"):
                 file = root / name
                 file.parent.mkdir(parents=True, exist_ok=True)
@@ -386,6 +387,8 @@ class WebDeliveryTests(unittest.TestCase):
                 self.assertNotIn("private/operational/live/workshop.sqlite3", archive.namelist())
                 self.assertNotIn("workshop/private/client.sqlite3", archive.namelist())
                 self.assertIn("workshop/static/workshop/app.css", archive.namelist())
+                self.assertIn("commercial/models.py", archive.namelist())
+                self.assertIn("commercial/migrations/0001_initial.py", archive.namelist())
                 self.assertEqual(set(manifest["entries_sha256"]), set(archive.namelist()) - {package_web.MANIFEST})
                 for name, expected in manifest["entries_sha256"].items():
                     self.assertEqual(hashlib.sha256(archive.read(name)).hexdigest(), expected)
@@ -412,6 +415,41 @@ class WebDeliveryTests(unittest.TestCase):
                 (wheels / names[0]).unlink()
                 with self.assertRaisesRegex(ValueError, "does not match"):
                     package_web._wheels(wheels)
+
+    def test_dependency_check_detects_missing_and_wrong_versions(self):
+        from scripts.check_web_dependencies import ready
+        with tempfile.TemporaryDirectory() as temp:
+            requirements = Path(temp) / "requirements.txt"
+            requirements.write_text("# pinned runtime\nDjango==5.2.17\n", encoding="utf-8")
+            self.assertTrue(ready(requirements))
+            requirements.write_text("Django==0.0.0\n", encoding="utf-8")
+            self.assertFalse(ready(requirements))
+            requirements.write_text("milenio-nonexistent-package==1.0\n", encoding="utf-8")
+            self.assertFalse(ready(requirements))
+
+    def test_static_cache_revalidates_without_reading_unchanged_files(self):
+        with tempfile.TemporaryDirectory() as temp:
+            static = Path(temp)
+            asset = static / "app.js"
+            asset.write_bytes(b"first")
+            responses = []
+            def start(status, headers):
+                responses.append((status, dict(headers)))
+            with mock.patch.object(run_web, "STATIC_DIR", static):
+                handler = run_web.WorkshopStatic(lambda env, start: [b"dynamic"])
+                request = {"PATH_INFO": "/static/workshop/app.js", "REQUEST_METHOD": "GET"}
+                self.assertEqual(b"".join(handler(request, start)), b"first")
+                etag = responses[-1][1]["ETag"]
+                self.assertEqual(responses[-1][1]["Cache-Control"], "private, max-age=300")
+                with mock.patch.object(Path, "read_bytes", side_effect=AssertionError("unnecessary disk read")):
+                    self.assertEqual(handler({**request, "HTTP_IF_NONE_MATCH": etag}, start), [])
+                    self.assertEqual(responses[-1][0], "304 Not Modified")
+                    self.assertEqual(handler({**request, "REQUEST_METHOD": "HEAD"}, start), [])
+                    self.assertEqual(responses[-1][1]["Content-Length"], "5")
+                asset.write_bytes(b"updated asset")
+                self.assertEqual(b"".join(handler({**request, "HTTP_IF_NONE_MATCH": etag}, start)), b"updated asset")
+                self.assertEqual(responses[-1][0], "200 OK")
+                self.assertNotEqual(responses[-1][1]["ETag"], etag)
 
     def test_static_handler_serves_only_workshop_assets(self):
         with tempfile.TemporaryDirectory() as temp:

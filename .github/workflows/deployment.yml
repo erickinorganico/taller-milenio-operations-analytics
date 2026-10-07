@@ -1,0 +1,55 @@
+name: Downloadable deployment
+on:
+  pull_request:
+  push:
+    branches: [main, codex/shared-infrastructure]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  deployment:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements-web.txt
+      - name: Configuration and agent client guards
+        run: python -m unittest discover -s tests -p test_deployment.py -v
+      - name: Install, supervise, stop, backup and restore a disposable package
+        run: python scripts/verify_deployment.py --output artifacts/deployment-verification.json
+      - name: Check PowerShell syntax
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          $found=@()
+          Get-ChildItem -Path *Server*.ps1,*Client*.ps1,Setup-RemoteAccess.ps1 | ForEach-Object {
+            $errors=$null; $tokens=$null
+            [System.Management.Automation.Language.Parser]::ParseFile($_.FullName,[ref]$tokens,[ref]$errors) | Out-Null
+            $found += $errors
+          }
+          if ($found.Count) { $found | Format-List; exit 1 }
+      - name: Collect offline Windows dependencies
+        if: runner.os == 'Windows'
+        run: python scripts/package_web.py --collect-wheels .runtime/release-wheels
+      - name: Build downloadable Windows kit
+        if: runner.os == 'Windows'
+        run: python scripts/package_web.py --output artifacts/Milenio-Servidor-Windows.zip --wheelhouse .runtime/release-wheels
+      - name: Rehearse real PowerShell installer offline twice
+        if: runner.os == 'Windows'
+        run: python scripts/verify_windows_installer.py --package artifacts/Milenio-Servidor-Windows.zip --output artifacts/windows-installer-verification.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: milenio-deployment-${{ matrix.os }}
+          path: |
+            artifacts/deployment-verification.json
+            artifacts/windows-installer-verification.json
+            artifacts/Milenio-Servidor-Windows.zip
+          retention-days: 30

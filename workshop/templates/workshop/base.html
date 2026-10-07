@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>{% block title %}{{ title|default:"Operación" }} · Milenio{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'workshop/app.css' %}?v=6.5">
-  <link rel="stylesheet" href="{% static 'workshop/analytics.css' %}?v=6.5">
-  <link rel="stylesheet" href="{% static 'workshop/shell.css' %}?v=6.5">
-  <script src="{% static 'workshop/app.js' %}?v=6.5" defer></script>
-  <script src="{% static 'workshop/shell.js' %}?v=6.5" defer></script>
+  <link rel="stylesheet" href="{% static 'workshop/app.css' %}?v=6.6">
+  <link rel="stylesheet" href="{% static 'workshop/analytics.css' %}?v=6.6">
+  <link rel="stylesheet" href="{% static 'workshop/shell.css' %}?v=6.6">
+  <script src="{% static 'workshop/app.js' %}?v=6.6" defer></script>
+  <script src="{% static 'workshop/shell.js' %}?v=6.6" defer></script>
   {% block extra_head %}{% endblock %}
 </head>
 <body class="{% if user.is_authenticated %}milenio-shell{% endif %} {% block body_class %}{% endblock %}">
@@ -18,6 +18,7 @@
     <a class="brand" href="/" aria-label="Milenio, inicio"><span class="brand-mark">{% include 'workshop/icons.html' with icon='wrench' icon_class='brand-icon' %}</span><span class="brand-word">Milenio<small>CONTROL DEL TALLER</small></span></a>
     <p class="nav-label">Panel</p>
     {% if cap.intelligence_read %}<nav aria-label="Dashboard"><a href="/analytics/" {% if request.path == '/' or request.path == '/analytics/' %}aria-current="page"{% endif %}>{% include 'workshop/icons.html' with icon='dashboard' %}<span>Vista general</span></a></nav>{% endif %}
+    {% if cap.reception %}<nav aria-label="Comercial"><a href="/commercial/" {% if '/commercial/' in request.path %}aria-current="page"{% endif %}>{% include 'workshop/icons.html' with icon='fleet' %}<span>Desarrollo comercial</span></a></nav>{% endif %}
     <p class="nav-label">Operación</p>
     <nav aria-label="Principal">
       <a href="/today/" {% if request.path == '/today/' %}aria-current="page"{% endif %}>{% include 'workshop/icons.html' with icon='lift' %}<span>Hoy en el taller</span></a>
@@ -27,10 +28,10 @@
       {% if cap.finance_read %}<a href="/finance/">{% include 'workshop/icons.html' with icon='receipt' %}<span>Caja y cobranza</span></a>{% endif %}
       {% if cap.office_read %}<a href="/fleets/">{% include 'workshop/icons.html' with icon='fleet' %}<span>Flotillas</span></a><a href="/towing/">{% include 'workshop/icons.html' with icon='tow' %}<span>Grúas</span></a>{% endif %}
     </nav>
-    <p class="nav-label">Inteligencia</p>
+    {% if cap.reception %}<nav aria-label="Captura"><a href="/capture/">{% include 'workshop/icons.html' with icon='orders' %}<span>Capturar documentos</span></a></nav>{% endif %}<p class="nav-label">Inteligencia</p>
     <nav aria-label="Inteligencia">
       {% if cap.intelligence_read %}<a href="/metrics/">{% include 'workshop/icons.html' with icon='diagnostic' %}<span>Métricas</span></a><a href="/automations/">{% include 'workshop/icons.html' with icon='gear' %}<span>Automatizaciones</span></a><a href="/agents/">{% include 'workshop/icons.html' with icon='actions' %}<span>Agentes y acciones</span></a>{% endif %}
-      {% if cap.data_read %}<a href="/data/">{% include 'workshop/icons.html' with icon='data' %}<span>Fuentes de datos</span></a>{% endif %}
+      {% if cap.data_read %}<a href="/data/" {% if '/data/' in request.path or request.path == '/import/' %}aria-current="page"{% endif %}>{% include 'workshop/icons.html' with icon='data' %}<span>Base de datos</span></a>{% endif %}
       <a href="/guide/">{% include 'workshop/icons.html' with icon='book' %}<span>Guía de uso</span></a>
       {% if cap.manage %}<a href="/team/">{% include 'workshop/icons.html' with icon='team' %}<span>Equipo y acceso</span></a>{% endif %}
       <a href="/account/">{% include 'workshop/icons.html' with icon='user' %}<span>Mi contraseña</span></a>

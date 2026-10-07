@@ -72,6 +72,13 @@ class Command(BaseCommand):
                 con = sqlite3.connect(stage / DATABASE)
                 try:
                     con.execute("DELETE FROM django_session")
+                    tables = {row[0] for row in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+                    if 'commercial_mailbox' in tables:
+                        # Latch outside DB survives interruption and cannot be cleared by a UI toggle.
+                        (data / '.mail-recovery-hold').touch()
+                        con.execute("UPDATE commercial_mailbox SET enabled=0, connected=0")
+                    if 'commercial_agentcredential' in tables:
+                        con.execute("UPDATE commercial_agentcredential SET revoked=1")
                     con.commit()
                 finally:
                     con.close()

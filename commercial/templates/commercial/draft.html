@@ -1,0 +1,12 @@
+{% extends 'commercial/base.html' %}
+{% block commercial %}
+<h1>{{ draft_label }} · {{ account.name }}</h1>
+<p>Texto para revisar y copiar. No se envía desde esta aplicación.</p>
+{% if eligible %}
+{% if suggested_on %}<p>Fecha orientativa: <strong>{{ suggested_on|date:"d/m/Y" }}</strong>. Cuenta lunes a viernes, sin ajustar festivos. Preparar este texto no agenda un envío.</p>{% endif %}
+<section class="crm-panel"><pre class="preserve">{{ draft }}</pre></section>
+<p>Antes de usarlo, confirma destinatario y remitente, revisa la fuente y adapta el texto a la conversación. Un correo publicado puede seguir sin verificar; la aplicación no prueba su entregabilidad.</p>
+<p>La secuencia cuenta todos los eventos «Contacto realizado» de esta ficha, independientemente del canal. Una respuesta, reunión, rebote o baja detiene los borradores en frío.</p>
+{% else %}<section class="crm-panel"><p>{{ block_reason }}</p></section>{% endif %}
+<a href="{% url 'commercial:detail' account.pk %}">Volver a la ficha</a>
+{% endblock %}

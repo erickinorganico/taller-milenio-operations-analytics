@@ -1,0 +1,1 @@
+<details class="crm-panel" {% if error_action == action %}open{% endif %}><summary>{{ label }}</summary><form method="post" class="crm-form">{% csrf_token %}<input type="hidden" name="action" value="{{ action }}"><input type="hidden" name="version" value="{{ account.version }}">{{ form.as_p }}<button type="submit">{{ button|default:'Guardar' }}</button></form></details>

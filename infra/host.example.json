@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "role": "unassigned",
+  "instance_id": null,
+  "expected_hostname": null,
+  "central_url": null,
+  "expected_release_sha": null,
+  "data_dir": null,
+  "backup_dir": null,
+  "mail_worker_allowed": false,
+  "notes": "Completar solo en private/infra.local.json al asignar el servidor. Esta plantilla no activa servicios."
+}

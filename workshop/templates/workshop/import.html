@@ -1,28 +1,24 @@
-{% extends 'workshop/base.html' %}
+{% extends 'workshop/base.html' %}{% load static %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'workshop/data.css' %}?v=1">{% endblock %}
 {% block content %}
-<a class="back" href="/data/">← Volver a fuentes de datos</a>
-<div class="page-head"><div><p class="eyebrow">DATOS DE ARRANQUE</p><h1>Importar catálogos</h1><p>Prepare un CSV UTF-8 con encabezados exactos. Máximo 1 MB y 1,000 registros por archivo.</p></div></div>
-{% if saved %}<div class="notice success">{{ saved }}</div>{% endif %}
-{% if errors %}<section class="panel" role="alert"><h2>Revise el archivo</h2><ul>{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul><p>No se guardó ningún registro.</p></section>{% endif %}
-<section class="panel form-panel">
-  <h2>1. Seleccione catálogo y archivo</h2>
-  <p>Descargue una plantilla vacía: {% for key,label in entities %}<a href="?template={{ key }}">{{ label }}</a>{% if not forloop.last %} · {% endif %}{% endfor %}.</p>
+<a class="back" href="/data/">← Base de datos</a>
+<div class="page-head"><div><p class="eyebrow">CARGA DE INFORMACIÓN</p><h1>Importar o actualizar</h1><p>Excel o CSV, con una revisión antes de guardar.</p></div></div>
+{% if errors %}<section class="notice error" role="alert"><h2>Revisa el archivo</h2><ul>{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul><p>No se guardó ningún registro. Corrige el archivo y vuelve a cargarlo.</p></section>{% endif %}
+<div class="data-layout import-layout"><section class="panel panel-body">
+  <h2>1. Elige qué actualizar</h2>
+  <form method="get" class="inline-form catalog-selector"><div class="field"><label for="catalog-choice">Información</label><select id="catalog-choice" name="entity">{% for key,label in entities %}<option value="{{ key }}" {% if entity == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></div><button class="button" type="submit">Elegir</button></form>
+  <div class="data-downloads"><a class="button" href="/data/export/{{ entity }}/?format=xlsx">Descargar Excel actual</a><a href="?template={{ entity }}&format=xlsx">Plantilla Excel vacía</a><a href="?template={{ entity }}&format=csv">Plantilla CSV</a></div>
+  <p class="small muted">{{ guidance }}</p>
+  <h2>2. Sube tu archivo</h2>
   <form method="post" enctype="multipart/form-data" action="/import/">
-    {% csrf_token %}<input type="hidden" name="stage" value="preview">
-    <div class="field"><label for="entity">Catálogo</label><select id="entity" name="entity" required>{% for key,label in entities %}<option value="{{ key }}" {% if entity == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
-    <div class="field"><label for="file">Archivo CSV UTF-8</label><input id="file" name="file" type="file" accept=".csv,text/csv" required></div>
-    <p>La vista previa no guarda datos. Clientes y refacciones se agregan sin modificar registros existentes. Vehículos deben referir un cliente ya registrado por nombre único. La importación de refacciones no incluye existencias; registre la entrada mediante compra o ajuste físico autorizado.</p>
-    <div class="form-actions"><button class="button primary" type="submit">Revisar vista previa</button></div>
+    {% csrf_token %}<input type="hidden" name="stage" value="preview"><input type="hidden" name="entity" value="{{ entity }}">
+    <div class="field"><label for="mode">Cómo guardar los datos</label><select id="mode" name="mode"><option value="upsert" {% if mode == 'upsert' %}selected{% endif %}>Agregar nuevos y actualizar existentes</option><option value="create" {% if mode == 'create' %}selected{% endif %}>Sólo agregar nuevos</option></select><small>El ID identifica los registros descargados. Para nuevas filas, déjalo vacío. Si la celda está vacía, se guarda vacía.</small></div>
+    <div class="field"><label for="file">Archivo Excel o CSV</label><input id="file" name="file" type="file" accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" aria-describedby="file-help" required><small id="file-help">Hasta 1 MB y 1,000 filas. Excel: una sola hoja, sin fórmulas. CSV: UTF-8, separado por coma, punto y coma o tabulador.</small></div>
+    <p class="small muted">La vista previa no guarda datos. Los registros que no estén en el archivo se conservan.</p>
+    <div class="form-actions"><button class="button primary" type="submit">Revisar archivo</button></div>
   </form>
-</section>
-{% if receipt %}
-<section class="panel">
-  <h2>2. Confirme {{ rows|length }} registro{{ rows|length|pluralize }}</h2>
-  <p>Vista previa válida durante 15 minutos. Si otro registro entra o cambia antes de confirmar, la importación se rechazará completa. Confirme solo cuando los datos correspondan a este taller.</p>
-  <div class="table-wrap"><table><thead><tr><th>Fila</th>{% for field in fields %}<th>{{ field }}</th>{% endfor %}</tr></thead><tbody>
-  {% for row in rows %}<tr><td>{{ forloop.counter|add:1 }}</td>{% for field in fields %}<td>{% for key,value in row.items %}{% if key == field %}{{ value }}{% endif %}{% endfor %}</td>{% endfor %}</tr>{% endfor %}
-  </tbody></table></div>
-  <form method="post" action="/import/">{% csrf_token %}<input type="hidden" name="stage" value="commit"><input type="hidden" name="entity" value="{{ entity }}"><input type="hidden" name="receipt" value="{{ receipt }}"><div class="form-actions"><button class="button primary" type="submit">Confirmar importación de {{ rows|length }} registros</button></div></form>
-</section>
-{% endif %}
+</section><aside class="panel panel-body data-help"><h2>Antes de subir</h2><p class="small">Conserva los encabezados de la plantilla. Usa punto decimal en cantidades e importes. Guarda placas, teléfonos y códigos como texto para conservar sus ceros.</p><p class="small">Fechas: AAAA-MM-DD HH:MM. Sin zona horaria, se usa la zona del taller.</p><details><summary>Columnas de este archivo</summary><dl class="data-field-list">{% for field,label in fields %}<dt><code>{{ field }}</code></dt><dd>{{ label }}</dd>{% endfor %}</dl></details><hr><h3>Desde Google Sheets</h3><p class="small">Descarga la hoja como Excel o CSV y súbela aquí. Para hojas con fórmulas, pega los resultados como valores en una copia antes de descargarla.</p></aside></div>
+{% if receipt %}<section class="panel"><div class="panel-head"><h2>3. Revisa y confirma</h2><small>{{ results|length }} registros</small></div><div class="panel-body"><div class="data-preview-summary" role="status"><span><strong>{{ summary.created }}</strong> para agregar</span><span><strong>{{ summary.updated }}</strong> para actualizar</span><span><strong>{{ summary.unchanged }}</strong> sin cambios</span></div><p class="small muted">Esta revisión dura 15 minutos. Si los datos cambian antes de confirmar, te pediremos revisarlos de nuevo.</p></div>
+<div class="table-wrap"><table class="data-preview-table"><thead><tr><th scope="col">Fila</th><th scope="col">Resultado</th>{% for field,label in fields %}<th scope="col">{{ label }}</th>{% endfor %}<th scope="col">Cambios</th></tr></thead><tbody>{% for result in results %}<tr><td>{{ forloop.counter|add:1 }}</td><td>{% if result.action == 'created' %}<span class="pill good">Agregar</span>{% elif result.action == 'updated' %}<span class="pill warning">Actualizar</span>{% else %}<span class="pill">Sin cambios</span>{% endif %}</td>{% for cell in result.cells %}<td>{{ cell }}</td>{% endfor %}<td>{% if result.action == 'updated' %}<details><summary>Ver cambios</summary>{% for change in result.changes %}<p><strong>{{ change.label }}</strong><br>{{ change.before|default_if_none:'Vacío' }} → {{ change.after|default_if_none:'Vacío' }}</p>{% endfor %}</details>{% else %}—{% endif %}</td></tr>{% endfor %}</tbody></table></div>
+<div class="panel-body"><form method="post" action="/import/">{% csrf_token %}<input type="hidden" name="stage" value="commit"><input type="hidden" name="entity" value="{{ entity }}"><input type="hidden" name="mode" value="{{ mode }}"><input type="hidden" name="receipt" value="{{ receipt }}"><div class="form-actions"><a class="button" href="/import/?entity={{ entity }}">Cancelar</a><button class="button primary" type="submit">Confirmar y guardar</button></div></form></div></section>{% endif %}
 {% endblock %}

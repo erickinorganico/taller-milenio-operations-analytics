@@ -1,0 +1,8 @@
+{% extends 'workshop/base.html' %}
+{% block content %}
+<a class="back" href="/capture/{{ capture.pk }}/">← Revisar documento</a>
+<div class="page-head"><div><p class="eyebrow">DE LA FOTO AL TALLER</p><h1>Revisa los cambios antes de aplicar.</h1><p>{{ capture.title }} · Documento #{{ capture.pk }}</p></div></div>
+<section class="panel"><div class="panel-head"><h2>Datos que se guardarán</h2></div><div class="table-wrap"><table><thead><tr><th>Registro</th><th>Acción</th><th>Cambios revisados</th></tr></thead><tbody>{% for change in plan.changes %}<tr><td>{{ change.entity }}</td><td>{{ change.action }}</td><td>{% for name,values in change.fields.items %}<p><strong>{{ values.label }}</strong>: {{ values.before|default_if_none:'Sin dato' }} → {{ values.after|default_if_none:'Sin dato' }}</p>{% empty %}Se conserva el registro y se agrega el vínculo con la foto.{% endfor %}</td></tr>{% endfor %}</tbody></table></div></section>
+<div class="notice">Los servicios de la hoja se guardan como solicitudes pendientes de cotizar. La autorización del trabajo, los cobros y las existencias se registran en sus pasos correspondientes.</div>
+<form method="post" action="/capture/{{ capture.pk }}/apply/">{% csrf_token %}<input type="hidden" name="stage" value="commit"><input type="hidden" name="receipt" value="{{ receipt }}"><button class="button primary">Aplicar estos cambios al taller</button></form>
+{% endblock %}

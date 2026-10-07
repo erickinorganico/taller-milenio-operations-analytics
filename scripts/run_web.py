@@ -19,16 +19,16 @@ PORTS = {"live": 8765, "demo": 8766}
 STATIC_DIR = ROOT / "workshop" / "static" / "workshop"
 
 
-def start_automation_worker(data_dir):
+def start_automation_worker(data_dir, command="run_automations", log_name="automation-worker"):
     """Supervised child; inherited stdin closes if this server exits unexpectedly."""
-    log_path = data_dir / "automation-worker.log"
+    log_path = data_dir / f"{log_name}.log"
     if log_path.exists() and log_path.stat().st_size > 5_000_000:
-        log_path.replace(data_dir / "automation-worker.previous.log")
+        log_path.replace(data_dir / f"{log_name}.previous.log")
     log = log_path.open("ab")
     options = {"creationflags": subprocess.CREATE_NO_WINDOW} if os.name == "nt" else {}
     try:
         worker = subprocess.Popen(
-            [sys.executable, str(ROOT / "manage.py"), "run_automations", "--watch-parent"],
+            [sys.executable, str(ROOT / "manage.py"), command, "--watch-parent"],
             cwd=ROOT, stdin=subprocess.PIPE, stdout=log, stderr=subprocess.STDOUT,
             env={**os.environ, "PYTHONUNBUFFERED": "1", "PYTHONIOENCODING": "utf-8"}, **options,
         )
@@ -74,10 +74,22 @@ class WorkshopStatic:
         if file.is_symlink() or not file.resolve().is_relative_to(STATIC_DIR.resolve()) or not file.is_file():
             start_response("404 Not Found", [("Content-Type", "text/plain; charset=utf-8")])
             return [b"Not Found"]
+        metadata = file.stat()
+        etag = f'W/"{metadata.st_mtime_ns:x}-{metadata.st_size:x}"'
+        cache_headers = [("ETag", etag), ("Cache-Control", "private, max-age=300"),
+                         ("X-Content-Type-Options", "nosniff")]
+        method = environ.get("REQUEST_METHOD", "GET")
+        if method in {"GET", "HEAD"} and any(tag.strip() in {etag, "*"} for tag in environ.get("HTTP_IF_NONE_MATCH", "").split(",")):
+            start_response("304 Not Modified", cache_headers)
+            return []
+        if method == "HEAD":
+            mime = mimetypes.guess_type(file.name)[0] or "application/octet-stream"
+            start_response("200 OK", [("Content-Type", mime), ("Content-Length", str(metadata.st_size)), *cache_headers])
+            return []
         content = file.read_bytes()
         mime = mimetypes.guess_type(file.name)[0] or "application/octet-stream"
         start_response("200 OK", [("Content-Type", mime), ("Content-Length", str(len(content))),
-                                  ("X-Content-Type-Options", "nosniff"), ("Cache-Control", "private, max-age=300")])
+                                  *cache_headers])
         return [content]
 
 
@@ -118,6 +130,8 @@ def run(mode: str, *, no_browser=False, port_override=None, watch_parent=False, 
                 "Use MILENIO_DATA_DIR para abrir esa instancia o haga respaldo y restauración "
                 "explícitos antes de usar la nueva ubicación local."
             )
+    if mode == "live" and os.environ.get('MILENIO_LEGACY_LOCAL') != '1':
+        raise RuntimeError('Usa Setup-Server.ps1 y Run-Server.ps1 para live. El arranque sin equipo asignado está bloqueado.')
     os.environ["DJANGO_SETTINGS_MODULE"] = "milenio_web.settings"
     os.environ["MILENIO_MODE"] = mode
     sys.path.insert(0, str(ROOT))
@@ -130,6 +144,9 @@ def run(mode: str, *, no_browser=False, port_override=None, watch_parent=False, 
     django.setup()
     if settings.MILENIO_MODE != mode:
         raise RuntimeError("La configuración activa no coincide con el modo solicitado")
+    from milenio_web.deployment import read_config
+    if mode == "live" and read_config():
+        raise RuntimeError("Instalación administrada: usa Run-Server.ps1; el lanzador antiguo no inicia otra instancia.")
     stop_path = Path(stop_file).resolve() if stop_file else None
     if stop_path and (stop_path.parent != settings.DATA_DIR.resolve() or not stop_path.name.startswith('.stop-')):
         raise ValueError('La señal de cierre debe estar dentro de la carpeta de datos de esta instancia.')
@@ -145,6 +162,13 @@ def run(mode: str, *, no_browser=False, port_override=None, watch_parent=False, 
         from milenio_web.wsgi import application
         server = create_server(WorkshopStatic(application), host="127.0.0.1", port=port, threads=4)
         worker, worker_log = start_automation_worker(settings.DATA_DIR)
+        try:
+            document_worker, document_log = start_automation_worker(settings.DATA_DIR,"run_document_captures","document-worker")
+        except Exception:
+            stop_automation_worker(worker,worker_log)
+            server.task_dispatcher.shutdown()
+            server.asyncore.close_all(server._map)
+            raise
         shutdown = threading.Event()
         if stop_path:
             def watch_stop_file():
@@ -178,6 +202,7 @@ def run(mode: str, *, no_browser=False, port_override=None, watch_parent=False, 
             server.task_dispatcher.shutdown()
             server.asyncore.close_all(server._map)
             stop_automation_worker(worker, worker_log)
+            stop_automation_worker(document_worker, document_log)
             if stop_path:
                 stop_path.unlink(missing_ok=True)
 
