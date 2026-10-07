@@ -50,17 +50,6 @@ class MailFlowTests(TestCase):
         item.update(changes)
         return item
 
-    def test_sync_crossing_end_of_window_does_not_send(self):
-        self.clock = self.clock.replace(hour=15, minute=59)
-        def discovery(*args):
-            self.clock = self.clock.replace(hour=16, minute=1)
-            return []
-        self.fake.discover = discovery
-        with patch('django.utils.timezone.now', side_effect=lambda: self.clock):
-            self.assertEqual(flow.tick(self.fake), 'outside_window')
-        self.assertFalse(self.fake.sent)
-        self.assertIsNone(MailMessage.objects.get().attempted_at)
-
     def test_sent_once_and_followup_four_business_days(self):
         self.assertEqual(self.run_tick(), 'sent')
         self.assertEqual(self.run_tick(), 'idle')
@@ -69,6 +58,49 @@ class MailFlowTests(TestCase):
         next_message = MailMessage.objects.get(step=2)
         self.assertEqual(next_message.due_at.astimezone(flow.TZ).date().isoformat(), '2026-10-12')
         self.assertTrue(Interaction.objects.filter(kind='sent').exists())
+
+    def test_sync_crossing_close_does_not_send(self):
+        started = self.clock.replace(hour=15, minute=59)
+        current = [started]
+        def delayed_sync(*args):
+            current[0] = started + timedelta(minutes=2)
+            return []
+        self.fake.discover = delayed_sync
+        with patch('django.utils.timezone.now', side_effect=lambda: current[0]):
+            self.assertEqual(flow.tick(self.fake, started), 'outside_window')
+        self.assertFalse(self.fake.sent)
+        self.assertIsNone(MailMessage.objects.get(step=1).attempted_at)
+
+    def test_business_validation_crossing_close_does_not_send(self):
+        started = self.clock.replace(hour=15, minute=59)
+        current = [started]
+        def delayed_validation(account):
+            current[0] = started + timedelta(minutes=2)
+            return {'exploratory':True}
+        with patch('django.utils.timezone.now', side_effect=lambda: current[0]), \
+             patch.object(flow, 'qualify', side_effect=delayed_validation):
+            self.assertEqual(flow.tick(self.fake, started), 'outside_window')
+        self.assertFalse(self.fake.sent)
+
+    def test_slow_sync_records_actual_attempt_and_preserves_one_per_minute(self):
+        started = self.clock
+        attempted = started + timedelta(minutes=2)
+        current = [started]
+        def delayed_sync(*args):
+            current[0] = attempted
+            return []
+        self.fake.discover = delayed_sync
+        with patch('django.utils.timezone.now', side_effect=lambda: current[0]):
+            self.assertEqual(flow.tick(self.fake, started), 'sent')
+        message = MailMessage.objects.get(step=1)
+        self.assertEqual(message.attempted_at, attempted)
+        self.assertEqual(message.sent_at, attempted)
+        account, contact = self.company('second')
+        enrollment = flow.enroll(contact, self.actor)
+        MailMessage.objects.filter(enrollment=enrollment).update(due_at=attempted)
+        with patch('django.utils.timezone.now', return_value=attempted+timedelta(seconds=30)):
+            self.assertEqual(flow.tick(self.fake, attempted+timedelta(seconds=30)), 'idle')
+        self.assertEqual(len(self.fake.sent), 1)
 
     def test_reply_stops_followup_and_queues_only_one_auto(self):
         self.run_tick(); self.fake.items = [self.inbound()]

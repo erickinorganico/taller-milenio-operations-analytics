@@ -13,11 +13,11 @@ powershell -ExecutionPolicy Bypass -File .\Setup-Web.ps1
 .\Abrir-Demo.cmd
 ```
 
-La demo abre en **http://127.0.0.1:8766/** con datos ficticios. Para una instalación vacía use **Iniciar-Milenio.cmd**, puerto 8765. El primer inicio solicita crear una cuenta propia. Las bases están separadas y se conservan al cerrar. La ubicación predeterminada es `%LOCALAPPDATA%/Milenio/operational/<modo>`, fuera de la carpeta sincronizada del código. El lanzador detecta instalaciones antiguas y pide migrarlas explícitamente, sin borrar datos.
+La demo abre en **http://127.0.0.1:8766/** con datos ficticios. Para instalar el servidor del taller use **Setup-Server.ps1**, que prepara una base vacía y el acceso local en el puerto 8770. El primer inicio solicita crear una cuenta propia. Siga [la instalación guiada para Codex](infra/INSTALAR.md). Las bases se conservan al cerrar y permanecen separadas de la demo. El instalador detecta instalaciones anteriores y exige migrarlas explícitamente, sin borrar datos.
 
 Para presentar, abre **Abrir-Demo.cmd** con doble clic: inicia el servidor en segundo plano y abre el navegador predeterminado cuando confirma que está listo. Si ya está abierto, reutiliza la instancia. La comprobación de dependencias es local y sólo instala si falta una versión requerida. Abre la demo antes de la reunión e inicia sesión con tu cuenta; después puedes recorrer Dashboard, Órdenes y Base de datos. Si la pestaña integrada de Codex se queda bloqueada, abre la misma dirección en Edge o Chrome.
 
-El ZIP V6 con wheels permite instalar las dependencias sin internet en Windows x64/Python 3.12. Python y una sesión personal de Codex, si se desea usar el modelo, son requisitos externos. El servidor escucha sólo en el equipo local; abrirlo a otros equipos requiere un despliegue con HTTPS y configuración específica.
+El ZIP con wheels permite instalar las dependencias web sin internet en Windows x64/Python 3.12. Python y una sesión personal de Codex, si se desea usar el modelo, son requisitos externos. El servidor escucha en loopback; [el acceso entre computadoras](infra/RED-Y-SEGURIDAD.md) utiliza un túnel SSH con llaves individuales. Su instalación, las credenciales de Windows y la conexión real de Gmail se completan y verifican en la computadora elegida. El correo queda desactivado al instalar.
 
 ## Dashboard, analytics y automatizaciones
 
@@ -66,11 +66,11 @@ El modo **reglas** funciona sin IA ni internet. El modo **nativo Codex** requier
 ```powershell
 $env:MILENIO_MODE='test'
 $env:MILENIO_DATA_DIR=Join-Path $PWD 'private/test'
-.\.venv\Scripts\python.exe manage.py test workshop.tests
+.\.venv\Scripts\python.exe manage.py test workshop commercial
 .\.venv\Scripts\python.exe manage.py makemigrations --check --dry-run
 ```
 
-La suite V6 ejecutó 115 pruebas: 115 pasaron, sin fallos ni omisiones. El paquete extraído se verificó por separado con dependencias offline, servidor autenticado en puerto temporal, trabajador, migración y restauración. Los ensayos usan bases temporales y datos ficticios. No acreditan adopción, rendimiento con la carga del cliente ni impacto comercial. La entrega sirve como aplicación local para un piloto controlado. CFDI, cobros bancarios, mensajería, telemetría, diagnóstico mecánico automático y servicio alojado multiempresa quedan fuera de esta versión.
+`scripts/verify_web.py` verifica taller y CRM juntos, modelos, dependencias y hashes de las fuentes que se empaquetan. `scripts/verify_deployment.py` comprueba instalación, identidad, exclusión mutua, supervisor, reinicio de un worker y recuperación con correo bloqueado. Los ensayos usan bases temporales y datos ficticios; los recibos históricos acreditan únicamente su propia versión. La aceptación desde dos equipos, el reinicio real de Windows y Gmail requieren pruebas en el servidor elegido. CFDI, cobros bancarios, telemetría, diagnóstico mecánico automático y servicio alojado multiempresa quedan fuera de esta versión.
 
 ## Versiones anteriores
 

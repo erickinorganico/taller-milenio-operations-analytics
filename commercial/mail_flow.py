@@ -288,26 +288,15 @@ def tick(client=None, now=None):
         local = now.astimezone(TZ)
         if local.weekday() >= 5 or local.date().isoformat() in box.holidays or not (9 <= local.hour < 16):
             return 'outside_window'
-        day_start = datetime.combine(local.date(), time.min, TZ)
         candidates = MailMessage.objects.filter(status='queued', due_at__lte=now).select_related('enrollment__account', 'enrollment__contact').order_by('due_at', 'created_at')
         for m in candidates:
             renew()
             with transaction.atomic():
-                now = timezone.now()
-                local = now.astimezone(TZ)
-                day_start = datetime.combine(local.date(), time.min, TZ)
                 current_box = Mailbox.objects.get(pk=1)
-                if local.weekday() >= 5 or local.date().isoformat() in current_box.holidays or not (9 <= local.hour < 16):
-                    return 'outside_window'
                 if not current_box.enabled or not current_box.connected:
                     return 'paused'
                 if MailMessage.objects.filter(status='unknown').exists():
                     return 'unknown_send'
-                attempts = MailMessage.objects.filter(attempted_at__gte=day_start)
-                if attempts.count() >= 10:
-                    return 'daily_limit'
-                if m.kind == 'cold' and m.step == 1 and attempts.filter(kind='cold', step=1).count() >= 5:
-                    continue
                 e = MailEnrollment.objects.select_related('account', 'contact').get(pk=m.enrollment_id)
                 blocked = suppressed(e.account) or e.contact.deliverability == 'bounced' or not e.contact.published_business or e.contact.email.lower() != m.recipient
                 blocked |= m.kind == 'cold' and (e.state != 'active' or not qualify(e.account)['exploratory'] or e.account.stage not in ('research','ready'))
@@ -315,12 +304,25 @@ def tick(client=None, now=None):
                 if blocked:
                     MailMessage.objects.filter(pk=m.pk, status='queued').update(status='cancelled', error='Reglas actuales impiden el envío')
                     continue
-                if not MailMessage.objects.filter(pk=m.pk, status='queued').update(status='sending', attempted_at=now):
+                # A long sync can cross the window or midnight. Admit using the real time.
+                attempted_at = timezone.now()
+                local = attempted_at.astimezone(TZ)
+                if local.weekday() >= 5 or local.date().isoformat() in current_box.holidays or not (9 <= local.hour < 16):
+                    return 'outside_window'
+                day_start = datetime.combine(local.date(), time.min, TZ)
+                attempts = MailMessage.objects.filter(attempted_at__gte=day_start)
+                if attempts.count() >= 10:
+                    return 'daily_limit'
+                if m.kind == 'cold' and m.step == 1 and attempts.filter(kind='cold', step=1).count() >= 5:
                     continue
-                m.attempted_at = now
+                if MailMessage.objects.filter(attempted_at__gt=attempted_at-timedelta(seconds=60)).exists():
+                    return 'idle'
+                if not MailMessage.objects.filter(pk=m.pk, status='queued').update(status='sending', attempted_at=attempted_at):
+                    continue
+                m.attempted_at = attempted_at
             try:
                 result = client.send(m, box.email)
-                mark_sent(m, result, box, now)
+                mark_sent(m, result, box, attempted_at)
             except Exception:
                 MailMessage.objects.filter(pk=m.pk).update(status='unknown', error='Gmail no confirmó el resultado. No se reintenta automáticamente.')
                 return 'unknown_send'

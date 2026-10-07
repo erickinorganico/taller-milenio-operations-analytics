@@ -389,6 +389,8 @@ class WebDeliveryTests(unittest.TestCase):
                 self.assertIn("workshop/static/workshop/app.css", archive.namelist())
                 self.assertIn("commercial/models.py", archive.namelist())
                 self.assertIn("commercial/migrations/0001_initial.py", archive.namelist())
+                self.assertIn("infra/README.md", archive.namelist())
+                self.assertIn("Setup-Server.ps1", archive.namelist())
                 self.assertEqual(set(manifest["entries_sha256"]), set(archive.namelist()) - {package_web.MANIFEST})
                 for name, expected in manifest["entries_sha256"].items():
                     self.assertEqual(hashlib.sha256(archive.read(name)).hexdigest(), expected)

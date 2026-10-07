@@ -4,6 +4,13 @@ Estado vigente del trabajo de captura: **6 de octubre de 2026**. El antecedente
 del 1 de octubre en REVISION-Y-PILOTO.md describe un piloto que sólo exportaba.
 Esta implementación añade la aplicación transaccional a la base del taller.
 
+Actualización de la entrega: Excel y CSV conservan también tipo, cantidades,
+precios, costos y `part_sku` de los servicios revisados. Excel usa celdas numéricas
+para calcular sobre importes observados; los datos desconocidos quedan vacíos.
+CSV incluye una fila por servicio con la identificación de su documento. Ambos
+formatos conservan protección contra fórmulas. La lectura y sus importes no
+sustituyen la revisión ni autorizan cotizaciones o cobros.
+
 ## Estado activo verificado
 
 Demo activa en **http://127.0.0.1:8766/**, con migración 0005 aplicada después

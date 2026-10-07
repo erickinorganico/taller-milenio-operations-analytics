@@ -1,4 +1,5 @@
 import io
+import csv
 import tempfile
 from datetime import timedelta
 from pathlib import Path
@@ -67,25 +68,6 @@ class DocumentCaptureTests(TestCase):
         self.assertEqual(counts, (m.WorkOrder.objects.count(), m.Payment.objects.count(), m.QuoteLine.objects.count()))
         self.assertEqual(m.AuditEvent.objects.filter(entity_type="DocumentCapture", action="confirmed").count(), 1)
 
-    def test_structured_service_export_keeps_numbers_sku_and_unknowns(self):
-        import csv
-        from workshop.document_capture import export_content
-        capture = self.upload()
-        capture.reviewed_by = self.manager
-        capture.reviewed_at = timezone.now()
-        capture.data = {'order_number':'SYNTHETIC','services':'Texto'}
-        capture.service_items = [{'description':'Servicio','quantity':2,'unit_price':'123.45','unit_cost':'67.89','sku':'=SKU'},
-                                 {'description':'Pendiente','quantity':None,'unit_price':None,'unit_cost':None,'sku':''}]
-        rows = list(csv.DictReader(io.StringIO(export_content(capture,'csv')[0].decode('utf-8-sig'))))
-        self.assertEqual(rows[0]['service_quantity'],'2')
-        self.assertEqual(rows[0]['service_unit_price'],'123.45')
-        self.assertEqual(rows[0]['service_unit_cost'],'67.89')
-        self.assertEqual(rows[0]['service_sku'],"'=SKU")
-        self.assertEqual(rows[1]['service_quantity'],'')
-        book = load_workbook(io.BytesIO(export_content(capture,'xlsx')[0]))
-        self.assertEqual(book['Servicios revisados']['H2'].value,'=SKU')
-        self.assertEqual(book['Servicios revisados']['H2'].data_type,'s')
-
     def test_duplicates_are_reused_and_roles_protect_photos_exports_and_review(self):
         capture = self.upload()
         self.upload()
@@ -98,6 +80,33 @@ class DocumentCaptureTests(TestCase):
         self.assertEqual(self.review(capture).status_code, 403)
         self.client.logout()
         self.assertEqual(self.client.get(f"/capture/{capture.pk}/photo/").status_code, 302)
+
+    def test_structured_export_preserves_amounts_unknowns_and_formula_safety(self):
+        capture = self.upload()
+        process_one(reader=lambda path: TEXT)
+        capture.refresh_from_db()
+        self.review(capture)
+        capture.refresh_from_db()
+        capture.service_items = [
+            {"description":"Servicio observado", "kind":"service", "quantity":"2.000",
+             "unit_price":"123.45", "unit_cost":"67.89", "part_sku":"=NO-EJECUTAR"},
+            {"description":"Dato incompleto", "kind":"unknown", "quantity":None,
+             "unit_price":None, "unit_cost":None, "part_sku":""},
+        ]
+        capture.save(update_fields=["service_items"])
+        response = self.client.get(f"/capture/{capture.pk}/export/xlsx/")
+        book = load_workbook(io.BytesIO(response.content))
+        sheet = book["Servicios revisados"]
+        self.assertEqual([sheet.cell(2, c).value for c in (6,7,8,9)], [2,123.45,67.89,"=NO-EJECUTAR"])
+        self.assertEqual(sheet['G2'].data_type, 'n')
+        self.assertEqual(sheet['I2'].data_type, 's')
+        self.assertIsNone(sheet['F3'].value)
+        response = self.client.get(f"/capture/{capture.pk}/export/csv/")
+        rows = list(csv.DictReader(io.StringIO(response.content.decode('utf-8-sig'))))
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(rows[0]['service_unit_price'], '123.45')
+        self.assertEqual(rows[0]['service_part_sku'], "'=NO-EJECUTAR")
+        self.assertEqual(rows[1]['service_quantity'], '')
 
     def test_failure_empty_text_and_interrupted_read_can_be_reviewed_manually(self):
         capture = self.upload()
