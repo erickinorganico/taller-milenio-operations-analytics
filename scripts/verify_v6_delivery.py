@@ -36,8 +36,12 @@ django.setup()
 from datetime import timedelta
 from decimal import Decimal
 from django.contrib.auth import get_user_model
+from django.db import connection
+from django.db.migrations.executor import MigrationExecutor
 from django.utils import timezone
-from workshop.models import AuditEvent, Customer, Invoice, Part, Payment, Quote, QuoteLine, StockMovement, Vehicle, WorkOrder
+apps = MigrationExecutor(connection).loader.project_state([('workshop','0001_initial')]).apps
+AuditEvent, Customer, Invoice, Part, Payment, Quote, QuoteLine, StockMovement, Vehicle, WorkOrder = (
+    apps.get_model('workshop', name) for name in ('AuditEvent','Customer','Invoice','Part','Payment','Quote','QuoteLine','StockMovement','Vehicle','WorkOrder'))
 actor = get_user_model()(username='v6-disposable-fixture', is_active=True, is_superuser=True)
 actor.set_unusable_password()
 actor.save()
@@ -53,7 +57,7 @@ WorkOrder.objects.create(vehicle=van, number='V5-MIGRATION-2', status='in_progre
 part = Part.objects.create(sku='V5-MIGRATION-PART', name='Fixture filter', stock=Decimal('5.000'),
     cost=Decimal('8.00'), sale_price=Decimal('15.00'))
 StockMovement.objects.create(part=part, kind='consume', quantity=Decimal('-1.000'),
-    unit_cost=part.cost, work_order=delivered, created_by=actor, created_at=now-timedelta(days=9))
+    unit_cost=part.cost, work_order=delivered, created_by_id=actor.pk, created_at=now-timedelta(days=9))
 quote = Quote.objects.create(work_order=delivered, version=1, status='approved',
     authorized_at=now-timedelta(days=9))
 QuoteLine.objects.create(quote=quote, kind='service', description='Fixture service',
@@ -62,8 +66,8 @@ invoice = Invoice.objects.create(work_order=delivered, number='V5-MIGRATION-INVO
     subtotal=Decimal('120.00'), tax=Decimal('0.00'), total=Decimal('120.00'),
     issued_at=now-timedelta(days=8), due_at=now+timedelta(days=5))
 Payment.objects.create(invoice=invoice, amount=Decimal('20.00'), method='fixture', reference='synthetic',
-    idempotency_key='v6-migration-payment', received_at=now-timedelta(days=7), created_by=actor)
-AuditEvent.objects.create(actor=actor, entity_type='WorkOrder', entity_id=str(delivered.pk),
+    idempotency_key='v6-migration-payment', received_at=now-timedelta(days=7), created_by_id=actor.pk)
+AuditEvent.objects.create(actor_id=actor.pk, entity_type='WorkOrder', entity_id=str(delivered.pk),
     action='status_changed', before={'status':'ready'}, after={'status':'delivered'},
     created_at=now-timedelta(days=9))
 print('V6-VERIFY-JSON:'+json.dumps({'orders':WorkOrder.objects.count(), 'invoice_total':'120.00',
@@ -78,12 +82,16 @@ from django.contrib.auth import get_user_model
 from django.contrib.sessions.backends.db import SessionStore
 from django.utils import timezone
 from workshop import analytics, automation
-from workshop.models import AnalyticsRow, AnalyticsSnapshot, AutomationJob, AutomationPolicy, Customer, Invoice, Payment, WorkOrder
+from workshop.models import AnalyticsRow, AnalyticsSnapshot, AutomationJob, AutomationPolicy, Customer, Invoice, Payment, WorkOrder, QuoteLine, PhotoQuoteBatch
 actor = get_user_model().objects.get(username='v6-disposable-fixture')
 assert WorkOrder.objects.filter(number__startswith='V5-MIGRATION-').count() == 2
 invoice = Invoice.objects.get(number='V5-MIGRATION-INVOICE')
 assert str(invoice.total) == '120.00'
 assert str(invoice.total - sum((p.amount for p in Payment.objects.filter(invoice=invoice)), 0)) == '100.00'
+legacy_line = QuoteLine.objects.get(quote__work_order__number='V5-MIGRATION-1')
+assert legacy_line.description == 'Fixture service' and legacy_line.quantity == 1
+assert legacy_line.unit_price == 120 and legacy_line.unit_cost == 60 and legacy_line.source_service_id is None
+assert legacy_line.quote.status == 'approved' and PhotoQuoteBatch.objects.count() == 0
 snapshot = analytics.refresh_analytics(actor=actor, trigger='verification')
 dashboard = analytics.build_analytics_dashboard(snapshot=snapshot)
 assert len(dashboard['marts']) == 6 and dashboard['kpis']['wip_current']['value'] == 1
@@ -104,7 +112,8 @@ print('V6-VERIFY-JSON:'+json.dumps({'orders':WorkOrder.objects.count(),
     'policy':AutomationPolicy.objects.count(), 'jobs':AutomationJob.objects.count(),
     'completed_jobs':AutomationJob.objects.filter(status='completed').count(),
     'sessions':1, 'snapshot_fingerprint':snapshot.source_fingerprint,
-    'rules_job_status':job.status, 'native_invoked':False}))
+    'rules_job_status':job.status, 'native_invoked':False,
+    'legacy_quote_line_preserved':True,'legacy_photo_origin_null':True}))
 '''
 
 MUTATE = r'''
@@ -361,6 +370,7 @@ def main() -> int:
                 "orders": materialized["orders"], "customers": materialized["customers"],
                 "invoice_total": materialized["invoice_total"], "balance": materialized["balance"]},
                 "preserved": all(old[key] == materialized[key] for key in old)}
+            receipt["migration"].update({key:materialized[key] for key in ('legacy_quote_line_preserved','legacy_photo_origin_null')})
             if not receipt["migration"]["preserved"]:
                 raise AssertionError("V5 operational records changed during migration")
             receipt["automation"] = {key: materialized[key] for key in
