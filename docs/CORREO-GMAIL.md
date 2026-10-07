@@ -22,11 +22,12 @@ Las respuestas automáticas son intencionalmente limitadas a frases claras compl
 
 ## Conectar y activar
 
-1. Abrir `Abrir-Comercial.cmd`. Si es la primera instalación, crear el usuario y contraseña de Gerencia en `/setup/`. Esa credencial local es distinta de la cuenta de Google; no se ha inventado una contraseña para el usuario.
-2. Entrar a Comercial → Correo. **Cargar catálogo investigado al CRM**, revisar las fichas que se usarán y preparar una tanda pequeña. La carga es segura de repetir: no duplica ni sobrescribe fichas existentes. Las relaciones dudosas del catálogo requieren revisión de identidad.
-3. En Google Cloud, habilitar Gmail API, configurar la pantalla de consentimiento OAuth, agregar el Gmail como usuario de prueba si corresponde y crear un cliente de tipo **Aplicación de escritorio**. Descargar su JSON. No pegar contraseña, tokens ni el archivo de credenciales en el chat o en Git.
-4. Ejecutar `Conectar-Gmail.cmd`. Seleccionar el JSON, indicar el usuario local de Gerencia y autorizar el Gmail comercial en la ventana de Google. El correo remitente se toma de la cuenta autorizada; firma predeterminada: Equipo Milenio. El JSON no se copia al repositorio. El token de renovación y el secreto del cliente se cifran con Windows DPAPI en la carpeta de datos de la instalación, ligados al usuario de Windows.
-5. Revisar los mensajes en la cola y pulsar **Activar flujo preparado**. La conexión por sí sola deja los envíos pausados. Se puede detener todo desde el mismo panel.
+1. Instalar el servidor siguiendo [infra/INSTALAR.md](../infra/INSTALAR.md). Abrir la URL central (o su túnel desde un cliente) y crear Gerencia en `/setup/` si falta. No iniciar otra base mediante un lanzador antiguo en la computadora cliente.
+2. Importar el catálogo privado vigente con el importador documentado en esa guía, revisar identidad, canal, bajas e historial y preparar una tanda. La descarga de GitHub no contiene el catálogo privado. Un archivo de borradores no sustituye al formato de importación.
+3. En Google Cloud, habilitar Gmail API, configurar consentimiento OAuth y crear un cliente de tipo **Aplicación de escritorio**. Descargar su JSON privado. No pegar contraseña, tokens ni credenciales en el chat o Git.
+4. Bajo la misma identidad Windows del servidor, cargar la configuración privada como indica INSTALAR.md y ejecutar `deploy.py manage connect_gmail --client <OAuth-desktop.json> --owner <gerencia>`. Autorizar la cuenta en Google. Remitente: cuenta autorizada; firma predeterminada: Equipo Milenio. Token y secreto se cifran mediante DPAPI ligados al usuario Windows.
+5. Para el ensayo con buzón controlado, habilitar el transporte mediante `deploy.py manage deployment_mail --enable --authorization <referencia-del-ensayo>` y activar únicamente la secuencia de prueba en Comercial → Correo. Verificar envío, recepción, pausa y respuesta; no usar prospectos para ese ensayo.
+6. Terminado el ensayo, revisar los mensajes y alcance comercial antes de activar una tanda real desde el panel. Conectar OAuth, habilitar transporte y activar campaña son pasos distintos. La instalación del software no autoriza mensajes. Seguir [ATENCION-COMERCIAL.md](ATENCION-COMERCIAL.md) para responsables y derivaciones.
 
 El alcance OAuth es `gmail.send` + `gmail.readonly`; no se pide borrar correo ni modificar etiquetas. Google clasifica lectura como alcance restringido. La publicación/verificación de la aplicación depende del uso de la cuenta y del proyecto Google. En un proyecto externo en estado Testing, el token de renovación normalmente expira a los siete días para estos permisos: reconectar o completar la configuración aplicable de Google antes de una operación sostenida. No se promete conexión perpetua ni se eluden controles de Google.
 
@@ -36,11 +37,11 @@ Fuentes oficiales: [OAuth para aplicaciones instaladas](https://developers.googl
 
 El correo se prepara como MIME con una versión de texto y otra HTML: blanco, acento naranja y texto azul. No hace falta copiar HTML a Gmail. En el panel se pueden registrar enlaces HTTPS y confirmar que abren sin iniciar sesión. Se incorporan a mensajes preparados después de guardar la configuración; no se modifican silenciosamente mensajes ya revisados. El video abre en un enlace; no se adjunta un MP4 ni se presupone reproducción dentro del correo.
 
-Con los enlaces vacíos o sin confirmar, la campaña puede funcionar solo con el mensaje, dirección y WhatsApp 664 820 1966. El Site actualmente privado y la locución pendiente del video no impiden probar el flujo básico. No se cambió la audiencia del Site.
+Con los enlaces vacíos o sin confirmar, la campaña puede funcionar solo con el mensaje, dirección y WhatsApp 664 820 1966. Las piezas de video ya cuentan con locución en el workspace comercial; consultar su índice vigente para elegir la versión. Antes de incluir sitio o video se debe comprobar que el enlace abre sin sesión desde otro equipo. Este manual no cambia la audiencia del Site ni publica materiales.
 
 ## Operación cotidiana y recuperación
 
-El worker se inicia junto al servidor existente de Milenio. La computadora debe estar encendida, conectada y con Milenio abierto; no es un servicio alojado 24/7. Si se cierra, la cola permanece en SQLite y se retoma al abrir. No se recuperan todos los envíos atrasados de golpe: siguen vigentes ventana y topes diarios.
+En la instalación administrada, el supervisor mantiene el worker de correo separado del navegador. Cerrar el navegador o Codex no lo detiene. El servidor debe permanecer encendido, sin suspensión y conectado; el arranque sin sesión depende de registrar y probar la tarea Windows. La alternativa AtLogon depende de iniciar sesión. Apagar el servidor pausa el proceso, aunque Gmail continúa recibiendo. Al reanudar se sincroniza y se respetan ventana y topes; no se envía todo lo atrasado de golpe.
 
 Al empezar el día: revisar última sincronización, incidencias y respuestas pendientes, atender primero las urgencias y después las oportunidades. Los mensajes urgentes aparecen para atención humana, pero el email no es un canal de despacho inmediato; no se confirma disponibilidad de grúa por este flujo. Una respuesta negativa cierra la secuencia. Un mensaje de vacaciones no reactiva automáticamente la campaña al regreso.
 
@@ -48,7 +49,7 @@ Una baja o pausa no cancela un mensaje que Gmail ya haya aceptado. La recepción
 
 No volver a enviar manualmente un mensaje marcado `unknown`. Revisar Enviados y conservar su identificador; el sistema concilia si lo encuentra. Si no se encuentra, requiere investigación antes de liberar nuevos envíos. Los logs guardan tipos de error, no tokens ni cuerpos de respuestas de Google. Si Google revoca permisos, el panel muestra error de sincronización y el envío queda detenido hasta reconectar.
 
-Respaldo: usar el mecanismo existente de SQLite y medios. El token DPAPI no forma parte del respaldo operativo estándar; una restauración en otro usuario/equipo requiere reconectar Gmail. No ejecutar dos copias restauradas con el mismo buzón: cada instalación debe tener una única cola activa. Esta versión es para una instalación local de Milenio.
+Respaldo: usar Backup-Server.ps1 y el procedimiento de mantenimiento de infra/INSTALAR.md para una copia consistente de SQLite y medios. El token DPAPI no forma parte del respaldo operativo estándar; una restauración en otro usuario/equipo requiere reconectar Gmail. No ejecutar dos copias restauradas con el mismo buzón: cada instalación debe tener una única cola activa. Hay una sola instalación central; ambas computadoras consultan esa base por el acceso privado. Tras restaurar, el bloqueo externo mantiene correo pausado y se revocan credenciales de agentes; conciliar antes de habilitar de nuevo.
 
 ## Validación y límites de entrega
 
