@@ -8,7 +8,7 @@ import subprocess
 from contextlib import closing
 from pathlib import Path
 from urllib.parse import urlsplit
-from urllib.request import HTTPRedirectHandler, Request, build_opener
+from urllib.request import HTTPRedirectHandler, Request, build_opener, ProxyHandler
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -20,19 +20,20 @@ class NoRedirect(HTTPRedirectHandler):
 
 def configuration_issues(config, hostname=None):
     issues = []
-    if config.get('schema_version') != 1: issues.append('unsupported_config_version')
+    if config.get('schema_version') not in (1,2): issues.append('unsupported_config_version')
     role = config.get('role')
     if role not in ('server', 'client', 'development'): issues.append('role_unassigned')
     if not config.get('instance_id'): issues.append('instance_not_assigned')
     if not config.get('expected_hostname'): issues.append('hostname_not_assigned')
     elif str(config['expected_hostname']).casefold() != (hostname or platform.node()).casefold():
         issues.append('wrong_machine')
-    release = config.get('expected_release_sha')
-    if not isinstance(release, str) or not re.fullmatch('[0-9a-f]{40}', release): issues.append('release_not_assigned')
+    release = config.get('release_id') or config.get('expected_release_sha')
+    if not isinstance(release, str) or not re.fullmatch('[0-9a-f]{40}|[0-9a-f]{64}', release): issues.append('release_not_assigned')
     url = config.get('central_url')
     try:
         parsed = urlsplit(url or '')
-        if (parsed.scheme != 'https' or not parsed.hostname or parsed.username or parsed.password
+        secure = parsed.scheme == 'https' or (config.get('schema_version') == 2 and config.get('transport') == 'ssh-loopback' and parsed.scheme == 'http' and parsed.hostname == '127.0.0.1')
+        if (not secure or not parsed.hostname or parsed.username or parsed.password
                 or parsed.query or parsed.fragment or parsed.path not in ('', '/')):
             issues.append('central_https_url_missing_or_invalid')
         _ = parsed.port
@@ -61,14 +62,15 @@ def probe(url):
     # No secrets or cookies are attached; OS trust store remains enabled.
     try:
         request = Request(url.rstrip('/')+'/health/', headers={'Accept':'application/json'})
-        with build_opener(NoRedirect()).open(request, timeout=5) as response:
+        with build_opener(ProxyHandler({}), NoRedirect()).open(request, timeout=5) as response:
             body = response.read(65537)
             if len(body) > 65536: return {'reachable':False, 'reason':'oversized_response'}
             data = json.loads(body)
         matched = data.get('application') == 'milenio-operations' and data.get('mode') == 'live' and data.get('status') == 'ok'
         return {'reachable':True, 'application_and_mode_match':matched,
                 'persistent_instance_verified':False, 'deployed_release_verified':False,
-                'note':'Current health endpoint does not attest persistent identity, release or mail worker.'}
+                'instance_id':data.get('instance_id',''), 'release_id':data.get('release_id',''),
+                'supervisor_recent':data.get('supervisor_recent',False), 'workers':data.get('workers',{})}
     except Exception as exc:
         return {'reachable':False, 'reason':type(exc).__name__}
 
@@ -105,6 +107,12 @@ def diagnose(config, network=False, local_db=False):
             result['network'] = {'skipped':True, 'reason':'invalid_url'}
         else:
             result['network'] = probe(config['central_url'])
+            if config.get('schema_version') == 2 and result['network'].get('reachable'):
+                result['network']['persistent_instance_verified'] = result['network'].get('instance_id') == config.get('instance_id')
+                result['network']['deployed_release_verified'] = result['network'].get('release_id') == config.get('release_id') and bool(config.get('release_id'))
+                if not result['network']['persistent_instance_verified']: issues.append('wrong_central_instance')
+                if not result['network']['deployed_release_verified']: issues.append('central_release_not_verified')
+                if not result['network'].get('supervisor_recent'): issues.append('supervisor_not_recent')
             if not result['network'].get('reachable') or not result['network'].get('application_and_mode_match'):
                 issues.append('central_health_not_confirmed')
     if local_db:

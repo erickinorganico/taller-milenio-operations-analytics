@@ -29,20 +29,8 @@ if (-not (Test-Path -LiteralPath $venvPython -PathType Leaf)) {
 & $venvPython -c 'import sys; assert sys.version_info >= (3,12)'
 if ($LASTEXITCODE -ne 0) { throw 'El Python de .venv debe ser 3.12 o posterior' }
 function Test-WebDependencies {
-    $raw = & $venvPython -m pip list --format=json
-    if ($LASTEXITCODE -ne 0) { return $false }
-    $installed = @{}
-    foreach ($package in ($raw | ConvertFrom-Json)) {
-        $installed[$package.name.ToLowerInvariant()] = $package.version
-    }
-    foreach ($line in (Get-Content -LiteralPath $requirements)) {
-        if ($line -match '^\s*([^#\s=]+)==([^\s#]+)') {
-            $name = $matches[1].ToLowerInvariant()
-            $version = $matches[2]
-            if (-not $installed.ContainsKey($name) -or $installed[$name] -ne $version) { return $false }
-        }
-    }
-    return $true
+    & $venvPython (Join-Path $projectRoot 'scripts\check_web_dependencies.py') $requirements
+    return ($LASTEXITCODE -eq 0)
 }
 if (-not (Test-WebDependencies)) {
     if ($Offline) {
@@ -53,6 +41,6 @@ if (-not (Test-WebDependencies)) {
         & $venvPython -m pip install -r $requirements
     }
     if ($LASTEXITCODE -ne 0) { throw 'No se pudieron instalar dependencias web' }
+    if (-not (Test-WebDependencies)) { throw 'La verificación de dependencias web falló' }
 }
-if (-not (Test-WebDependencies)) { throw 'La verificación de dependencias web falló' }
-Write-Output 'Entorno web listo. Use Iniciar-Milenio.cmd o Iniciar-Demo.cmd.'
+Write-Output 'Entorno web listo. Use Abrir-Taller.cmd o Abrir-Demo.cmd.'

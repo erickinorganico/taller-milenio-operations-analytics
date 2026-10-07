@@ -4,6 +4,7 @@ import io
 import json
 import mimetypes
 import uuid
+from urllib.parse import urlencode
 from decimal import Decimal
 from pathlib import Path
 from django import forms
@@ -17,7 +18,7 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.paginator import Paginator
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import IntegrityError, transaction
-from django.db.models import Q, Sum, F
+from django.db.models import Q, Sum, F, Count
 from django.http import FileResponse, Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -78,8 +79,8 @@ def sign_in(request):
     return render(request,"workshop/login.html",{"title":"Bienvenido de vuelta", "intro":"Ingresa con tu cuenta del taller.", "form":form})
 
 def static_asset(request, path):
-    allowed = {"workshop/app.css":"text/css", "workshop/analytics.css":"text/css", "workshop/app.js":"text/javascript",
-               "workshop/shell.css":"text/css", "workshop/shell.js":"text/javascript", "workshop/analytics.js":"text/javascript"}
+    allowed = {"workshop/commercial.css":"text/css", "workshop/app.css":"text/css", "workshop/analytics.css":"text/css", "workshop/app.js":"text/javascript",
+               "workshop/shell.css":"text/css", "workshop/shell.js":"text/javascript", "workshop/analytics.js":"text/javascript", "workshop/data.css":"text/css", "workshop/capture.js":"text/javascript", "workshop/capture.css":"text/css"}
     if path not in allowed:
         raise Http404
     filename = Path(__file__).parent / "static" / path
@@ -90,9 +91,11 @@ def home(request):
     if not can(request.user,"orders_read_all"):
         orders = orders.filter(assigned_to=request.user)
     today = timezone.localdate()
+    attention = orders.aggregate(unassigned=Count("pk", filter=Q(assigned_to__isnull=True)),
+        undated=Count("pk", filter=Q(promised_at__isnull=True)))
     invoices = m.Invoice.objects.filter(voided_at__isnull=True)
     balance = (invoices.aggregate(v=Sum("total"))["v"] or 0) - (m.Payment.objects.filter(invoice__voided_at__isnull=True).aggregate(v=Sum("amount"))["v"] or 0)
-    return render(request,"workshop/home.html",{"title":"Hoy en el taller", "orders":orders.order_by("promised_at","created_at")[:12], "open_count":orders.count(), "late_count":orders.filter(promised_at__lt=timezone.now()).count(), "ready_count":orders.filter(status="ready").count(), "balance":balance,"appointments":m.Appointment.objects.select_related("vehicle__customer").filter(scheduled_at__date=today).order_by("scheduled_at") if can(request.user,"office_read") else [],"low_parts":m.Part.objects.filter(stock__lte=F("reserved")+F("reorder_point"))[:5],"tasks":m.ActionTask.objects.exclude(status__in=["completed","dismissed"]).filter(**({} if can(request.user,"review") else {"assigned_to":request.user})).select_related("assigned_to")[:5],"pending_proposals":m.Proposal.objects.filter(status="pending").count() if can(request.user,"intelligence_read") else 0})
+    return render(request,"workshop/home.html",{"title":"Hoy en el taller", "attention":attention, "orders":orders.order_by("promised_at","created_at")[:12], "open_count":orders.count(), "late_count":orders.filter(promised_at__lt=timezone.now()).count(), "ready_count":orders.filter(status="ready").count(), "balance":balance,"appointments":m.Appointment.objects.select_related("vehicle__customer").filter(scheduled_at__date=today).order_by("scheduled_at") if can(request.user,"office_read") else [],"low_parts":m.Part.objects.filter(stock__lte=F("reserved")+F("reorder_point"))[:5],"tasks":m.ActionTask.objects.exclude(status__in=["completed","dismissed"]).filter(**({} if can(request.user,"review") else {"assigned_to":request.user})).select_related("assigned_to")[:5],"pending_proposals":m.Proposal.objects.filter(status="pending").count() if can(request.user,"intelligence_read") else 0})
 
 def records(request, key):
     if key not in CATALOG:
@@ -190,9 +193,21 @@ def orders(request):
         qs=qs.filter(status=selected)
     if request.GET.get("mine")=="1":
         qs=qs.filter(assigned_to=request.user)
+    attention = request.GET.get("attention", "")
+    if attention in {"unassigned", "undated", "late"}:
+        qs = qs.exclude(status__in=["delivered", "cancelled"])
+        if attention == "unassigned":
+            qs = qs.filter(assigned_to__isnull=True)
+        elif attention == "undated":
+            qs = qs.filter(promised_at__isnull=True)
+        else:
+            qs = qs.filter(promised_at__lt=timezone.now())
     page=Paginator(qs,25).get_page(request.GET.get("page"))
     rows=[{"cells":[{"text":o.number,"url":f"/orders/{o.pk}/"},{"text":o.vehicle},{"text":o.vehicle.customer.name},{"text":o.status,"status":o.status},{"text":o.assigned_to.get_full_name() or o.assigned_to.username if o.assigned_to else "Sin asignar"},{"text":o.promised_at}]} for o in page]
-    return render(request,"workshop/table.html",{"title":"Órdenes de trabajo","intro":"Cada vehículo, su responsable y el siguiente paso.","section":"Taller","columns":["Orden","Vehículo","Cliente","Etapa","Responsable","Entrega prometida"],"rows":rows,"count":qs.count(),"page":page,"query":query,"create_url":"/orders/new/" if can(request.user,"reception") else None,"create_label":"Recibir vehículo","subnav":[{"label":"Todas","url":"/orders/"},{"label":"Mis órdenes","url":"/orders/?mine=1"},{"label":"Por autorizar","url":"/orders/?status=awaiting_approval"},{"label":"En trabajo","url":"/orders/?status=in_progress"},{"label":"Listas","url":"/orders/?status=ready"}]})
+    active_filters = {key:request.GET[key] for key in ["status", "mine", "attention"] if request.GET.get(key)}
+    filter_query = urlencode(active_filters)
+    attention_label = {"unassigned":"Órdenes abiertas sin responsable.", "undated":"Órdenes abiertas sin fecha prometida.", "late":"Órdenes abiertas fuera de la fecha prometida."}.get(attention)
+    return render(request,"workshop/table.html",{"title":"Órdenes de trabajo","intro":attention_label or "Cada vehículo, su responsable y el siguiente paso.","active_filters":active_filters,"filter_query":filter_query,"section":"Taller","columns":["Orden","Vehículo","Cliente","Etapa","Responsable","Entrega prometida"],"rows":rows,"count":qs.count(),"page":page,"query":query,"create_url":"/orders/new/" if can(request.user,"reception") else None,"create_label":"Recibir vehículo","subnav":[{"label":"Todas","url":"/orders/"},{"label":"Mis órdenes","url":"/orders/?mine=1"},{"label":"Por autorizar","url":"/orders/?status=awaiting_approval"},{"label":"En trabajo","url":"/orders/?status=in_progress"},{"label":"Listas","url":"/orders/?status=ready"}]})
 
 @require("reception")
 def new_order(request):
@@ -222,6 +237,8 @@ def order_detail(request,pk):
     assignment=model_form(m.WorkOrder,["assigned_to","promised_at"],instance=order)
     assignment.fields["assigned_to"].queryset=User.objects.filter(is_active=True).filter(Q(is_superuser=True)|Q(groups__name__in=["technician","manager","advisor"])).distinct()
     events=m.AuditEvent.objects.filter(Q(entity_type="WorkOrder",entity_id=str(pk))|Q(after__work_order=pk)|Q(after__work_order_id=pk)).select_related("actor").order_by("-created_at")[:30]
+    from .order_guidance import guidance
+    order.next_step = guidance(order, request.user)
     return render(request,"workshop/order.html",{"title":order.number,"section":"Órdenes","order":order,"quotes":quotes,"invoice":invoice,"paid":paid,"balance":invoice.total-paid if invoice else None,"inspection_form":InspectionForm(),"line_form":MoneyLineForm(),"assignment_form":assignment,"payment_form":PaymentForm(initial={"idempotency_key":str(uuid.uuid4())}),"parts":m.Part.objects.all(),"reservations":order.reservations.select_related("part"),"inspections":order.inspections.order_by("-created_at"),"time_entries":order.time_entries.select_related("technician").order_by("-created_at"),"quality_checks":order.quality_checks.order_by("-created_at"),"events":events,"next_statuses":sorted(state for state in s.TRANSITIONS.get(order.status,set()) if can(request.user,"reception") or state not in {"delivered","cancelled"}),"stages":m.WorkOrder.Status.choices})
 
 @require_POST
@@ -391,10 +408,80 @@ def tow_action(request,pk):
 
 @require("data_read")
 def data_index(request):
-    return render(request,"workshop/data.html",{"title":"Fuentes de datos","section":"Datos","sources":[{"key":key,"title":SOURCE_TITLES[key],"count":model.objects.count(),"table":model._meta.db_table,"columns":len(model._meta.fields)} for key,model in SOURCE_MODELS.items()]})
+    from .data_exchange import MODELS, TITLES, GUIDANCE
+    counts = {model: model.objects.count() for model in set(SOURCE_MODELS.values()) | set(MODELS.values())}
+    catalogs = [{"key": key, "title": TITLES[key], "count": counts[model], "guidance": GUIDANCE[key]}
+                for key, model in MODELS.items()]
+    history = list(m.AuditEvent.objects.filter(entity_type="CatalogImport").select_related("actor").order_by("-pk")[:5])
+    for entry in history:
+        entry.catalog_title = TITLES.get(entry.after.get("catalog"), "Carga de datos")
+    return render(request,"workshop/data.html",{"title":"Base de datos","section":"Base de datos", "catalogs": catalogs,
+        "history": history, "sources":[{"key":key,"title":SOURCE_TITLES[key],"count":counts[model],"columns":len(model._meta.fields)} for key,model in SOURCE_MODELS.items()]})
+
+
+@require("data_read")
+def data_export(request, key):
+    from .data_exchange import FIELDS, file_content
+    if key not in FIELDS:
+        raise Http404
+    format = request.GET.get("format", "xlsx")
+    if format not in {"csv", "xlsx"}:
+        raise Http404
+    content, mime = file_content(key, format)
+    response = HttpResponse(content, content_type=mime)
+    response["Content-Disposition"] = f'attachment; filename="milenio-{key}.{format}"'
+    response["X-Content-Type-Options"] = "nosniff"
+    return response
 
 @require("data_read")
 def data_table(request,key):
+    from .data_exchange import MODELS, TITLES, FIELDS, RELATIONS, LABELS as EXCHANGE_LABELS, export_rows
+    if key in MODELS and request.GET.get("export") != "csv" and request.GET.get("view") != "source":
+        model = MODELS[key]
+        query = request.GET.get("q", "").strip()[:200]
+        selected = search(model.objects.order_by("-pk"), query)
+        related_fields = {"vehicles": ["customer__name"], "orders": ["vehicle__plate", "vehicle__vin", "vehicle__customer__name"],
+                          "services": ["quote__work_order__number"], "payments": ["invoice__number"]}.get(key, [])
+        if query and related_fields:
+            related = Q(pk__in=selected.values("pk"))
+            for field in related_fields:
+                related |= Q(**{field + "__icontains": query})
+            selected = model.objects.filter(related).order_by("-pk")
+        if request.GET.get("id", "").isdigit():
+            selected = selected.filter(pk=int(request.GET["id"]))
+        if key in RELATIONS:
+            selected = selected.select_related(*RELATIONS[key])
+        page = Paginator(selected, 25).get_page(request.GET.get("page"))
+        # Export and display use the same column contract.
+        values = {row["id"]: row for row in export_rows(key, objects=page)}
+        fields = ("id",) + FIELDS[key]
+        rows = []
+        for obj in page:
+            cells = [{"text": values[obj.pk].get(field)} for field in fields]
+            relation = {"vehicles": ("customer_name", "customers", "customer_id"),
+                        "orders": ("vehicle_plate", "vehicles", "vehicle_id"),
+                        "payments": ("invoice_number", "invoices", "invoice_id")}.get(key)
+            if relation:
+                field, target, attribute = relation
+                cells[fields.index(field)]["url"] = f"/data/{target}/?id={getattr(obj, attribute)}"
+            if key == "services":
+                cells[fields.index("order_number")]["url"] = f"/orders/{obj.quote.work_order_id}/"
+            if key == "orders":
+                cells.append({"text": obj.get_status_display()})
+            elif key == "services":
+                cells.append({"text": obj.quote.get_status_display()})
+            rows.append({"cells": cells, "edit_url": f"/records/{key}/{obj.pk}/edit/" if key in CATALOG else f"/orders/{obj.pk}/" if key == "orders" else None})
+        columns = [{**LABELS, **EXCHANGE_LABELS}.get(field, field) for field in fields]
+        if key in {"orders", "services"}:
+            columns.append("Etapa" if key == "orders" else "Estado de cotización")
+        return render(request, "workshop/database_table.html", {"title": TITLES[key], "section": "Base de datos",
+            "intro": "Información de esta instalación. Descarga el Excel actual, edítalo y vuelve a subirlo para actualizar.",
+            "columns": columns,
+            "rows": rows, "count": page.paginator.count, "page": page, "query": query,
+            "editable": can(request.user, "manage") and key in set(CATALOG) | {"orders"},
+            "exchange_key": key, "back_url": "/data/"})
+    if key == "services":
+        key = "quote-lines"
     if key not in SOURCE_MODELS:
         raise Http404
     model=SOURCE_MODELS[key]
@@ -454,8 +541,10 @@ def guide(request):
 
 def health(request):
     import os
+    from milenio_web.worker_health import status
+    deployment = status()
     return JsonResponse({"status":"ok","application":"milenio-operations", "mode":settings.MILENIO_MODE,
-                         "launch_id":os.environ.get('MILENIO_LAUNCH_ID', '')})
+                         "launch_id":os.environ.get('MILENIO_LAUNCH_ID', ''), **deployment})
 
 
 @require("manage")

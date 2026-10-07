@@ -28,7 +28,7 @@ LEASE_SECONDS = 15 * 60
 HEARTBEAT_INTERVAL_SECONDS = 30
 MAX_INTERVAL_MINUTES = 24 * 60 * 30
 MAX_DEBOUNCE_SECONDS = 60 * 60
-EXCLUDED_EVENT_TYPES = ("AgentRun", "Proposal", "ActionTask", "AutomationJob", "AutomationPolicy")
+EXCLUDED_EVENT_TYPES = ("AgentRun", "Proposal", "ActionTask", "AutomationJob", "AutomationPolicy", "DocumentCapture")
 logger = logging.getLogger(__name__)
 
 

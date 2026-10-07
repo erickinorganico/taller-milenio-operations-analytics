@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import Count
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -45,8 +46,8 @@ def _snapshot(request):
     return m.AnalyticsSnapshot.objects.first()
 
 
-def _references(references, user):
-    if not can(user, 'data_read'):
+def _references(references, user, allowed=None):
+    if not (can(user, 'data_read') if allowed is None else allowed):
         return []
     reverse = {model.__name__: key for key, model in SOURCE_MODELS.items()}
     result = []
@@ -100,12 +101,13 @@ def dashboard(request):
     for card in cards:
         card.update(presentation['cards'][card['key']])
     rankings = data.get('rankings', {})
+    references_allowed = can(request.user, 'data_read')
     for key, field in [('parts', 'orders'), ('services', 'authorized_orders')]:
         rows = rankings.get(key, [])
         maximum = max((Decimal(str(row.get(field) or 0)) for row in rows), default=Decimal('0'))
         for row in rows:
             row['bar_width'] = round(max(Decimal('0'), Decimal(str(row.get(field) or 0))) / maximum * 100, 2) if maximum > 0 else 0
-            row['references'] = _references(row.get('source_refs'), request.user)
+            row['references'] = _references(row.get('source_refs'), request.user, allowed=references_allowed)
     trend = data.get('trend', [])
     maximum = max((max(Decimal(str(day.get('invoiced_mxn') or 0)), Decimal(str(day.get('payments_mxn') or 0))) for day in trend), default=Decimal('0'))
     points = {key: [] for key in ['invoiced_mxn', 'payments_mxn']}
@@ -126,6 +128,7 @@ def dashboard(request):
         end = anchor.isoformat()
         quick_ranges.append({'label': f'{days} días', 'url': '?' + urlencode({**preserved, 'start': start, 'end': end}),
                              'active': str(filters.get('start')) == start and str(filters.get('end')) == end})
+    mart_counts = dict(selected.rows.values('mart').annotate(count=Count('pk')).values_list('mart', 'count')) if selected else {}
     return render(request, 'workshop/dashboard.html', {
         'p': presentation, 'quick_ranges': quick_ranges,
         'recent_proposals': m.Proposal.objects.filter(status='pending').select_related('run').order_by('-created_at')[:4],
@@ -139,7 +142,7 @@ def dashboard(request):
         'tasks_open': m.ActionTask.objects.exclude(status__in=['completed','dismissed']).count(),
         'tasks_done': m.ActionTask.objects.filter(status='completed').count(),
         'coverage': json.dumps(data.get('coverage', {}), ensure_ascii=False, indent=2, cls=DjangoJSONEncoder),
-        'mart_links': [{'key': key, 'label': label, 'count': selected.rows.filter(mart=key).count() if selected else 0} for key,label in MART_LABELS.items()],
+        'mart_links': [{'key': key, 'label': label, 'count': mart_counts.get(key, 0)} for key,label in MART_LABELS.items()],
         'export_query': urlencode({**preserved, 'export': 'json'}), **_worker_context(),
     })
 

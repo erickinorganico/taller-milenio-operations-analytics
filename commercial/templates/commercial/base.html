@@ -1,0 +1,6 @@
+{% extends 'workshop/base.html' %}{% load static %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'workshop/commercial.css' %}">{% endblock %}
+{% block content %}<div class="commercial">
+<nav class="crm-nav" aria-label="Comercial"><a href="{% url 'commercial:index' %}">Empresas y seguimiento</a><a href="{% url 'commercial:research' %}">Investigar</a><a href="{% url 'commercial:new' %}">Nueva empresa</a><a href="{% url 'commercial:import' %}">Importar</a></nav>
+{% if cap.manage %}<nav class="crm-nav" aria-label="Correo"><a href="{% url 'commercial:mail' %}">Correo · cola y respuestas</a></nav>{% endif %}
+{% block commercial %}{% endblock %}</div>{% endblock %}

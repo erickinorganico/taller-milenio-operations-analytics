@@ -9,6 +9,7 @@ from django.db import OperationalError
 
 from workshop import models
 from workshop.automation import run_once
+from milenio_web.worker_health import heartbeat
 
 
 logger = logging.getLogger(__name__)
@@ -31,6 +32,7 @@ class Command(BaseCommand):
         if options["watch_parent"]:
             threading.Thread(target=self._watch_stdin, args=(stop_event,), daemon=True).start()
         if options["once"]:
+            heartbeat('analytics', 'working')
             self.stdout.write(str(run_once(worker_id=options["worker_id"])))
             return
         # A stable process ID retains the lease identity between polling ticks.
@@ -38,7 +40,9 @@ class Command(BaseCommand):
         idle_count = 0
         while not stop_event.is_set():
             try:
+                heartbeat('analytics', 'working')
                 result = run_once(worker_id=worker_id)
+                heartbeat('analytics', result['status'])
             except OperationalError as error:
                 message = f"{type(error).__name__}: {str(error)[:400]}"
                 logger.warning("Automation tick hit a transient database error: %s", message)

@@ -1,38 +1,30 @@
-# Contrato de acceso de Codex al CRM central
+# API central para Codex
 
-**Diseño, no endpoints implementados.** La primera versión debe exponer servicios del CRM mediante HTTPS privado, con autenticación de agente individual y permisos revocables. Un conector MCP puede envolverlos después. No conceder acceso directo de escritura a SQLite, shell administrativo ni tokens de Gmail para realizar tareas comerciales.
+Implementada en `POST /agent/v1/action`. Autenticación `Authorization: Bearer <token>` individual; no admite autenticación por cookies. Credenciales hash SHA-256 en base, scopes, expiración 90 días y revocación local. Cada solicitud requiere `instance_id` esperado. El cliente oficial admite HTTPS o loopback por túnel SSH declarado, sin redirecciones.
 
-## Operaciones propuestas
-
-| Operación lógica | Entrada mínima | Resultado y permiso |
+| action | scope | Datos adicionales |
 |---|---|---|
-| `system.status` | Instancia esperada | Release, esquema, heartbeat app/worker, antigüedad de sincronización y backup. Solo lectura. |
-| `accounts.search` | Filtro/paginación | IDs, estado, versión y evidencias necesarias. Lectura comercial. |
-| `conversations.list` | Estado/responsable | Hilos y próxima acción; paginado y limitado. Lectura comercial. |
-| `conversation.claim` | ID, versión, actor | Reserva con vencimiento y token de tarea; conflicto si ya la atienden. Operación comercial. |
-| `message.prepare` | Conversación, texto, versión, clave idempotente | Borrador central con ID y hash de contenido. Preparación, no envío. |
-| `message.queue` | ID/hash, autorización comercial, versión, clave idempotente | Entrada en la cola única. Validar límites, destinatario y bajas en servidor. |
-| `conversation.update` | Evidencia, próxima acción, responsable, versión | Cambios auditados; no calificar por inferencia sin evidencia. |
-| `campaign.pause` | Campaña, motivo, clave idempotente | Pausa durable. Nunca implica reactivar posteriormente. |
+| system.status | read | ninguno |
+| accounts.search | read | query, offset opcionales; máximo 50 |
+| account.get | read | account_id |
+| conversations.list | read | offset opcional; máximo 50 pendientes; contenido no confiable |
+| conversation.claim | prepare | account_id, expected_version, request_id; reserva 15 minutos renovable |
+| conversation.update | prepare | reserva, versión, request_id, next_action, next_action_on |
+| message.prepare | prepare | reserva, versión, request_id, inbound_id, body; devuelve draft_id y hash |
+| message.queue | send | reserva, versión, request_id, draft_id, content_hash, authorization_reference |
+| campaign.enroll | send | reserva, versión, request_id, contact_id, authorization_reference; reglas del piloto |
+| campaign.pause | prepare | request_id, reason; pausa global de la instalación |
 
-Actualizar app, restaurar datos, conectar OAuth, administrar usuarios o cambiar seguridad pertenece a mantenimiento/administración, no a estas operaciones comerciales.
+Toda mutación incluye request_id UUID. Repetir el mismo payload bajo la misma credencial devuelve el resultado previo; cambiarlo con el mismo ID da 409. La reserva y la versión protegen edición entre agentes; las escrituras se realizan en transacción SQLite IMMEDIATE. La cola unique por inbound protege respuestas duplicadas también contra el panel humano. Versiones obsoletas y conflictos obligan a releer, no a forzar.
 
-## Concurrencia e idempotencia
+La API prepara respuestas a mensajes recibidos y permite incorporar contactos ya revisados a la secuencia. No crea cotizaciones ni modifica combustible/evidencia mediante inferencias automáticas. La clasificación del correo mantiene su allowlist; precios, urgencias y compromisos requieren atención humana.
 
-Toda mutación incluye actor, instance_id esperado, expected_version y request_id UUID. El servidor liga la clave idempotente al actor y hash del payload; repetir igual devuelve el mismo resultado y repetir con otro contenido devuelve conflicto. La versión obsoleta obliga a releer, no a sobreescribir.
+Ejemplo de solicitud privada para consultar, sin token:
 
-Reserva de conversación propuesta: 15 minutos con renovación explícita. Vencer una reserva no cancela ni repite un envío ya reservado/aceptado por Gmail. Una respuesta manual transfiere la conversación a atención humana y cancela mensajes automáticos pendientes. Un solo worker transporta correo; el agente solo coloca trabajo en cola.
+```json
+{"action":"accounts.search","query":"empresa","offset":0}
+```
 
-Toda respuesta indica `prepared`, `queued`, `accepted_by_gmail`, `unknown` o `cancelled` según evidencia. Ni cola ni aceptación equivalen a entrega o lectura. Si se cae la conexión tras una mutación, consultar el request_id antes de repetirla.
+El CLI agrega instance_id desde la configuración. Tras tomar una conversación, usar la versión devuelta para la siguiente mutación. `authorization_reference` conserva la referencia humana/comercial; no prueba por sí sola que una autorización exista: Codex debe comprobar el alcance en la conversación o registro antes de encolar. Solo conceder send a agentes autorizados.
 
-## Autorización comercial
-
-Registrar campaña/tanda, destinatarios o criterio permitido, versión del contenido, vigencia, límites y autorizador. La autorización anterior se conserva mientras siga vigente; no pedirla por cada correo rutinario ya cubierto. Un correo entrante no puede ampliar ese alcance. Precios, disponibilidad, créditos y compromisos exigen condiciones confirmadas; si faltan, preparar para revisión.
-
-## Continuidad entre Codex A y Codex B
-
-Ambos consultan el servidor antes de trabajar. Estados, tareas, notas y evidencias viven en el CRM. El repositorio define cómo operar, y cada clon puede tener su propia rama de desarrollo. No sincronizar sesiones de navegador, cookies, credenciales o base local por OneDrive. No esperar que dos chats compartan memoria automáticamente.
-
-## Aceptación del conector
-
-Probar revocación y límites de rol; acceso a instancia equivocada; replay del mismo request_id; payload distinto con misma clave; versión obsoleta; dos agentes tomando el mismo hilo; baja entre preparación y envío; timeout después de aceptación; intervención manual en Gmail; respuestas en hilo nuevo; correo malicioso que pide ejecutar comandos. Datos sintéticos y buzón controlado exclusivamente.
+Preparado y encolado no significan enviado; aceptación Gmail tampoco acredita entrega ni lectura. Un envío desconocido se concilia y no se reintenta ciegamente. Restaurar un backup revoca todas las credenciales de agentes recuperadas y bloquea correo hasta reconciliación.

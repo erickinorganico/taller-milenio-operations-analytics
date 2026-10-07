@@ -45,7 +45,7 @@ def main():
                 self.record=super().run_suite(suite,**kwargs)
                 return self.record
         runner=EvidenceRunner(verbosity=1,interactive=False)
-        errors=runner.run_tests(['workshop.tests'])
+        errors=runner.run_tests(['workshop.tests', 'commercial'])
         result=runner.record
         stream=io.StringIO()
         checks=True

@@ -3,6 +3,9 @@ import os
 import secrets
 from pathlib import Path
 
+from .deployment import guard_configured_live
+guard_configured_live()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 MILENIO_MODE = os.environ.get("MILENIO_MODE", "live")
 if MILENIO_MODE not in {"live", "demo", "test"}:
@@ -29,7 +32,7 @@ if not secret_file.exists():
 SECRET_KEY = os.environ.get("MILENIO_SECRET_KEY") or secret_file.read_text(encoding="utf-8").strip()
 DEBUG = False
 ALLOWED_HOSTS = [s.strip() for s in os.environ.get("MILENIO_ALLOWED_HOSTS", "127.0.0.1,localhost,[::1]").split(",") if s.strip()]
-INSTALLED_APPS = ["django.contrib.auth", "django.contrib.contenttypes", "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles", "workshop"]
+INSTALLED_APPS = ["django.contrib.auth", "django.contrib.contenttypes", "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles", "workshop", "commercial"]
 MIDDLEWARE = ["django.middleware.security.SecurityMiddleware", "django.contrib.sessions.middleware.SessionMiddleware", "django.middleware.common.CommonMiddleware", "django.middleware.csrf.CsrfViewMiddleware", "django.contrib.auth.middleware.AuthenticationMiddleware", "django.contrib.messages.middleware.MessageMiddleware", "django.middleware.clickjacking.XFrameOptionsMiddleware", "workshop.access.AccessMiddleware"]
 ROOT_URLCONF = "milenio_web.urls"
 TEMPLATES = [{"BACKEND": "django.template.backends.django.DjangoTemplates", "DIRS": [], "APP_DIRS": True, "OPTIONS": {"context_processors": ["django.template.context_processors.request", "django.contrib.auth.context_processors.auth", "django.contrib.messages.context_processors.messages", "workshop.access.navigation"]}}]

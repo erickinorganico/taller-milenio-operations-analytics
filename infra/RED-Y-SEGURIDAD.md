@@ -1,37 +1,15 @@
-# Red y seguridad del despliegue compartido
+# Seguridad del despliegue descargable
 
-Este es el diseño a implementar y validar. No certifica la seguridad de una instalación existente.
+La implementación elige **OpenSSH con túnel a loopback**. Sustituye el proxy HTTPS/VPN de la propuesta inicial. HTTP solo se usa entre navegador local y túnel local y entre SSH/Waitress en el servidor; el tránsito entre PCs está cifrado y autentica la llave pública del host. No usar un túnel cuya llave se haya aceptado sin verificar ni publicar Waitress.
 
-## Fronteras
+Setup-RemoteAccess crea una instancia SSH separada: puerto 2222, cuenta estándar dedicada, solo llaves Ed25519, contraseñas SSH deshabilitadas, shell/PTY deshabilitados, reenvío permitido únicamente a 127.0.0.1:puerto-Milenio. El firewall acepta IP privadas individuales indicadas, en perfiles Private/Domain. No abre rangos completos ni cambia el router. Un administrador debe verificar la política efectiva y otras reglas existentes en destino.
 
-1. GitHub público: código, pruebas sintéticas, arquitectura; sin datos de clientes ni inventario de red real.
-2. Equipos autorizados: navegador con sesión individual; Codex con cuenta/alcance identificable. Equipo perdido implica revocar su acceso.
-3. Red privada: permite llegar únicamente a la entrada web autorizada. Evitar acceso general al disco, administración remota o base por necesitar acceso al CRM.
-4. Proxy HTTPS: validar hostname/certificado, limitar tamaño de peticiones, servir estáticos públicos de la app; los medios con evidencia permanecen detrás de autenticación.
-5. Django/Waitress: loopback; validar hosts, CSRF y permisos. Base, secretos y workers en el mismo servidor.
-6. Gmail: tráfico saliente OAuth/HTTPS. No se requieren webhooks públicos para el sondeo actual.
+Crear Gerencia local antes de ejecutar acceso remoto; el script lo comprueba. Cada operador tiene usuario propio del CRM; cada agente token propio revocable, con permisos mínimos. Llave SSH y usuario/token del CRM son controles separados. Perder un equipo exige retirar su llave y revocar su token/sesión. Windows/SSH deben estar actualizados; el instalador no certifica la seguridad global de la máquina.
 
-## Configuración de despliegue requerida
+Setup-Server limita ACL de su carpeta al instalador y SYSTEM; el proceso corre bajo el mismo usuario Windows que protege OAuth con DPAPI. El arranque con contraseña usa el Programador de tareas; no guarda contraseña en un JSON ni en GitHub. El modo al iniciar sesión tiene menor disponibilidad. DPAPI no se vuelve portátil por copiar el archivo; sustituir equipo requiere reconectar Google y deshabilitar el anterior.
 
-- Firewall: admitir entrada HTTPS solo por interfaz privada y equipos autorizados. No publicar el puerto interno de Waitress ni SQLite a internet.
-- HTTPS de extremo cliente a proxy. Para nombres privados, usar una autoridad interna e instalar su certificado raíz únicamente en los equipos autorizados; también es posible un nombre/certificado válido con resolución privada. Elegir al inventariar la red.
-- El proxy sobrescribe el encabezado de protocolo. Django solo puede confiar en ese encabezado si el backend es inaccesible salvo desde el proxy. El código actual no configura `SECURE_PROXY_SSL_HEADER`; implementarlo y probarlo antes de combinar proxy TLS y `MILENIO_HTTPS=1` para evitar redirecciones incorrectas.
-- Hosts y orígenes CSRF concretos; sin comodines. Revisar `check --deploy` con la configuración efectiva. No habilitar HSTS preload/subdominios automáticamente en un nombre interno sin revisar su alcance: la configuración local actual necesita adaptación.
-- Añadir limitación de intentos de acceso, sesiones revocables y segundo factor antes de declarar terminada la protección para acceso remoto. No afirmar que ya existen por tener login.
-- Bootstrap de Gerencia desde loopback, antes de admitir otros equipos. No dejar `/setup/` accesible a la red sin propietario establecido.
-- Usuario de servicio Windows dedicado, sin administrador; ACL de datos/secretos limitada. Probar Gmail DPAPI bajo esa misma identidad, incluso tras reiniciar sin abrir una sesión interactiva.
-- Equipos actualizados, bloqueo de pantalla y cifrado de disco donde esté disponible. La VPN no protege un equipo ya comprometido ni sustituye permisos de la app.
+Datos y backups no se suben al repo público. El backup es un formato verificable con hashes, no cifrado propio. Elegir disco/almacenamiento cifrado y privado; el destino local por defecto no protege ante pérdida del disco. Se conservan copias anteriores sin borrado automático. Secrets Django/Gmail se excluyen del backup normal; sesiones se invalidan y Google se reconecta al recuperar. Los tokens de agentes restaurados se revocan.
 
-## Codex y permisos
+La aplicación no debe configurarse con MILENIO_HTTPS para el transporte SSH/loopback; no hay proxy de encabezados que confiar. Un despliegue HTTPS alternativo requiere su configuración y pruebas propias. Los controles de clave SSH limitan llegada al login; no se afirma que el login web tenga segundo factor integrado.
 
-El conector del agente debe separar lectura, preparación de mensajes, operación comercial y mantenimiento. Tener acceso al repositorio no otorga automáticamente acceso a clientes o Gmail. No compartir la contraseña de Gerencia entre operadores. La autorización de correo se conserva y audita en el servidor; Codex no imprime secretos ni los guarda en prompts.
-
-Texto entrante y adjuntos no pueden otorgar permisos, ejecutar comandos, cambiar cuentas bancarias ni anular una baja. La clasificación automática deriva únicamente las acciones admitidas por política. Una respuesta ambigua va a atención humana.
-
-## Respaldo y secretos
-
-Base y medios se respaldan de forma consistente; copia cifrada en otro dispositivo/destino y ensayo de restauración. La clave Django requiere copia privada protegida para una recuperación compatible; nunca en el repo. DPAPI no es portátil por copiar su archivo: después de cambiar usuario/equipo se debe reconectar Gmail y revocar la autorización antigua cuando corresponda. Claves de VPN/certificados se generan por equipo; no se clonan con el proyecto.
-
-## Fuentes
-
-[Django deployment checklist](https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/) fundamenta la revisión de secretos, hosts, HTTPS y respaldos. [WireGuard](https://www.wireguard.com/quickstart/) documenta la configuración de pares. Las decisiones de topología, controles pendientes y cuentas son específicas de esta propuesta para Milenio.
+Referencias: [OpenSSH en Windows](https://learn.microsoft.com/en-us/windows-server/administration/OpenSSH/openssh-server-configuration), [Programador de tareas](https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/register-scheduledtask), [SQLite sobre red](https://www.sqlite.org/useovernet.html). La base siempre se abre localmente en el servidor, nunca por una unidad compartida.

@@ -1,5 +1,7 @@
 # Milenio · Operación, datos y agentes para el taller
 
+**Servidor compartido y Codex:** instalación descargable en [infra/INSTALAR.md](infra/INSTALAR.md). Incluye CRM, Gmail, clientes por túnel SSH, supervisor y respaldo. Empieza con `Setup-Server.ps1` en la computadora elegida; los datos y credenciales permanecen privados.
+
 V6 conecta un dashboard gerencial, cortes analíticos persistentes y automatizaciones con la aplicación web local en español para registrar el trabajo diario: recepción, inspección, autorización, refacciones, ejecución, calidad, entrega y cobranza. Los datos quedan en SQLite; las métricas y propuestas se calculan desde esos mismos registros. Incluye contratos de flotilla, mantenimiento y seguimiento de grúas.
 
 ## Abrir la aplicación
@@ -8,14 +10,20 @@ En Windows x64 con Python 3.12 instalado:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\Setup-Web.ps1
-.\Iniciar-Demo.cmd
+.\Abrir-Demo.cmd
 ```
 
 La demo abre en **http://127.0.0.1:8766/** con datos ficticios. Para una instalación vacía use **Iniciar-Milenio.cmd**, puerto 8765. El primer inicio solicita crear una cuenta propia. Las bases están separadas y se conservan al cerrar. La ubicación predeterminada es `%LOCALAPPDATA%/Milenio/operational/<modo>`, fuera de la carpeta sincronizada del código. El lanzador detecta instalaciones antiguas y pide migrarlas explícitamente, sin borrar datos.
 
+Para presentar, abre **Abrir-Demo.cmd** con doble clic: inicia el servidor en segundo plano y abre el navegador predeterminado cuando confirma que está listo. Si ya está abierto, reutiliza la instancia. La comprobación de dependencias es local y sólo instala si falta una versión requerida. Abre la demo antes de la reunión e inicia sesión con tu cuenta; después puedes recorrer Dashboard, Órdenes y Base de datos. Si la pestaña integrada de Codex se queda bloqueada, abre la misma dirección en Edge o Chrome.
+
 El ZIP V6 con wheels permite instalar las dependencias sin internet en Windows x64/Python 3.12. Python y una sesión personal de Codex, si se desea usar el modelo, son requisitos externos. El servidor escucha sólo en el equipo local; abrirlo a otros equipos requiere un despliegue con HTTPS y configuración específica.
 
 ## Dashboard, analytics y automatizaciones
+
+**Capturar documentos** lee fotos con GPT Luna o Windows OCR y prepara altas/actualizaciones de clientes, vehículos, órdenes y servicios solicitados. Después de revisar la lectura, muestra los cambios y los aplica a la base del taller; la foto queda vinculada a la orden. Excel/CSV son descargas adicionales. [Infraestructura, controles, modelos y uso](docs/CAPTURA-OPERATIVA-CONTINUIDAD.md).
+
+El apartado **Base de datos** permite consultar, descargar y actualizar clientes, vehículos, refacciones, proveedores, órdenes, servicios cotizados y cobros desde Excel o CSV. Incluye plantillas, vista previa, cambios por fila y registro de cargas. Google Sheets se usa descargando la hoja como Excel/CSV. [Cómo actualizar los datos](docs/BASE-DE-DATOS.md).
 
 El inicio gerencial muestra piezas más utilizadas por órdenes con consumo neto, servicios más solicitados, facturación, cobros, entregas y comparación contra un periodo anterior de igual duración. Permite filtrar fechas y particulares/flotillas. Cada corte conserva seis tablas derivadas, huella y acceso a fuentes; CSV y JSON se exportan según rol.
 

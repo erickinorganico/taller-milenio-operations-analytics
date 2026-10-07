@@ -450,3 +450,4 @@ class ActionTask(models.Model):
 # Register the analytical and automation tables with the same Django app/database.
 from .analytics_models import AnalyticsSnapshot, AnalyticsRow  # noqa: E402,F401
 from .automation_models import AutomationPolicy, AutomationJob, AutomationWorkerState  # noqa: E402,F401
+from .capture_models import DocumentCapture, CapturedService  # noqa: E402,F401
