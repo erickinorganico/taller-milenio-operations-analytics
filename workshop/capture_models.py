@@ -55,3 +55,12 @@ class CapturedService(models.Model):
 
     class Meta:
         constraints = [models.UniqueConstraint(fields=["work_order", "fingerprint"], name="uniq_order_captured_service")]
+
+
+class PhotoQuoteBatch(models.Model):
+    """A confirmed photo-to-quote request may be repeated without adding lines."""
+    key = models.CharField(max_length=64, unique=True)
+    request_fingerprint = models.CharField(max_length=64)
+    quote = models.ForeignKey("workshop.Quote", on_delete=models.PROTECT, related_name="photo_batches")
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    created_at = models.DateTimeField(default=timezone.now)
