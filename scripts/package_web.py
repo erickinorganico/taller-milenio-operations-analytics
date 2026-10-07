@@ -136,7 +136,8 @@ def collect_wheels(destination: str | Path) -> dict:
     destination = Path(destination).resolve()
     if destination.exists():
         raise ValueError("wheel destination already exists")
-    with tempfile.TemporaryDirectory(prefix="milenio-web-wheels-") as temporary:
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="milenio-web-wheels-", dir=destination.parent) as temporary:
         staging = Path(temporary) / "wheels"
         staging.mkdir()
         subprocess.run([sys.executable, "-m", "pip", "download", "--only-binary=:all:",
@@ -176,7 +177,7 @@ def build(output: str | Path, wheelhouse: str | Path | None = None) -> dict:
         raise ValueError("archive has case-insensitive path collisions")
     expected = {name: _sha(file) for name, file in sorted(entries.items())}
     manifest = {"format": "milenio-web-v6", "publication_status": "local_candidate",
-                "entrypoint": "Abrir-Taller.cmd", "demo_entrypoint": "Abrir-Demo.cmd",
+                "entrypoint": "Setup-Server.ps1", "demo_entrypoint": "Abrir-Demo.cmd",
                 "includes_private_data": False, "wheels_included": wheelhouse is not None,
                 "entries_sha256": expected}
     document = (json.dumps(manifest, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode("utf-8")

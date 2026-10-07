@@ -45,5 +45,7 @@ jobs:
         if: always()
         with:
           name: milenio-deployment-${{ matrix.os }}
-          path: artifacts/
+          path: |
+            artifacts/deployment-verification.json
+            artifacts/Milenio-Servidor-Windows.zip
           retention-days: 30
