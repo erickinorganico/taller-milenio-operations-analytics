@@ -41,11 +41,15 @@ jobs:
       - name: Build downloadable Windows kit
         if: runner.os == 'Windows'
         run: python scripts/package_web.py --output artifacts/Milenio-Servidor-Windows.zip --wheelhouse .runtime/release-wheels
+      - name: Rehearse real PowerShell installer offline twice
+        if: runner.os == 'Windows'
+        run: python scripts/verify_windows_installer.py --package artifacts/Milenio-Servidor-Windows.zip --output artifacts/windows-installer-verification.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: milenio-deployment-${{ matrix.os }}
           path: |
             artifacts/deployment-verification.json
+            artifacts/windows-installer-verification.json
             artifacts/Milenio-Servidor-Windows.zip
           retention-days: 30

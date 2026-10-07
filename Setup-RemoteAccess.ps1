@@ -42,6 +42,15 @@ if (-not $existingUser) {
     New-LocalUser -Name $TunnelUser -Password $password -AccountNeverExpires -PasswordNeverExpires -Description 'Milenio: solo túnel SSH por llave, sin sesiones' | Out-Null
     $TunnelUser | Set-Content -LiteralPath $ownership -Encoding ASCII
 }
+$tunnelAccount=Get-LocalUser -Name $TunnelUser
+$usersGroup=Get-LocalGroup -SID 'S-1-5-32-545'
+if (-not (Get-LocalGroupMember -Group $usersGroup | Where-Object {$_.SID -eq $tunnelAccount.SID})) {
+    Add-LocalGroupMember -Group $usersGroup -Member $tunnelAccount
+}
+# Permit traversal and reading the public authorization file, never the host private key.
+$tunnelSid=$tunnelAccount.SID.Value
+& icacls.exe $sshRoot /grant "*${tunnelSid}:(RX)" | Out-Null
+if ($LASTEXITCODE -ne 0) { throw 'No se concedió acceso al directorio de llaves públicas.' }
 $sshBin=Join-Path $env:WINDIR 'System32/OpenSSH'
 $hostKey=Join-Path $sshRoot 'host_ed25519'
 if (-not (Test-Path -LiteralPath $hostKey)) {
@@ -50,6 +59,9 @@ if (-not (Test-Path -LiteralPath $hostKey)) {
 }
 $authorized=Join-Path $sshRoot 'authorized_keys'
 $keys | Set-Content -LiteralPath $authorized -Encoding ASCII
+& icacls.exe $authorized /inheritance:r /grant:r '*S-1-5-18:F' '*S-1-5-32-544:F' "*${tunnelSid}:R" | Out-Null
+if ($LASTEXITCODE -ne 0) { throw 'No se protegió la llave pública autorizada.' }
+
 $sshConfig=Join-Path $sshRoot 'sshd_config'
 $hostKeySlash=$hostKey.Replace('\','/')
 $authorizedSlash=$authorized.Replace('\','/')

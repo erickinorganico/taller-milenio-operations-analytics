@@ -9,7 +9,7 @@ if (Test-Path -LiteralPath $configPath) { throw 'Ya existe configuración; revis
 if (-not (Get-Command ssh.exe -ErrorAction SilentlyContinue)) { throw 'Instala OpenSSH Client en Características opcionales de Windows.' }
 New-Item -ItemType Directory -Force $privateRoot | Out-Null
 $sid=[System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
-& icacls.exe $privateRoot /inheritance:r /grant:r "${sid}:(OI)(CI)F" '*S-1-5-18:(OI)(CI)F' | Out-Null
+& icacls.exe $privateRoot /inheritance:r /grant:r "*${sid}:(OI)(CI)F" '*S-1-5-18:(OI)(CI)F' | Out-Null
 if ($LASTEXITCODE -ne 0) { throw 'No se pudieron proteger los archivos privados.' }
 if (-not $IdentityFile) { $IdentityFile=Join-Path $privateRoot 'milenio_ed25519' }
 if (-not (Test-Path -LiteralPath $IdentityFile)) {

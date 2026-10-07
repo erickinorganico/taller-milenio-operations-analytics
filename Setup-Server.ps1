@@ -38,7 +38,7 @@ $serverPython = Join-Path $releaseRoot '.venv/Scripts/python.exe'
 $privateRoot = Join-Path $InstallRoot 'private'
 New-Item -ItemType Directory -Force $privateRoot | Out-Null
 $identitySid = [System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
-& icacls.exe $InstallRoot /inheritance:r /grant:r "${identitySid}:(OI)(CI)F" '*S-1-5-18:(OI)(CI)F' | Out-Null
+& icacls.exe $InstallRoot /inheritance:r /grant:r "*${identitySid}:(OI)(CI)F" '*S-1-5-18:(OI)(CI)F' | Out-Null
 if ($LASTEXITCODE -ne 0) { throw 'No se pudieron proteger los permisos de instalación.' }
 $env:MILENIO_DEPLOYMENT_CONFIG = Join-Path $privateRoot 'infra.local.json'
 if (-not $BackupDir) { $BackupDir = Join-Path $InstallRoot 'backups' }
@@ -52,9 +52,12 @@ if (Test-Path -LiteralPath $previous) {
 if ($LASTEXITCODE -ne 0) { throw 'Instalación detenida; consulta la salida. No se arrancó el servidor.' }
 $release | ConvertTo-Json | Set-Content -LiteralPath $previous -Encoding UTF8
 Copy-Item -LiteralPath (Join-Path $releaseRoot 'Run-Server.ps1') -Destination (Join-Path $InstallRoot 'Run-Server.ps1') -Force
-& $serverPython (Join-Path $releaseRoot 'scripts/deploy.py') resume
-if ($LASTEXITCODE -ne 0) { throw 'No se habilitó el arranque.' }
-if (-not $NoStart) {
+if ($NoStart) {
+    & $serverPython (Join-Path $releaseRoot 'scripts/deploy.py') stop
+    if ($LASTEXITCODE -ne 0) { throw 'No se confirmó la pausa de instalación.' }
+} else {
+    & $serverPython (Join-Path $releaseRoot 'scripts/deploy.py') resume
+    if ($LASTEXITCODE -ne 0) { throw 'No se habilitó el arranque.' }
     Start-Process powershell.exe -ArgumentList @('-NoProfile','-ExecutionPolicy','Bypass','-File',('"'+(Join-Path $InstallRoot 'Run-Server.ps1')+'"')) -WindowStyle Hidden
 }
 Write-Output "Servidor preparado en $InstallRoot. Abre http://127.0.0.1:$Port/setup/ para crear Gerencia. Gmail permanece detenido."
