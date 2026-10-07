@@ -542,7 +542,7 @@ def guide(request):
 def health(request):
     import os
     from milenio_web.worker_health import status
-    deployment = status()
+    deployment = status() if os.environ.get('MILENIO_INSTANCE_ID') else {}
     return JsonResponse({"status":"ok","application":"milenio-operations", "mode":settings.MILENIO_MODE,
                          "launch_id":os.environ.get('MILENIO_LAUNCH_ID', ''), **deployment})
 
