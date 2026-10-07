@@ -1,0 +1,17 @@
+name: Infrastructure contract
+on:
+  pull_request:
+    paths: ['AGENTS.md', 'infra/**', 'scripts/infra_doctor.py', 'tests/test_infra_doctor.py', '.github/workflows/infra.yml']
+  push:
+    paths: ['AGENTS.md', 'infra/**', 'scripts/infra_doctor.py', 'tests/test_infra_doctor.py', '.github/workflows/infra.yml']
+permissions:
+  contents: read
+jobs:
+  read-only-diagnostics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -p test_infra_doctor.py -v

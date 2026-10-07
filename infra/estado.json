@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-06",
+  "repository": "erickinorganico/taller-milenio-operations-analytics",
+  "baseline_main_sha": "a6d1c188994fec36892f250d3164650403746af6",
+  "scope": "architecture_and_read_only_diagnostics",
+  "desired_topology": "one_windows_server_two_clients_one_mail_worker",
+  "remote_access_deployed": false,
+  "central_host_assigned": false,
+  "gmail_connected": false,
+  "agent_api_implemented": false,
+  "unattended_startup_verified": false,
+  "two_computer_test_passed": false,
+  "catalog_stored_in_github": false,
+  "local_commercial_code_published_in_baseline": false,
+  "deployment_release_sha": null,
+  "source_of_runtime_truth": "central_instance_not_chat_or_git",
+  "backlog": [
+    {"id":"I01","task":"Integrar código local comercial/Gmail y dependencias en una release revisada, sin mezclar cambios operativos concurrentes","done":false},
+    {"id":"I02","task":"Inventariar y asignar central/cliente, red y destino privado de respaldos","done":false},
+    {"id":"I03","task":"Configurar red privada, HTTPS, firewall y usuarios individuales","done":false},
+    {"id":"I04","task":"Implementar guardia de rol en lanzadores, supervisor al arrancar, identidad Windows/DPAPI y salud de workers","done":false},
+    {"id":"I05","task":"Implementar acceso de Codex con permisos y auditoría según contrato","done":false},
+    {"id":"I06","task":"Implementar toma de conversación y exclusión mutua de mantenimiento","done":false},
+    {"id":"I07","task":"Configurar y ensayar respaldos, restauración y corte definitivo antes de failover","done":false},
+    {"id":"I08","task":"Conectar Gmail y validar circuito controlado, sin prospectos reales durante QA","done":false},
+    {"id":"I09","task":"Completar matriz de aceptación de dos equipos y registrar release habilitada","done":false}
+  ]
+}

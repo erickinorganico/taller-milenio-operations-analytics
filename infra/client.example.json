@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "role": "client",
+  "instance_id": null,
+  "expected_hostname": null,
+  "central_url": null,
+  "expected_release_sha": null,
+  "data_dir": null,
+  "backup_dir": null,
+  "mail_worker_allowed": false,
+  "notes": "El cliente no ejecuta una base live ni workers. Recibe la URL del servidor y usa su propia sesión."
+}
