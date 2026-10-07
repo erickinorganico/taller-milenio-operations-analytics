@@ -62,7 +62,7 @@ Codex no reemplaza el worker: sus tareas dependen de ejecución disponible, perm
 
 ## Primer uso desde otra computadora
 
-1. Clonar este repositorio y abrirlo en Codex. Leer `AGENTS.md`; no ejecutar el lanzador live por defecto.
+1. Clonar este repositorio y abrirlo en Codex. Mientras el PR de infraestructura no se integre en main, usar la rama `codex/shared-infrastructure`, donde están estas guías. Leer `AGENTS.md`; no ejecutar el lanzador live por defecto.
 2. Obtener de Gerencia la URL privada del central y acceso individual, una vez desplegados. Copiar la plantilla cliente a `private/infra.local.json` y completar localmente.
 3. Pedir a Codex: «Lee AGENTS.md y revisa Milenio en modo cliente. Diagnostica sin iniciar otra instancia ni enviar mensajes».
 4. Abrir la URL central. Para mantenimiento de código, crear una rama y PR; la instalación central se actualiza mediante el procedimiento, no por cada clon.
