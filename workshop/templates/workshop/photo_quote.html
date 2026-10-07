@@ -1,0 +1,16 @@
+{% extends 'workshop/base.html' %}{% load workshop_tags %}
+{% block extra_head %}<link rel="stylesheet" href="/static/workshop/capture.css">{% endblock %}
+{% block content %}
+<a class="back" href="/orders/{{ order.pk }}/#documents">← Volver a la orden</a>
+<div class="page-head"><div><p class="eyebrow">{{ order.number }} · {{ order.vehicle.customer.name }}</p><h1>De la foto al presupuesto</h1><p>Selecciona los servicios, completa lo que falte y revisa los precios.</p></div></div>
+<section class="notice"><strong>{% if quote %}Se agregarán al borrador v{{ quote.version }}.{% else %}Se creará el primer borrador de presupuesto.{% endif %}</strong><p>Los importes de la foto son una referencia. Los campos desconocidos quedan vacíos. El costo puede quedar sin dato; cantidad y precio son necesarios para cotizar.</p><p>Después podrás presentar el presupuesto y registrar la autorización del cliente.</p></section>
+<form method="post">{% csrf_token %}{{ rows.management_form }}
+{% if header_form.non_field_errors %}<a class="button" href="/orders/{{ order.pk }}/quote-from-photo/">Revisar datos actuales</a>{% endif %}
+{% if rows.non_form_errors %}<div class="notice error" role="alert">{{ rows.non_form_errors }}</div>{% endif %}
+{% for row in rows %}<section class="panel"><header class="panel-head"><h2>{{ row.source.description|default:'Servicio de la hoja' }}</h2></header><div class="panel-body">
+{% if row.source %}<p class="small">Documento de origen: {% for document in row.source.documents.all %}<a href="/capture/{{ document.pk }}/">{{ document.title }}</a>{% if not forloop.last %} · {% endif %}{% endfor %}</p>{% endif %}
+<div class="photo-quote-fields">{% include 'workshop/form_fields.html' with form=row %}</div></div></section>{% empty %}<section class="panel"><div class="empty"><strong>No quedan servicios por agregar a este borrador.</strong><p>Consulta los conceptos de Cotización en la orden.</p></div></section>{% endfor %}
+{% if more %}<p class="notice">Se muestran los primeros 50 servicios. Después de guardar, vuelve a abrir este paso para continuar con los restantes.</p>{% endif %}
+{% if rows.forms %}<section class="panel"><div class="panel-body">{% include 'workshop/form_fields.html' with form=header_form %}<button class="button primary">Guardar en borrador de presupuesto</button></div></section>{% endif %}
+</form>
+{% endblock %}

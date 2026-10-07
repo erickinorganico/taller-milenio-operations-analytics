@@ -9,6 +9,13 @@
   "central_host_assigned": false,
   "gmail_connected": false,
   "agent_api_implemented": true,
+  "photo_quote_draft": {
+    "implemented": true,
+    "migration": "workshop.0006_photo_quote_provenance",
+    "guide": "docs/FOTOS-A-PRESUPUESTO.md",
+    "requires_review": true,
+    "scope": "draft quotation; original observations, authorization and financial workflows preserved"
+  },
   "unattended_startup_verified": false,
   "two_computer_test_passed": false,
   "catalog_stored_in_github": false,

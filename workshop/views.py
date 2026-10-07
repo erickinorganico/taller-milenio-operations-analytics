@@ -228,7 +228,7 @@ def order_detail(request,pk):
     order=get_object_or_404(m.WorkOrder.objects.select_related("vehicle__customer","assigned_to"),pk=pk)
     if not can(request.user,"orders_read_all") and order.assigned_to_id!=request.user.pk:
         raise Http404
-    quotes=list(order.quotes.prefetch_related("lines").order_by("-version"))
+    quotes=list(order.quotes.prefetch_related("lines__source_service__documents").order_by("-version"))
     for quote in quotes:
         quote.subtotal=sum((line.quantity*line.unit_price for line in quote.lines.all()),Decimal("0"))
         quote.total=(quote.subtotal*(1+quote.tax_rate)).quantize(Decimal("0.01"))
@@ -239,6 +239,10 @@ def order_detail(request,pk):
     events=m.AuditEvent.objects.filter(Q(entity_type="WorkOrder",entity_id=str(pk))|Q(after__work_order=pk)|Q(after__work_order_id=pk)).select_related("actor").order_by("-created_at")[:30]
     from .order_guidance import guidance
     order.next_step = guidance(order, request.user)
+    order.photo_quote_stage = order.status in {"inspection", "awaiting_approval"}
+    order.photo_services = list(order.captured_services.prefetch_related("quote_lines__quote").order_by("pk"))
+    for item in order.photo_services:
+        item.active_quote_lines = [line for line in item.quote_lines.all() if line.quote.status in {"draft", "sent", "approved"}]
     return render(request,"workshop/order.html",{"title":order.number,"section":"Órdenes","order":order,"quotes":quotes,"invoice":invoice,"paid":paid,"balance":invoice.total-paid if invoice else None,"inspection_form":InspectionForm(),"line_form":MoneyLineForm(),"assignment_form":assignment,"payment_form":PaymentForm(initial={"idempotency_key":str(uuid.uuid4())}),"parts":m.Part.objects.all(),"reservations":order.reservations.select_related("part"),"inspections":order.inspections.order_by("-created_at"),"time_entries":order.time_entries.select_related("technician").order_by("-created_at"),"quality_checks":order.quality_checks.order_by("-created_at"),"events":events,"next_statuses":sorted(state for state in s.TRANSITIONS.get(order.status,set()) if can(request.user,"reception") or state not in {"delivered","cancelled"}),"stages":m.WorkOrder.Status.choices})
 
 @require_POST

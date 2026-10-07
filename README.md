@@ -25,6 +25,8 @@ El ZIP con wheels permite instalar las dependencias web sin internet en Windows 
 
 El apartado **Base de datos** permite consultar, descargar y actualizar clientes, vehículos, refacciones, proveedores, órdenes, servicios cotizados y cobros desde Excel o CSV. Incluye plantillas, vista previa, cambios por fila y registro de cargas. Google Sheets se usa descargando la hoja como Excel/CSV. [Cómo actualizar los datos](docs/BASE-DE-DATOS.md).
 
+Los servicios de una foto revisada pueden reutilizarse en un borrador de presupuesto desde la orden, conservando su origen. El equipo completa tipo, cantidad y precio; un costo desconocido permanece vacío. Repetir el guardado no duplica conceptos y el presupuesto conserva su proceso de autorización. [Fotos a presupuesto](docs/FOTOS-A-PRESUPUESTO.md).
+
 El inicio gerencial muestra piezas más utilizadas por órdenes con consumo neto, servicios más solicitados, facturación, cobros, entregas y comparación contra un periodo anterior de igual duración. Permite filtrar fechas y particulares/flotillas. Cada corte conserva seis tablas derivadas, huella y acceso a fuentes; CSV y JSON se exportan según rol.
 
 Un trabajador se inicia con el servidor y ejecuta actualizaciones por intervalo y cambios de negocio. Gerencia puede pausar la cola, elegir frecuencia y activar Codex nativo opcional. Reglas es el modo predeterminado; errores, intentos, cortes y corridas son visibles. El trabajador funciona mientras Milenio está abierto. Las propuestas requieren revisión humana y no envían mensajes ni realizan compras o cobros externos.

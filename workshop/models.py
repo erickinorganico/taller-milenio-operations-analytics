@@ -176,9 +176,14 @@ class QuoteLine(models.Model):
     unit_price = models.DecimalField(**MONEY)
     unit_cost = models.DecimalField(**MONEY, null=True, blank=True)
     part = models.ForeignKey(Part, null=True, blank=True, on_delete=models.PROTECT)
+    source_service = models.ForeignKey("CapturedService", null=True, blank=True,
+                                      on_delete=models.PROTECT, related_name="quote_lines")
 
     class Meta:
-        constraints = [models.CheckConstraint(condition=Q(quantity__gt=0), name="quote_line_quantity_positive")]
+        constraints = [
+            models.CheckConstraint(condition=Q(quantity__gt=0), name="quote_line_quantity_positive"),
+            models.UniqueConstraint(fields=["quote", "source_service"], name="uniq_quote_photo_service"),
+        ]
 
 
 class PurchaseOrder(models.Model):
@@ -450,4 +455,4 @@ class ActionTask(models.Model):
 # Register the analytical and automation tables with the same Django app/database.
 from .analytics_models import AnalyticsSnapshot, AnalyticsRow  # noqa: E402,F401
 from .automation_models import AutomationPolicy, AutomationJob, AutomationWorkerState  # noqa: E402,F401
-from .capture_models import DocumentCapture, CapturedService  # noqa: E402,F401
+from .capture_models import DocumentCapture, CapturedService, PhotoQuoteBatch  # noqa: E402,F401

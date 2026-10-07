@@ -5,6 +5,7 @@ from . import insight_views as iv
 from . import import_views
 from . import analytics_views as av
 from . import capture_views as cv
+from . import photo_quote_views as pqv
 urlpatterns=[
  path("capture/",cv.capture_index),path("capture/<int:pk>/",cv.capture_detail),path("capture/<int:pk>/status/",cv.capture_status),path("capture/<int:pk>/retry/",cv.capture_retry),path("capture/<int:pk>/photo/",cv.capture_photo),path("capture/<int:pk>/export/<slug:format>/",cv.capture_export),
  path("capture/example/",cv.capture_example),
@@ -12,7 +13,7 @@ urlpatterns=[
  path("capture/<int:pk>/apply/",cv.capture_apply),
  path("",av.landing,name="home"),path("today/",v.home),path("analytics/",av.dashboard),path("analytics/data/<slug:key>/",av.mart),path("automations/",av.automations),path("automations/configure/",av.configure_automation),path("automations/enqueue/",av.enqueue),path("setup/",v.setup),path("login/",v.sign_in),path("logout/",LogoutView.as_view()),path("health/",v.health),path("static/<path:path>",v.static_asset),
  path("records/<slug:key>/",v.records),path("records/<slug:key>/new/",v.edit_record),path("records/<slug:key>/<int:pk>/edit/",v.edit_record),
- path("orders/",v.orders),path("orders/new/",v.new_order),path("orders/<int:pk>/",v.order_detail),path("orders/<int:pk>/<slug:action>/",v.order_action),path("inspection/<int:pk>/photo/",v.inspection_photo),
+ path("orders/",v.orders),path("orders/new/",v.new_order),path("orders/<int:pk>/",v.order_detail),path("orders/<int:pk>/quote-from-photo/",pqv.photo_quote),path("orders/<int:pk>/<slug:action>/",v.order_action),path("inspection/<int:pk>/photo/",v.inspection_photo),
  path("inventory/",v.inventory),path("inventory/<int:pk>/adjust/",v.stock_adjust),path("purchases/<int:pk>/",v.purchase_detail),path("purchases/<int:pk>/place/",v.place_purchase),path("purchase-lines/<int:pk>/receive/",v.receive_purchase),path("finance/",v.finance),path("fleets/",v.fleets),path("towing/",v.towing),path("towing/new/",v.new_tow),path("towing/<int:pk>/update/",v.tow_action),
  path("data/",v.data_index),path("data/export/<slug:key>/",v.data_export),path("data/<slug:key>/",v.data_table),path("import/",import_views.import_catalog),path("team/",v.team),path("team/<int:pk>/edit/",v.edit_team),path("account/",v.account),path("guide/",v.guide),
  path("documents/<slug:kind>/<int:pk>/",v.document),

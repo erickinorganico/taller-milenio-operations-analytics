@@ -4,6 +4,17 @@ Estado vigente del trabajo de captura: **6 de octubre de 2026**. El antecedente
 del 1 de octubre en REVISION-Y-PILOTO.md describe un piloto que sólo exportaba.
 Esta implementación añade la aplicación transaccional a la base del taller.
 
+Mejora posterior del 7 de octubre: desde la orden se pueden **cotizar los servicios
+de las fotos** sin capturarlos de nuevo. Se seleccionan conceptos y se completan
+tipo, cantidad y precio antes de guardar un borrador. La fuente observada se
+conserva, cada línea enlaza a su foto y el guardado repetido no duplica conceptos.
+El costo desconocido puede quedar vacío. Guía: [Fotos a presupuesto](FOTOS-A-PRESUPUESTO.md).
+Incluye migración 0006; los presupuestos presentados/autorizados, el stock y los
+cobros mantienen sus controles habituales. El corte de 256 pruebas de abajo
+es histórico; la nueva verificación de aplicación ejecutó 286 sin fallos ni
+errores, una omitida por catálogo privado. Recibos del cierre en la continuidad
+canónica del workspace cuando esté disponible.
+
 Actualización de la entrega: Excel y CSV conservan también tipo, cantidades,
 precios, costos y `part_sku` de los servicios revisados. Excel usa celdas numéricas
 para calcular sobre importes observados; los datos desconocidos quedan vacíos.

@@ -1,0 +1,12 @@
+{% load workshop_tags %}
+{% if order.document_captures.exists %}
+<section class="panel" id="documents">
+<header class="panel-head"><h2>Información recibida en fotos</h2>{% if cap.reception %}<a href="/capture/">Subir otra hoja →</a>{% endif %}</header>
+<div class="panel-body">{% for document in order.document_captures.all %}<p>{% if cap.reception %}<a href="/capture/{{ document.pk }}/">{{ document.title }}</a>{% else %}{{ document.title }}{% endif %} · {{ document.applied_at|date:'d/m/Y H:i' }}</p>{% if document.data.complaint %}<p>{{ document.data.complaint }}</p>{% endif %}{% endfor %}</div>
+<div class="table-wrap"><table><thead><tr><th>Servicio solicitado</th><th>Tipo</th><th>Cantidad observada</th><th>Precio observado</th><th>SKU</th><th>Presupuesto</th></tr></thead><tbody>
+{% for item in order.photo_services %}<tr><td>{{ item.description }}</td><td>{{ item.get_kind_display }}</td><td>{{ item.quantity|default_if_none:'Sin dato' }}</td><td>{% if item.unit_price != None %}{{ item.unit_price|money }}{% else %}Sin dato{% endif %}</td><td>{{ item.part_sku|default:'Sin dato' }}</td><td>{% for line in item.active_quote_lines %}<a href="#quote">v{{ line.quote.version }} · {{ line.quote.get_status_display }}</a>{% if not forloop.last %}<br>{% endif %}{% empty %}Pendiente de cotizar{% endfor %}</td></tr>{% endfor %}
+</tbody></table></div>
+<div class="panel-body"><p class="small">Los datos observados conservan su foto de origen. Los precios del presupuesto se revisan antes de solicitar autorización.</p>
+{% if cap.reception %}{% if order.photo_quote_stage %}<a class="button primary" href="/orders/{{ order.pk }}/quote-from-photo/">Cotizar servicios de las fotos</a>{% elif order.status == 'intake' %}<p class="small muted">Avanza a Inspección para preparar el presupuesto de estos servicios.</p>{% endif %}{% endif %}
+</div></section>
+{% endif %}
