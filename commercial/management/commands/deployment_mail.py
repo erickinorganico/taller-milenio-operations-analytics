@@ -19,6 +19,11 @@ class Command(BaseCommand):
         if not box or not box.owner_id: raise CommandError('Conecta Gmail con un responsable antes de habilitar transporte.')
         hold=settings.DATA_DIR/'.mail-recovery-hold'
         if options['enable']:
+            from commercial.mail_safety import policy, MailBlocked
+            try:
+                policy()
+            except MailBlocked as exc:
+                raise CommandError(str(exc))
             if not box.connected: raise CommandError('Gmail desconectado.')
             if hold.exists() and not options['reconciliation_reference']:
                 raise CommandError('Recuperación: concilia Gmail desde el respaldo y registra la referencia antes de desbloquear.')

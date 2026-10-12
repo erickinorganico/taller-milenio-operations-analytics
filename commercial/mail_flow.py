@@ -14,10 +14,11 @@ from .models import (Mailbox, MailEnrollment, MailMessage, MailInbound, MailWork
 from .rules import qualify, suppressed
 from .outreach import opening_for
 from .services import audit
+from . import mail_safety as safety
 
 TZ = ZoneInfo('America/Tijuana')
 SIGNATURE = ('\n\nEquipo Milenio\nWhatsApp / teléfono: 664 820 1966\n'
-             'Héctor Terán Terán 2740, Jardín Dorado, Tijuana.\n'
+             'Héctor Terán Terán 2732, Jardín Dorado, Tijuana.\n'
              'Si prefieren no recibir más correos, respondan «baja».')
 
 
@@ -41,6 +42,8 @@ def classify(body, headers):
     # Explicit suppression takes precedence; never send an automated opt-out confirmation.
     if re.search(r'\b(baja|unsubscribe|stop|no (me |nos )?(contacten|escriban|envien)|elimin[ae]n? (mi|mis|nuestros) datos)\b', text):
         return 'optout', ''
+    if re.search(r'\bspam\b|correo(s)? no deseado(s)?|no autoric[ée]|sin (mi|nuestro) permiso', text):
+        return 'spam_report', ''
     automatic = headers.get('auto-submitted', '').lower() not in ('', 'no')
     bulk = headers.get('precedence', '').lower() in ('bulk', 'list', 'junk') or 'list-id' in headers
     if automatic or bulk or re.search(r'fuera de (la )?oficina|out of (the )?office|respuesta automatica|vacaciones', text):
@@ -55,7 +58,7 @@ def classify(body, headers):
     text = re.sub(r'^(hola|buenos dias|buenas tardes)[,.!\s]*', '', text)
     text = re.sub(r'[¿?¡!.,;:]+', '', text).strip()
     if re.fullmatch(r'(donde (estan|se ubican)|cual es (su |la )?(direccion|ubicacion)|me (pueden |puedes )?pasar (su |la )?(direccion|ubicacion))', text):
-        return 'location', 'Estamos en Héctor Terán Terán 2740, Jardín Dorado, 22200 Tijuana, B.C.'
+        return 'location', 'Estamos en Héctor Terán Terán 2732, Jardín Dorado, 22200 Tijuana, B.C.'
     if re.fullmatch(r'(cual es (su |el )?horario|que horario (tienen|manejan)|a que hora (abren|cierran))', text):
         return 'hours', ('El horario del taller es de 8:00 a. m. a 6:00 p. m.; confirma por WhatsApp el día que deseas visitarnos. '
                          'Grúas atiende 24/7 en Tijuana; servicio federal sujeto a confirmación de despacho.')
@@ -81,6 +84,7 @@ def render_html(body, box):
             '<p style="font-size:22px;font-weight:bold;color:#10265c">MILENIO</p>' + paragraphs + links + '</div></td></tr></table></body></html>')
 
 
+@transaction.atomic
 def queue_message(enrollment, kind, subject, body, **extra):
     extra.setdefault('due_at', timezone.now())
     box, _ = Mailbox.objects.get_or_create(pk=1)
@@ -89,8 +93,10 @@ def queue_message(enrollment, kind, subject, body, **extra):
         for label, url in [('Sitio', box.site_url), ('Video', box.video_url)]:
             if url.startswith('https://'):
                 body += f'\n\n{label}: {url}'
-    return MailMessage.objects.create(enrollment=enrollment, recipient=enrollment.email, kind=kind,
+    message = MailMessage.objects.create(enrollment=enrollment, recipient=enrollment.email, kind=kind,
         subject=subject[:240], body=body, html=rich_body, **extra)
+    safety.eligibility(message)
+    return message
 
 
 @transaction.atomic
@@ -101,14 +107,14 @@ def enroll(contact, actor):
     if not contact.email or not contact.published_business or contact.deliverability == 'bounced':
         raise ValidationError('Falta un correo empresarial utilizable y su procedencia.')
     email = contact.email.strip().lower()
+    safety.permission_for(contact, 'presentation')
     if MailEnrollment.objects.filter(Q(account=account) | Q(email=email)).exists():
         raise ValidationError('Empresa o buzón ya incorporado; no se duplica la secuencia.')
     if BusinessContact.objects.filter(email__iexact=email).exclude(account=account).exists():
         raise ValidationError('Buzón compartido entre fichas: concilia la identidad primero.')
     if account.interactions.filter(kind__in=['sent', 'reply', 'meeting', 'bounce', 'optout']).exists():
         raise ValidationError('Ya existe contacto previo: requiere seguimiento humano, no una nueva secuencia.')
-    if MailEnrollment.objects.count() >= 20:
-        raise ValidationError('Piloto limitado a 20 empresas. Evalúa resultados antes de ampliar.')
+    # Enrollment only prepares drafts. Finite, reviewed batches control actual admissions.
     e = MailEnrollment.objects.create(account=account, contact=contact, email=email)
     subject, question = opening_for(account.segment)
     body = (f'Hola, equipo de {account.name}:\n\nSoy del equipo de Milenio, en Jardín Dorado, Tijuana. '
@@ -127,13 +133,7 @@ def pause_account(account_id, reason, manual=False):
 
 
 def business_due(sent_at, holidays):
-    day = sent_at.astimezone(TZ).date()
-    count = 0
-    while count < 4:
-        day += timedelta(days=1)
-        if day.weekday() < 5 and day.isoformat() not in holidays:
-            count += 1
-    return datetime.combine(day, time(9), TZ)
+    return safety.next_touch(sent_at, holidays)
 
 
 @transaction.atomic
@@ -167,14 +167,19 @@ def accept_inbound(e, item, box):
     pause_account(e.account_id, 'Respuesta: ' + category, manual=category == 'manual_sent')
     actor = box.owner or e.account.owner
     if category == 'bounce':
+        safety.hold('Rebote: revisar calidad y permiso antes de continuar', actor)
         BusinessContact.objects.filter(email__iexact=e.email).update(deliverability='bounced')
         Interaction.objects.create(account=e.account, kind='bounce', summary='Rebote recibido en hilo Gmail; revisar canal.', occurred_at=event.received_at, created_by=actor)
     if category == 'optout':
+        safety.hold('Baja: revisar selección y permisos antes de continuar', actor)
+        safety.MailPermission.objects.filter(recipient=e.email).update(status='revoked')
         current, _ = Suppression.objects.get_or_create(account=e.account, defaults={'created_by': actor, 'reason': 'Baja recibida por Gmail', 'emails': [e.email], 'domain': ''})
         current.emails = sorted(set(current.emails + [e.email]))
         current.save()
         SalesAccount.objects.filter(pk=e.account_id).update(stage='suppressed')
         MailEnrollment.objects.filter(pk=e.pk).update(state='suppressed')
+    if category in ('spam', 'spam_report', 'manual_sent'):
+        safety.hold('Señal para revisión: ' + category, actor)
     if human:
         Interaction.objects.create(account=e.account, kind='optout' if category == 'optout' else 'reply',
             summary='Gmail: ' + category + '\n' + event.body, occurred_at=event.received_at, created_by=actor)
@@ -204,6 +209,7 @@ def mark_sent(message, result, box, now):
         message.sent_at = now
         message.error = ''
         message.save()
+        safety.MailAdmission.objects.filter(message=message).update(state='sent')
         Interaction.objects.create(account=message.enrollment.account, kind='sent', summary=f'Gmail {message.kind}, paso {message.step}; id={message.provider_id}', occurred_at=now, created_by=box.owner)
         audit(message.enrollment.account, box.owner, 'mail_sent', message=str(message.pk), provider_id=message.provider_id)
         if message.kind == 'cold' and message.step == 3:
@@ -218,7 +224,12 @@ def schedule_followups(box):
         last = e.messages.filter(kind='cold').order_by('-step').first()
         if not last or last.status != 'sent' or last.step >= 3:
             continue
-        due = business_due(last.sent_at, box.holidays)
+        # Follow-up permission is independent; a past initial cannot grant it.
+        try:
+            safety.permission_for(e.contact, 'followup')
+            due = business_due(last.sent_at, box.holidays)
+        except ValidationError:
+            continue
         body = ('Retomo mi correo sobre sus vehículos. ¿Quién coordina mantenimiento o apoyo de grúa en su empresa?' if last.step == 1 else
                 'Cierro este seguimiento. Si más adelante necesitan apoyo para sus unidades, pueden contactar a Milenio por este correo o WhatsApp.')
         with transaction.atomic():
@@ -241,6 +252,10 @@ def tick(client=None, now=None):
                 return 'deployment_paused'
     now = now or timezone.now()
     box, _ = Mailbox.objects.get_or_create(pk=1)
+    try:
+        safety.policy(now)
+    except safety.MailBlocked as exc:
+        return exc.code_name
     if not box.connected or not box.enabled or not box.owner_id:
         return 'paused'
     if box.last_tick and now - box.last_tick < timedelta(seconds=60):
@@ -260,6 +275,9 @@ def tick(client=None, now=None):
         if client is None:
             from .gmail import GmailClient
             client = GmailClient()
+        if client.profile().get('emailAddress', '').lower() != box.email.lower():
+            safety.hold('Identidad del buzón no coincide', box.owner)
+            return 'sender_identity_mismatch'
         # A previous crashed worker may have submitted this mail: never repeat blindly.
         MailMessage.objects.filter(status='sending').update(status='unknown', error='Resultado interrumpido; reconciliación requerida')
         for m in MailMessage.objects.filter(status='unknown').select_related('enrollment__account'):
@@ -267,6 +285,14 @@ def tick(client=None, now=None):
             found = client.find_sent(m.rfc_id)
             if found:
                 mark_sent(m, found, box, m.attempted_at or now)
+        if MailMessage.objects.filter(status='unknown').exists():
+            safety.hold('Resultado anterior desconocido; conciliar antes de continuar', box.owner)
+            return 'unknown_send'
+        start = datetime.combine(now.astimezone(TZ).date(), time.min, TZ)
+        external = set(client.outbound_ids(start)) - set(MailMessage.objects.exclude(provider_id='').values_list('provider_id', flat=True))
+        if external:
+            safety.hold('Envíos fuera del emisor central; revisar presupuesto e identidad', box.owner)
+            return 'unmanaged_outbound'
         # Sync every monitored conversation before considering any new outbound action.
         threads = list(MailMessage.objects.exclude(thread_id='').values_list('enrollment_id', 'thread_id').distinct())
         for eid, thread in threads:
@@ -283,7 +309,7 @@ def tick(client=None, now=None):
                 accept_inbound(e, item, box)
         Mailbox.objects.filter(pk=1).update(last_sync=now, last_error='')
         schedule_followups(box)
-        # Includes autoresponses: 10 total/day; urgent queries are shown for human action.
+        # Proposals (including replies) require their own approved finite batch.
         now = timezone.now()  # Synchronization can cross the sending window.
         local = now.astimezone(TZ)
         if local.weekday() >= 5 or local.date().isoformat() in box.holidays or not (9 <= local.hour < 16):
@@ -309,28 +335,33 @@ def tick(client=None, now=None):
                 local = attempted_at.astimezone(TZ)
                 if local.weekday() >= 5 or local.date().isoformat() in current_box.holidays or not (9 <= local.hour < 16):
                     return 'outside_window'
-                day_start = datetime.combine(local.date(), time.min, TZ)
-                attempts = MailMessage.objects.filter(attempted_at__gte=day_start)
-                if attempts.count() >= 10:
-                    return 'daily_limit'
-                if m.kind == 'cold' and m.step == 1 and attempts.filter(kind='cold', step=1).count() >= 5:
-                    continue
-                if MailMessage.objects.filter(attempted_at__gt=attempted_at-timedelta(seconds=60)).exists():
-                    return 'idle'
-                if not MailMessage.objects.filter(pk=m.pk, status='queued').update(status='sending', attempted_at=attempted_at):
-                    continue
-                m.attempted_at = attempted_at
             try:
-                result = client.send(m, box.email)
+                admission = safety.reserve(m.pk, box.email, token)
+            except safety.MailBlocked as exc:
+                MailMessage.objects.filter(pk=m.pk, status='queued').update(error=str(exc))
+                if exc.code_name in ('daily_limit', 'minimum_interval', 'outside_window', 'safety_hold', 'provider_unverified', 'unreconciled_attempt'):
+                    return exc.code_name
+                continue
+            m.refresh_from_db()
+            attempted_at = m.attempted_at
+            try:
+                result = client.send(m, box.email, admission=admission.pk)
                 mark_sent(m, result, box, attempted_at)
+            except safety.MailBlocked as exc:
+                MailMessage.objects.filter(pk=m.pk).update(status='cancelled', error=str(exc))
+                safety.MailAdmission.objects.filter(pk=admission.pk).update(state='blocked')
+                return exc.code_name
             except Exception:
                 MailMessage.objects.filter(pk=m.pk).update(status='unknown', error='Gmail no confirmó el resultado. No se reintenta automáticamente.')
+                safety.MailAdmission.objects.filter(pk=admission.pk).update(state='unknown')
+                safety.hold('Resultado de envío desconocido; conciliación requerida', box.owner)
                 return 'unknown_send'
-            return 'sent'  # One send per minute, even across restarts.
+            return 'sent'  # At most one per tick; durable ten-minute interval, five total/day.
         return 'idle'
     except Exception as exc:
         # Never store provider response bodies, token strings or incoming HTML in logs.
         Mailbox.objects.filter(pk=1).update(last_error='No se completó la sincronización: ' + type(exc).__name__)
+        safety.hold('Sincronización incompleta o proveedor rechazó el acceso: ' + type(exc).__name__, box.owner)
         return 'error'
     finally:
         MailWorkerLease.objects.filter(pk=1, token=token).update(expires_at=timezone.now(), token='')

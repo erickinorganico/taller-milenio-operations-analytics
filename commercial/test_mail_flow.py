@@ -8,6 +8,8 @@ from .models import (SalesAccount, FleetProfile, BusinessContact, Evidence, Inte
                      Mailbox, MailEnrollment, MailMessage, MailInbound, MailWorkerLease, Suppression)
 from . import mail_flow as flow
 from .gmail import parse_message, GmailClient, b64decode, protect
+from . import mail_safety as safety
+from .mail_test_support import synthetic_permission, synthetic_release, synthetic_approve
 
 
 class FakeGmail:
@@ -15,7 +17,10 @@ class FakeGmail:
     def thread(self, thread): return self.items
     def discover(self, email, since): return [m for m in self.items if m['date'] >= since]
     def find_sent(self, rfc): return self.found
-    def send(self, message, sender):
+    def profile(self): return {'emailAddress': 'milenio@example.test'}
+    def outbound_ids(self, since): return []
+    def send(self, message, sender, *, admission=None):
+        safety.consume(admission, message, sender)
         self.sent.append(message.pk)
         if self.failure: raise TimeoutError()
         return {'id': 'provider' + str(len(self.sent)), 'threadId': 'thread1'}
@@ -24,19 +29,23 @@ class FakeGmail:
 class MailFlowTests(TestCase):
     def setUp(self):
         self.actor = get_user_model().objects.create_superuser('manager', password='test-only-4477')
-        self.box = Mailbox.objects.create(owner=self.actor, email='milenio@example.test', connected=True, enabled=True)
+        self.box = Mailbox.objects.create(owner=self.actor, email='milenio@example.test', connected=True, enabled=True, auto_reply=True)
         self.clock = datetime(2026, 10, 6, 10, 0, tzinfo=flow.TZ)
         self.fake = FakeGmail()
         self.account, self.contact = self.company()
-        self.e = flow.enroll(self.contact, self.actor)
+        synthetic_release(self.box, self.actor, self.clock)
+        with patch('django.utils.timezone.now', return_value=self.clock):
+            self.e = flow.enroll(self.contact, self.actor)
         MailEnrollment.objects.filter(pk=self.e.pk).update(created_at=self.clock-timedelta(days=1))
         MailMessage.objects.update(due_at=self.clock-timedelta(minutes=1))
+        synthetic_approve(list(MailMessage.objects.all()), self.actor, self.clock)
 
     def company(self, suffix=''):
         a = SalesAccount.objects.create(name='Ficticia ' + suffix, owner=self.actor, identity_confirmed=True)
         FleetProfile.objects.create(account=a)
         Evidence.objects.create(account=a, topic='identity', reviewed=True, excerpt='Synthetic', source_note='Test', created_by=self.actor)
         c = BusinessContact.objects.create(account=a, name='Compras', email='compras'+suffix+'@example.test', published_business=True, source_note='Synthetic')
+        synthetic_permission(c, self.actor, self.clock)
         return a, c
 
     def run_tick(self, advance=0):
@@ -82,7 +91,7 @@ class MailFlowTests(TestCase):
             self.assertEqual(flow.tick(self.fake, started), 'outside_window')
         self.assertFalse(self.fake.sent)
 
-    def test_slow_sync_records_actual_attempt_and_preserves_one_per_minute(self):
+    def test_slow_sync_records_actual_attempt_and_preserves_spacing(self):
         started = self.clock
         attempted = started + timedelta(minutes=2)
         current = [started]
@@ -96,7 +105,8 @@ class MailFlowTests(TestCase):
         self.assertEqual(message.attempted_at, attempted)
         self.assertEqual(message.sent_at, attempted)
         account, contact = self.company('second')
-        enrollment = flow.enroll(contact, self.actor)
+        with patch('django.utils.timezone.now', return_value=attempted):
+            enrollment = flow.enroll(contact, self.actor)
         MailMessage.objects.filter(enrollment=enrollment).update(due_at=attempted)
         with patch('django.utils.timezone.now', return_value=attempted+timedelta(seconds=30)):
             self.assertEqual(flow.tick(self.fake, attempted+timedelta(seconds=30)), 'idle')
@@ -126,6 +136,8 @@ class MailFlowTests(TestCase):
         self.assertEqual(len(self.fake.sent), 1)
         self.fake.found = {'id':'recovered', 'threadId':'thread1'}
         self.run_tick(2)
+        # Reconciliation is explicit and does not release the safety hold.
+        flow.mark_sent(MailMessage.objects.get(step=1), self.fake.found, self.box, self.clock)
         self.assertEqual(MailMessage.objects.get(step=1).status, 'sent')
         self.assertEqual(len(self.fake.sent), 1)
 
@@ -255,9 +267,9 @@ class MailFlowTests(TestCase):
         flow.accept_inbound(self.e, self.inbound(), self.box)
         auto = MailMessage.objects.get(kind='auto')
         client = GmailClient('test-token')
-        with patch.object(client, 'request', return_value={}) as call:
+        with self.assertRaises(safety.MailBlocked):
             client.send(auto, self.box.email)
-        data = call.call_args.args[1]
+        data = client.build_payload(auto, self.box.email)
         mime = message_from_bytes(b64decode(data['raw']))
         self.assertEqual(mime['Auto-Submitted'], 'auto-replied')
         self.assertEqual(mime['In-Reply-To'], auto.reply_to_id)
@@ -282,8 +294,14 @@ class MailFlowTests(TestCase):
 
     def test_three_touches_end_sequence(self):
         self.run_tick()
-        self.run_tick(6*24*60)
-        self.run_tick(4*24*60)
+        for days in (6, 4):
+            future = self.clock+timedelta(days=days)
+            safety.MailSafety.objects.filter(pk=1).update(provider_checked_at=future)
+            # The coordinator reviews a new exact batch, even for an existing sequence.
+            with patch('django.utils.timezone.now', return_value=future):
+                flow.schedule_followups(self.box)
+            synthetic_approve(list(MailMessage.objects.filter(status='queued')), self.actor, future)
+            self.run_tick(days*24*60)
         self.e.refresh_from_db()
         self.assertEqual(self.e.state, 'completed')
         self.assertEqual(len(self.fake.sent), 3)

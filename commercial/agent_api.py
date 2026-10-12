@@ -15,6 +15,7 @@ from .agent_models import AgentCredential, AgentRequest, ConversationClaim, Agen
 from .services import audit, locked, bump
 from .rules import suppressed
 from .mail_flow import pause_account, queue_message, enroll, SIGNATURE
+from . import mail_safety
 
 SCOPES={'system.status':'read','accounts.search':'read','account.get':'read','conversations.list':'read',
         'conversation.claim':'prepare','message.prepare':'prepare','conversation.update':'prepare',
@@ -37,7 +38,7 @@ def read_action(action,data):
         return {**status(),'mail':{'connected':bool(box and box.connected),'enabled':bool(box and box.enabled),
             'last_sync':box.last_sync.isoformat() if box and box.last_sync else None,
             'queued':MailMessage.objects.filter(status='queued').count(),
-            'unknown':MailMessage.objects.filter(status='unknown').count()}}
+            'unknown':MailMessage.objects.filter(status='unknown').count(), 'safety':mail_safety.status()}}
     if action=='accounts.search':
         offset=max(0,int(data.get('offset',0)))
         accounts=SalesAccount.objects.filter(name__icontains=str(data.get('query',''))[:100]).order_by('name','pk')[offset:offset+50]
@@ -58,7 +59,7 @@ def read_action(action,data):
 
 def mutate(action,data,credential):
     if action=='campaign.pause':
-        Mailbox.objects.filter(pk=1).update(enabled=False)
+        mail_safety.hold('Pausa solicitada por agente: '+str(data.get('reason',''))[:180],credential.owner)
         audit(None,credential.owner,'agent_mail_paused',credential=str(credential.pk),reason=str(data.get('reason',''))[:240])
         return {'status':'paused'}
     account=locked(data['account_id'],data['expected_version'])
@@ -108,7 +109,9 @@ def mutate(action,data,credential):
             event.needs_review=False
             event.save(update_fields=['needs_review'])
             result={'status':'queued','message_id':str(message.pk)}
-        audit(account,credential.owner,'agent_send_authorized',credential=str(credential.pk),reference=reference,**result)
+        # Preparation authorization cannot approve a finite batch or call the network.
+        result['sending_authorized']=False
+        audit(account,credential.owner,'agent_draft_queued',credential=str(credential.pk),reference=reference,**result)
     else: raise ValidationError('Acción desconocida.')
     bump(account)
     audit(account,credential.owner,'agent_action',credential=str(credential.pk),action_name=action,**result)

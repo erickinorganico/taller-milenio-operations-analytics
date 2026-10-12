@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 from commercial.models import Mailbox, MailMessage, MailEnrollment, MailInbound
+from commercial.mail_safety import status
 
 
 class Command(BaseCommand):
@@ -14,4 +15,5 @@ class Command(BaseCommand):
             'unknown_send': MailMessage.objects.filter(status='unknown').count(),
             'pending_review': MailInbound.objects.filter(needs_review=True).count(),
             'last_sync': str(box.last_sync) if box else None,
+            'safety': status(),
         }))

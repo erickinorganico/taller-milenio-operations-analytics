@@ -1,5 +1,7 @@
 # API central para Codex
 
+**Seguridad de correo vigente:** [procedimiento](../docs/SEGURIDAD-CORREO.md). message.queue/campaign.enroll preparan borradores, devuelven sending_authorized=false y no conceden aprobación de envío. campaign.enroll exige permiso comprobable; una autorización interna no lo sustituye. Solo Gerencia aprueba lotes exactos fuera de esta API; las acciones para otorgar permiso, aprobar o levantar incidente no están expuestas a credenciales de agentes. system.status incluye mail.safety y límites centrales. Conector Gmail directo retirado del procedimiento.
+
 Implementada en `POST /agent/v1/action`. Autenticación `Authorization: Bearer <token>` individual; no admite autenticación por cookies. Credenciales hash SHA-256 en base, scopes, expiración 90 días y revocación local. Cada solicitud requiere `instance_id` esperado. El cliente oficial admite HTTPS o loopback por túnel SSH declarado, sin redirecciones.
 
 | action | scope | Datos adicionales |

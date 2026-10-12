@@ -10,6 +10,7 @@ from .models import Mailbox, MailEnrollment, MailMessage, MailInbound, BusinessC
 from .mail_flow import enroll, pause_account, queue_message, SIGNATURE
 from .rules import suppressed
 from .services import audit
+from . import mail_safety as safety
 
 
 class MailSettingsForm(forms.Form):
@@ -57,6 +58,8 @@ def dashboard(request):
                     box = Mailbox.objects.select_for_update().get(pk=1)
                     if not box.enabled and (not box.connected or not box.owner_id):
                         raise ValidationError('Conecta Gmail antes de activar el flujo.')
+                    if not box.enabled:
+                        safety.policy()
                     box.enabled = not box.enabled
                     box.save()
                     audit(None, request.user, 'mail_toggle', enabled=box.enabled)
@@ -86,10 +89,10 @@ def dashboard(request):
         except (ValidationError, IntegrityError) as exc:
             messages.error(request, '; '.join(exc.messages) if isinstance(exc, ValidationError) else 'Registro duplicado; no se creó otro envío.')
         return redirect('commercial:mail')
-    contacts = BusinessContact.objects.filter(published_business=True, account__identity_confirmed=True, account__is_demo=False,
+    contacts = BusinessContact.objects.filter(mailpermission__status='granted', published_business=True, account__identity_confirmed=True, account__is_demo=False,
         account__mail_enrollment__isnull=True, account__stage__in=['research', 'ready']).exclude(email='').exclude(deliverability='bounced').select_related('account')
     return render(request, 'commercial/mail.html', {
-        'box': box, 'contacts': contacts, 'enrollments': MailEnrollment.objects.select_related('account'),
+        'box': box, 'safety': safety.status(), 'contacts': contacts, 'enrollments': MailEnrollment.objects.select_related('account'),
         'outbox': MailMessage.objects.select_related('enrollment__account').order_by('-created_at')[:100],
         'inbox': MailInbound.objects.select_related('enrollment__account').order_by('-received_at')[:100],
         'sent': MailMessage.objects.filter(status='sent').count(),

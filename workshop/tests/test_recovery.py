@@ -138,6 +138,24 @@ class RecoveryTests(unittest.TestCase):
         with closing(sqlite3.connect(previous[0])) as con:
             self.assertEqual(con.execute("SELECT number FROM workshop_workorder WHERE id=1").fetchone()[0], "WO-CHANGED")
 
+    def test_restore_revokes_old_batch_and_holds_safety_policy(self):
+        with closing(sqlite3.connect(self.db)) as con:
+            con.executescript("""
+                CREATE TABLE commercial_mailbox (id INTEGER PRIMARY KEY, enabled INTEGER, connected INTEGER);
+                CREATE TABLE commercial_mailsafety (id INTEGER PRIMARY KEY, paused INTEGER, revision INTEGER, reason TEXT);
+                CREATE TABLE commercial_mailbatch (id TEXT PRIMARY KEY, revoked INTEGER);
+                INSERT INTO commercial_mailbox VALUES(1,1,1);
+                INSERT INTO commercial_mailsafety VALUES(1,0,7,'');
+                INSERT INTO commercial_mailbatch VALUES('synthetic-batch',0);
+            """)
+        backup = self._backup()
+        call_command('restore_workshop', input=str(backup), confirm_restore=True, stdout=io.StringIO())
+        with closing(sqlite3.connect(self.db)) as con:
+            self.assertEqual(con.execute('SELECT enabled,connected FROM commercial_mailbox').fetchone(), (0,0))
+            self.assertEqual(con.execute('SELECT paused,revision FROM commercial_mailsafety').fetchone(), (1,8))
+            self.assertEqual(con.execute('SELECT revoked FROM commercial_mailbatch').fetchone(), (1,))
+        self.assertTrue((self.data/'.mail-recovery-hold').exists())
+
     def test_explicit_confirmation_and_tamper_required_before_active_change(self):
         backup = self._backup()
         with self.assertRaisesRegex(CommandError, "confirm-restore"):
