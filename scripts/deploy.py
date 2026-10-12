@@ -149,7 +149,7 @@ def serve(config):
 
 def main():
     if len(sys.argv)>1 and sys.argv[1]=='manage':
-        allowed={'connect_gmail','agent_access','import_commercial_catalog','deployment_mail','remote_ready','mail_status','createsuperuser','check'}
+        allowed={'connect_gmail','agent_access','import_commercial_catalog','deployment_mail','remote_ready','mail_status','mail_safety','createsuperuser','check'}
         if len(sys.argv)<3 or sys.argv[2] not in allowed:
             raise ValueError('Comando de administración no permitido por este wrapper; usa las acciones de mantenimiento documentadas.')
         apply_environment(guard_server())

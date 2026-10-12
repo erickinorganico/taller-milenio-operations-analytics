@@ -104,10 +104,35 @@ class GmailClient:
         self.access_token = access_token
 
     def request(self, path, data=None):
+        # Public adapter surface is read-only. No raw messages/send or draft-send bypass.
+        if data is not None or path.split('?')[0].rstrip('/').endswith('/send'):
+            from .mail_safety import MailBlocked
+            raise MailBlocked('raw_gmail_write_forbidden')
+        return self._request(path)
+
+    def _request(self, path, data=None, *, admission=None, message=None, sender=None):
+        from .mail_safety import consume, MailBlocked
+        if data is not None:
+            if (path != 'messages/send' or admission is None or message is None or sender is None
+                    or data != self.build_payload(message, sender)):
+                raise MailBlocked('raw_gmail_write_forbidden')
+            consume(admission, message, sender)
+        elif path.split('?')[0].rstrip('/').endswith('/send'):
+            raise MailBlocked('raw_gmail_write_forbidden')
         request = Request(API + path, data=json.dumps(data).encode() if data is not None else None,
                           headers={'Authorization': 'Bearer ' + self.access_token, 'Content-Type': 'application/json'})
         with urlopen(request, timeout=30) as response:
             return json.load(response)
+
+    def profile(self):
+        return self.request('profile')
+
+    def outbound_ids(self, since):
+        # Detect account use outside this sole sender, including mail to unknown recipients.
+        page = self.request('messages?' + urlencode({'q': 'in:sent after:' + str(int(since.timestamp())-1), 'maxResults': 100}))
+        if page.get('nextPageToken'):
+            raise RuntimeError('Actividad saliente supera el corte de revisión; detener y conciliar')
+        return [m['id'] for m in page.get('messages', [])]
 
     def thread(self, thread_id):
         if not thread_id.isalnum(): raise ValueError('Invalid Gmail thread id')
@@ -135,7 +160,16 @@ class GmailClient:
         if len(results) > 1: raise RuntimeError('Identificador repetido en Gmail')
         return results[0] if results else None
 
-    def send(self, message, sender):
+    def send(self, message, sender, *, admission=None):
+        from .mail_safety import MailBlocked
+        if admission is None:
+            raise MailBlocked('admission_required')
+        # The network adapter consumes the DB admission, not a caller-supplied preflight bool.
+        payload = self.build_payload(message, sender)
+        return self._request('messages/send', payload, admission=admission, message=message, sender=sender)
+
+    @staticmethod
+    def build_payload(message, sender):
         mime = EmailMessage(policy=policy.SMTP)
         mime['From'] = 'Equipo Milenio <' + sender + '>'
         mime['To'] = message.recipient
@@ -148,7 +182,9 @@ class GmailClient:
             mime['Auto-Submitted'] = 'auto-replied'
             mime['X-Auto-Response-Suppress'] = 'All'
         mime.set_content(message.body)
-        if message.html: mime.add_alternative(message.html, subtype='html')
+        if message.html:
+            mime.add_alternative(message.html, subtype='html')
+            mime.set_boundary('milenio-' + str(message.pk))
         payload = {'raw': base64.urlsafe_b64encode(mime.as_bytes()).decode()}
         if message.thread_id: payload['threadId'] = message.thread_id
-        return self.request('messages/send', payload)
+        return payload

@@ -18,7 +18,7 @@ class AgentApiTests(TestCase):
         FleetProfile.objects.create(account=self.account)
         self.contact=BusinessContact.objects.create(account=self.account,email='fleet@example.test',name='Test',published_business=True)
         self.enrollment=MailEnrollment.objects.create(account=self.account,contact=self.contact,email=self.contact.email)
-        self.event=MailInbound.objects.create(enrollment=self.enrollment,provider_id='test-in',thread_id='test-thread',category='interest',human_reply=True)
+        self.event=MailInbound.objects.create(enrollment=self.enrollment,provider_id='test-in',thread_id='test-thread',category='interest',human_reply=True, sender=self.contact.email, rfc_id='<synthetic-in@example.test>')
         self.token='synthetic-only-agent-token'
         self.credential=AgentCredential.objects.create(owner=self.actor,label='A',token_hash=hashlib.sha256(self.token.encode()).hexdigest(),scopes=['read','prepare','send'],expires_at=timezone.now()+timedelta(days=1))
         self.environment=patch.dict(os.environ,{'MILENIO_INSTANCE_ID':'synthetic-instance'})

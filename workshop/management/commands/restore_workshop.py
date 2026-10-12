@@ -77,6 +77,10 @@ class Command(BaseCommand):
                         # Latch outside DB survives interruption and cannot be cleared by a UI toggle.
                         (data / '.mail-recovery-hold').touch()
                         con.execute("UPDATE commercial_mailbox SET enabled=0, connected=0")
+                    if 'commercial_mailsafety' in tables:
+                        con.execute("UPDATE commercial_mailsafety SET paused=1, revision=revision+1, reason='Restauración: revisión y conciliación pendientes'")
+                    if 'commercial_mailbatch' in tables:
+                        con.execute("UPDATE commercial_mailbatch SET revoked=1")
                     if 'commercial_agentcredential' in tables:
                         con.execute("UPDATE commercial_agentcredential SET revoked=1")
                     con.commit()

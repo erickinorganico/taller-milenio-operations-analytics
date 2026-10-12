@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "as_of": "2026-10-06",
+  "as_of": "2026-10-11",
   "repository": "erickinorganico/taller-milenio-operations-analytics",
   "baseline_main_sha": "a6d1c188994fec36892f250d3164650403746af6",
   "scope": "downloadable_server_client_deployment",
@@ -23,7 +23,10 @@
   "application_code_published": true,
   "verified_main_sha": "d4e6266b492171f3eba5cfad9d2ecdea4458f7c1",
   "verified_source_tree_sha": "2a133064d7925118faf2bdf98a439d22cd581e6f",
-  "integrated_pull_requests": [7, 8],
+  "integrated_pull_requests": [
+    7,
+    8
+  ],
   "target_host_decision": "another_workshop_computer_identity_pending",
   "verification": {
     "as_of_utc": "2026-10-07T06:43:10Z",
@@ -72,5 +75,40 @@
   "installer_implemented": true,
   "supervisor_implemented": true,
   "transport": "ssh_loopback",
-  "installation_on_target_pending": true
+  "installation_on_target_pending": true,
+  "mail_safety": {
+    "implemented": true,
+    "migration": "commercial.0006",
+    "guide": "docs/SEGURIDAD-CORREO.md",
+    "branch": "codex/mail-safety-20261011",
+    "deployed": false,
+    "campaign_paused": true,
+    "default": "denied_until_reviewed_permission_or_specific_request_and_exact_finite_batch",
+    "direct_gmail_connector_route_retired": true,
+    "global_plugin_permissions_changed": false,
+    "user_scope": "Milenio sender only",
+    "max_batch": 5,
+    "max_total_attempts_daily": 5,
+    "minimum_interval_seconds": 600,
+    "verification": {
+      "as_of_utc": "2026-10-12T05:28:44.360795+00:00",
+      "suite_tests_run": 331,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skipped_reason": "Private research catalog excluded from isolated source package",
+      "specific_mail_safety_tests": 44,
+      "deployment_contract_tests": 9,
+      "offline_preflight_tests": 23,
+      "checks_and_migrations": "pass",
+      "dependencies": "pass",
+      "scope": "isolated synthetic data, HTTP simulated, disposable localhost services; no real emails"
+    },
+    "remaining": [
+      "Acceptance on assigned central host",
+      "Provider incident resolution, real-history reconciliation and permission evidence",
+      "Explicit later approval for an expected test"
+    ],
+    "base_commit": "0404f78ce6526e9d7b86dc46f3479ef50a97b754"
+  }
 }

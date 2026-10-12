@@ -12,6 +12,8 @@ Si existe `../planeacion-comercial/LEEME-SISTEMA.md`, leerlo también: es la ent
 
 ## Operación y correo
 
+Leer también `docs/SEGURIDAD-CORREO.md`. Incidente comercial: operación pausada; recuperar Gmail o crear otro correo no reanuda la lista. Conector Gmail directo retirado del procedimiento de envío. No se ajustó globalmente el plugin porque la autorización se limita a Milenio. Usar solo el emisor central con permiso/invitación verificable, lote finito exacto aprobado por Gerencia y controles vigentes. Agentes preparan borradores; la API no concede permisos ni aprueba lotes. Cinco intentos totales/día y diez minutos entre intentos son límites internos, sin garantía del proveedor. Nunca inventar evidencia/aprobaciones ni inferir permiso desde contactos públicos.
+
 Una sola instalación central conserva datos y ejecuta la cola de Gmail. Las computadoras cliente y Codex operan contra esa instalación. Gmail conectado a Codex no significa que el CRM esté conectado, ni sustituye su registro de envíos.
 
 Usar servicios de negocio autorizados, con actor, versión e idempotencia; no cambiar tablas directamente para saltar reglas. La API implementada y su CLI se documentan en `infra/CONTRATO-AGENTE.md`. Usar credencial individual privada; nunca inventar un token ni usar Gmail directamente para duplicar acciones de la cola.
