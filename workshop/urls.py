@@ -6,7 +6,9 @@ from . import import_views
 from . import analytics_views as av
 from . import capture_views as cv
 from . import photo_quote_views as pqv
+from . import ai_capture_views as aiv
 urlpatterns=[
+ path("capture/ai/",aiv.photo_ai_panel),path("capture/ai/configure/",aiv.configure),path("capture/ai/check/",aiv.check_connection),
  path("capture/",cv.capture_index),path("capture/<int:pk>/",cv.capture_detail),path("capture/<int:pk>/status/",cv.capture_status),path("capture/<int:pk>/retry/",cv.capture_retry),path("capture/<int:pk>/photo/",cv.capture_photo),path("capture/<int:pk>/export/<slug:format>/",cv.capture_export),
  path("capture/example/",cv.capture_example),
  path("capture/<int:pk>/manual/",cv.capture_manual),

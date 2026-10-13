@@ -456,3 +456,4 @@ class ActionTask(models.Model):
 from .analytics_models import AnalyticsSnapshot, AnalyticsRow  # noqa: E402,F401
 from .automation_models import AutomationPolicy, AutomationJob, AutomationWorkerState  # noqa: E402,F401
 from .capture_models import DocumentCapture, CapturedService, PhotoQuoteBatch  # noqa: E402,F401
+from .ai_capture_models import PhotoAISettings, PhotoAIReading  # noqa: E402,F401

@@ -85,32 +85,54 @@ def process_one(reader=None,cancel_event=None):
     """Claim one persisted draft and read outside the database transaction."""
     if AutomationPolicy.objects.filter(pk=1, paused=True).exists():
         return False
+    from .ai_capture import recover_readings, reserve_reading, finish_reading, photo_ai_settings
+    reading = None
     with transaction.atomic():
+        recover_readings()
         DocumentCapture.objects.filter(status="reading", reading_started_at__lt=timezone.now()-timedelta(minutes=3)).update(
             status="review", reading_token="", reading_note="La lectura se interrumpió. Reintenta o captura manualmente.", version=F("version")+1)
         capture = DocumentCapture.objects.select_for_update().filter(status="pending").order_by("created_at", "pk").first()
         if not capture:
             return False
         token = uuid.uuid4().hex
+        if capture.provider != "local":
+            try:
+                reading = reserve_reading(capture, token)
+            except ValidationError as error:
+                capture.status, capture.reading_token = "review", ""
+                capture.reading_note = (" · ".join(error.messages))[:350]
+                capture.extraction = {"provider": capture.provider, "model": capture.model_name,
+                    "completion_observed": False, "error_type": "AIControlBlocked"}
+                capture.version += 1
+                capture.save(update_fields=["status", "reading_token", "reading_note", "extraction", "version"])
+                AuditEvent.objects.create(actor=capture.uploaded_by, entity_type="DocumentCapture", entity_id=str(capture.pk),
+                    action="ai_reading_blocked", after={"status": "review"})
+                return True
         capture.status, capture.reading_token = "reading", token
         capture.reading_started_at = timezone.now()
         capture.save(update_fields=["status", "reading_token", "reading_started_at"])
     try:
-        if reader or capture.provider == "local":
+        if capture.provider == "local":
             text = reader(capture.photo.path) if reader else read_photo(capture.photo.path,cancel_event=cancel_event)
             data = suggest_fields(text)
             items = []
             extraction = {"provider":"local","model":"windows-ocr","completion_observed":bool(text.strip())}
             note = "Lectura local terminada. Compara cada campo con la foto; la escritura a mano puede requerir captura manual." if text.strip() else "No se detectó texto. Completa los campos manualmente o sube una foto más clara."
         else:
+            if not photo_ai_settings().enabled:
+                error = ValidationError("La lectura con IA se pausó antes de iniciarse. Continúa manualmente.")
+                error.extraction_receipt = {"usage": {"input_tokens": 0, "output_tokens": 0}}
+                raise error
             from .capture_vision import extract_photo
             output = extract_photo(capture.photo.path,provider=capture.provider,model=capture.model_name,cancel_event=cancel_event)
             data, items = output["data"], output["service_items"]
             data["services"] = "\n".join(item["description"] for item in items)
             text = ""
             extraction = {**output["receipt"],"warnings":output["warnings"]}
+            finish_reading(reading, output["receipt"])
             note = "El modelo leyó la imagen. Revisa las coincidencias y los campos propuestos antes de aplicar al taller."
     except Exception as error:
+        finish_reading(reading, getattr(error, "extraction_receipt", None), error_code=type(error).__name__)
         text, data = "", suggest_fields("")
         items = []
         extraction = {"provider":capture.provider,"model":capture.model_name,"completion_observed":False,"error_type":type(error).__name__}

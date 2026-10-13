@@ -1,5 +1,21 @@
 # Captura de imágenes integrada a la operación
 
+## Control de IA para fotos · 13 octubre 2026
+
+Rama `codex/ai-capture-controls` continúa la bandeja del PR #13. Nuevo panel
+[Conexión y uso de IA](IA-FOTOS-CONEXION-Y-LIMITES.md): guía/verificación de sesión
+local ChatGPT mediante Codex, Luna o GPT-6.1 Sol low, pausa y límites persistentes
+de intentos/día/documento y consumo observado. Gerencia configura y Recepción
+consulta. No almacena credenciales ni implementa otro cliente OAuth; usa Codex.
+
+327 pruebas aprobadas, una omitida por catálogo privado; 21 nuevas. No hubo llamadas
+de modelo reales en esta entrega. El botón de verificación confirmó sesión local
+ChatGPT en un ensayo con datos ficticios; no acredita acceso a cada modelo ni
+instalación productiva. Requiere migración workshop 0007 y comienza pausada.
+No integrado/desplegado en demo 8766 o central. Siguiente paso: integrar ambas
+entregas, actualizar instalación autorizada con respaldo y evaluar hojas reales
+autorizadas. Las siguientes secciones conservan evidencia de sus cortes.
+
 ## Mejora de bandeja y filtros · 13 octubre 2026
 
 Implementada en la rama `codex/capture-exceptions`, basada en main `0404f78`.

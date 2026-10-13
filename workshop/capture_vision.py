@@ -25,7 +25,7 @@ from PIL import Image, ImageOps
 from .intelligence import _native_subprocess_env, _resolve_codex_binary
 
 
-VISION_MODELS = {"gpt-6-luna", "gpt-5.6-luna"}
+VISION_MODELS = {"gpt-6-luna", "gpt-6.1-sol", "gpt-5.6-luna"}
 MAX_OUTPUT = 100_000
 TEXT_FIELDS = {
     "order_number": 40, "customer_name": 200, "phone": 40,
@@ -148,11 +148,16 @@ def provider_status(provider="codex"):
     try:
         binary = _resolve_codex_binary()
         result = subprocess.run([binary, "login", "status"], **_subprocess_options(10))
+        # login status may report API-key auth on stdout or stderr. Never expose
+        # either stream: it can include sensitive diagnostics or key fragments.
+        method = (str(result.stdout) + "\n" + str(result.stderr)).casefold()
+        if result.returncode == 0 and "logged in using chatgpt" in method:
+            return {"available": True, "auth_method": "chatgpt", "message": "Sesión local de Codex con ChatGPT comprobada. El acceso al modelo se confirma al completar una lectura."}
         if result.returncode == 0:
-            return {"available": True, "message": "Sesión de Codex disponible para lectura de imágenes."}
-        return {"available": False, "message": "Inicia sesión en Codex para leer imágenes con GPT Luna."}
+            return {"available": False, "auth_method": "unsupported", "message": "La sesión encontrada no confirma acceso mediante ChatGPT. Milenio no utilizará una clave API como alternativa."}
+        return {"available": False, "auth_method": "not_connected", "message": "Inicia sesión en Codex en el equipo del lector y vuelve a verificar la conexión."}
     except (OSError, subprocess.SubprocessError, ValidationError):
-        return {"available": False, "message": "Codex no está disponible. Revisa su instalación y sesión local."}
+        return {"available": False, "auth_method": "unknown", "message": "Codex no está disponible. Revisa su instalación y sesión local."}
 
 
 def _events(stdout, expected_model=None):
@@ -279,7 +284,8 @@ With cancel_event, worker shutdown terminates this call's CLI child promptly.
     if provider != "codex":
         _fail(provider_status(provider)["message"])
     if not isinstance(model, str) or model not in VISION_MODELS:
-        _fail("Selecciona un modelo GPT Luna con entrada de imagen verificada.")
+        _fail("Selecciona un modelo permitido con entrada de imagen: Luna o GPT-6.1 Sol.")
+    receipt = None
     try:
         binary = _resolve_codex_binary()
         source = Path(path)
@@ -297,7 +303,8 @@ With cancel_event, worker shutdown terminates this call's CLI child promptly.
             schema = working / "schema.json"
             output = working / "result.json"
             schema.write_text(json.dumps(extraction_schema()), encoding="utf-8")
-            command = [binary, "-c", 'web_search="disabled"',
+            command = [binary, "-c", 'web_search="disabled"', "-c", 'forced_login_method="chatgpt"',
+                       "-c", 'model_reasoning_effort="low"',
                        *[flag for feature in DISABLED_FEATURES for flag in ("--disable", feature)],
                        "-a", "never", "exec", "--ephemeral", "--ignore-user-config", "--json",
                        "--sandbox", "read-only", "--skip-git-repo-check", "--model", model,
@@ -312,11 +319,17 @@ With cancel_event, worker shutdown terminates this call's CLI child promptly.
                 _fail("El lector no produjo una respuesta válida dentro del límite permitido.")
             content = output.read_bytes()
             parsed = validate_extraction(_strict_json(content))
-            parsed["receipt"] = {**receipt, "provider": provider, "model": model,
+            parsed["receipt"] = {**receipt, "provider": provider, "model": model, "reasoning_effort": "low",
                 "cli_exit_code": 0, "schema_version": 1,
                 "normalized_image_sha256": hashlib.sha256(photo.read_bytes()).hexdigest(),
                 "output_sha256": hashlib.sha256(content).hexdigest(), "human_review_required": True}
             return parsed
+    except ValidationError as error:
+        # A completed model turn may still contain an invalid transcription.
+        # Preserve observed usage on that failure; never accept its field data.
+        if receipt is not None:
+            error.extraction_receipt = receipt
+        raise
     except subprocess.TimeoutExpired:
         _fail("La lectura superó 90 segundos. Puedes revisar manualmente o reintentar.")
     except (OSError, subprocess.SubprocessError, Image.DecompressionBombError):
