@@ -19,13 +19,14 @@ from PIL import Image, ImageOps, ImageDraw, ImageFont
 from .access import require, can
 from .document_capture import LABELS, export_content
 from .capture_inbox import inbox_context
+from .ai_capture import photo_ai_settings, usage_for_day, admission_problem
 from .models import AuditEvent, DocumentCapture, WorkOrder, Vehicle, Customer
 
 
 class CaptureUploadForm(forms.Form):
     title = forms.CharField(label="Nombre del documento (opcional)", max_length=160, required=False)
     kind = forms.ChoiceField(label="Qué vas a capturar", choices=[("order", "Orden de trabajo"), ("service", "Hoja de servicio")],required=False)
-    provider = forms.ChoiceField(label="Cómo leer la foto", choices=[("codex","GPT Luna · sesión de Codex"),("local","Lectura local de Windows"),("opencode","OpenCode · pendiente de conectar")],required=False)
+    provider = forms.ChoiceField(label="Cómo leer la foto", choices=[("local","Lectura local de Windows"),("codex","ChatGPT vía Codex · modelo configurado"),("opencode","OpenCode · pendiente de conectar")],required=False)
     photo = forms.ImageField(label="Foto de una hoja", widget=forms.ClearableFileInput(attrs={"accept": "image/jpeg,image/png,image/webp", "capture": "environment"}),
                             help_text="JPEG, PNG o WebP; máximo 5 MB y 20 megapíxeles. Coloca la hoja completa, derecha y con buena luz.")
 
@@ -86,15 +87,18 @@ def event(user, capture, action, **after):
 def capture_index(request):
     form = CaptureUploadForm(request.POST or None, request.FILES or None)
     from .capture_vision import provider_status
-    availability = cache.get("capture:codex-availability")
-    if availability is None:
-        availability = provider_status("codex")
-        cache.set("capture:codex-availability",availability,30)
+    availability = cache.get("capture:codex-availability") or {"available":False,
+        "message":"Consulta Conexión y uso de IA para verificar la sesión y los límites de lectura."}
     if not form.is_bound:
         form.initial["provider"] = "local"
     if request.method == "POST" and form.is_valid():
         provider = form.cleaned_data.get("provider") or "local"
+        policy = photo_ai_settings()
         if provider != "local":
+            problem = admission_problem(policy, usage_for_day()) if provider == "codex" else "OpenCode sigue pendiente de verificar."
+            if problem:
+                form.add_error("provider", problem)
+                return render(request,"workshop/capture_index.html",{"title":"Capturar documentos","section":"Captura de documentos","form":form,"reader_status":availability,**inbox_context(request.GET)})
             availability = provider_status(provider)
             if not availability["available"]:
                 form.add_error("provider",availability["message"])
@@ -115,7 +119,7 @@ def capture_index(request):
             output = io.BytesIO()
             image.save(output, format="JPEG", quality=95)
         capture = DocumentCapture(title=form.cleaned_data["title"] or f"Documento · {timezone.localtime():%d/%m %H:%M}", kind=form.cleaned_data["kind"] or "order",
-            provider=provider,model_name="gpt-6-luna" if provider == "codex" else "",
+            provider=provider,model_name=policy.model if provider == "codex" else "",
             fingerprint=fingerprint, photo=ContentFile(output.getvalue(), name=uuid.uuid4().hex+".jpg"), uploaded_by=request.user)
         try:
             with transaction.atomic():

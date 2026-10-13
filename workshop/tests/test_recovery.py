@@ -128,7 +128,6 @@ class RecoveryTests(unittest.TestCase):
         call_command("restore_workshop", input=str(backup), confirm_restore=True, stdout=io.StringIO())
         self.assertEqual(self._number(), "WO-SYN-1")
 
-
         self.assertEqual((self.media / "evidence" / "photo.txt").read_text(encoding="utf-8"), "synthetic-media")
         self.assertEqual(self.secret.read_text(encoding="utf-8"), "instance-secret")
         with closing(sqlite3.connect(self.db)) as con:
@@ -137,6 +136,21 @@ class RecoveryTests(unittest.TestCase):
         self.assertEqual(len(previous), 1)
         with closing(sqlite3.connect(previous[0])) as con:
             self.assertEqual(con.execute("SELECT number FROM workshop_workorder WHERE id=1").fetchone()[0], "WO-CHANGED")
+
+    def test_restore_pauses_photo_ai_without_resetting_saved_usage(self):
+        with closing(sqlite3.connect(self.db)) as con:
+            con.executescript("""
+                CREATE TABLE workshop_photoaisettings (id INTEGER PRIMARY KEY, enabled INTEGER, version INTEGER);
+                CREATE TABLE workshop_photoaireading (id INTEGER PRIMARY KEY, input_tokens INTEGER, output_tokens INTEGER);
+                INSERT INTO workshop_photoaisettings VALUES(1,1,4);
+                INSERT INTO workshop_photoaireading VALUES(1,120,30);
+            """)
+            con.commit()
+        backup=self._backup()
+        call_command("restore_workshop",input=str(backup),confirm_restore=True,stdout=io.StringIO())
+        with closing(sqlite3.connect(self.db)) as con:
+            self.assertEqual(con.execute("SELECT enabled,version FROM workshop_photoaisettings").fetchone(),(0,5))
+            self.assertEqual(con.execute("SELECT input_tokens,output_tokens FROM workshop_photoaireading").fetchall(),[(120,30)])
 
     def test_explicit_confirmation_and_tamper_required_before_active_change(self):
         backup = self._backup()

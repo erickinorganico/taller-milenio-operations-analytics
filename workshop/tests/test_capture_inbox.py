@@ -135,6 +135,7 @@ class CaptureInboxTests(TestCase):
                 self.assertContains(self.client.get("/capture/"), expected)
 
     def test_unavailable_upload_provider_keeps_the_filtered_inbox_and_error(self):
+        m.PhotoAISettings.objects.create(enabled=True)
         self.document()
         with patch("workshop.capture_vision.provider_status", return_value={"available": False, "message": "Lector no disponible"}):
             response = self.client.post("/capture/?status=review", {"provider": "codex", "photo": photo()})

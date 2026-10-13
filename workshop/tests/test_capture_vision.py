@@ -156,6 +156,10 @@ class CaptureVisionTests(SimpleTestCase):
         self.assertNotIn("private-token", str(result))
         self.assertEqual(run.call_args.args[0], ["codex.exe", "login", "status"])
         run.return_value.returncode = 0
+        self.assertFalse(vision.provider_status()["available"])
+        run.return_value.stdout = "Logged in using API key: private-token"
+        self.assertFalse(vision.provider_status()["available"])
+        run.return_value.stdout = "Logged in using ChatGPT"
         self.assertTrue(vision.provider_status()["available"])
         run.reset_mock()
         self.assertFalse(vision.provider_status("opencode")["available"])
@@ -182,6 +186,8 @@ class CaptureVisionTests(SimpleTestCase):
                 self.assertEqual(kwargs["env"], {"TEST": "isolated"})
                 self.assertIn("--ignore-user-config", command)
                 self.assertIn("--ephemeral", command)
+                self.assertIn('forced_login_method="chatgpt"', command)
+                self.assertIn('model_reasoning_effort="low"', command)
                 self.assertNotIn("skip_host_skill_discovery", command)
                 self.assertEqual(command[command.index("--sandbox") + 1], "read-only")
                 self.assertEqual(command[command.index("--model") + 1], "gpt-6-luna")
@@ -219,3 +225,19 @@ class CaptureVisionTests(SimpleTestCase):
                 with self.assertRaises(ValidationError):
                     vision.extract_photo(source, model="unverified-model")
                 run.assert_not_called()
+
+    @patch.object(vision, "_resolve_codex_binary", return_value="codex.exe")
+    def test_sol_low_uses_same_restricted_image_protocol_and_failure_keeps_usage(self, resolve):
+        with tempfile.TemporaryDirectory() as folder:
+            source=Path(folder)/"source.png"
+            Image.new("RGB",(20,20),"white").save(source)
+            def fake_cli(command,**kwargs):
+                self.assertEqual(command[command.index("--model")+1],"gpt-6.1-sol")
+                self.assertIn('model_reasoning_effort="low"',command)
+                self.assertIn('forced_login_method="chatgpt"',command)
+                Path(command[command.index("--output-last-message")+1]).write_text('{"wrong":"schema"}',encoding='utf-8')
+                return SimpleNamespace(returncode=0,stdout='{"type":"turn.completed","model":"gpt-6.1-sol","usage":{"input_tokens":10,"output_tokens":5}}',stderr="secret")
+            with patch.object(vision.subprocess,"run",side_effect=fake_cli), self.assertRaises(ValidationError) as caught:
+                vision.extract_photo(source,model="gpt-6.1-sol")
+            self.assertEqual(caught.exception.extraction_receipt["usage"],{"input_tokens":10,"output_tokens":5})
+            self.assertNotIn("secret",str(caught.exception))

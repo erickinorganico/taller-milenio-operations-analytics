@@ -73,6 +73,10 @@ class Command(BaseCommand):
                 try:
                     con.execute("DELETE FROM django_session")
                     tables = {row[0] for row in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+                    if 'workshop_photoaisettings' in tables:
+                        # A backup can predate usage already consumed. Restoring
+                        # it must not automatically reopen external image reads.
+                        con.execute("UPDATE workshop_photoaisettings SET enabled=0, version=version+1")
                     if 'commercial_mailbox' in tables:
                         # Latch outside DB survives interruption and cannot be cleared by a UI toggle.
                         (data / '.mail-recovery-hold').touch()

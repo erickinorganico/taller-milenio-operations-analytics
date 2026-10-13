@@ -202,8 +202,9 @@ class CaptureApplicationTests(TestCase):
 
     def test_visual_result_is_persisted_and_incomplete_provider_has_manual_fallback(self):
         capture = self.capture()
+        m.PhotoAISettings.objects.create(enabled=True)
         capture.status="pending"; capture.provider="codex"; capture.model_name="gpt-6-luna"; capture.save()
-        with patch("workshop.capture_vision.extract_photo",return_value={"data":{**DATA},"service_items":[{"description":"Servicio visual","kind":"unknown","quantity":None,"unit_price":None,"unit_cost":None,"part_sku":None}],"warnings":[],"receipt":{"provider":"codex","model":"gpt-6-luna","completion_observed":True}}):
+        with patch("workshop.capture_vision.extract_photo",return_value={"data":{**DATA},"service_items":[{"description":"Servicio visual","kind":"unknown","quantity":None,"unit_price":None,"unit_cost":None,"part_sku":None}],"warnings":[],"receipt":{"provider":"codex","model":"gpt-6-luna","completion_observed":True,"usage":{"input_tokens":10,"output_tokens":5}}}):
             process_one()
         capture.refresh_from_db()
         self.assertEqual(capture.data["services"],"Servicio visual")
