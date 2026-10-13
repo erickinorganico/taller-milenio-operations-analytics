@@ -1,0 +1,4 @@
+<form class="list-filters panel-body" method="get" aria-label="Filtrar registros">
+  <div class="list-filter-fields">{% include 'workshop/form_fields.html' with form=list_filter_form %}</div>
+  <div class="actions"><button class="button primary" type="submit">Aplicar filtros</button><a class="button" href="{{ clear_url }}">Limpiar filtros</a>{% if count != None %}<span class="muted">{{ count }} resultado{{ count|pluralize:'s' }}</span>{% endif %}</div>
+</form>

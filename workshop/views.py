@@ -182,18 +182,28 @@ def edit_record(request,key,pk=None):
     return render(request,"workshop/form.html",{"title":("Editar · " if pk else "Nuevo · ")+title,"section":"Captura","form":form,"back":f"/records/{key}/"})
 
 def orders(request):
-    qs=m.WorkOrder.objects.select_related("vehicle__customer","assigned_to").order_by("-created_at")
+    from .order_filters import OrderFilterForm, dates_for_orders, order_filter_context
+    qs=m.WorkOrder.objects.select_related("vehicle__customer","assigned_to").order_by("-created_at", "-pk")
     if not can(request.user,"orders_read_all"):
         qs=qs.filter(assigned_to=request.user)
-    query=request.GET.get("q","").strip()[:200]
+    filters = OrderFilterForm(request.GET, visible_orders=qs)
+    valid = filters.is_valid()
+    values = filters.cleaned_data if valid else {}
+    if not valid:
+        qs = qs.none()
+    query=values.get("q", "")
     if query:
         qs=qs.filter(Q(number__icontains=query)|Q(vehicle__plate__icontains=query)|Q(vehicle__customer__name__icontains=query))
-    selected=request.GET.get("status","")
+    selected=values.get("status", "")
     if selected in m.WorkOrder.Status.values:
         qs=qs.filter(status=selected)
-    if request.GET.get("mine")=="1":
+    if values.get("mine"):
         qs=qs.filter(assigned_to=request.user)
-    attention = request.GET.get("attention", "")
+    owner = values.get("owner")
+    if owner:
+        qs = qs.filter(assigned_to__isnull=True) if owner == "unassigned" else qs.filter(assigned_to_id=owner)
+    qs = dates_for_orders(qs, values)
+    attention = values.get("attention", "")
     if attention in {"unassigned", "undated", "late"}:
         qs = qs.exclude(status__in=["delivered", "cancelled"])
         if attention == "unassigned":
@@ -204,10 +214,8 @@ def orders(request):
             qs = qs.filter(promised_at__lt=timezone.now())
     page=Paginator(qs,25).get_page(request.GET.get("page"))
     rows=[{"cells":[{"text":o.number,"url":f"/orders/{o.pk}/"},{"text":o.vehicle},{"text":o.vehicle.customer.name},{"text":o.status,"status":o.status},{"text":o.assigned_to.get_full_name() or o.assigned_to.username if o.assigned_to else "Sin asignar"},{"text":o.promised_at}]} for o in page]
-    active_filters = {key:request.GET[key] for key in ["status", "mine", "attention"] if request.GET.get(key)}
-    filter_query = urlencode(active_filters)
     attention_label = {"unassigned":"Órdenes abiertas sin responsable.", "undated":"Órdenes abiertas sin fecha prometida.", "late":"Órdenes abiertas fuera de la fecha prometida."}.get(attention)
-    return render(request,"workshop/table.html",{"title":"Órdenes de trabajo","intro":attention_label or "Cada vehículo, su responsable y el siguiente paso.","active_filters":active_filters,"filter_query":filter_query,"section":"Taller","columns":["Orden","Vehículo","Cliente","Etapa","Responsable","Entrega prometida"],"rows":rows,"count":qs.count(),"page":page,"query":query,"create_url":"/orders/new/" if can(request.user,"reception") else None,"create_label":"Recibir vehículo","subnav":[{"label":"Todas","url":"/orders/"},{"label":"Mis órdenes","url":"/orders/?mine=1"},{"label":"Por autorizar","url":"/orders/?status=awaiting_approval"},{"label":"En trabajo","url":"/orders/?status=in_progress"},{"label":"Listas","url":"/orders/?status=ready"}]})
+    return render(request,"workshop/table.html",{"title":"Órdenes de trabajo","intro":attention_label or "Cada vehículo, su responsable y el siguiente paso.",**order_filter_context(filters),"section":"Taller","columns":["Orden","Vehículo","Cliente","Etapa","Responsable","Entrega prometida"],"rows":rows,"count":page.paginator.count,"page":page,"empty":"Ajusta los filtros o limpia la selección para ver otras órdenes.","create_url":"/orders/new/" if can(request.user,"reception") else None,"create_label":"Recibir vehículo","subnav":[{"label":"Todas","url":"/orders/"},{"label":"Mis órdenes","url":"/orders/?mine=1"},{"label":"Por autorizar","url":"/orders/?status=awaiting_approval"},{"label":"En trabajo","url":"/orders/?status=in_progress"},{"label":"Listas","url":"/orders/?status=ready"}]})
 
 @require("reception")
 def new_order(request):

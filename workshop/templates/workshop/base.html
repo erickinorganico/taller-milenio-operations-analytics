@@ -28,7 +28,7 @@
       {% if cap.finance_read %}<a href="/finance/">{% include 'workshop/icons.html' with icon='receipt' %}<span>Caja y cobranza</span></a>{% endif %}
       {% if cap.office_read %}<a href="/fleets/">{% include 'workshop/icons.html' with icon='fleet' %}<span>Flotillas</span></a><a href="/towing/">{% include 'workshop/icons.html' with icon='tow' %}<span>Grúas</span></a>{% endif %}
     </nav>
-    {% if cap.reception %}<nav aria-label="Captura"><a href="/capture/">{% include 'workshop/icons.html' with icon='orders' %}<span>Capturar documentos</span></a></nav>{% endif %}<p class="nav-label">Inteligencia</p>
+    {% if cap.reception %}<nav aria-label="Captura"><a href="/capture/" {% if '/capture/' in request.path %}aria-current="page"{% endif %}>{% include 'workshop/icons.html' with icon='orders' %}<span>Documentos y excepciones</span></a></nav>{% endif %}<p class="nav-label">Inteligencia</p>
     <nav aria-label="Inteligencia">
       {% if cap.intelligence_read %}<a href="/metrics/">{% include 'workshop/icons.html' with icon='diagnostic' %}<span>Métricas</span></a><a href="/automations/">{% include 'workshop/icons.html' with icon='gear' %}<span>Automatizaciones</span></a><a href="/agents/">{% include 'workshop/icons.html' with icon='actions' %}<span>Agentes y acciones</span></a>{% endif %}
       {% if cap.data_read %}<a href="/data/" {% if '/data/' in request.path or request.path == '/import/' %}aria-current="page"{% endif %}>{% include 'workshop/icons.html' with icon='data' %}<span>Base de datos</span></a>{% endif %}
