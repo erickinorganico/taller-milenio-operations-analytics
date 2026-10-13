@@ -9,7 +9,6 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.exceptions import ValidationError
 from django.core.cache import cache
-from django.core.paginator import Paginator
 from django.db import IntegrityError, transaction
 from django.http import FileResponse, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -19,6 +18,7 @@ from PIL import Image, ImageOps, ImageDraw, ImageFont
 
 from .access import require, can
 from .document_capture import LABELS, export_content
+from .capture_inbox import inbox_context
 from .models import AuditEvent, DocumentCapture, WorkOrder, Vehicle, Customer
 
 
@@ -91,14 +91,14 @@ def capture_index(request):
         availability = provider_status("codex")
         cache.set("capture:codex-availability",availability,30)
     if not form.is_bound:
-        form.initial["provider"] = "codex" if availability["available"] else "local"
+        form.initial["provider"] = "local"
     if request.method == "POST" and form.is_valid():
         provider = form.cleaned_data.get("provider") or "local"
         if provider != "local":
             availability = provider_status(provider)
             if not availability["available"]:
                 form.add_error("provider",availability["message"])
-                return render(request,"workshop/capture_index.html",{"title":"Capturar documentos","section":"Captura de documentos","form":form,"page":Paginator(DocumentCapture.objects.all(),25).get_page(1)})
+                return render(request,"workshop/capture_index.html",{"title":"Capturar documentos","section":"Captura de documentos","form":form,"reader_status":availability,**inbox_context(request.GET)})
         photo = form.cleaned_data["photo"]
         digest = hashlib.sha256()
         for chunk in photo.chunks():
@@ -129,8 +129,7 @@ def capture_index(request):
             return redirect(f"/capture/{existing.pk}/")
         messages.success(request, "Foto guardada. La lectura se hará en segundo plano; después podrás corregir los campos.")
         return redirect(f"/capture/{capture.pk}/")
-    page = Paginator(DocumentCapture.objects.select_related("uploaded_by", "reviewed_by", "work_order"), 25).get_page(request.GET.get("page"))
-    return render(request, "workshop/capture_index.html", {"title":"Capturar documentos", "section":"Captura de documentos", "form":form, "page":page,"reader_status":availability})
+    return render(request, "workshop/capture_index.html", {"title":"Capturar documentos", "section":"Captura de documentos", "form":form,"reader_status":availability,**inbox_context(request.GET)})
 
 
 @require("reception")

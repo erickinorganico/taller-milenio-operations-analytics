@@ -1,0 +1,14 @@
+.inbox-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}
+.inbox-summary .panel{padding:16px 18px}.inbox-summary strong{display:block;font-size:27px;line-height:1.3}.inbox-summary span{color:var(--muted)}
+.inbox-summary .attention-count{border-left:4px solid #a4492a}.inbox-summary .ready-count{border-left:4px solid #436a56}
+.list-filter-fields{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 18px}.list-filter-fields .field{margin:0}.list-filter-fields .field:first-child{grid-column:span 2}
+.list-filters .actions{margin-top:16px;flex-wrap:wrap;align-items:center}.list-filters .errorlist{color:#942d20}.list-filters input,.list-filters select{max-width:100%}
+.inbox-upload{margin:14px 0}.inbox-upload>summary{padding:16px 20px;cursor:pointer;font-weight:650}.inbox-upload[open]>summary{border-bottom:1px solid var(--line)}
+.inbox-reader{font-size:12px;margin:10px 0;color:var(--muted)}.inbox-reader strong{color:var(--ink)}
+.inbox-table{table-layout:fixed;min-width:840px}.inbox-table th:nth-child(1){width:23%}.inbox-table th:nth-child(2){width:17%}.inbox-table th:nth-child(3){width:27%}.inbox-table th:nth-child(4){width:18%}.inbox-table th:nth-child(5){width:15%}
+.inbox-table td{vertical-align:top;overflow-wrap:anywhere}.inbox-table small{display:block;margin-top:5px;color:var(--muted)}.inbox-table .pill{white-space:normal}
+.inbox-issue{display:block;color:#8a3422;font-weight:650;margin-bottom:5px}.inbox-action{position:relative;display:inline-block;margin-top:9px;font-weight:650;min-height:26px}
+.inbox-table-scroll:focus-visible{outline:3px solid #cd9165;outline-offset:-3px}.inbox-scroll-help{display:none}
+.inbox-tabs{margin:16px 0}.inbox-tabs a[aria-current=page]{background:var(--green-soft);border-color:var(--green);font-weight:650}
+@media(max-width:1000px){.list-filter-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.inbox-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.list-filter-fields{grid-template-columns:minmax(0,1fr)}.list-filter-fields .field:first-child{grid-column:auto}.inbox-summary{gap:8px}.inbox-summary .panel{padding:12px}.inbox-summary strong{font-size:23px}.inbox-scroll-help{display:block;margin:0 18px 12px}}

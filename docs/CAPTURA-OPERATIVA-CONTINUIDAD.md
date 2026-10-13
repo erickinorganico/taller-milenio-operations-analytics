@@ -1,5 +1,20 @@
 # Captura de imágenes integrada a la operación
 
+## Mejora de bandeja y filtros · 13 octubre 2026
+
+Implementada en la rama `codex/capture-exceptions`, basada en main `0404f78`.
+[Bandeja y filtros](BANDEJA-Y-FILTROS.md): excepciones de lectura, esperas y datos
+requeridos faltantes; búsqueda, estado, tipo, persona y fecha; conteos de toda la
+selección y paginación estable. Órdenes incorpora responsable y fechas de recepción
+o entrega prometida. Mantiene roles, aplicación revisada y cola existente.
+
+306 pruebas sin fallos/errores, una omitida por catálogo privado; veinte nuevas.
+OCR local por defecto, sin nuevas cuentas, servicios, dependencias o migraciones.
+Verificación visual con datos ficticios, sin lectores/correo ni usuarios nuevos.
+No desplegada en la demo 8766 ni en una central; los cortes siguientes conservan
+la evidencia de sus fechas. Próximo paso: integrar la entrega y actualizar la
+instalación elegida con su procedimiento, separado del frente comercial.
+
 Estado vigente del trabajo de captura: **6 de octubre de 2026**. El antecedente
 del 1 de octubre en REVISION-Y-PILOTO.md describe un piloto que sólo exportaba.
 Esta implementación añade la aplicación transaccional a la base del taller.
@@ -48,8 +63,8 @@ ejecutó con temporales fuera de OneDrive para evitar interferencia de sincroniz
 ## Flujo disponible
 
 1. En **Capturar documentos**, sube la foto. El título es opcional. Elige GPT
-   Luna o lectura local de Windows; Luna aparece seleccionado si la sesión
-   de Codex está disponible.
+   Luna o lectura local de Windows; la mejora de bandeja selecciona lectura
+   local por defecto y conserva los lectores opcionales ya configurados.
 2. Un trabajador propio procesa la imagen. No ocupa los trabajadores de correo
    ni análisis. Conserva proveedor, modelo solicitado, huellas y resultado.
 3. Revisa los datos y los servicios estructurados. Cantidad, precio y costo
