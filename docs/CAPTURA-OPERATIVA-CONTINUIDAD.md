@@ -8,7 +8,8 @@ local ChatGPT mediante Codex, Luna o GPT-6.1 Sol low, pausa y límites persisten
 de intentos/día/documento y consumo observado. Gerencia configura y Recepción
 consulta. No almacena credenciales ni implementa otro cliente OAuth; usa Codex.
 
-327 pruebas aprobadas, una omitida por catálogo privado; 21 nuevas. No hubo llamadas
+328 pruebas aprobadas, una omitida por catálogo privado; 22 nuevas. Restauración pausa la IA
+y conserva el historial del respaldo para revisión. No hubo llamadas
 de modelo reales en esta entrega. El botón de verificación confirmó sesión local
 ChatGPT en un ensayo con datos ficticios; no acredita acceso a cada modelo ni
 instalación productiva. Requiere migración workshop 0007 y comienza pausada.

@@ -62,6 +62,9 @@ editables por Gerencia, no límites del proveedor ni autorización automática.
   presupuesto**; no se ofrece un tope exacto de tokens, dinero o crédito por llamada.
 - Pausar impide iniciar lecturas nuevas; una iniciada puede terminar. Se comprueba
   de nuevo antes de ejecutar el modelo. Captura manual y OCR local siguen disponibles.
+- Restaurar una base pausa las lecturas con IA y conserva los contadores presentes
+  en ese respaldo. Gerencia revisa la recuperación antes de habilitar de nuevo;
+  el respaldo puede ser anterior a uso consumido posteriormente.
 
 Estos límites cubren exclusivamente lecturas de documentos admitidas por Milenio.
 No limitan ChatGPT web, otras apps, llamadas directas al CLI ni los agentes de
@@ -75,8 +78,8 @@ para el sistema: el contrato impide herramientas y toda aplicación sigue la
 revisión/vista previa existente. Habilitar IA no autoriza movimientos financieros,
 correo, confirmaciones de servicio o escritura automática de registros.
 
-327 pruebas de aplicación sin fallos/errores, una omitida por catálogo privado.
-Veinte pruebas nuevas de controles y una de protocolo Sol low; auth de API
+328 pruebas de aplicación sin fallos/errores, con una omitida por catálogo privado.
+Veinte pruebas nuevas de controles, una de protocolo Sol low y una de restauración; auth de API
 rechazada, cuotas persistentes, consumo desconocido, pausa, roles/versiones y
 consulta sin efectos comprobados con ejecución de modelos simulada. Una prueba
 preexistente de heartbeat tuvo interferencia de escritura en OneDrive; aislada
