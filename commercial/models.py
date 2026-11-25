@@ -171,3 +171,5 @@ class ImportReceipt(models.Model):
 from .mail_models import Mailbox, MailEnrollment, MailMessage, MailInbound, MailWorkerLease  # noqa: E402,F401
 
 from .agent_models import AgentCredential, AgentRequest, ConversationClaim, AgentDraft  # noqa: E402,F401
+
+from .mail_safety_models import MailSafety, MailPermission, MailBatch, MailBatchItem, MailAdmission  # noqa: E402,F401

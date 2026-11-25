@@ -189,3 +189,89 @@ class BackgroundLauncherTests(unittest.TestCase):
     def _health_response_is_unrelated(port):
         with urllib.request.urlopen(f"http://127.0.0.1:{port}/", timeout=2) as response:
             return response.read() == b"unrelated service"
+
+@unittest.skipUnless(os.name == "nt" and POWERSHELL, "Los accesos de escritorio requieren Windows")
+class ManagedLauncherTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = TemporaryDirectory(prefix="milenio-managed-launcher-")
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+        self.instance = "85b65e9a-5f93-42a6-ba86-ecb73a974566"
+        self.health = {"application": "milenio-operations", "mode": "live", "status": "ok",
+                       "instance_id": self.instance}
+        self.paths = []
+        self.redirect = False
+        fixture = self
+
+        class Handler(BaseHTTPRequestHandler):
+            def do_GET(self):
+                fixture.paths.append(self.path)
+                if fixture.redirect:
+                    self.send_response(302)
+                    self.send_header("Location", "/unexpected")
+                    self.end_headers()
+                    return
+                body = json.dumps(fixture.health).encode()
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+
+            def log_message(self, *args):
+                pass
+
+        self.server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        self.addCleanup(self.server.server_close)
+        Thread(target=self.server.serve_forever, daemon=True).start()
+        self.addCleanup(self.server.shutdown)
+        self.config_path = self.root / "private" / "infra.local.json"
+        self.config_path.parent.mkdir()
+        self.origin = f"http://127.0.0.1:{self.server.server_port}"
+        self.config = {"schema_version": 2, "role": "client", "transport": "ssh-loopback",
+                       "expected_hostname": socket.gethostname(), "instance_id": self.instance,
+                       "central_url": self.origin, "local_port": self.server.server_port}
+        self.env = {**os.environ, "MILENIO_DEPLOYMENT_CONFIG": str(self.config_path),
+                    "MILENIO_LEGACY_LOCAL": "", "LOCALAPPDATA": str(self.root / "appdata")}
+
+    def launch(self, section="Taller", launcher=LAUNCHER):
+        self.config_path.write_text(json.dumps(self.config), encoding="utf-8-sig")
+        return subprocess.run([POWERSHELL, "-NoProfile", "-ExecutionPolicy", "Bypass",
+                               "-File", str(launcher), "-Mode", "live", "-Seccion", section, "-NoBrowser"],
+                              env=self.env, capture_output=True, text=True, timeout=15)
+
+    def test_client_shortcuts_open_only_configured_tunnel_and_fixed_pages(self):
+        self.config_path.write_text(json.dumps(self.config), encoding="utf-8")
+        for section, route in (("Taller", "/"), ("Comercial", "/commercial/")):
+            result = subprocess.run(["cmd.exe", "/d", "/c", f"Abrir-{section}.cmd", "-NoBrowser"],
+                                    cwd=ROOT, env=self.env, stdin=subprocess.DEVNULL,
+                                    capture_output=True, text=True, timeout=15)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn(self.origin + route, result.stdout)
+        self.assertEqual(self.paths, ["/health/", "/health/"])
+        self.assertFalse((self.root / "appdata").exists())
+
+    def test_release_finds_custom_installation_and_honors_maintenance(self):
+        launcher = self.root / "releases" / "0123456789abcdef" / LAUNCHER.name
+        launcher.parent.mkdir(parents=True)
+        shutil.copyfile(LAUNCHER, launcher)
+        self.env.pop("MILENIO_DEPLOYMENT_CONFIG")
+        data = self.root / "data" / "live"
+        data.mkdir(parents=True)
+        self.config.update(role="server", port=self.server.server_port, data_dir=str(data))
+        result = self.launch(launcher=launcher)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        (data / ".stop-managed").touch()
+        paused = self.launch(launcher=launcher)
+        self.assertNotEqual(paused.returncode, 0)
+        self.assertIn("mantenimiento", paused.stderr.lower())
+        self.assertEqual(self.paths, ["/health/"])
+
+    def test_rejects_foreign_service_redirect_or_external_origin(self):
+        self.health["instance_id"] = "other"
+        self.assertNotEqual(self.launch().returncode, 0)
+        self.redirect = True
+        self.assertNotEqual(self.launch().returncode, 0)
+        self.config["central_url"] = "https://invalid.invalid/"
+        self.assertNotEqual(self.launch().returncode, 0)
+        self.assertEqual(self.paths, ["/health/", "/health/"])

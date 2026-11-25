@@ -49,8 +49,9 @@ def verify():
         assert not first['mail_worker_allowed']
         run('init','--data-dir',str(data),'--backup-dir',str(directory/'backup'),'--port',str(port))
         assert json.loads(config.read_text(encoding='utf-8'))['instance_id']==first['instance_id']
-        process=subprocess.Popen([sys.executable,str(root/'scripts/deploy.py'),'serve'],env=env,cwd=root,
-                                 stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
+        with (directory/'supervisor-output.log').open('wb') as output:
+            process=subprocess.Popen([sys.executable,str(root/'scripts/deploy.py'),'serve'],env=env,cwd=root,
+                                     stdout=output,stderr=subprocess.PIPE)
         opener=urllib.request.build_opener(urllib.request.ProxyHandler({}))
         def health():
             with opener.open(f'http://127.0.0.1:{port}/health/',timeout=2) as response:return json.load(response)

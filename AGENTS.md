@@ -7,10 +7,12 @@ Si existe `../planeacion-comercial/LEEME-SISTEMA.md`, leerlo también: es la ent
 
 - Consultar `git status --short`, commit y remoto antes de editar. Preservar cambios ajenos; no ejecutar `git add .`, reset, limpieza masiva ni pull sobre un árbol sucio.
 - Leer `private/infra.local.json` si existe, sin imprimir secretos. Si falta, el rol es **sin asignar**: solo diagnóstico y desarrollo aislado. Clonar este repo no convierte una computadora en servidor.
-- Ejecutar `python scripts/infra_doctor.py --config private/infra.local.json`. Es una revisión de solo lectura. En un cliente, no iniciar `Abrir-Taller.cmd`, worker de correo ni migraciones locales como solución a una caída del servidor.
+- Ejecutar `python scripts/infra_doctor.py --config private/infra.local.json`. Es una revisión de solo lectura. En un cliente, `Abrir-Taller.cmd` y `Abrir-Comercial.cmd` comprueban la central a través del túnel. Si falla, revisar el túnel y la central; no iniciar workers ni migraciones locales.
 - No deducir servidor, permisos, base vigente, identidad de instancia ni pertenencia a grupos de Codex a partir del nombre de una carpeta o de un chat.
 
 ## Operación y correo
+
+Leer también `docs/SEGURIDAD-CORREO.md`. Incidente comercial: operación pausada; recuperar Gmail o crear otro correo no reanuda la lista. Conector Gmail directo retirado del procedimiento de envío. No se ajustó globalmente el plugin porque la autorización se limita a Milenio. Usar solo el emisor central con permiso/invitación verificable, lote finito exacto aprobado por Gerencia y controles vigentes. Agentes preparan borradores; la API no concede permisos ni aprueba lotes. Cinco intentos totales/día y diez minutos entre intentos son límites internos, sin garantía del proveedor. Nunca inventar evidencia/aprobaciones ni inferir permiso desde contactos públicos.
 
 Una sola instalación central conserva datos y ejecuta la cola de Gmail. Las computadoras cliente y Codex operan contra esa instalación. Gmail conectado a Codex no significa que el CRM esté conectado, ni sustituye su registro de envíos.
 

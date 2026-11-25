@@ -1,5 +1,9 @@
 # Operación de Milenio desde Codex
 
+## Seguridad comercial vigente
+
+[Controles de correo](../docs/SEGURIDAD-CORREO.md) prevalecen sobre rutas históricas directas de Codex/Gmail. Campaña pausada; system.status incluye mail.safety. Encolar prepara, no autoriza transmisión. La API no concede permisos, levanta el incidente o aprueba lotes. Gerencia revisa un manifiesto privado exacto; antes del HTTP se comprueban permiso/solicitud, contenido, remitente, lote, lease, supresión, calendario y presupuesto. La migración 0006 cancela cola previa conservando históricos. Instalar no habilita correo. El ajuste global del plugin no se modificó; esta protección se vincula solo al remitente de Milenio.
+
 Instrucción reutilizable:
 
 > Lee AGENTS.md e infra/README.md. Identifica el rol de este equipo, revisa la instancia central y su release, y ejecuta el mantenimiento autorizado. No inicies otra base en un cliente. Conserva datos, no imprimas secretos y registra el resultado privado.

@@ -65,6 +65,14 @@ class Appointment(models.Model):
     status = models.CharField(max_length=12, choices=Status.choices, default=Status.SCHEDULED)
 
 
+class ReceptionReceipt(models.Model):
+    """Committed result of a single submission from a reception form."""
+    token = models.UUIDField(primary_key=True, editable=False)
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    step = models.CharField(max_length=12)
+    next_url = models.CharField(max_length=200)
+
+
 class WorkOrder(models.Model):
     class Status(models.TextChoices):
         INTAKE = "intake", "Recepción"
@@ -456,3 +464,4 @@ class ActionTask(models.Model):
 from .analytics_models import AnalyticsSnapshot, AnalyticsRow  # noqa: E402,F401
 from .automation_models import AutomationPolicy, AutomationJob, AutomationWorkerState  # noqa: E402,F401
 from .capture_models import DocumentCapture, CapturedService, PhotoQuoteBatch  # noqa: E402,F401
+from .ai_capture_models import PhotoAISettings, PhotoAIReading  # noqa: E402,F401

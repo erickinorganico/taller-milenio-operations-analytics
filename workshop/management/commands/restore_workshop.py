@@ -1,6 +1,7 @@
 """Restore a verified local backup while preserving the previous data snapshot."""
 from __future__ import annotations
 
+import os
 import shutil
 import socket
 import sqlite3
@@ -18,6 +19,9 @@ from .backup_workshop import DATABASE, MEDIA, files_in, inspect_database, instan
 
 def _assert_server_stopped():
     port = {"live": 8765, "demo": 8766}.get(settings.MILENIO_MODE)
+    if settings.MILENIO_MODE == "live" and os.environ.get("MILENIO_DEPLOYMENT_CONFIG"):
+        from milenio_web.deployment import guard_server
+        port = guard_server()["port"]
     if port is None:
         return
     try:
@@ -73,10 +77,18 @@ class Command(BaseCommand):
                 try:
                     con.execute("DELETE FROM django_session")
                     tables = {row[0] for row in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+                    if 'workshop_photoaisettings' in tables:
+                        # A backup can predate usage already consumed. Restoring
+                        # it must not automatically reopen external image reads.
+                        con.execute("UPDATE workshop_photoaisettings SET enabled=0, version=version+1")
                     if 'commercial_mailbox' in tables:
                         # Latch outside DB survives interruption and cannot be cleared by a UI toggle.
                         (data / '.mail-recovery-hold').touch()
                         con.execute("UPDATE commercial_mailbox SET enabled=0, connected=0")
+                    if 'commercial_mailsafety' in tables:
+                        con.execute("UPDATE commercial_mailsafety SET paused=1, revision=revision+1, reason='Restauración: revisión y conciliación pendientes'")
+                    if 'commercial_mailbatch' in tables:
+                        con.execute("UPDATE commercial_mailbatch SET revoked=1")
                     if 'commercial_agentcredential' in tables:
                         con.execute("UPDATE commercial_agentcredential SET revoked=1")
                     con.commit()

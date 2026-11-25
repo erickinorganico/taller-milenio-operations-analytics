@@ -26,6 +26,7 @@ from django.views.decorators.http import require_POST
 from . import models as m, services as s
 from .access import can, require, ROLES
 from .catalog import CATALOG, SOURCE_MODELS, SOURCE_TITLES
+from .reception import reception_form
 from .webforms import LABELS, SetupForm, TeamForm, TeamEditForm, MoneyLineForm, PaymentForm, InspectionForm, model_form
 
 def fail(request, exc):
@@ -80,7 +81,8 @@ def sign_in(request):
 
 def static_asset(request, path):
     allowed = {"workshop/commercial.css":"text/css", "workshop/app.css":"text/css", "workshop/analytics.css":"text/css", "workshop/app.js":"text/javascript",
-               "workshop/shell.css":"text/css", "workshop/shell.js":"text/javascript", "workshop/analytics.js":"text/javascript", "workshop/data.css":"text/css", "workshop/capture.js":"text/javascript", "workshop/capture.css":"text/css"}
+               "workshop/shell.css":"text/css", "workshop/shell.js":"text/javascript", "workshop/analytics.js":"text/javascript", "workshop/data.css":"text/css", "workshop/capture.js":"text/javascript", "workshop/capture.css":"text/css",
+               "workshop/inbox.css":"text/css", "workshop/photo-ai.css":"text/css"}
     if path not in allowed:
         raise Http404
     filename = Path(__file__).parent / "static" / path
@@ -130,13 +132,26 @@ def search(qs, query):
 def edit_record(request,key,pk=None):
     if key not in CATALOG:
         raise Http404
-    model,title,fields,capability=CATALOG[key]
-    role_check(request,capability)
+    role_check(request, CATALOG[key][3])
+    if pk is None and key in {"customers", "vehicles"}:
+        return reception_form(request, key, record_form, key, pk)
+    return record_form(request, key, pk)
+
+
+def record_form(request, key, pk):
+    model,title,fields,_=CATALOG[key]
+    receiving = pk is None and key in {"customers", "vehicles"} and request.GET.get("flow") == "reception"
     obj=get_object_or_404(model,pk=pk) if pk else None
     before=snapshot(obj) if obj else None
     form=model_form(model,["supplier","number"] if key=="purchases" else fields,request.POST or None,instance=obj)
     if key=="vehicles" and request.GET.get("customer"):
         form.initial["customer"]=request.GET["customer"]
+    if key == "customers":
+        form.fields["phone"].widget.attrs.update(type="tel", autocomplete="tel")
+    if key == "vehicles":
+        form.fields["plate"].help_text = "Captura las placas o el VIN para identificar el vehículo."
+        form.fields["plate"].widget.attrs.update(autocapitalize="characters", spellcheck="false")
+        form.fields["vin"].widget.attrs.update(autocapitalize="characters", spellcheck="false")
     if key=="contracts":
         form.fields["customer"].queryset=m.Customer.objects.filter(kind="fleet")
     if request.method=="POST" and form.is_valid():
@@ -175,25 +190,51 @@ def edit_record(request,key,pk=None):
                 record.full_clean()
                 record.save()
                 audit(request.user,record,"updated" if pk else "created",before)
+            if receiving:
+                if key == "customers":
+                    messages.success(request, "Cliente guardado. Registra su vehículo.")
+                    return redirect(f"/records/vehicles/new/?flow=reception&customer={record.pk}")
+                messages.success(request, "Vehículo guardado. Completa la orden de trabajo.")
+                return redirect(f"/orders/new/?vehicle={record.pk}")
             messages.success(request,"Registro guardado.")
             return redirect(f"/records/{key}/")
         except (ValidationError,IntegrityError) as exc:
             form.add_error(None," · ".join(exc.messages) if isinstance(exc,ValidationError) else "Ese registro ya existe.")
-    return render(request,"workshop/form.html",{"title":("Editar · " if pk else "Nuevo · ")+title,"section":"Captura","form":form,"back":f"/records/{key}/"})
+    context = {"title": ("Editar · " if pk else "Nuevo · ") + title, "section": "Captura",
+               "form": form, "back": f"/records/{key}/"}
+    if receiving:
+        registering_customer = key == "customers"
+        context.update(
+            title="Registrar cliente" if registering_customer else "Registrar vehículo",
+            section="Recepción",
+            submit="Guardar y registrar vehículo" if registering_customer else "Guardar y abrir orden",
+            back="/orders/new/",
+        )
+    return render(request, "workshop/form.html", context)
 
 def orders(request):
-    qs=m.WorkOrder.objects.select_related("vehicle__customer","assigned_to").order_by("-created_at")
+    from .order_filters import OrderFilterForm, dates_for_orders, order_filter_context
+    qs=m.WorkOrder.objects.select_related("vehicle__customer","assigned_to").order_by("-created_at", "-pk")
     if not can(request.user,"orders_read_all"):
         qs=qs.filter(assigned_to=request.user)
-    query=request.GET.get("q","").strip()[:200]
+    filters = OrderFilterForm(request.GET, visible_orders=qs)
+    valid = filters.is_valid()
+    values = filters.cleaned_data if valid else {}
+    if not valid:
+        qs = qs.none()
+    query=values.get("q", "")
     if query:
         qs=qs.filter(Q(number__icontains=query)|Q(vehicle__plate__icontains=query)|Q(vehicle__customer__name__icontains=query))
-    selected=request.GET.get("status","")
+    selected=values.get("status", "")
     if selected in m.WorkOrder.Status.values:
         qs=qs.filter(status=selected)
-    if request.GET.get("mine")=="1":
+    if values.get("mine"):
         qs=qs.filter(assigned_to=request.user)
-    attention = request.GET.get("attention", "")
+    owner = values.get("owner")
+    if owner:
+        qs = qs.filter(assigned_to__isnull=True) if owner == "unassigned" else qs.filter(assigned_to_id=owner)
+    qs = dates_for_orders(qs, values)
+    attention = values.get("attention", "")
     if attention in {"unassigned", "undated", "late"}:
         qs = qs.exclude(status__in=["delivered", "cancelled"])
         if attention == "unassigned":
@@ -204,14 +245,21 @@ def orders(request):
             qs = qs.filter(promised_at__lt=timezone.now())
     page=Paginator(qs,25).get_page(request.GET.get("page"))
     rows=[{"cells":[{"text":o.number,"url":f"/orders/{o.pk}/"},{"text":o.vehicle},{"text":o.vehicle.customer.name},{"text":o.status,"status":o.status},{"text":o.assigned_to.get_full_name() or o.assigned_to.username if o.assigned_to else "Sin asignar"},{"text":o.promised_at}]} for o in page]
-    active_filters = {key:request.GET[key] for key in ["status", "mine", "attention"] if request.GET.get(key)}
-    filter_query = urlencode(active_filters)
     attention_label = {"unassigned":"Órdenes abiertas sin responsable.", "undated":"Órdenes abiertas sin fecha prometida.", "late":"Órdenes abiertas fuera de la fecha prometida."}.get(attention)
-    return render(request,"workshop/table.html",{"title":"Órdenes de trabajo","intro":attention_label or "Cada vehículo, su responsable y el siguiente paso.","active_filters":active_filters,"filter_query":filter_query,"section":"Taller","columns":["Orden","Vehículo","Cliente","Etapa","Responsable","Entrega prometida"],"rows":rows,"count":qs.count(),"page":page,"query":query,"create_url":"/orders/new/" if can(request.user,"reception") else None,"create_label":"Recibir vehículo","subnav":[{"label":"Todas","url":"/orders/"},{"label":"Mis órdenes","url":"/orders/?mine=1"},{"label":"Por autorizar","url":"/orders/?status=awaiting_approval"},{"label":"En trabajo","url":"/orders/?status=in_progress"},{"label":"Listas","url":"/orders/?status=ready"}]})
+    return render(request,"workshop/table.html",{"title":"Órdenes de trabajo","intro":attention_label or "Cada vehículo, su responsable y el siguiente paso.",**order_filter_context(filters),"section":"Taller","columns":["Orden","Vehículo","Cliente","Etapa","Responsable","Entrega prometida"],"rows":rows,"count":page.paginator.count,"page":page,"empty":"Ajusta los filtros o limpia la selección para ver otras órdenes.","create_url":"/orders/new/" if can(request.user,"reception") else None,"create_label":"Recibir vehículo","subnav":[{"label":"Todas","url":"/orders/"},{"label":"Mis órdenes","url":"/orders/?mine=1"},{"label":"Por autorizar","url":"/orders/?status=awaiting_approval"},{"label":"En trabajo","url":"/orders/?status=in_progress"},{"label":"Listas","url":"/orders/?status=ready"}]})
 
 @require("reception")
 def new_order(request):
+    return reception_form(request, "orders", order_form)
+
+
+def order_form(request):
     form=model_form(m.WorkOrder,["vehicle","complaint","assigned_to","promised_at","odometer"],request.POST or None)
+    vehicles = m.Vehicle.objects.select_related("customer").order_by("plate", "vin", "pk")
+    form.fields["vehicle"].queryset = vehicles
+    form.fields["vehicle"].label_from_instance = lambda vehicle: f"{vehicle} · {vehicle.customer.name}"
+    form.fields["vehicle"].empty_label = "Selecciona el vehículo"
+    form.fields["complaint"].help_text = "Describe qué pide revisar el cliente."
     form.fields["assigned_to"].queryset=User.objects.filter(is_active=True).filter(Q(is_superuser=True)|Q(groups__name__in=["technician","manager","advisor"])).distinct()
     if request.GET.get("vehicle"):
         form.initial["vehicle"]=request.GET["vehicle"]
@@ -222,7 +270,15 @@ def new_order(request):
             return redirect(f"/orders/{order.pk}/")
         except (ValidationError,IntegrityError) as exc:
             fail(request,exc)
-    return render(request,"workshop/form.html",{"title":"Recibir un vehículo","intro":"Selecciona el vehículo, registra la solicitud y asigna responsable. Si es nuevo, créalo primero en Clientes y vehículos.","form":form,"back":"/orders/","submit":"Crear orden"})
+    has_vehicles = vehicles.exists()
+    return render(request, "workshop/form.html", {
+        "title": "Recibir un vehículo", "section": "Recepción",
+        "intro": "Selecciona un vehículo registrado o da de alta uno nuevo." if has_vehicles
+                 else "Registra el vehículo para abrir su primera orden de trabajo.",
+        "form": form, "back": "/orders/", "submit": "Crear orden de trabajo",
+        "order_intake": True, "has_customers": m.Customer.objects.exists(),
+        "hide_form": not has_vehicles and request.method == "GET",
+    })
 
 def order_detail(request,pk):
     order=get_object_or_404(m.WorkOrder.objects.select_related("vehicle__customer","assigned_to"),pk=pk)

@@ -35,6 +35,10 @@ jobs:
             $found += $errors
           }
           if ($found.Count) { $found | Format-List; exit 1 }
+      - name: Add a phone without changing existing clients (isolated)
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: ./tests/check_remote_clients.ps1
       - name: Collect offline Windows dependencies
         if: runner.os == 'Windows'
         run: python scripts/package_web.py --collect-wheels .runtime/release-wheels

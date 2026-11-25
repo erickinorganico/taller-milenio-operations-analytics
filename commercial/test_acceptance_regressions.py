@@ -236,4 +236,5 @@ class ExistingDataMigrationTests(TransactionTestCase):
             self.assertEqual(SalesProposal.objects.get(pk=first.pk).acceptance_reference,'Referencia histórica')
             self.assertIsNone(SalesOpportunity.objects.get(pk=revised.pk).service_proposal_id)
         finally:
-            MigrationExecutor(connection).migrate(current)
+            final_executor = MigrationExecutor(connection)
+            final_executor.migrate(final_executor.loader.graph.leaf_nodes())

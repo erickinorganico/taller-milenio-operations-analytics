@@ -16,8 +16,8 @@
         <path class="auth-drawing-detail" d="M114 59h-35v21h35m380-21h35v21h-35M289 32v26m-13-12h26"/>
       </svg>
     </div>
-    <div class="auth-story-copy"><span class="auth-story-accent" aria-hidden="true"></span><h1>Cada orden,<br>bien documentada.</h1><p>De la recepción a la entrega, tu equipo trabaja con una misma historia del vehículo.</p><div class="auth-story-caption">Operación <span aria-hidden="true">/</span> Análisis <span aria-hidden="true">/</span> Seguimiento</div></div>
+    <div class="auth-story-copy"><span class="auth-story-accent" aria-hidden="true"></span><p class="auth-headline">Cada orden,<br>bien documentada.</p><p>De la recepción a la entrega, tu equipo trabaja con una misma historia del vehículo.</p><div class="auth-story-caption">Operación <span aria-hidden="true">/</span> Análisis <span aria-hidden="true">/</span> Seguimiento</div></div>
   </section>
-  <section class="auth-card" aria-labelledby="auth-title"><div class="auth-card-inner"><p class="auth-mode">{{ app_mode|upper }} · TALLER MILENIO</p><h2 id="auth-title">{{ title }}</h2><p class="auth-intro">{{ intro }}</p><form method="post">{% csrf_token %}{% include 'workshop/form_fields.html' %}<button class="button primary full" type="submit">{{ submit|default:"Entrar al taller" }}</button></form>{% if setup %}<p class="auth-note">Este acceso administra esta instalación. Conserva la contraseña; no se envía a servicios externos.</p>{% endif %}</div></section>
+  <section class="auth-card" aria-labelledby="auth-title"><div class="auth-card-inner"><p class="auth-mode">{{ app_mode|upper }} · TALLER MILENIO</p><h1 id="auth-title">{{ title }}</h1><p class="auth-intro">{{ intro }}</p><form method="post">{% csrf_token %}{% include 'workshop/form_fields.html' %}<button class="button primary full" type="submit">{{ submit|default:"Entrar al taller" }}</button></form>{% if setup %}<p class="auth-note">Este acceso administra esta instalación. Conserva la contraseña; no se envía a servicios externos.</p>{% endif %}</div></section>
 </div>
 {% endblock %}
