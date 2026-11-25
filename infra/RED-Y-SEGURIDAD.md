@@ -4,6 +4,8 @@ La implementación elige **OpenSSH con túnel a loopback**. Sustituye el proxy H
 
 Setup-RemoteAccess crea una instancia SSH separada: puerto 2222, cuenta estándar dedicada, solo llaves Ed25519, contraseñas SSH deshabilitadas, shell/PTY deshabilitados, reenvío permitido únicamente a 127.0.0.1:puerto-Milenio. El firewall acepta IP privadas individuales indicadas, en perfiles Private/Domain. No abre rangos completos ni cambia el router. Un administrador debe verificar la política efectiva y otras reglas existentes en destino.
 
+Para sumar un teléfono o computadora usa `Setup-RemoteAccess.ps1 -AddClients` con las nuevas IP y llaves públicas. La opción actualiza la lista actual y mantiene las conexiones del servicio SSH. Para retirar un equipo, ejecuta la configuración completa con las IP y llaves que deben seguir autorizadas. [Guía de uso desde el celular](CELULAR.md).
+
 Crear Gerencia local antes de ejecutar acceso remoto; el script lo comprueba. Cada operador tiene usuario propio del CRM; cada agente token propio revocable, con permisos mínimos. Llave SSH y usuario/token del CRM son controles separados. Perder un equipo exige retirar su llave y revocar su token/sesión. Windows/SSH deben estar actualizados; el instalador no certifica la seguridad global de la máquina.
 
 Setup-Server limita ACL de su carpeta al instalador y SYSTEM; el proceso corre bajo el mismo usuario Windows que protege OAuth con DPAPI. El arranque con contraseña usa el Programador de tareas; no guarda contraseña en un JSON ni en GitHub. El modo al iniciar sesión tiene menor disponibilidad. DPAPI no se vuelve portátil por copiar el archivo; sustituir equipo requiere reconectar Google y deshabilitar el anterior.

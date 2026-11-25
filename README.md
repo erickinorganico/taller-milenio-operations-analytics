@@ -1,10 +1,12 @@
 # Milenio · Operación, datos y agentes para el taller
 
-**Servidor compartido y Codex:** instalación descargable en [infra/INSTALAR.md](infra/INSTALAR.md). Incluye CRM, Gmail, clientes por túnel SSH, supervisor y respaldo. Empieza con `Setup-Server.ps1` en la computadora elegida; los datos y credenciales permanecen privados.
+**Primera instalación.** En la computadora central con Windows x64 y Python 3.12, extrae el paquete completo y abre **Instalar-Servidor.cmd**. Cuando aparezca la dirección verificada, ábrela y crea la cuenta de Gerencia. Si el taller ya tiene servidor, consulta el [procedimiento de actualización y respaldo](infra/DESPLIEGUE-Y-RECUPERACION.md).
 
 V6 conecta un dashboard gerencial, cortes analíticos persistentes y automatizaciones con la aplicación web local en español para registrar el trabajo diario: recepción, inspección, autorización, refacciones, ejecución, calidad, entrega y cobranza. Los datos quedan en SQLite; las métricas y propuestas se calculan desde esos mismos registros. Incluye contratos de flotilla, mantenimiento y seguimiento de grúas.
 
 ## Abrir la aplicación
+
+**Desde el celular:** conecta el perfil privado del taller y abre tu favorito en Safari o Chrome. Gerencia prepara el acceso una vez con una llave propia por teléfono. [Guía de alta y uso diario](infra/CELULAR.md).
 
 En Windows x64 con Python 3.12 instalado:
 

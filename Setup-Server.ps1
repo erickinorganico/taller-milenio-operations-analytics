@@ -44,6 +44,15 @@ $env:MILENIO_DEPLOYMENT_CONFIG = Join-Path $privateRoot 'infra.local.json'
 if (-not $BackupDir) { $BackupDir = Join-Path $InstallRoot 'backups' }
 $previous = Join-Path $privateRoot 'current.json'
 if (Test-Path -LiteralPath $previous) {
+    $existing = Get-Content -LiteralPath $env:MILENIO_DEPLOYMENT_CONFIG -Raw | ConvertFrom-Json
+    if ($PSBoundParameters.ContainsKey('Port') -and $Port -ne $existing.port) {
+        throw 'El puerto indicado difiere del servidor instalado. Revisa la configuracion antes de actualizar.'
+    }
+    if ($PSBoundParameters.ContainsKey('BackupDir') -and [IO.Path]::GetFullPath($BackupDir) -ne [IO.Path]::GetFullPath($existing.backup_dir)) {
+        throw 'El directorio de respaldo difiere del instalado. Revisa la configuracion antes de actualizar.'
+    }
+    $Port = $existing.port
+    $BackupDir = $existing.backup_dir
     $old = Get-Content -LiteralPath $previous -Raw | ConvertFrom-Json
     & (Join-Path $old.release_dir '.venv/Scripts/python.exe') (Join-Path $old.release_dir 'scripts/deploy.py') stop
     if ($LASTEXITCODE -ne 0) { throw 'La versión anterior no se detuvo; actualización cancelada.' }
@@ -51,16 +60,24 @@ if (Test-Path -LiteralPath $previous) {
 & $serverPython (Join-Path $releaseRoot 'scripts/deploy.py') init --data-dir (Join-Path $InstallRoot 'data/live') --backup-dir $BackupDir --port $Port
 if ($LASTEXITCODE -ne 0) { throw 'Instalación detenida; consulta la salida. No se arrancó el servidor.' }
 $release | ConvertTo-Json | Set-Content -LiteralPath $previous -Encoding UTF8
-Copy-Item -LiteralPath (Join-Path $releaseRoot 'Run-Server.ps1') -Destination (Join-Path $InstallRoot 'Run-Server.ps1') -Force
+foreach ($entry in 'Run-Server.ps1','Abrir-Milenio.ps1','Abrir-Taller.cmd','Abrir-Comercial.cmd') {
+    Copy-Item -LiteralPath (Join-Path $releaseRoot $entry) -Destination (Join-Path $InstallRoot $entry) -Force
+}
 if ($NoStart) {
     & $serverPython (Join-Path $releaseRoot 'scripts/deploy.py') stop
     if ($LASTEXITCODE -ne 0) { throw 'No se confirmó la pausa de instalación.' }
+    Write-Output "Instalacion preparada en $InstallRoot y detenida por -NoStart."
 } else {
     & $serverPython (Join-Path $releaseRoot 'scripts/deploy.py') resume
     if ($LASTEXITCODE -ne 0) { throw 'No se habilitó el arranque.' }
     Start-Process powershell.exe -ArgumentList @('-NoProfile','-ExecutionPolicy','Bypass','-File',('"'+(Join-Path $InstallRoot 'Run-Server.ps1')+'"')) -WindowStyle Hidden
+    & $serverPython (Join-Path $releaseRoot 'scripts/deploy.py') wait-ready
+    if ($LASTEXITCODE -ne 0) {
+        & $serverPython (Join-Path $releaseRoot 'scripts/deploy.py') stop
+        throw 'Inicio sin confirmar. Revisa los registros de esta instalacion antes de reanudar.'
+    }
+    Write-Output "Servidor verificado. Abre http://127.0.0.1:$Port/ para entrar al taller."
 }
-Write-Output "Servidor preparado en $InstallRoot. Abre http://127.0.0.1:$Port/setup/ para crear Gerencia. Gmail permanece detenido."
 Write-Output 'Siguiente: Register-ServerStartup.ps1 y Setup-RemoteAccess.ps1. El respaldo local debe complementarse con una copia en otro disco.'
 
 } finally { $installationLock.Dispose() }

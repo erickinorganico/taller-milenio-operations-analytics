@@ -21,7 +21,7 @@ Gerencia puede crear cuentas y asignar grupos en **Equipo y acceso** (`/team/`).
 
 ## Una orden completa
 
-1. **Recepción:** registre cliente y vehículo, kilometraje, motivo de visita, responsable y fecha prometida cuando exista un compromiso. Cree la orden desde **Órdenes de trabajo**.
+1. **Recepción.** Abra **Recibir vehículo** en **Hoy en el taller** u **Órdenes de trabajo**. Elija el vehículo por sus placas y el nombre del cliente. Si aún falta, elija **Registrar vehículo de un cliente existente** o **Registrar cliente nuevo**. Cada guardado abre el siguiente paso con el registro anterior seleccionado. Anote la solicitud, el kilometraje conocido y la fecha prometida si hay un compromiso. Al pulsar **Crear orden de trabajo** aparecerá el folio. Si se corta la conexión después de guardar, reenvíe el mismo formulario para recuperar su resultado.
 2. **Inspección:** documente hallazgos y evidencia relevante. Si no existe evidencia, consérvela como pendiente; no complete campos con suposiciones.
 3. **Cotización:** agregue mano de obra, servicios o partes con cantidad y precio. Envíe la versión para decisión. Guarde nombre y referencia de la autorización humana antes de aprobar; una versión reemplazada no autoriza trabajo nuevo.
 4. **Refacciones y ejecución:** reserve partes disponibles para la orden. Registre recepción de compras antes de aumentar stock, consumo real, liberación o devolución según corresponda. Registre tiempo trabajado y bloqueos. El sistema rechaza consumos sin respaldo y stock disponible negativo.

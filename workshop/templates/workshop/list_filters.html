@@ -1,4 +1,11 @@
 <form class="list-filters panel-body" method="get" aria-label="Filtrar registros">
-  <div class="list-filter-fields">{% include 'workshop/form_fields.html' with form=list_filter_form %}</div>
-  <div class="actions"><button class="button primary" type="submit">Aplicar filtros</button><a class="button" href="{{ clear_url }}">Limpiar filtros</a>{% if count != None %}<span class="muted">{{ count }} resultado{{ count|pluralize:'s' }}</span>{% endif %}</div>
+  {% include 'workshop/form_field.html' with field=list_filter_form.q %}
+  <details class="additional-filters" {% if filter_query or list_filter_form.errors %}open{% endif %}>
+    <summary>Más filtros</summary>
+    {% if list_filter_form.non_field_errors %}<div class="notice error" role="alert">{{ list_filter_form.non_field_errors }}</div>{% endif %}
+    <div class="list-filter-fields">
+      {% for field in list_filter_form %}{% if field.name != 'q' %}{% include 'workshop/form_field.html' %}{% endif %}{% endfor %}
+    </div>
+  </details>
+  <div class="actions"><button class="button primary" type="submit">Aplicar filtros</button>{% if filter_query or list_filter_form.q.value or list_filter_form.errors %}<a class="button" href="{{ clear_url }}">Limpiar filtros</a>{% endif %}{% if count != None %}<span class="muted">{{ count }} resultado{{ count|pluralize:'s' }}</span>{% endif %}</div>
 </form>

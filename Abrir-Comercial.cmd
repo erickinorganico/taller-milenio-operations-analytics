@@ -1,4 +1,6 @@
 @echo off
-powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0Abrir-Milenio.ps1" -Mode live -Port 8770 -NoBrowser
+setlocal
+cd /d "%~dp0"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Abrir-Milenio.ps1" -Mode live -Seccion Comercial %*
 if errorlevel 1 (pause & exit /b 1)
-start "" "http://127.0.0.1:8770/commercial/"
+exit /b 0

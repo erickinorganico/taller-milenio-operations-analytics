@@ -1,6 +1,8 @@
 # Milenio: servidor compartido, CRM y Codex
 
-Para instalar esta versión, extraiga el ZIP y pida a Codex que siga [infra/INSTALAR.md](infra/INSTALAR.md). El punto de entrada es `Setup-Server.ps1`; use `-Offline` si dispone de Python 3.12 y del paquete con ruedas incluidas. El servidor administrado usa el puerto 8770 por defecto y mantiene datos en LocalAppData/MilenioServer, fuera de OneDrive. Gmail queda detenido hasta autorización y prueba.
+**Para entrar desde el celular**, Gerencia guarda un perfil privado y un favorito en el teléfono. El equipo puede abrir órdenes desde Safari o Chrome con su usuario habitual. [Preparar el teléfono y entrar al taller](infra/CELULAR.md).
+
+En la computadora central con Windows x64 y Python 3.12, extraiga el ZIP completo y abra **Instalar-Servidor.cmd**. Al terminar, abra la dirección que muestra el instalador y cree la cuenta de Gerencia. Para actualizar una instalación, siga la [guía de mantenimiento](infra/DESPLIEGUE-Y-RECUPERACION.md). Administración encontrará las opciones de PowerShell en la [guía de instalación](infra/INSTALAR.md).
 
 Para explorar datos ficticios sin instalar un servidor compartido, use `Abrir-Demo.cmd`. Los lanzadores de trabajo V6 anteriores se conservan para migración explícita y no deben usarse en los clientes. No sustituya una instalación antigua sin respaldo y revisión de sus datos; el instalador no adopta carpetas de datos ajenas silenciosamente.
 
@@ -21,8 +23,8 @@ El [manual operativo V5](docs/V5-MANUAL.md) conserva el flujo de cuentas, roles,
 
 ## Abrir y cerrar sin depender de Codex
 
-Un enlace a `127.0.0.1` abre la aplicación que corre en este equipo; no es un sitio alojado en Internet. Si el servidor está apagado o se reinició Windows, haga doble clic en `Abrir-Demo.cmd` o `Abrir-Taller.cmd`. Repetir el acceso reutiliza la misma instancia. El lanzador no se inicia automáticamente con Windows.
+El personal entra al servidor central por su acceso guardado. Si el servidor está detenido, la persona responsable revisa la tarea de inicio y el supervisor de la instalación según la [guía de operación](infra/OPERACION-CODEX.md). Para practicar con datos ficticios en esta computadora, haga doble clic en `Abrir-Demo.cmd`.
 
-Para detener ordenadamente la demo: `powershell -NoProfile -ExecutionPolicy Bypass -File .\Abrir-Milenio.ps1 -Mode demo -Stop`. Para la instancia de trabajo, cambie `demo` por `live`. Este cierre espera a que termine el trabajador y conserva la base. Los registros `server.log`, `server-error.log` y `automation-worker.log` quedan en la carpeta de datos.
+Para cerrar la demo, ejecute `powershell -NoProfile -ExecutionPolicy Bypass -File .\Abrir-Milenio.ps1 -Mode demo -Stop`. Para detener y reanudar el servidor central, siga el [procedimiento del supervisor](infra/DESPLIEGUE-Y-RECUPERACION.md).
 
 Si se usa una ruta personalizada, `Abrir-Milenio.ps1 -Mode demo -DataDir "C:\ruta\demo"` la recuerda en `private/launcher-demo.json`, que no se incluye en el ZIP. El modo y la instancia se comprueban antes de reutilizar o cerrar el servidor. Un puerto de otra aplicación no se detiene. Los datos heredados no se trasladan automáticamente.

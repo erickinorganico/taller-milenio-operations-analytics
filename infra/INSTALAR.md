@@ -4,7 +4,7 @@
 
 Leer AGENTS.md; consultar estado Git y modificaciones antes de actuar. Usar la versión descargada que contiene este documento, no una release antigua. No copiar `.venv`, `private`, bases, tokens ni sesiones de otra computadora. Revisar si existe una instalación anterior en LocalAppData/MilenioServer o una instancia antigua del taller: no migrar ni reemplazarla silenciosamente.
 
-PowerShell, desde la descarga:
+Para la primera instalación con el ZIP completo y Python 3.12 de 64 bits, extraer el paquete y abrir **Instalar-Servidor.cmd** en la computadora elegida. El asistente usa las dependencias incluidas y muestra la dirección al verificar el arranque. Para personalizar parámetros o actualizar, usar PowerShell desde la descarga.
 
 ```powershell
 .\Setup-Server.ps1
@@ -39,6 +39,8 @@ Comprobar reinicio real, workers, identidad, acceso DPAPI y respaldo. No declara
 
 ## 4. Acceso de los clientes
 
+Para un **celular Android o iPhone**, usa la [guía del teléfono](CELULAR.md). La configuración inicial de abajo recibe todas las IP y llaves del grupo. Si el acceso remoto ya está configurado, usa `-AddClients` para dar de alta las nuevas IP y llaves conservando las anteriores. Ejecutarlo sin esa opción establece la lista completa y reinicia el servicio SSH dedicado.
+
 En cada cliente generar una llave Ed25519 mediante `ssh-keygen -t ed25519`, con frase de protección cuando sea viable. Entregar al servidor solamente su `.pub`. En el servidor, después de crear Gerencia, ejecutar PowerShell elevado:
 
 ```powershell
@@ -54,7 +56,7 @@ Compartir la llave pública del host por un canal confiable y comparar su huella
 .\Connect-Server.ps1
 ```
 
-No introducir esos placeholders literalmente. Consultar UUID/hash en `deploy.py status`; los datos concretos se guardan privados. Con el túnel abierto, usar `http://127.0.0.1:8770`. No ejecutar Setup-Server ni Abrir-Taller en el cliente. Cambios de IP requieren actualizar la regla explícita. Fuera de la misma red hace falta ruta privada/VPN ya funcional; no publicar el puerto web a Internet.
+No introducir esos placeholders literalmente. Consultar UUID/hash en `deploy.py status`; los datos concretos se guardan privados. Con el túnel abierto, hacer doble clic en **Abrir-Taller.cmd** o **Abrir-Comercial.cmd** en la carpeta del cliente. En la PC central, estos mismos accesos están en la raíz de la instalación. Ambos comprueban la identidad y usan el puerto configurado. Setup-Server corresponde únicamente a la PC central. Cambios de IP requieren actualizar la regla explícita. Fuera de la misma red hace falta ruta privada/VPN ya funcional; no publicar el puerto web a Internet.
 
 ## 5. Codex y Gmail
 

@@ -6,6 +6,8 @@ Implementación incluida; pruebas sintéticas y de paquete registradas en CI. La
 |---|---|
 | Release reproducible | Clon limpio contiene CRM/correo y dependencias; pruebas pasan; SHA identificado. |
 | Dos usuarios | Ven la misma empresa y actualización; cada acción conserva autor. |
+| Teléfono | Desde el Wi-Fi autorizado, la huella SHA256 coincide, el perfil abre el favorito y la persona inicia sesión con su usuario. Una orden de prueba muestra el mismo folio y estado en teléfono y PC. |
+| Reconexión del teléfono | Tras bloquear la pantalla o cambiar de red, reabrir el túnel y el favorito recupera la orden. Comprobar que el alta del celular mantiene los accesos anteriores. |
 | Identidad de servidor | Ambas PCs confirman mismo instance_id persistente y misma release, incluso después de reiniciar. |
 | Cliente aislado | Sin red central, no inicia worker/base live ni se presenta como servidor. |
 | Red | Equipo autorizado entra por túnel SSH cifrado; equipo no autorizado y acceso público quedan bloqueados. |

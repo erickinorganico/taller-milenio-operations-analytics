@@ -112,7 +112,7 @@ def create_work_order(*, actor, vehicle, complaint, number=None, assigned_to=Non
         raise DomainError("El vehículo debe existir.")
     if odometer is not None and (not isinstance(odometer, int) or odometer < 0):
         raise DomainError("Odómetro inválido.")
-    number = _text(number or f"WO-{timezone.now():%Y%m%d}-{uuid4().hex[:8].upper()}", "Folio")
+    number = _text(number or f"WO-{timezone.localdate():%Y%m%d}-{uuid4().hex[:8].upper()}", "Folio")
     if WorkOrder.objects.filter(number=number).exists():
         raise DomainError("El folio ya existe.")
     order = WorkOrder.objects.create(vehicle=vehicle, number=number, complaint=complaint,

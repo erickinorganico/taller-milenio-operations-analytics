@@ -72,6 +72,15 @@ class RecoveryTests(unittest.TestCase):
         call_command("backup_workshop", output=str(backup), stdout=io.StringIO())
         return backup
 
+    @override_settings(MILENIO_MODE="live")
+    def test_managed_restore_checks_the_installed_port(self):
+        from workshop.management.commands.restore_workshop import _assert_server_stopped
+        with mock.patch.dict(os.environ, {"MILENIO_DEPLOYMENT_CONFIG": "fixture"}), \
+                mock.patch("milenio_web.deployment.guard_server", return_value={"port": 29418}), \
+                mock.patch("socket.create_connection", side_effect=ConnectionRefusedError) as connection:
+            _assert_server_stopped()
+            connection.assert_called_once_with(("127.0.0.1", 29418), timeout=0.2)
+
     def _number(self):
         with closing(sqlite3.connect(self.db)) as con:
             return con.execute("SELECT number FROM workshop_workorder WHERE id=1").fetchone()[0]
@@ -151,6 +160,24 @@ class RecoveryTests(unittest.TestCase):
         with closing(sqlite3.connect(self.db)) as con:
             self.assertEqual(con.execute("SELECT enabled,version FROM workshop_photoaisettings").fetchone(),(0,5))
             self.assertEqual(con.execute("SELECT input_tokens,output_tokens FROM workshop_photoaireading").fetchall(),[(120,30)])
+
+    def test_restore_revokes_old_batch_and_holds_safety_policy(self):
+        with closing(sqlite3.connect(self.db)) as con:
+            con.executescript("""
+                CREATE TABLE commercial_mailbox (id INTEGER PRIMARY KEY, enabled INTEGER, connected INTEGER);
+                CREATE TABLE commercial_mailsafety (id INTEGER PRIMARY KEY, paused INTEGER, revision INTEGER, reason TEXT);
+                CREATE TABLE commercial_mailbatch (id TEXT PRIMARY KEY, revoked INTEGER);
+                INSERT INTO commercial_mailbox VALUES(1,1,1);
+                INSERT INTO commercial_mailsafety VALUES(1,0,7,'');
+                INSERT INTO commercial_mailbatch VALUES('synthetic-batch',0);
+            """)
+        backup = self._backup()
+        call_command('restore_workshop', input=str(backup), confirm_restore=True, stdout=io.StringIO())
+        with closing(sqlite3.connect(self.db)) as con:
+            self.assertEqual(con.execute('SELECT enabled,connected FROM commercial_mailbox').fetchone(), (0,0))
+            self.assertEqual(con.execute('SELECT paused,revision FROM commercial_mailsafety').fetchone(), (1,8))
+            self.assertEqual(con.execute('SELECT revoked FROM commercial_mailbatch').fetchone(), (1,))
+        self.assertTrue((self.data/'.mail-recovery-hold').exists())
 
     def test_explicit_confirmation_and_tamper_required_before_active_change(self):
         backup = self._backup()
@@ -436,7 +463,8 @@ class WebDeliveryTests(unittest.TestCase):
         from scripts.check_web_dependencies import ready
         with tempfile.TemporaryDirectory() as temp:
             requirements = Path(temp) / "requirements.txt"
-            requirements.write_text("# pinned runtime\nDjango==5.2.17\n", encoding="utf-8")
+            from importlib.metadata import version
+            requirements.write_text(f"# pinned runtime\nDjango=={version('Django')}\n", encoding="utf-8")
             self.assertTrue(ready(requirements))
             requirements.write_text("Django==0.0.0\n", encoding="utf-8")
             self.assertFalse(ready(requirements))

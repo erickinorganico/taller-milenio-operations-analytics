@@ -8,7 +8,7 @@ import uuid
 from pathlib import Path
 from unittest.mock import patch
 from milenio_web.deployment import guard_server,read_config
-from scripts.deploy import initialize
+from scripts.deploy import initialize, wait_ready
 from scripts.agent_client import NoRedirect
 
 
@@ -67,3 +67,14 @@ class DeploymentTests(unittest.TestCase):
 
     def test_agent_never_follows_redirect_with_token(self):
         with self.assertRaises(ValueError):NoRedirect().redirect_request(None,None,302,None,None,None)
+
+    def test_startup_accepts_only_the_installed_instance_and_release(self):
+        config = {'central_url': 'http://127.0.0.1:8770', 'instance_id': 'fixture', 'release_id': 'build-a'}
+        healthy = {'application_and_mode_match': True, 'reachable': True, 'supervisor_recent': True,
+                   'instance_id': 'fixture', 'release_id': 'build-a'}
+        with patch('scripts.infra_doctor.probe', return_value=healthy):
+            wait_ready(config)
+        for change in ({'instance_id': 'other'}, {'release_id': 'older'}, {'application_and_mode_match': False}):
+            with self.subTest(change=change), patch('scripts.infra_doctor.probe', return_value={**healthy, **change}):
+                with self.assertRaisesRegex(RuntimeError, 'otra instancia o version'):
+                    wait_ready(config)

@@ -62,6 +62,22 @@ def setup_django(config):
     django.setup()
 
 
+def wait_ready(config, timeout=60):
+    from scripts.infra_doctor import probe
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        health = probe(config['central_url'])
+        if health.get('reachable'):
+            if (not health.get('application_and_mode_match')
+                    or health.get('instance_id') != config['instance_id']
+                    or health.get('release_id') != config['release_id']):
+                raise RuntimeError('El puerto responde con otra instancia o version. Revisa el puerto configurado.')
+            if health.get('supervisor_recent'):
+                return
+        time.sleep(0.5)
+    raise RuntimeError('No se pudo confirmar el inicio. Revisa private/supervisor.log y data/live/web-managed.log.')
+
+
 def backup_locked(config):
     from django.core.management import call_command
     destination = Path(config['backup_dir']) / (time.strftime('%Y%m%dT%H%M%S') + '-' + uuid.uuid4().hex[:8])
@@ -149,14 +165,14 @@ def serve(config):
 
 def main():
     if len(sys.argv)>1 and sys.argv[1]=='manage':
-        allowed={'connect_gmail','agent_access','import_commercial_catalog','deployment_mail','remote_ready','mail_status','createsuperuser','check'}
+        allowed={'connect_gmail','agent_access','import_commercial_catalog','deployment_mail','remote_ready','mail_status','mail_safety','createsuperuser','check'}
         if len(sys.argv)<3 or sys.argv[2] not in allowed:
             raise ValueError('Comando de administración no permitido por este wrapper; usa las acciones de mantenimiento documentadas.')
         apply_environment(guard_server())
         command(*sys.argv[2:])
         return
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['init','migrate','serve','stop','resume','backup','status','restore','manage'])
+    parser.add_argument('action', choices=['init','migrate','serve','stop','resume','backup','status','wait-ready','restore','manage'])
     parser.add_argument('--data-dir')
     parser.add_argument('--backup-dir')
     parser.add_argument('--port', type=int, default=8770)
@@ -173,6 +189,8 @@ def main():
         if args.action == 'status':
             print(json.dumps({'role':config['role'],'instance_id':config['instance_id'],
                              'release_id':config['release_id'],'port':config['port']},indent=2))
+        elif args.action == 'wait-ready':
+            wait_ready(config)
         elif args.action == 'stop':
             (Path(config['data_dir']) / '.stop-managed').touch()
             # Wait for the actual exclusive lock, not for a stale heartbeat.

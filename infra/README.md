@@ -32,6 +32,7 @@ flowchart LR
 | Proceso continuo | Supervisor, reinicio con espera, exclusión mutua | Reinicio de Windows y cuenta de ejecución |
 | Arranque y backup diario | Registro de tareas; backup 03:00 con parada breve | Contraseña Windows o modalidad al iniciar sesión; destino externo |
 | Acceso de otra PC | OpenSSH separado, llaves, firewall limitado, túnel local | IP/ruta entre equipos, llave pública verificada |
+| Acceso por celular | Perfil de túnel individual y favorito para Safari o Chrome. [Guía del teléfono](CELULAR.md) | Cotejar huella, abrir una orden desde el teléfono y comprobar reconexión |
 | Codex | API autenticada y CLI; lectura/preparación/envío por permisos | Credencial individual emitida por Gerencia |
 | Concurrencia | Versiones, reserva 15 min, idempotencia de solicitudes | Ensayo con dos agentes/usuarios |
 | Gmail | OAuth DPAPI, worker separado, topes, respuestas acotadas | Consentimiento Google y prueba con buzón controlado |

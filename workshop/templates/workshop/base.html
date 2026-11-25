@@ -6,14 +6,19 @@
   <title>{% block title %}{{ title|default:"Operación" }} · Milenio{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'workshop/app.css' %}?v=6.6">
   <link rel="stylesheet" href="{% static 'workshop/analytics.css' %}?v=6.6">
-  <link rel="stylesheet" href="{% static 'workshop/shell.css' %}?v=6.6">
-  <script src="{% static 'workshop/app.js' %}?v=6.6" defer></script>
-  <script src="{% static 'workshop/shell.js' %}?v=6.6" defer></script>
+  <link rel="stylesheet" href="{% static 'workshop/shell.css' %}?v=6.7">
+  <script src="{% static 'workshop/app.js' %}?v=6.7" defer></script>
+  <script src="{% static 'workshop/shell.js' %}?v=6.7" defer></script>
   {% block extra_head %}{% endblock %}
 </head>
 <body class="{% if user.is_authenticated %}milenio-shell{% endif %} {% block body_class %}{% endblock %}">
   <a class="skip" href="#main">Ir al contenido</a>
-  {% if user.is_authenticated %}
+  <div class="app {% if not user.is_authenticated %}unauth{% endif %}">
+    {% if user.is_authenticated %}<header class="topbar">
+      <button type="button" class="menu-toggle" aria-expanded="true" aria-controls="main-navigation"><span aria-hidden="true">☰</span> Menú</button>
+      <span class="topbar-breadcrumb"><strong>Milenio</strong><span class="divider">/</span>{{ section|default:"Operaciones" }}</span>
+      <div class="topbar-tools"><form class="shell-search" action="/orders/" method="get" role="search"><label class="visually-hidden" for="global-order-search">Buscar órdenes</label><input id="global-order-search" type="search" name="q" placeholder="Orden, cliente o placa"><button aria-label="Buscar órdenes" type="submit">{% include 'workshop/icons.html' with icon='search' icon_class='search-icon' %}</button></form>{% if app_mode == 'demo' %}<span class="pill warning">DEMO · DATOS FICTICIOS</span>{% elif app_mode == 'test' %}<span class="pill warning">DATOS DE PRUEBA</span>{% else %}<span class="pill good">INSTALACIÓN DEL TALLER</span>{% endif %}<span class="today">{% now "D d M" %}</span></div>
+    </header>
   <aside class="sidebar" id="main-navigation">
     <a class="brand" href="/" aria-label="Milenio, inicio"><span class="brand-mark">{% include 'workshop/icons.html' with icon='wrench' icon_class='brand-icon' %}</span><span class="brand-word">Milenio<small>CONTROL DEL TALLER</small></span></a>
     <p class="nav-label">Panel</p>
@@ -39,14 +44,8 @@
     <div class="sidebar-foot"><span class="avatar">{{ user.first_name|default:user.username|first|upper }}</span><div><strong>{{ user.first_name|default:user.username }}</strong><small>{{ role_label|default:"Consulta" }}</small></div><form method="post" action="/logout/">{% csrf_token %}<button class="logout" type="submit" title="Cerrar sesión" aria-label="Cerrar sesión">{% include 'workshop/icons.html' with icon='exit' icon_class='exit-icon' %}</button></form></div>
   </aside>
   {% endif %}
-  <div class="app {% if not user.is_authenticated %}unauth{% endif %}">
-    {% if user.is_authenticated %}<header class="topbar">
-      <button type="button" class="menu-toggle" aria-expanded="true" aria-controls="main-navigation" aria-label="Mostrar navegación">☰</button>
-      <span class="topbar-breadcrumb"><strong>Milenio</strong><span class="divider">/</span>{{ section|default:"Operaciones" }}</span>
-      <div class="topbar-tools"><form class="shell-search" action="/orders/" method="get" role="search"><label class="visually-hidden" for="global-order-search">Buscar órdenes</label><input id="global-order-search" type="search" name="q" placeholder="Orden, cliente o placa"><button aria-label="Buscar órdenes" type="submit">{% include 'workshop/icons.html' with icon='search' icon_class='search-icon' %}</button></form>{% if app_mode == 'demo' %}<span class="pill warning">DEMO · DATOS FICTICIOS</span>{% else %}<span class="pill good">INSTALACIÓN DEL TALLER</span>{% endif %}<span class="today">{% now "D d M" %}</span></div>
-    </header>{% endif %}
-    <main id="main">{% if messages %}<div class="notices" aria-live="polite">{% for message in messages %}<div class="notice {{ message.tags }}">{{ message }}</div>{% endfor %}</div>{% endif %}{% block content %}{% endblock %}</main>
-    <footer class="app-footer">Milenio Operaciones · {{ app_mode|upper }}<span>Información para cada decisión del taller</span></footer>
+    <main id="main" tabindex="-1">{% if messages %}<div class="notices" aria-live="polite">{% for message in messages %}<div class="notice {{ message.tags }}">{{ message }}</div>{% endfor %}</div>{% endif %}{% block content %}{% endblock %}</main>
+    <footer class="app-footer">Milenio Operaciones · {{ app_mode|upper }}</footer>
   </div>
 </body>
 </html>

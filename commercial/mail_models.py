@@ -11,7 +11,7 @@ class Mailbox(models.Model):
     email = models.EmailField(blank=True)
     connected = models.BooleanField(default=False)
     enabled = models.BooleanField(default=False)
-    auto_reply = models.BooleanField(default=True)
+    auto_reply = models.BooleanField(default=False)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.PROTECT)
     last_sync = models.DateTimeField(null=True)
     last_tick = models.DateTimeField(null=True)

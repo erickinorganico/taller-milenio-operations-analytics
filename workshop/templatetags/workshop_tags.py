@@ -16,6 +16,12 @@ def get(mapping, key):
     return mapping.get(key, "") if isinstance(mapping, dict) else getattr(mapping, key, "")
 
 @register.filter
+def labeled_cells(cells, columns):
+    """Keep each value with its header in the narrow-screen list."""
+    return zip(columns, cells)
+
+
+@register.filter
 def status_label(value):
     actions = {"photo_sourced":"Servicio de foto agregado al presupuesto", "created":"Registro creado",
                "image_created":"Registro creado desde foto", "image_updated":"Registro actualizado desde foto"}

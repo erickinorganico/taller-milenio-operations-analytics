@@ -24,6 +24,23 @@ window.addEventListener('pageshow', () => {
   });
   pendingButtons.clear();
 });
-document.querySelectorAll('nav a').forEach(link=>{if(link.getAttribute('href')===location.pathname)link.setAttribute('aria-current','page');});
+// Keep the selected list view when paging or submitting empty filter fields.
+function listView(url) {
+  const selected = new URLSearchParams();
+  for (const [key, value] of url.searchParams) {
+    if (key !== 'page' && value) selected.append(key, value);
+  }
+  selected.sort();
+  return url.pathname + '?' + selected.toString();
+}
+const currentView = listView(new URL(window.location.href));
+document.querySelectorAll('nav a').forEach(link => {
+  if (link.closest('[data-list-views]')) {
+    if (listView(new URL(link.href)) === currentView) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  } else if (link.getAttribute('href') === location.pathname) {
+    link.setAttribute('aria-current', 'page');
+  }
+});
 
 document.querySelectorAll("[data-print]").forEach(button=>button.addEventListener("click",()=>window.print()));
