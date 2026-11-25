@@ -1,0 +1,15 @@
+[Unit]
+Description=Respaldo cifrado de Taller Milenio
+Wants=network-online.target
+After=docker.service network-online.target
+Requires=docker.service
+
+[Service]
+Type=oneshot
+User=root
+UMask=0077
+ExecStart=/bin/bash /opt/milenio/infra/nube/backup/backup.sh run
+TimeoutStartSec=4h
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7

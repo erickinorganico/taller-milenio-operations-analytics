@@ -1,0 +1,15 @@
+**
+!manage.py
+!requirements-web.txt
+!milenio_web/**/*.py
+!commercial/**/*.py
+!workshop/**/*.py
+!commercial/templates/**/*.html
+!workshop/templates/**/*.html
+!workshop/static/**/*.css
+!workshop/static/**/*.js
+!scripts/cloud_app.py
+!scripts/run_web.py
+!infra/nube/import_windows.py
+**/tests
+**/test*.py

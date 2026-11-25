@@ -1,0 +1,26 @@
+name: Taller en la nube
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  instalacion-y-recuperacion:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Herramientas de recuperación
+        run: sudo apt-get update -qq && sudo apt-get install -y restic
+      - name: Instalación inicial, reanudación y actualización
+        run: docker run --rm --network none -e MILENIO_TEST_DEPLOY=isolated -v "$PWD/infra/nube:/fixture:ro" debian:bookworm-slim bash /fixture/tests/deploy-fixture.sh
+      - name: HTTPS con orden, dos sesiones, foto y reinicio
+        run: python3 scripts/verify_cloud_https.py --receipt "$RUNNER_TEMP/nube-https.json"
+      - name: Respaldo cifrado y restauración en otro directorio
+        run: sudo env MILENIO_DISPOSABLE_LINUX_RUNNER=1 bash infra/nube/backup/test-roundtrip.sh
+      - name: Traslado de respaldo Windows con cobros y foto
+        run: sudo env MILENIO_DISPOSABLE_LINUX_RUNNER=1 bash infra/nube/tests/portable-roundtrip.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verificacion-https-sintetica
+          path: ${{ runner.temp }}/nube-https.json

@@ -18,6 +18,9 @@ from .backup_workshop import DATABASE, MEDIA, files_in, inspect_database, instan
 
 
 def _assert_server_stopped():
+    if getattr(settings, "MILENIO_CLOUD", False):
+        # The cloud process holds instance_lock for its lifetime and uses a Unix socket.
+        return
     port = {"live": 8765, "demo": 8766}.get(settings.MILENIO_MODE)
     if settings.MILENIO_MODE == "live" and os.environ.get("MILENIO_DEPLOYMENT_CONFIG"):
         from milenio_web.deployment import guard_server

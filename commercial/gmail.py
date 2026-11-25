@@ -51,6 +51,8 @@ def save_credentials(values):
 
 
 def token_request(values):
+    if getattr(settings, "MILENIO_CLOUD", False):
+        raise RuntimeError("El correo comercial está deshabilitado en el taller en la nube.")
     request = Request(TOKEN_URL, data=urlencode(values).encode(), method='POST')
     with urlopen(request, timeout=30) as response:
         return json.load(response)
@@ -96,6 +98,8 @@ def parse_message(data):
 
 class GmailClient:
     def __init__(self, access_token=None):
+        if getattr(settings, "MILENIO_CLOUD", False):
+            raise RuntimeError("El correo comercial está deshabilitado en el taller en la nube.")
         if access_token is None:
             values = json.loads(protect(credential_path().read_bytes(), decrypt=True))
             refreshed = token_request({'client_id': values['client_id'], 'client_secret': values['client_secret'],

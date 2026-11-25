@@ -1,0 +1,108 @@
+name: milenio-nube
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: 5m
+    max-file: "3"
+
+x-app: &app
+  image: milenio-taller:${MILENIO_BUILD_REVISION:-local-test}
+  pull_policy: never
+  user: "10001:10001"
+  network_mode: none
+  restart: unless-stopped
+  init: true
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  pids_limit: 80
+  stop_grace_period: 45s
+  tmpfs:
+    - /tmp:rw,nosuid,nodev,noexec,size=64m,mode=1777
+  environment:
+    DJANGO_SETTINGS_MODULE: milenio_web.cloud_settings
+    MILENIO_MODE: live
+    MILENIO_CLOUD_HOST: ${MILENIO_CLOUD_HOST:?Configura el dominio del taller}
+    MILENIO_DATA_DIR: /var/lib/milenio
+    OMP_THREAD_LIMIT: "1"
+  volumes:
+    - type: bind
+      source: ${MILENIO_STATE_DIR:-/var/lib/milenio-cloud}/app
+      target: /var/lib/milenio
+      bind: {create_host_path: false}
+  logging: *logging
+
+services:
+  app:
+    <<: *app
+    mem_limit: 512m
+    build:
+      context: ../..
+      dockerfile: infra/nube/Dockerfile
+      args:
+        MILENIO_BUILD_REVISION: ${MILENIO_BUILD_REVISION:-local-test}
+    volumes:
+      - type: bind
+        source: ${MILENIO_STATE_DIR:-/var/lib/milenio-cloud}/app
+        target: /var/lib/milenio
+        bind: {create_host_path: false}
+      - type: bind
+        source: ${MILENIO_STATE_DIR:-/var/lib/milenio-cloud}/socket
+        target: /run/milenio
+        bind: {create_host_path: false}
+    healthcheck:
+      test: [CMD, python, scripts/cloud_app.py, healthcheck]
+      interval: 20s
+      timeout: 8s
+      retries: 3
+      start_period: 15s
+
+  analytics:
+    <<: *app
+    mem_limit: 320m
+    command: [python, manage.py, run_automations, --idle-sleep, "15"]
+    depends_on:
+      app: {condition: service_healthy}
+
+  capture:
+    <<: *app
+    mem_limit: 640m
+    command: [python, manage.py, run_document_captures]
+    depends_on:
+      app: {condition: service_healthy}
+
+  caddy:
+    image: caddy:2.11.9-alpine@sha256:003a97808e781aa9f7e75cc2f43d34d461099031faf5e20faefb9f61126836f0
+    user: "10002:10001"
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    sysctls:
+      net.ipv4.ip_unprivileged_port_start: "0"
+    pids_limit: 80
+    mem_limit: 160m
+    environment:
+      MILENIO_CLOUD_HOST: ${MILENIO_CLOUD_HOST:?Configura el dominio del taller}
+    ports:
+      - "80:80/tcp"
+      - "443:443/tcp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - type: bind
+        source: ${MILENIO_STATE_DIR:-/var/lib/milenio-cloud}/socket
+        target: /run/milenio
+        read_only: true
+        bind: {create_host_path: false}
+      - type: bind
+        source: ${MILENIO_STATE_DIR:-/var/lib/milenio-cloud}/caddy-data
+        target: /data
+        bind: {create_host_path: false}
+      - type: bind
+        source: ${MILENIO_STATE_DIR:-/var/lib/milenio-cloud}/caddy-config
+        target: /config
+        bind: {create_host_path: false}
+    depends_on:
+      app: {condition: service_healthy}
+    logging: *logging

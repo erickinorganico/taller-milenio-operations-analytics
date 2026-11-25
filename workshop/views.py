@@ -43,6 +43,8 @@ def role_check(request, capability):
         raise PermissionDenied("Tu rol no permite esta acción.")
 
 def setup(request):
+    if getattr(settings, "MILENIO_CLOUD", False):
+        raise Http404
     if request.META.get("REMOTE_ADDR") not in {"127.0.0.1", "::1"}:
         raise PermissionDenied("La configuración inicial se realiza desde este equipo.")
     form = SetupForm(request.POST or None)
@@ -66,16 +68,29 @@ def sign_in(request):
     if request.user.is_authenticated:
         return redirect("/")
     form = AuthenticationForm(request, data=request.POST or None)
-    key = "login:" + request.META.get("REMOTE_ADDR", "unknown")
     if request.method == "POST":
-        attempts = cache.get(key,0)
+        address = request.META.get("REMOTE_ADDR", "unknown")
+        cloud = getattr(settings, "MILENIO_CLOUD", False)
+        key = "login:" + address
+        attempts = 0
+        if cloud:
+            from milenio_web.login_limit import release_success, reserve_login
+            reservation, wait = reserve_login(address)
+            if wait:
+                return HttpResponse("Demasiados intentos. Espera cinco minutos antes de volver a intentar.",
+                                    status=429, headers={"Retry-After": str(wait)})
+        else:
+            attempts = cache.get(key, 0)
         if attempts >= 10:
             form.add_error(None,"Demasiados intentos. Espera cinco minutos antes de volver a intentar.")
         elif form.is_valid():
-            cache.delete(key)
+            if cloud:
+                release_success(reservation)
+            else:
+                cache.delete(key)
             login(request,form.get_user())
             return redirect("/")
-        else:
+        elif not cloud:
             cache.set(key,attempts+1,300)
     return render(request,"workshop/login.html",{"title":"Bienvenido de vuelta", "intro":"Ingresa con tu cuenta del taller.", "form":form})
 
@@ -600,6 +615,13 @@ def guide(request):
     return render(request,"workshop/guide.html",{"title":"Guía del taller","section":"Ayuda"})
 
 def health(request):
+    if getattr(settings, "MILENIO_CLOUD", False):
+        from django.db import DatabaseError
+        try:
+            User.objects.exists()
+        except DatabaseError:
+            return JsonResponse({"status": "unavailable"}, status=503)
+        return JsonResponse({"status": "ok"})
     import os
     from milenio_web.worker_health import status
     deployment = status() if os.environ.get('MILENIO_INSTANCE_ID') else {}

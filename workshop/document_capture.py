@@ -53,7 +53,8 @@ def suggest_fields(text):
 
 
 def read_photo(path,cancel_event=None):
-    if os.name != "nt":
+    cloud = getattr(settings, "MILENIO_CLOUD", False)
+    if not cloud and os.name != "nt":
         raise RuntimeError("La lectura local del piloto requiere Windows; puedes capturar los campos manualmente.")
     powershell = Path(os.environ.get("SystemRoot", r"C:\Windows")) / "System32/WindowsPowerShell/v1.0/powershell.exe"
     script = Path(settings.BASE_DIR) / "scripts/read_document_photo.ps1"
@@ -66,16 +67,17 @@ def read_photo(path,cancel_event=None):
             image.save(normalized, format="PNG")
         command = [str(powershell), "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass",
                    "-File", str(script), "-ImagePath", str(normalized)]
+        if cloud:
+            command = ["/usr/bin/tesseract", str(normalized), "stdout", "-l", "spa"]
         if cancel_event is not None:
             from .capture_vision import _run_cancelable
             result = _run_cancelable(command,"",cancel_event,timeout=25)
         else:
             result = subprocess.run(command,capture_output=True,timeout=25,
-                encoding="utf-8-sig",errors="replace",creationflags=subprocess.CREATE_NO_WINDOW)
+                encoding="utf-8-sig",errors="replace",creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
         if result.returncode:
             raise RuntimeError("No fue posible leer la foto con el OCR local. Puedes completar los campos manualmente o volver a intentar con una foto más clara.")
-        output = json.loads(result.stdout)
-        text = output.get("text", "")
+        text = result.stdout if cloud else json.loads(result.stdout).get("text", "")
         if not isinstance(text, str) or len(text) > 50000:
             raise RuntimeError("La lectura excedió el tamaño permitido; usa una foto de una sola hoja.")
         return text
@@ -116,7 +118,8 @@ def process_one(reader=None,cancel_event=None):
             text = reader(capture.photo.path) if reader else read_photo(capture.photo.path,cancel_event=cancel_event)
             data = suggest_fields(text)
             items = []
-            extraction = {"provider":"local","model":"windows-ocr","completion_observed":bool(text.strip())}
+            model = "tesseract-spa" if getattr(settings, "MILENIO_CLOUD", False) else "windows-ocr"
+            extraction = {"provider":"local","model":model,"completion_observed":bool(text.strip())}
             note = "Lectura local terminada. Compara cada campo con la foto; la escritura a mano puede requerir captura manual." if text.strip() else "No se detectó texto. Completa los campos manualmente o sube una foto más clara."
         else:
             if not photo_ai_settings().enabled:

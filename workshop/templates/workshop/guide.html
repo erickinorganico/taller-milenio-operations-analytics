@@ -6,7 +6,7 @@
   <p>Abre <a href="/today/">Hoy en el taller</a> para ver los trabajos pendientes. En el celular, toca <strong>Menú</strong> para cambiar de pantalla. Desde <a href="/orders/">Órdenes de trabajo</a> puedes buscar por folio, placas o nombre del cliente.</p>
   {% if cap.manage %}
     <h2>Prepara las cuentas del equipo</h2>
-    <p>En <a href="/team/">Equipo y acceso</a>, crea una cuenta individual y asigna el rol de cada persona. Para preparar un teléfono consulta la guía <strong>infra/CELULAR.md</strong> del paquete de instalación.</p>
+    <p>En <a href="/team/">Equipo y acceso</a>, crea una cuenta individual y asigna el rol de cada persona. {% if cloud_workshop %}En el teléfono, abre la dirección HTTPS del taller y guárdala en favoritos.{% else %}Para preparar un teléfono consulta la guía <strong>infra/CELULAR.md</strong> del paquete de instalación.{% endif %}</p>
   {% endif %}
   {% if cap.reception %}
     <h2>Recibe el vehículo y registra la autorización</h2>
@@ -33,7 +33,7 @@
     <p><a href="/metrics/">Métricas</a> explica el cálculo y las fuentes. En <a href="/agents/">Agentes y acciones</a> puedes consultar propuestas y su evidencia.{% if cap.review %} Al aceptar una propuesta vigente, asigna responsable y documenta el resultado.{% endif %}</p>
   {% endif %}
   <h2>Si se corta la conexión del celular</h2>
-  <p>Vuelve a conectar el perfil del taller. Abre tu favorito y busca la orden por folio o placas. Comprueba el último cambio antes de repetir una operación.</p>
+  <p>{% if cloud_workshop %}Reconecta el Wi-Fi o los datos móviles.{% else %}Vuelve a conectar el perfil del taller.{% endif %} Abre tu favorito y busca la orden por folio o placas. Comprueba el último cambio antes de repetir una operación.</p>
   {% if cap.manage %}
     <h2>Respaldo y continuidad</h2>
     <p>Configura un respaldo privado fuera del disco del servidor y ensaya la restauración con el procedimiento de instalación. Usa la demo para practicar con datos ficticios.</p>

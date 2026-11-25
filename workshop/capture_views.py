@@ -30,6 +30,11 @@ class CaptureUploadForm(forms.Form):
     photo = forms.ImageField(label="Foto de una hoja", widget=forms.ClearableFileInput(attrs={"accept": "image/jpeg,image/png,image/webp", "capture": "environment"}),
                             help_text="JPEG, PNG o WebP; máximo 5 MB y 20 megapíxeles. Coloca la hoja completa, derecha y con buena luz.")
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if getattr(settings, "MILENIO_CLOUD", False):
+            self.fields["provider"].choices = [("local", "Lectura local en español")]
+
     def clean_photo(self):
         photo = self.cleaned_data["photo"]
         if photo.size > 5*1024*1024 or photo.image.width*photo.image.height > 20_000_000 or photo.image.format not in {"JPEG", "PNG", "WEBP"}:

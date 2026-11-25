@@ -19,6 +19,7 @@ from datetime import date
 from decimal import Decimal
 from pathlib import Path
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from PIL import Image, ImageOps
 
@@ -141,6 +142,8 @@ def _subprocess_options(timeout):
 
 def provider_status(provider="codex"):
     """Report availability without exposing login output, credentials or paths."""
+    if getattr(settings, "MILENIO_CLOUD", False):
+        return {"available": False, "message": "La nube del taller usa el OCR local."}
     if provider == "opencode":
         return {"available": False, "message": "OpenCode requiere verificar su CLI y un modelo con visión antes de habilitar la lectura."}
     if provider != "codex":
@@ -281,7 +284,7 @@ numbers remain null in service_items and empty strings in data. Availability
 is reported separately by provider_status; actual execution remains authoritative.
 With cancel_event, worker shutdown terminates this call's CLI child promptly.
 """
-    if provider != "codex":
+    if getattr(settings, "MILENIO_CLOUD", False) or provider != "codex":
         _fail(provider_status(provider)["message"])
     if not isinstance(model, str) or model not in VISION_MODELS:
         _fail("Selecciona un modelo permitido con entrada de imagen: Luna o GPT-6.1 Sol.")
