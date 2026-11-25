@@ -1,0 +1,52 @@
+{
+  "method": "Sequential timeline seeks versus isolated seeks from a clean DOM with identical clip visibility",
+  "times": [
+    0,
+    7,
+    15,
+    23,
+    30,
+    36,
+    39.9
+  ],
+  "identical_pngs": 5,
+  "differences": {
+    "39.9": {
+      "mean_delta": 0.0,
+      "pixels_delta_over_16": 0.0
+    },
+    "36": {
+      "mean_delta": 0.0,
+      "pixels_delta_over_16": 0.0
+    },
+    "30": {
+      "mean_delta": 0.0,
+      "pixels_delta_over_16": 0.0
+    },
+    "23": {
+      "mean_delta": 0.0021339699074074073,
+      "pixels_delta_over_16": 4.870756172839506e-05
+    },
+    "15": {
+      "mean_delta": 0.0021762474279835393,
+      "pixels_delta_over_16": 4.9189814814814815e-05
+    },
+    "7": {
+      "mean_delta": 0.0,
+      "pixels_delta_over_16": 0.0
+    },
+    "0": {
+      "mean_delta": 0.0,
+      "pixels_delta_over_16": 0.0
+    }
+  },
+  "sha256": {
+    "0": "9d31f1eac33437a2b35790992140461e4ec6e3ab22473ae1f8b3dc347d69d3ad",
+    "7": "aeeac13be2b54fd97b23bd7605dd684fcb6f815d9ff6d67c77e688c25cd13f93",
+    "15": "a3b7802ea19c151a629d458b7562998ced6179f14d05791bec6aaf02f57c4442",
+    "23": "0e3043b9541c5a3adf73efd27632133a0b9060bb6be0f649a69f0dc5fda35771",
+    "30": "88873639320f3bac817b0ee6b83b5ba2779abc935653d23db2d92e4e0f92d420",
+    "36": "1357457ea1e7b6e0f2b7bc43df5b85a535e2cf127b3f9b26d455d76409011663",
+    "39.9": "3fe2a487f4760ab324ce4cbb64a906647f41fe38e5ae67ea805a44008f5f9da9"
+  }
+}

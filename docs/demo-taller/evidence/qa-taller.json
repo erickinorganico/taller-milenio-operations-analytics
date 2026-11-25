@@ -1,0 +1,7 @@
+{
+  "status": "failed",
+  "visual_samples": 12,
+  "visible_order": "WO-DEMO-042",
+  "visible_label": "Entorno de prueba",
+  "delivery_error": "Contrato de entrega: Falta delivery.json válido (máximo64KiB)."
+}

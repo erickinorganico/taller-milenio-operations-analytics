@@ -2,6 +2,8 @@
 
 **Taller en la nube.** Para trabajar desde teléfonos y computadoras aunque la PC de recepción esté apagada, usa la [instalación en un VPS con HTTPS](infra/nube/README.md). Incluye [comparativa de precios](infra/nube/COSTOS.md), respaldos cifrados y traslado de una instalación existente.
 
+[Demo del taller en 40 segundos](docs/demo-taller/README.md) con el recorrido del folio desde recepción hasta la foto en el celular.
+
 **Primera instalación.** En la computadora central con Windows x64 y Python 3.12, extrae el paquete completo y abre **Instalar-Servidor.cmd**. Cuando aparezca la dirección verificada, ábrela y crea la cuenta de Gerencia. Si el taller ya tiene servidor, consulta el [procedimiento de actualización y respaldo](infra/DESPLIEGUE-Y-RECUPERACION.md).
 
 V6 conecta un dashboard gerencial, cortes analíticos persistentes y automatizaciones con la aplicación web local en español para registrar el trabajo diario: recepción, inspección, autorización, refacciones, ejecución, calidad, entrega y cobranza. Los datos quedan en SQLite; las métricas y propuestas se calculan desde esos mismos registros. Incluye contratos de flotilla, mantenimiento y seguimiento de grúas.

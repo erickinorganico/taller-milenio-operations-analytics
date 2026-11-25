@@ -1,0 +1,28 @@
+{
+  "contract_sha256": "5c354c134f62af4689f61a0d6c323759036efa3346e68dba72ff4c9e27a13c6a",
+  "formats": [
+    {
+      "id": "horizontal",
+      "verdict": "pass",
+      "export_sha256": "be3f29bf268221b0fda0c7f32d9be6610c20387550c95f36c553c144490db8c4",
+      "visual": {
+        "checked": true,
+        "evidence": "evidence/fotogramas/contact-sheet.png"
+      },
+      "seek": {
+        "checked": true,
+        "evidence": "evidence/seek.json"
+      },
+      "audio": {
+        "checked": true,
+        "evidence": "evidence/audio-ffmpeg.txt"
+      },
+      "samples": [
+        "vista-previa.png",
+        "evidence/fotogramas/frame-000.png",
+        "evidence/fotogramas/frame-011.png"
+      ],
+      "open_defects": []
+    }
+  ]
+}

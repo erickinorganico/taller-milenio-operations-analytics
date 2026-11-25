@@ -9,6 +9,13 @@
     "guide": "infra/nube/README.md",
     "costs": "infra/nube/COSTOS.md",
     "tests": "infra/nube/VERIFICACION.md",
+    "demo": {
+      "guide": "docs/demo-taller/README.md",
+      "date": "2026-11-25",
+      "version": 1,
+      "application_revision": "93e023f6ba6642cbc462b2a7228a3be48bfaff29",
+      "scope": "synthetic local workshop and emulated mobile browser"
+    },
     "provider_provisioning_verified": false,
     "public_tls_and_physical_phone_verified": false
   },

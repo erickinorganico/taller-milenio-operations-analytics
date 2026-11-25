@@ -1,0 +1,85 @@
+{
+  "date": "2026-11-25",
+  "scope": "copias de distribución con datos ficticios",
+  "policy": "media_privacy.py prepare y gate de Milenio",
+  "files": [
+    {
+      "path": "Taller-Milenio-demo-v1.mp4",
+      "sha256": "be3f29bf268221b0fda0c7f32d9be6610c20387550c95f36c553c144490db8c4",
+      "original_sha256": "3cd2840fa6471341869f7b77b690b1a85c6b6282884b4f0a1e3d66c14b385f1e",
+      "passed": true
+    },
+    {
+      "path": "vista-previa.png",
+      "sha256": "d11c7a47f5a9d198c6dd1ac9e2b5349dcc85a7fcdbda58b83febcc22d107c5d4",
+      "original_sha256": "d11c7a47f5a9d198c6dd1ac9e2b5349dcc85a7fcdbda58b83febcc22d107c5d4",
+      "passed": true
+    },
+    {
+      "path": "evidence/fotogramas/contact-sheet.png",
+      "sha256": "426c02c83dcf5c30ff1f579df8a146333cf37e98767723ed5f74942caa5df37f",
+      "original_sha256": "426c02c83dcf5c30ff1f579df8a146333cf37e98767723ed5f74942caa5df37f",
+      "passed": true
+    },
+    {
+      "path": "evidence/fotogramas/frame-000.png",
+      "sha256": "f19a2ba5ba051926a00c92c74df5e054c635d6af7f25e20a68f4b7d90a039fc8",
+      "original_sha256": "4eb72e71f195f9becfa997248d9ac11ff28ec971d193580a32e6c38b080989e0",
+      "passed": true
+    },
+    {
+      "path": "evidence/fotogramas/frame-011.png",
+      "sha256": "add44b503b86e622f99fb428802aeb43195977be689bf5f107e39379e10b29a8",
+      "original_sha256": "9c34d9f17f86845341ca4df2a0dd49398d53d4eb0b03f9dc37b0bc6602a6ec7d",
+      "passed": true
+    },
+    {
+      "path": "hyperframes/assets/agentes.png",
+      "sha256": "8d6dd890a8bf43bf857d95f33a4b101359920b8a434d7c4300991c20a1962114",
+      "original_sha256": "8d6dd890a8bf43bf857d95f33a4b101359920b8a434d7c4300991c20a1962114",
+      "passed": true
+    },
+    {
+      "path": "hyperframes/assets/celular-foto.png",
+      "sha256": "a0ec1cea027879ef104ad88d8805803e1b3bf08e2c286d510a25a09c9ab14889",
+      "original_sha256": "a0ec1cea027879ef104ad88d8805803e1b3bf08e2c286d510a25a09c9ab14889",
+      "passed": true
+    },
+    {
+      "path": "hyperframes/assets/celular-guardado.png",
+      "sha256": "79ae47f120421fb8882dc615a1caaa231fbcd7e6672052ecc09238ae71c4fb8f",
+      "original_sha256": "79ae47f120421fb8882dc615a1caaa231fbcd7e6672052ecc09238ae71c4fb8f",
+      "passed": true
+    },
+    {
+      "path": "hyperframes/assets/celular-reintento.png",
+      "sha256": "468538e20caa2d9314dc847559aaf76f07147be9bf8d511286b997523d4d3c7a",
+      "original_sha256": "468538e20caa2d9314dc847559aaf76f07147be9bf8d511286b997523d4d3c7a",
+      "passed": true
+    },
+    {
+      "path": "hyperframes/assets/muestra.jpg",
+      "sha256": "5c30f4d356dce64b400dbddc3ea838e842e5bd785757bc37fdede8d4311bca0a",
+      "original_sha256": "5c30f4d356dce64b400dbddc3ea838e842e5bd785757bc37fdede8d4311bca0a",
+      "passed": true
+    },
+    {
+      "path": "hyperframes/assets/recepcion-buscar.png",
+      "sha256": "b55f162d435b3d1d0c8a40ebe53e484e577f90e857316e5d9013cd69f07f6229",
+      "original_sha256": "b55f162d435b3d1d0c8a40ebe53e484e577f90e857316e5d9013cd69f07f6229",
+      "passed": true
+    },
+    {
+      "path": "hyperframes/assets/recepcion-folio.png",
+      "sha256": "0372981b54ef6c5990d02b815ed50450d5e47d9b37cb7f3a02c327c51b54d78e",
+      "original_sha256": "0372981b54ef6c5990d02b815ed50450d5e47d9b37cb7f3a02c327c51b54d78e",
+      "passed": true
+    },
+    {
+      "path": "hyperframes/assets/recepcion-foto.png",
+      "sha256": "7cbe77818ba3efdcdcb0658119621de8b21bc7716a77d8571d0df438ed7a1cbe",
+      "original_sha256": "7cbe77818ba3efdcdcb0658119621de8b21bc7716a77d8571d0df438ed7a1cbe",
+      "passed": true
+    }
+  ]
+}

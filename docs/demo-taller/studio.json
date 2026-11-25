@@ -1,0 +1,235 @@
+{
+  "schema_version": 1,
+  "brand_id": "MILENIO_AUTOSERVICIO",
+  "piece_id": "MIL-DEMO-TALLER-20261125",
+  "version": 1,
+  "profile": {
+    "brand_id": "MILENIO_AUTOSERVICIO",
+    "id_prefix": "MIL-"
+  },
+  "series": "Demo interna de operaciones",
+  "renderer": "HyperFrames 0.9.96",
+  "language": "es-MX",
+  "timezone": "America/Tijuana",
+  "brief": {
+    "topic": "El recorrido de un folio de taller",
+    "audience": "Recepción, técnicos y Gerencia de Autoservicio Milenio",
+    "objective": "Mostrar cómo retomar una orden, guardar evidencia y consultarla desde otro dispositivo",
+    "takeaway": "La foto y la información quedan en el mismo folio",
+    "cta": "Abrir el folio asignado en el entorno de prueba",
+    "claims": [
+      {
+        "text": "Recepción ve el punto y la foto guardados por el técnico en otra sesión",
+        "source": "capture_demo.py y rama 93e023f del PR #16",
+        "review_note": "Prueba de navegador con datos ficticios en loopback"
+      },
+      {
+        "text": "El acceso de agentes está limitado a acciones autorizadas",
+        "source": "infra/nube/AGENTES.md del PR #16",
+        "review_note": "La imagen muestra la sección del taller. Las dos acciones se explican con rótulos del video."
+      }
+    ],
+    "reject_if": [
+      "Se muestran datos reales o se sugiere que el dominio ya está activo",
+      "La foto o el estado se adjudican a otro folio",
+      "Un rótulo o una interacción esencial queda cortado"
+    ]
+  },
+  "references": [
+    {
+      "path": "montaje-claude.md",
+      "coverage": "Propuesta textual de 40 segundos. Se integra usando el folio y los controles reales del ensayo."
+    }
+  ],
+  "assets": [
+    {
+      "id": "recepcion-buscar.png",
+      "path": "hyperframes/assets/recepcion-buscar.png",
+      "origin": "Datos e imagen ficticios de capture_demo.py, interfaz real de la revisión",
+      "usage": "own",
+      "usage_evidence": "Ensayo temporal de la app Milenio y muestra creada para esta pieza",
+      "sha256": "b55f162d435b3d1d0c8a40ebe53e484e577f90e857316e5d9013cd69f07f6229"
+    },
+    {
+      "id": "recepcion-folio.png",
+      "path": "hyperframes/assets/recepcion-folio.png",
+      "origin": "Datos e imagen ficticios de capture_demo.py, interfaz real de la revisión",
+      "usage": "own",
+      "usage_evidence": "Ensayo temporal de la app Milenio y muestra creada para esta pieza",
+      "sha256": "0372981b54ef6c5990d02b815ed50450d5e47d9b37cb7f3a02c327c51b54d78e"
+    },
+    {
+      "id": "celular-foto.png",
+      "path": "hyperframes/assets/celular-foto.png",
+      "origin": "Datos e imagen ficticios de capture_demo.py, interfaz real de la revisión",
+      "usage": "own",
+      "usage_evidence": "Ensayo temporal de la app Milenio y muestra creada para esta pieza",
+      "sha256": "a0ec1cea027879ef104ad88d8805803e1b3bf08e2c286d510a25a09c9ab14889"
+    },
+    {
+      "id": "muestra.jpg",
+      "path": "hyperframes/assets/muestra.jpg",
+      "origin": "Datos e imagen ficticios de capture_demo.py, interfaz real de la revisión",
+      "usage": "own",
+      "usage_evidence": "Ensayo temporal de la app Milenio y muestra creada para esta pieza",
+      "sha256": "5c30f4d356dce64b400dbddc3ea838e842e5bd785757bc37fdede8d4311bca0a"
+    },
+    {
+      "id": "celular-guardado.png",
+      "path": "hyperframes/assets/celular-guardado.png",
+      "origin": "Datos e imagen ficticios de capture_demo.py, interfaz real de la revisión",
+      "usage": "own",
+      "usage_evidence": "Ensayo temporal de la app Milenio y muestra creada para esta pieza",
+      "sha256": "79ae47f120421fb8882dc615a1caaa231fbcd7e6672052ecc09238ae71c4fb8f"
+    },
+    {
+      "id": "recepcion-foto.png",
+      "path": "hyperframes/assets/recepcion-foto.png",
+      "origin": "Datos e imagen ficticios de capture_demo.py, interfaz real de la revisión",
+      "usage": "own",
+      "usage_evidence": "Ensayo temporal de la app Milenio y muestra creada para esta pieza",
+      "sha256": "7cbe77818ba3efdcdcb0658119621de8b21bc7716a77d8571d0df438ed7a1cbe"
+    },
+    {
+      "id": "celular-reintento.png",
+      "path": "hyperframes/assets/celular-reintento.png",
+      "origin": "Datos e imagen ficticios de capture_demo.py, interfaz real de la revisión",
+      "usage": "own",
+      "usage_evidence": "Ensayo temporal de la app Milenio y muestra creada para esta pieza",
+      "sha256": "468538e20caa2d9314dc847559aaf76f07147be9bf8d511286b997523d4d3c7a"
+    },
+    {
+      "id": "agentes.png",
+      "path": "hyperframes/assets/agentes.png",
+      "origin": "Datos e imagen ficticios de capture_demo.py, interfaz real de la revisión",
+      "usage": "own",
+      "usage_evidence": "Ensayo temporal de la app Milenio y muestra creada para esta pieza",
+      "sha256": "8d6dd890a8bf43bf857d95f33a4b101359920b8a434d7c4300991c20a1962114"
+    },
+    {
+      "id": "pulso-taller.wav",
+      "path": "hyperframes/assets/pulso-taller.wav",
+      "origin": "Composición local original de score.py",
+      "usage": "own",
+      "usage_evidence": "Generada para esta demo con síntesis local",
+      "sha256": "f1c803d279abd1bd9bc9f11bd1a6b8f599f6c8973da06b001f05586d695ae454"
+    }
+  ],
+  "beats": [
+    {
+      "start_s": 0,
+      "end_s": 6,
+      "purpose": "Buscar un vehículo por placa",
+      "entry_state": "Recepción busca MLN825",
+      "exit_state": "Se reconoce el vehículo",
+      "assets": [
+        "recepcion-buscar.png"
+      ]
+    },
+    {
+      "start_s": 6,
+      "end_s": 13,
+      "purpose": "Abrir el folio ya existente",
+      "entry_state": "El auto tiene un folio abierto",
+      "exit_state": "Se entiende cómo continuar o confirmar otro trabajo",
+      "assets": [
+        "recepcion-folio.png"
+      ]
+    },
+    {
+      "start_s": 13,
+      "end_s": 21,
+      "purpose": "Tomar y revisar evidencia",
+      "entry_state": "El técnico tiene su formulario móvil",
+      "exit_state": "La vista previa y la nota pertenecen al mismo auto",
+      "assets": [
+        "celular-foto.png",
+        "muestra.jpg"
+      ]
+    },
+    {
+      "start_s": 21,
+      "end_s": 28,
+      "purpose": "Ver la foto desde otra sesión",
+      "entry_state": "Otra sesión consulta el folio",
+      "exit_state": "Recepción distingue la nueva foto",
+      "assets": [
+        "celular-guardado.png",
+        "recepcion-foto.png",
+        "muestra.jpg"
+      ]
+    },
+    {
+      "start_s": 28,
+      "end_s": 34,
+      "purpose": "Reintentar un envío interrumpido",
+      "entry_state": "El teléfono muestra un acuse interrumpido",
+      "exit_state": "Se entiende cómo reintentar desde la misma página",
+      "assets": [
+        "celular-reintento.png",
+        "muestra.jpg"
+      ]
+    },
+    {
+      "start_s": 34,
+      "end_s": 40,
+      "purpose": "Seguir una orden con acceso acotado",
+      "entry_state": "Gerencia abre Agentes y acciones",
+      "exit_state": "Se entienden los límites de acceso",
+      "assets": [
+        "agentes.png"
+      ]
+    }
+  ],
+  "motion": {
+    "time_addressable": true,
+    "rules": "Cada escena usa capturas estáticas verificables y un timeline GSAP pausado. Desplazamientos, fundidos de evidencia y barra de progreso se calculan por tiempo."
+  },
+  "audio": {
+    "mode": "music",
+    "rationale": "Música electrónica original a 120 BPM. Lectura completa sin narrador.",
+    "cues": [
+      {
+        "time_s": 0.5,
+        "action": "Acento breve de dos tonos",
+        "asset_id": "pulso-taller.wav"
+      },
+      {
+        "time_s": 5,
+        "action": "Acento breve de dos tonos",
+        "asset_id": "pulso-taller.wav"
+      },
+      {
+        "time_s": 12,
+        "action": "Acento breve de dos tonos",
+        "asset_id": "pulso-taller.wav"
+      },
+      {
+        "time_s": 19,
+        "action": "Acento breve de dos tonos",
+        "asset_id": "pulso-taller.wav"
+      },
+      {
+        "time_s": 27,
+        "action": "Acento breve de dos tonos",
+        "asset_id": "pulso-taller.wav"
+      },
+      {
+        "time_s": 34,
+        "action": "Acento breve de dos tonos",
+        "asset_id": "pulso-taller.wav"
+      }
+    ]
+  },
+  "formats": [
+    {
+      "id": "horizontal",
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "duration_s": 40,
+      "layout": "Capturas ampliadas en columna izquierda. Titulares a la derecha con folio y estado de prueba persistentes.",
+      "safe_area_note": "Rótulos dentro de los márgenes de 100 px. La captura del buscador recorta los campos inferiores para mantener legible la acción."
+    }
+  ]
+}

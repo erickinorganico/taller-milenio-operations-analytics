@@ -6,6 +6,7 @@ La dirección prevista es **taller.autoserviciomilenio.com**. Desde Safari o Chr
 
 | Si necesitas… | Abre esta guía |
 |---|---|
+| Ver el flujo de recepción, inspección y agentes | [Demo de 40 segundos con datos ficticios](../../docs/demo-taller/README.md) |
 | Decidir si confiarle los datos a este proveedor | [Evaluación de InterServer y verificaciones antes del alta](SEGURIDAD-PROVEEDOR.md) |
 | Recibir un auto que ya visitó el taller | [Elegir el vehículo y retomar su folio](FOTOS.md#recibir-un-vehículo-que-ya-está-registrado) |
 | Tomar una foto en el celular y verla en recepción | [Fotos de inspección y reintentos](FOTOS.md) |
