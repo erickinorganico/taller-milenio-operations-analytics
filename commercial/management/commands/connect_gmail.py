@@ -8,6 +8,7 @@ import webbrowser
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlencode, urlsplit
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth import get_user_model
 from commercial.gmail import GmailClient, SCOPES, token_request, save_credentials
@@ -22,6 +23,8 @@ class Command(BaseCommand):
         parser.add_argument('--owner', required=True, help='Usuario de Gerencia existente en Milenio')
 
     def handle(self, *args, **options):
+        if getattr(settings, "MILENIO_CLOUD", False):
+            raise CommandError("OAuth de Gmail está deshabilitado en la nube del taller.")
         owner = get_user_model().objects.filter(username=options['owner'], is_active=True, is_superuser=True).first()
         if not owner: raise CommandError('Primero crea Gerencia desde /setup/ y utiliza ese usuario.')
         box, _ = Mailbox.objects.get_or_create(pk=1)

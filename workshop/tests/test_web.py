@@ -488,6 +488,13 @@ class WorkshopHttpTests(TestCase):
         self.assertEqual(order.status, "ready")
 
     def test_team_edit_deactivates_other_user_without_erasing_history_or_secrets(self):
+        from commercial.agent_models import AgentCredential
+
+        lost_phone, second_device = Client(), Client()
+        lost_phone.force_login(self.technician)
+        second_device.force_login(self.technician)
+        key = AgentCredential.objects.create(owner=self.technician, label="prueba de revocación",
+                                             token_hash="a" * 64, expires_at=timezone.now() + timedelta(days=1))
         _, vehicle = self.make_customer_vehicle()
         order = svc.create_work_order(actor=self.manager, vehicle=vehicle, complaint="Trabajo con responsable",
                                       number="WO-TEAM-HISTORY", assigned_to=self.technician)
@@ -508,6 +515,13 @@ class WorkshopHttpTests(TestCase):
         self.assertNotIn(old_hash, str(event.before) + str(event.after))
         self.assertNotIn("LocalPassword!2026", str(event.before) + str(event.after))
         self.assertEqual(self.client.get(f"/team/{self.technician.pk}/edit/").status_code, 200)
+        self.post_redirect(f"/team/{self.technician.pk}/edit/", {
+            "first_name":"Técnico", "role":"technician", "is_active":"on"
+        })
+        key.refresh_from_db()
+        self.assertTrue(key.revoked)
+        for device in (lost_phone, second_device):
+            self.assertRedirects(device.get("/today/"), "/login/", fetch_redirect_response=False)
 
     def test_team_edit_rejects_self_or_administrator_deactivation_and_nonmanager_access(self):
         payload = {"first_name":"Manager", "role":"manager", "password1":"", "password2":""}

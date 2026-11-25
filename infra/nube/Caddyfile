@@ -1,0 +1,27 @@
+{
+	admin off
+	servers {
+		protocols h1 h2
+		timeouts {
+			read_header 10s
+			read_body 90s
+			idle 2m
+		}
+	}
+}
+
+{$MILENIO_CLOUD_HOST} {
+	encode zstd gzip
+	header -Server
+	request_body {
+		max_size 12MiB
+	}
+	@internal path /health /health/ /setup /setup/
+	respond @internal 404
+	reverse_proxy unix//run/milenio/web.sock {
+		header_up Host {$MILENIO_CLOUD_HOST}
+		header_up X-Forwarded-Proto https
+		header_up X-Forwarded-For {http.request.remote.host}
+		header_up -Forwarded
+	}
+}

@@ -1,0 +1,11 @@
+[Unit]
+Description=Respaldo diario del taller en horario de Tijuana
+
+[Timer]
+OnCalendar=*-*-* 03:15:00 America/Tijuana
+Persistent=true
+RandomizedDelaySec=300
+Unit=milenio-nube-backup.service
+
+[Install]
+WantedBy=timers.target

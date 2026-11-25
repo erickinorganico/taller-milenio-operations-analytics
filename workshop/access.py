@@ -2,8 +2,10 @@ from functools import wraps
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import redirect
+
+WORKSHOP_AGENT_PATH = "/api/taller/v1/accion"
 
 ROLES = {"manager": "Gerencia", "advisor": "Recepción", "technician": "Técnico", "parts": "Refacciones", "finance": "Administración", "viewer": "Consulta gerencial"}
 CAPABILITIES = {
@@ -45,20 +47,31 @@ def navigation(request):
                     for key, roles in CAPABILITIES.items()}
     return {"app_mode": settings.MILENIO_MODE, "cap": capabilities,
             "role_label": "Gerencia" if manager else ", ".join(ROLES.get(name, name) for name in groups),
-            "native_enabled": settings.MILENIO_CODEX_ENABLED}
+            "native_enabled": settings.MILENIO_CODEX_ENABLED,
+            "cloud_workshop": getattr(settings, "MILENIO_CLOUD", False)}
 
 class AccessMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
     def __call__(self, request):
-        if not request.path.startswith(("/static/", "/health/", "/agent/v1/")):
+        cloud = getattr(settings, "MILENIO_CLOUD", False)
+        if cloud and (request.path.rstrip("/") == "/setup" or request.path.startswith(("/capture/ai/", "/agent/", "/commercial/mail/"))):
+            return HttpResponseNotFound()
+        scoped_agent_request = cloud and request.path == WORKSHOP_AGENT_PATH
+        if not scoped_agent_request and not request.path.startswith(("/static/", "/health/", "/agent/v1/")):
             configured = User.objects.filter(is_superuser=True, is_active=True).exists()
+            if cloud and not configured:
+                return HttpResponse("El acceso al taller se está preparando.", status=503)
             if not configured and request.path != "/setup/":
                 return redirect("/setup/")
             if configured and request.path == "/setup/":
                 return redirect("/")
             if configured and not request.user.is_authenticated and request.path not in {"/login/"}:
                 return HttpResponseRedirect("/login/")
+            if (cloud and request.user.is_authenticated and not request.user.is_superuser
+                    and request.path not in {"/logout/", "/account/"}
+                    and not request.user.groups.filter(name__in=ROLES).exists()):
+                raise PermissionDenied("Solicita a Gerencia que asigne tu rol en el taller.")
         response = self.get_response(request)
         if not request.path.startswith("/static/"):
             response["Cache-Control"] = "no-store"

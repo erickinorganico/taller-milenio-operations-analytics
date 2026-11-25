@@ -10,9 +10,10 @@ from pathlib import Path
 from django import forms
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import login, update_session_auth_hash
+from django.contrib.auth import SESSION_KEY, login, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.models import Group, User
+from django.contrib.sessions.models import Session
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.paginator import Paginator
@@ -26,7 +27,7 @@ from django.views.decorators.http import require_POST
 from . import models as m, services as s
 from .access import can, require, ROLES
 from .catalog import CATALOG, SOURCE_MODELS, SOURCE_TITLES
-from .reception import reception_form
+from .reception import reception_form, review_open_orders
 from .webforms import LABELS, SetupForm, TeamForm, TeamEditForm, MoneyLineForm, PaymentForm, InspectionForm, model_form
 
 def fail(request, exc):
@@ -43,6 +44,8 @@ def role_check(request, capability):
         raise PermissionDenied("Tu rol no permite esta acción.")
 
 def setup(request):
+    if getattr(settings, "MILENIO_CLOUD", False):
+        raise Http404
     if request.META.get("REMOTE_ADDR") not in {"127.0.0.1", "::1"}:
         raise PermissionDenied("La configuración inicial se realiza desde este equipo.")
     form = SetupForm(request.POST or None)
@@ -66,22 +69,36 @@ def sign_in(request):
     if request.user.is_authenticated:
         return redirect("/")
     form = AuthenticationForm(request, data=request.POST or None)
-    key = "login:" + request.META.get("REMOTE_ADDR", "unknown")
     if request.method == "POST":
-        attempts = cache.get(key,0)
+        address = request.META.get("REMOTE_ADDR", "unknown")
+        cloud = getattr(settings, "MILENIO_CLOUD", False)
+        key = "login:" + address
+        attempts = 0
+        if cloud:
+            from milenio_web.login_limit import release_success, reserve_login
+            reservation, wait = reserve_login(address)
+            if wait:
+                return HttpResponse("Demasiados intentos. Espera cinco minutos antes de volver a intentar.",
+                                    status=429, headers={"Retry-After": str(wait)})
+        else:
+            attempts = cache.get(key, 0)
         if attempts >= 10:
             form.add_error(None,"Demasiados intentos. Espera cinco minutos antes de volver a intentar.")
         elif form.is_valid():
-            cache.delete(key)
+            if cloud:
+                release_success(reservation)
+            else:
+                cache.delete(key)
             login(request,form.get_user())
             return redirect("/")
-        else:
+        elif not cloud:
             cache.set(key,attempts+1,300)
     return render(request,"workshop/login.html",{"title":"Bienvenido de vuelta", "intro":"Ingresa con tu cuenta del taller.", "form":form})
 
 def static_asset(request, path):
     allowed = {"workshop/commercial.css":"text/css", "workshop/app.css":"text/css", "workshop/analytics.css":"text/css", "workshop/app.js":"text/javascript",
-               "workshop/shell.css":"text/css", "workshop/shell.js":"text/javascript", "workshop/analytics.js":"text/javascript", "workshop/data.css":"text/css", "workshop/capture.js":"text/javascript", "workshop/capture.css":"text/css",
+               "workshop/reception.js":"text/javascript",
+               "workshop/shell.css":"text/css", "workshop/shell.js":"text/javascript", "workshop/analytics.js":"text/javascript", "workshop/data.css":"text/css", "workshop/capture.js":"text/javascript", "workshop/inspection.js":"text/javascript", "workshop/capture.css":"text/css",
                "workshop/inbox.css":"text/css", "workshop/photo-ai.css":"text/css"}
     if path not in allowed:
         raise Http404
@@ -263,11 +280,16 @@ def order_form(request):
     form.fields["assigned_to"].queryset=User.objects.filter(is_active=True).filter(Q(is_superuser=True)|Q(groups__name__in=["technician","manager","advisor"])).distinct()
     if request.GET.get("vehicle"):
         form.initial["vehicle"]=request.GET["vehicle"]
+    review = {}
     if request.method=="POST" and form.is_valid():
         try:
-            order=s.create_work_order(actor=request.user,**form.cleaned_data)
-            messages.success(request,f"{order.number}: vehículo recibido.")
-            return redirect(f"/orders/{order.pk}/")
+            with transaction.atomic():
+                vehicle = m.Vehicle.objects.select_for_update().get(pk=form.cleaned_data["vehicle"].pk)
+                review = review_open_orders(request, vehicle)
+                if not review:
+                    order=s.create_work_order(actor=request.user,**form.cleaned_data)
+                    messages.success(request,f"Vehículo recibido. Orden {order.number}.")
+                    return redirect(f"/orders/{order.pk}/")
         except (ValidationError,IntegrityError) as exc:
             fail(request,exc)
     has_vehicles = vehicles.exists()
@@ -276,11 +298,11 @@ def order_form(request):
         "intro": "Selecciona un vehículo registrado o da de alta uno nuevo." if has_vehicles
                  else "Registra el vehículo para abrir su primera orden de trabajo.",
         "form": form, "back": "/orders/", "submit": "Crear orden de trabajo",
-        "order_intake": True, "has_customers": m.Customer.objects.exists(),
+        "order_intake": True, "open_order_review": review, "has_customers": m.Customer.objects.exists(),
         "hide_form": not has_vehicles and request.method == "GET",
     })
 
-def order_detail(request,pk):
+def order_detail(request,pk,inspection_form=None):
     order=get_object_or_404(m.WorkOrder.objects.select_related("vehicle__customer","assigned_to"),pk=pk)
     if not can(request.user,"orders_read_all") and order.assigned_to_id!=request.user.pk:
         raise Http404
@@ -299,12 +321,12 @@ def order_detail(request,pk):
     order.photo_services = list(order.captured_services.prefetch_related("quote_lines__quote").order_by("pk"))
     for item in order.photo_services:
         item.active_quote_lines = [line for line in item.quote_lines.all() if line.quote.status in {"draft", "sent", "approved"}]
-    return render(request,"workshop/order.html",{"title":order.number,"section":"Órdenes","order":order,"quotes":quotes,"invoice":invoice,"paid":paid,"balance":invoice.total-paid if invoice else None,"inspection_form":InspectionForm(),"line_form":MoneyLineForm(),"assignment_form":assignment,"payment_form":PaymentForm(initial={"idempotency_key":str(uuid.uuid4())}),"parts":m.Part.objects.all(),"reservations":order.reservations.select_related("part"),"inspections":order.inspections.order_by("-created_at"),"time_entries":order.time_entries.select_related("technician").order_by("-created_at"),"quality_checks":order.quality_checks.order_by("-created_at"),"events":events,"next_statuses":sorted(state for state in s.TRANSITIONS.get(order.status,set()) if can(request.user,"reception") or state not in {"delivered","cancelled"}),"stages":m.WorkOrder.Status.choices})
+    return render(request,"workshop/order.html",{"title":order.number,"section":"Órdenes","order":order,"quotes":quotes,"invoice":invoice,"paid":paid,"balance":invoice.total-paid if invoice else None,"inspection_form":inspection_form if inspection_form is not None else InspectionForm(),"line_form":MoneyLineForm(),"assignment_form":assignment,"payment_form":PaymentForm(initial={"idempotency_key":str(uuid.uuid4())}),"parts":m.Part.objects.all(),"reservations":order.reservations.select_related("part"),"inspections":order.inspections.select_related("created_by").order_by("-pk"),"time_entries":order.time_entries.select_related("technician").order_by("-created_at"),"quality_checks":order.quality_checks.order_by("-created_at"),"events":events,"next_statuses":sorted(state for state in s.TRANSITIONS.get(order.status,set()) if can(request.user,"reception") or state not in {"delivered","cancelled"}),"stages":m.WorkOrder.Status.choices})
 
 @require_POST
 def order_action(request,pk,action):
     order=get_object_or_404(m.WorkOrder,pk=pk)
-    capabilities={"transition":"work","assign":"reception","inspection":"work","new-quote":"reception","quote-line":"reception","send-quote":"reception","approve-quote":"reception","reject-quote":"reception","reserve":"stock","consume":"stock","release":"stock","return":"stock","time":"work","quality":"work","invoice":"finance","payment":"finance"}
+    capabilities={"transition":"work","assign":"reception","new-quote":"reception","quote-line":"reception","send-quote":"reception","approve-quote":"reception","reject-quote":"reception","reserve":"stock","consume":"stock","release":"stock","return":"stock","time":"work","quality":"work","invoice":"finance","payment":"finance"}
     if action not in capabilities:
         raise Http404
     role_check(request,capabilities[action])
@@ -327,11 +349,6 @@ def order_action(request,pk,action):
                 current.version+=1
                 current.save(update_fields=["assigned_to","promised_at","version","updated_at"])
                 audit(request.user,current,"assignment",before)
-        elif action=="inspection":
-            form=InspectionForm(request.POST,request.FILES)
-            if not form.is_valid():
-                raise ValidationError(form.errors.as_text())
-            s.add_inspection(actor=request.user,work_order=order,**form.cleaned_data)
         elif action=="new-quote":
             s.create_quote(actor=request.user,work_order=order,tax_rate=request.POST.get("tax_rate","0"))
         elif action in {"quote-line","send-quote","approve-quote","reject-quote"}:
@@ -377,7 +394,12 @@ def inspection_photo(request,pk):
         raise Http404
     if not obj.photo:
         raise Http404
-    return FileResponse(obj.photo.open("rb"),content_type=mimetypes.guess_type(obj.photo.name)[0] or "application/octet-stream")
+    content_type = mimetypes.guess_type(obj.photo.name)[0]
+    image_types = {"image/jpeg": "jpg", "image/png": "png", "image/webp": "webp"}
+    extension = image_types.get(content_type, "bin")
+    return FileResponse(obj.photo.open("rb"), filename=f"inspeccion-{obj.pk}.{extension}",
+                        content_type=content_type if extension != "bin" else "application/octet-stream",
+                        as_attachment=extension == "bin")
 
 @require("stock_read")
 def inventory(request):
@@ -600,6 +622,13 @@ def guide(request):
     return render(request,"workshop/guide.html",{"title":"Guía del taller","section":"Ayuda"})
 
 def health(request):
+    if getattr(settings, "MILENIO_CLOUD", False):
+        from django.db import DatabaseError
+        try:
+            User.objects.exists()
+        except DatabaseError:
+            return JsonResponse({"status": "unavailable"}, status=503)
+        return JsonResponse({"status": "ok"})
     import os
     from milenio_web.worker_health import status
     deployment = status() if os.environ.get('MILENIO_INSTANCE_ID') else {}
@@ -624,6 +653,14 @@ def edit_team(request, pk):
                 if not active and (current.pk == request.user.pk or current.is_superuser):
                     raise ValidationError("Tu sesión y el acceso administrador deben permanecer activos.")
                 before = {"username":current.username, "role":list(current.groups.values_list("name", flat=True)), "active":current.is_active}
+                if current.is_active and not active:
+                    # Retire outstanding access even if this employee is reactivated later.
+                    from commercial.agent_models import AgentCredential
+                    live_sessions = Session.objects.filter(expire_date__gt=timezone.now())
+                    keys = [session.pk for session in live_sessions.iterator(chunk_size=200)
+                            if session.get_decoded().get(SESSION_KEY) == str(current.pk)]
+                    Session.objects.filter(pk__in=keys).delete()
+                    AgentCredential.objects.filter(owner=current, revoked=False).update(revoked=True)
                 current.first_name = form.cleaned_data["first_name"]
                 current.is_active = active
                 changed_password = bool(form.cleaned_data["password1"])

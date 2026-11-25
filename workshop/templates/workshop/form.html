@@ -1,4 +1,6 @@
 {% extends 'workshop/base.html' %}
+{% load static %}
+{% block extra_head %}{% if order_intake %}<script src="{% static 'workshop/reception.js' %}" defer></script>{% endif %}{% endblock %}
 {% block content %}
 <a class="back" href="{{ back|default:'/' }}">← Volver</a>
 <div class="page-head"><div>
@@ -6,7 +8,7 @@
   <h1>{{ title }}</h1>
   {% if intro %}<p>{{ intro }}</p>{% endif %}
 </div></div>
-{% if order_intake %}
+{% if order_intake and not open_order_review %}
 <nav class="actions" aria-label="Altas para recepción">
   <a class="button{% if hide_form and not has_customers %} primary{% endif %}" href="/records/customers/new/?flow=reception">Registrar cliente nuevo</a>
   {% if has_customers %}<a class="button{% if hide_form %} primary{% endif %}" href="/records/vehicles/new/?flow=reception">Registrar vehículo de un cliente existente</a>{% endif %}
@@ -17,10 +19,23 @@
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% if request.reception_token %}<input type="hidden" name="reception_token" value="{{ request.reception_token }}">{% endif %}
+    {% if open_order_review %}
+      <section class="notice warning" aria-labelledby="open-order-heading" data-review-vehicle="{{ open_order_review.vehicle.pk }}">
+        <h2 id="open-order-heading">Este vehículo ya tiene una orden abierta</h2>
+        <p>{{ open_order_review.vehicle }} · {{ open_order_review.vehicle.customer.name }}. Si es el mismo trabajo, abre el folio para continuarlo.</p>
+        <ul>{% for active in open_order_review.orders %}<li><a href="/orders/{{ active.pk }}/">Abrir {{ active.number }}</a> · {{ active.get_status_display }} · {{ active.complaint|truncatechars:90 }}</li>{% endfor %}</ul>
+        <p>Para abrir otro folio, revisa el motivo, marca que es un trabajo distinto y toca <strong>Crear otra orden</strong>.</p>
+      </section>
+    {% endif %}
     {% include 'workshop/form_fields.html' %}
     <div class="form-actions">
       <a class="button" href="{{ back|default:'/' }}">Cancelar</a>
-      <button class="button primary" type="submit">{{ submit|default:'Guardar registro' }}</button>
+      {% if open_order_review %}
+        <label data-confirm-visit><input type="checkbox" name="confirm_open_orders" value="{{ open_order_review.stamp }}"> Es un trabajo distinto para este vehículo</label>
+        <button class="button" type="submit" data-create-order>Crear otra orden</button>
+      {% else %}
+        <button class="button primary" type="submit">{{ submit|default:'Guardar registro' }}</button>
+      {% endif %}
     </div>
   </form>
 </section>

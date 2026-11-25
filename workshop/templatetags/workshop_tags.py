@@ -23,7 +23,7 @@ def labeled_cells(cells, columns):
 
 @register.filter
 def status_label(value):
-    actions = {"photo_sourced":"Servicio de foto agregado al presupuesto", "created":"Registro creado",
+    actions = {"agent_note":"Nota interna del agente", "photo_sourced":"Servicio de foto agregado al presupuesto", "created":"Registro creado",
                "image_created":"Registro creado desde foto", "image_updated":"Registro actualizado desde foto"}
     if str(value) in actions:
         return actions[str(value)]

@@ -1,5 +1,7 @@
 # Milenio: instalar un servidor y conectar dos computadoras
 
+El perfil [Taller en la nube](nube/README.md) ofrece acceso desde el navegador mediante HTTPS con un VPS Linux. Esta guía describe la instalación Windows con clientes por túnel privado.
+
 **Paquete de despliegue implementado. La instalación en los equipos elegidos y la conexión real de Gmail se verifican allí.** Código del taller, CRM, correo, captura y herramientas de despliegue incluidos; ninguna base real ni credencial se distribuye.
 
 ## Arranque desde una descarga

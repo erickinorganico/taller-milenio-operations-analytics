@@ -1,11 +1,27 @@
 from uuid import UUID, uuid4
 
 from django.contrib import messages
+from django.core.signing import Signer
 from django.db import transaction
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect
 
-from .models import ReceptionReceipt
+from .models import ReceptionReceipt, WorkOrder
+
+
+def review_open_orders(request, vehicle):
+    orders = list(vehicle.work_orders.exclude(
+        status__in=(WorkOrder.Status.DELIVERED, WorkOrder.Status.CANCELLED),
+    ).only("pk", "number", "status", "complaint").order_by("-pk"))
+    if not orders:
+        return {}
+    ids = ",".join(str(order.pk) for order in orders)
+    stamp = Signer(salt="workshop.reception.open-orders").signature(
+        f"{request.user.pk}/{request.reception_token}/{vehicle.pk}/{ids}"
+    )
+    if request.POST.get("confirm_open_orders") == stamp:
+        return {}
+    return {"vehicle": vehicle, "orders": orders, "stamp": stamp}
 
 
 def reception_form(request, step, view, *args):

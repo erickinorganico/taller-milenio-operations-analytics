@@ -1,7 +1,6 @@
 import hashlib
 import mimetypes
 import io
-import uuid
 
 from django import forms
 from django.contrib import messages
@@ -9,15 +8,17 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.exceptions import ValidationError
 from django.core.cache import cache
+from django.core.validators import validate_image_file_extension
 from django.db import IntegrityError, transaction
 from django.http import FileResponse, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.decorators.http import require_GET, require_POST
-from PIL import Image, ImageOps, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont
 
 from .access import require, can
 from .document_capture import LABELS, export_content
+from .inspection_images import prepare_uploaded_photo
 from .capture_inbox import inbox_context
 from .ai_capture import photo_ai_settings, usage_for_day, admission_problem
 from .models import AuditEvent, DocumentCapture, WorkOrder, Vehicle, Customer
@@ -27,13 +28,17 @@ class CaptureUploadForm(forms.Form):
     title = forms.CharField(label="Nombre del documento (opcional)", max_length=160, required=False)
     kind = forms.ChoiceField(label="Qué vas a capturar", choices=[("order", "Orden de trabajo"), ("service", "Hoja de servicio")],required=False)
     provider = forms.ChoiceField(label="Cómo leer la foto", choices=[("local","Lectura local de Windows"),("codex","ChatGPT vía Codex · modelo configurado"),("opencode","OpenCode · pendiente de conectar")],required=False)
-    photo = forms.ImageField(label="Foto de una hoja", widget=forms.ClearableFileInput(attrs={"accept": "image/jpeg,image/png,image/webp", "capture": "environment"}),
+    photo = forms.FileField(label="Foto de una hoja", validators=[validate_image_file_extension], widget=forms.ClearableFileInput(attrs={"accept": "image/jpeg,image/png,image/webp", "capture": "environment"}),
                             help_text="JPEG, PNG o WebP; máximo 5 MB y 20 megapíxeles. Coloca la hoja completa, derecha y con buena luz.")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if getattr(settings, "MILENIO_CLOUD", False):
+            self.fields["provider"].choices = [("local", "Lectura local en español")]
 
     def clean_photo(self):
         photo = self.cleaned_data["photo"]
-        if photo.size > 5*1024*1024 or photo.image.width*photo.image.height > 20_000_000 or photo.image.format not in {"JPEG", "PNG", "WEBP"}:
-            raise forms.ValidationError("Usa JPEG, PNG o WebP de hasta 5 MB y 20 megapíxeles.")
+        self.normalized_photo, self.fingerprint = prepare_uploaded_photo(photo, max_side=3000, quality=95)
         return photo
 
 
@@ -103,24 +108,14 @@ def capture_index(request):
             if not availability["available"]:
                 form.add_error("provider",availability["message"])
                 return render(request,"workshop/capture_index.html",{"title":"Capturar documentos","section":"Captura de documentos","form":form,"reader_status":availability,**inbox_context(request.GET)})
-        photo = form.cleaned_data["photo"]
-        digest = hashlib.sha256()
-        for chunk in photo.chunks():
-            digest.update(chunk)
-        photo.seek(0)
-        fingerprint = digest.hexdigest()
+        fingerprint = form.fingerprint
         existing = DocumentCapture.objects.filter(fingerprint=fingerprint).first()
         if existing:
             messages.info(request, "Esta misma foto ya está en la bandeja. Abrimos el documento existente.")
             return redirect(f"/capture/{existing.pk}/")
-        with Image.open(photo) as original:
-            image = ImageOps.exif_transpose(original).convert("RGB")
-            image.thumbnail((3000, 3000))
-            output = io.BytesIO()
-            image.save(output, format="JPEG", quality=95)
         capture = DocumentCapture(title=form.cleaned_data["title"] or f"Documento · {timezone.localtime():%d/%m %H:%M}", kind=form.cleaned_data["kind"] or "order",
             provider=provider,model_name=policy.model if provider == "codex" else "",
-            fingerprint=fingerprint, photo=ContentFile(output.getvalue(), name=uuid.uuid4().hex+".jpg"), uploaded_by=request.user)
+            fingerprint=fingerprint, photo=form.normalized_photo, uploaded_by=request.user)
         try:
             with transaction.atomic():
                 capture.save()

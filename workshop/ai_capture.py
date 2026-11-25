@@ -1,6 +1,7 @@
 """Durable image-reading admission. Never authenticates or stores credentials."""
 from datetime import timedelta
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
@@ -42,6 +43,8 @@ def admission_problem(policy, usage, capture=None):
 @transaction.atomic
 def reserve_reading(capture, lease):
     """Called inside the worker's claim transaction, serializing the singleton."""
+    if getattr(settings, "MILENIO_CLOUD", False):
+        raise ValidationError("Esta instalación lee fotos únicamente con el OCR local.")
     policy, _ = PhotoAISettings.objects.select_for_update().get_or_create(pk=1)
     if capture.model_name not in {"gpt-6-luna", "gpt-6.1-sol", "gpt-5.6-luna"}:
         raise ValidationError("El modelo solicitado no está permitido para leer imágenes.")

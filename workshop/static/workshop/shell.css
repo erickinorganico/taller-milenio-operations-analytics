@@ -202,3 +202,14 @@
   .auth-shell .auth-story-top { margin-bottom:0; }
   .auth-shell .auth-card { padding:24px 20px; }
 }
+
+.milenio-shell :is([data-vehicle-filter], [data-review-vehicle], [data-confirm-visit], [data-remove-photo])[hidden] {
+  display: none;
+}
+.milenio-shell [data-confirm-visit] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  flex-basis: 100%;
+}

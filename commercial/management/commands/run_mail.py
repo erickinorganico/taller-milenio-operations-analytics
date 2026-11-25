@@ -1,7 +1,7 @@
 """Independent bounded Gmail process. The deployment latch defaults to disabled."""
 import sys
 import threading
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from django.db import close_old_connections
 from milenio_web.deployment import read_config, guard_server
@@ -15,6 +15,8 @@ class Command(BaseCommand):
         parser.add_argument('--watch-parent',action='store_true')
 
     def handle(self,*args,**options):
+        if getattr(settings, "MILENIO_CLOUD", False):
+            raise CommandError("El transporte de correo está deshabilitado en la nube del taller.")
         stop=threading.Event()
         if options['watch_parent']:
             def watch():

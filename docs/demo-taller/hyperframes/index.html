@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>El mismo folio · Taller Milenio</title>
+<script src="assets/gsap.min.js"></script>
+<style>
+  * {box-sizing:border-box}
+  html,body {margin:0;width:1920px;height:1080px;overflow:hidden}
+  body {color:#f6f8f4;background:#101c1c;font-family:"Segoe UI",Arial,sans-serif}
+  #film {width:1920px;height:1080px;position:relative;overflow:hidden;
+    background:radial-gradient(ellipse at 29% 62%,#24413a 0%,#172a27 38%,#101b1c 76%)}
+  .grid {position:absolute;inset:0;background-image:linear-gradient(#9be3bf0e 1px,transparent 1px),
+    linear-gradient(90deg,#9be3bf0e 1px,transparent 1px);background-size:48px 48px;
+    mask-image:linear-gradient(105deg,#000,transparent 78%)}
+  .chrome {z-index:9;position:absolute;left:100px;right:100px;top:75px;display:flex;
+    justify-content:space-between;align-items:center}
+  .folio,.demo {font-size:37px;font-weight:650;padding:12px 23px;border-radius:12px}
+  .folio {background:#223830;border:1px solid #79b99970}
+  .demo {color:#ffe4a3;background:#2e2a1b;border:1px solid #c6ae6b75}
+  .scene {position:absolute;inset:0}
+  .stage {position:absolute;left:100px;top:170px;width:1090px;height:728px;display:grid;place-items:center}
+  .message {position:absolute;left:1250px;top:298px;width:565px}
+  .eyebrow {margin:0 0 24px;color:#91e4b9;font-weight:700;font-size:38px;letter-spacing:1px}
+  h1 {margin:0;font-size:92px;line-height:1.01;letter-spacing:-4px;font-weight:800}
+  .message p:not(.eyebrow) {margin:35px 0 0;font-size:47px;line-height:1.21;color:#c8d8d2}
+  .card {width:100%;background:#f7f9f7;border:3px solid #dddfe0;border-radius:25px;overflow:hidden;
+    box-shadow:0 24px 75px #0a1517c9}
+  .card img {display:block;width:100%;height:auto}
+  .frame {width:100%;display:grid;gap:18px;align-content:center}
+  .window-heading {padding:17px 29px;background:#182129;color:#e6f4ec;font-size:35px;font-weight:700}
+  .shot-limit {height:500px;overflow:hidden}
+  .phone {position:relative;padding:13px;width:450px;border:3px solid #93d6b099;border-radius:33px;
+    background:#101b20;box-shadow:0 30px 82px #0009;overflow:hidden}
+  .phone img {display:block;width:100%;border-radius:20px;background:#fff}
+  .phone img.swap {position:absolute;left:13px;top:13px;width:418px}
+  .dual {display:grid;grid-template-columns:350px 1fr;gap:31px;width:100%;align-items:center}
+  .dual .phone {width:350px}
+  .connector {height:5px;background:#84e8b1;box-shadow:0 0 28px #72e8a9;border-radius:4px;
+    position:absolute;left:337px;top:55%;width:78px;transform-origin:left center}
+  .evidence-tile {height:242px;display:grid;grid-template-columns:1fr 340px;align-items:center;
+    background:#fff;padding:25px 33px;gap:25px;color:#1c3030;font-size:40px;font-weight:750}
+  .evidence-tile img {height:190px;width:100%;border-radius:12px;object-fit:cover}
+  .small-callout {display:block;background:#eaf5ec;padding:26px 30px;color:#19352a;font-size:37px;font-weight:700}
+  .retry-frame {display:grid;gap:20px;width:100%;align-content:center}
+  .big-evidence {background:#e9f4ed;padding:27px;display:grid;grid-template-columns:1fr 1fr;
+    gap:20px;align-items:center;font-size:47px;font-weight:800;color:#123629}
+  .big-evidence img {border-radius:14px;aspect-ratio:1.65;object-fit:cover}
+  .footer {position:absolute;left:100px;right:100px;bottom:94px;height:6px;background:#c1e7d438;border-radius:8px;}
+  .meter {height:6px;background:#94edb9;border-radius:8px;transform-origin:left center}
+  .signature {font-size:35px;letter-spacing:.4px;color:#9ce0bd;font-weight:750;margin-top:42px}
+</style>
+</head>
+<body>
+<main id="film" data-composition-id="taller-demo" data-width="1920" data-height="1080" data-duration="40" data-fps="30">
+  <div class="grid"></div>
+  <div class="chrome"><div class="folio">Folio WO-DEMO-042</div><div class="demo">Entorno de prueba</div></div>
+
+  <section class="clip scene" id="buscar" data-start="0" data-duration="6" data-track-index="0">
+    <div class="stage">
+      <div class="frame artwork">
+        <div class="card"><div class="window-heading">Recepción</div>
+          <div class="shot-limit"><img src="assets/recepcion-buscar.png" alt="Formulario real de recepción con la búsqueda MLN825"></div>
+        </div>
+      </div>
+    </div>
+    <div class="message"><p class="eyebrow">Recepción</p><h1>¿Ya tenía orden?</h1><p>Busca el auto por placa o cliente.</p></div>
+  </section>
+  <section class="clip scene" id="continuar" data-start="6" data-duration="7" data-track-index="0">
+    <div class="stage">
+      <div class="card artwork"><div class="window-heading">Recepción</div>
+        <img src="assets/recepcion-folio.png" alt="Aviso de que el vehículo ya tiene una orden abierta">
+      </div>
+    </div>
+    <div class="message"><p class="eyebrow">Recepción</p><h1>Sigue el mismo folio</h1><p>Si es otro trabajo, confírmalo al crear la orden.</p></div>
+  </section>
+  <section class="clip scene" id="foto" data-start="13" data-duration="8" data-track-index="0">
+    <div class="stage">
+      <div class="dual artwork">
+        <div class="phone"><img src="assets/celular-foto.png" alt="Vista previa y observaciones en el formulario móvil"></div>
+        <div class="card action-detail"><div class="window-heading">Vista previa</div><img src="assets/muestra.jpg" alt="Imagen ficticia de un disco de freno"></div>
+      </div>
+    </div>
+    <div class="message"><p class="eyebrow">Inspección</p><h1>La foto, desde el celular</h1><p>Revisa la imagen y guarda el hallazgo.</p></div>
+  </section>
+  <section class="clip scene" id="reflejo" data-start="21" data-duration="7" data-track-index="0">
+    <div class="stage">
+      <div class="dual artwork">
+        <div class="phone"><img src="assets/celular-guardado.png" alt="Inspección guardada en el navegador móvil"></div>
+        <div class="card action-detail"><div class="window-heading">Mismo folio en recepción</div>
+          <img src="assets/recepcion-foto.png" alt="La nota y la miniatura ya aparecen en recepción">
+          <div class="evidence-tile"><span>Foto guardada</span><img src="assets/muestra.jpg" alt="La misma imagen ficticia de la inspección"></div>
+        </div>
+      </div>
+      <div class="connector" aria-hidden="true"></div>
+    </div>
+    <div class="message"><p class="eyebrow">Recepción</p><h1>Ya la ve el equipo</h1><p>La imagen aparece en la misma orden.</p></div>
+  </section>
+  <section class="clip scene" id="reintento" data-start="28" data-duration="6" data-track-index="0">
+    <div class="stage">
+      <div class="retry-frame artwork">
+        <div class="card"><div class="window-heading">Estado del envío</div><img src="assets/celular-reintento.png" alt="Mensaje real de envío sin confirmación"></div>
+        <div class="card action-detail"><div class="big-evidence"><img src="assets/muestra.jpg" alt=""><span>Un solo punto<br>guardado</span></div></div>
+      </div>
+    </div>
+    <div class="message"><p class="eyebrow">Mala señal</p><h1>¿Se cortó? Reintenta</h1><p>Vuelve a guardar desde la misma página.</p></div>
+  </section>
+  <section class="clip scene" id="agentes" data-start="34" data-duration="6" data-track-index="0">
+    <div class="stage">
+      <div class="card artwork"><div class="window-heading">Agentes y acciones</div>
+        <img src="assets/agentes.png" alt="Encabezado real de la sección de agentes del taller">
+        <div class="small-callout action-detail">Consultar el estado del taller</div>
+        <div class="small-callout action-detail">Añadir una nota al folio asignado</div>
+      </div>
+    </div>
+    <div class="message"><p class="eyebrow">Seguimiento</p><h1>Agentes con permisos</h1><p>El equipo autoriza qué pueden consultar o anotar.</p><div class="signature">Autoservicio Milenio</div></div>
+  </section>
+
+  <audio class="clip" id="pulso" src="assets/pulso-taller.wav" data-start="0" data-duration="40" data-track-index="1"></audio>
+  <div class="footer"><div class="meter"></div></div>
+</main>
+<script>
+  const sequence = gsap.timeline({paused:true});
+  sequence.fromTo(".meter", {scaleX:0}, {scaleX:1,duration:40,ease:"none"}, 0);
+  sequence.fromTo("#buscar .artwork", {scale:1.02}, {scale:1,duration:3,ease:"power2.out"}, 0);
+  for (const scene of document.querySelectorAll(".scene")) {
+    const start = Number(scene.dataset.start);
+    const artwork = scene.querySelector(".artwork");
+    const message = scene.querySelector(".message");
+    if (start > 0) {
+      sequence.fromTo(artwork, {x:40}, {x:0,duration:.46,ease:"power3.out"}, start);
+      sequence.fromTo(message, {y:27,opacity:.85}, {y:0,opacity:1,duration:.42,ease:"power3.out"}, start);
+    }
+    const detail = scene.querySelectorAll(".action-detail");
+    if (detail.length) sequence.fromTo(detail, {opacity:0,y:28}, {opacity:1,y:0,duration:.49,stagger:.16,ease:"power2.out"}, start+.85);
+  }
+  sequence.fromTo(".connector", {scaleX:0,opacity:0}, {scaleX:1,opacity:1,duration:.7,ease:"power2.out"}, 21.2);
+  sequence.fromTo(".signature", {opacity:0}, {opacity:1,duration:.55}, 37.5);
+  window.__timelines = window.__timelines || {};
+  window.__timelines["taller-demo"] = sequence;
+</script>
+</body>
+</html>
