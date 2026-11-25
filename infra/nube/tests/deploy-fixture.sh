@@ -25,7 +25,7 @@ esac
 shift 7
 case "$1" in
     config|pull|build|exec) ;;
-    ps) if [[ -e /tmp/operator-fixture/running ]]; then echo simulated; fi ;;
+    ps) if [[ -e /tmp/operator-fixture/running && ${TEST_STOPPED_SERVICE:-} != "${!#}" ]]; then echo simulated; fi ;;
     stop) rm -f -- /tmp/operator-fixture/running ;;
     start|up) touch /tmp/operator-fixture/running ;;
     run)
@@ -41,6 +41,7 @@ cat > "$dst/repo/infra/nube/backup/backup.sh" <<'BACKUP'
 set -eu
 [[ $1 == pre-upgrade && /proc/$$/fd/9 -ef /run/lock/milenio-cloud.lock && ! -e /tmp/operator-fixture/running ]]
 flock -n 9
+grep -Fx "MILENIO_BUILD_REVISION=$MILENIO_BUILD_REVISION" /etc/milenio/nube.env >/dev/null
 echo 'pre-upgrade' >> "$TEST_LOG"
 [[ ${TEST_FAIL_BACKUP:-} != yes ]]
 BACKUP
@@ -55,12 +56,18 @@ reject init otro.example.test
 [[ $(stat -c '%a' /etc/milenio/nube.env) == 600 && $(stat -c '%u:%g:%a' "$state/socket") == 10001:10001:750 ]]
 run apply
 run apply
+run status
+export TEST_STOPPED_SERVICE=capture
+reject status
+unset TEST_STOPPED_SERVICE
 reject import-windows /tmp/fixture aa bb
 [[ $(grep -c 'migrate --noinput' "$TEST_LOG") == 1 ]]
 export TEST_REVISION=2222222222222222222222222222222222222222 TEST_FAIL_BACKUP=yes
 reject apply
 [[ -e "$dst/running" && ! -e $state/.pending-release ]]
 unset TEST_FAIL_BACKUP
+# Simulate compose down after a failed attempt. Only the database and recorded active revision remain.
+rm -- "$dst/running"
 export TEST_FAIL_MIGRATE=yes
 reject apply
 [[ ! -e "$dst/running" && $(cat "$state/.pending-release") == "$TEST_REVISION" ]]

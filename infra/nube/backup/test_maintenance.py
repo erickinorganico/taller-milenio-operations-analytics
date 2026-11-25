@@ -9,24 +9,84 @@ import backup
 
 
 class RecoverySafety(unittest.TestCase):
+    def test_image_label_after_compose_down_must_match_recorded_active_release(self):
+        installed, candidate = "a" * 40, "b" * 40
+        with tempfile.TemporaryDirectory() as folder:
+            config = Path(folder) / "nube.env"
+            config.write_text("MILENIO_BUILD_REVISION=" + installed + "\n")
+            cloud = object.__new__(backup.Cloud)
+            cloud.env_file = config
+            cloud.image = "milenio-taller:" + installed
+            with patch.object(backup, "private_file", return_value=config), patch.object(backup, "output") as inspect:
+                inspect.return_value = installed
+                self.assertEqual(cloud.installed_revision(), installed)
+                self.assertEqual(inspect.call_args.args[0][-1], cloud.image)
+                inspect.return_value = candidate
+                with self.assertRaisesRegex(ValueError, "no coincide"):
+                    cloud.installed_revision()
+                config.write_text("MILENIO_BUILD_REVISION=uninstalled\n")
+                with self.assertRaisesRegex(ValueError, "Falta una revisión"):
+                    cloud.installed_revision()
+
+    def test_partial_migration_cannot_replace_last_good_backup(self):
+        with tempfile.TemporaryDirectory() as folder:
+            cloud, repo = Mock(), Mock()
+            cloud.state = Path(folder)
+            (cloud.state / ".pending-release").touch()
+            with self.assertRaisesRegex(ValueError, "migración"):
+                backup.create(cloud, repo, cloud.state)
+            repo.snapshots.assert_not_called()
+            cloud.writers.assert_not_called()
+
+    def test_insufficient_space_preserves_online_writers(self):
+        with tempfile.TemporaryDirectory() as folder:
+            cloud, repo = Mock(), Mock()
+            cloud.state = cloud.data = Path(folder)
+            (cloud.data / "workshop.sqlite3").write_bytes(b"synthetic")
+            disk = Mock(f_bavail=1, f_blocks=100000, f_frsize=4096)
+            with patch.object(backup.os, "statvfs", return_value=disk), patch.object(backup, "run") as call:
+                with self.assertRaisesRegex(ValueError, "Espacio insuficiente"):
+                    backup.create(cloud, repo, cloud.state)
+            call.assert_not_called()
+            cloud.resume.assert_not_called()
+            repo.save.assert_not_called()
+
+    def test_restore_checks_space_for_both_copies_before_downloading(self):
+        with tempfile.TemporaryDirectory() as folder:
+            cloud, repo = Mock(), Mock()
+            cloud.state = Path(folder)
+            cloud.data = cloud.state / "app"
+            cloud.revision.return_value = "b" * 40
+            repo.select.return_value = {"id": "a" * 64, "tags": ["git-" + "b" * 40]}
+            mib = 1024**2
+            disk = Mock(f_bavail=700, f_blocks=2000, f_frsize=mib)
+            with patch.object(backup.os, "statvfs", return_value=disk), patch.object(backup, "run") as call, \
+                 patch.object(backup, "output", return_value='{"total_size":104857600,"total_file_count":5}'):
+                with self.assertRaisesRegex(ValueError, "Espacio insuficiente"):
+                    backup.recover(cloud, repo, cloud.state, "latest", False)
+            call.assert_not_called()
+            self.assertFalse((cloud.state / "download").exists())
+
     def test_blocked_without_quiescing_unknown_writer(self):
-        cloud = Mock()
-        cloud.writers.return_value = ["analytics"]
-        with self.assertRaisesRegex(ValueError, "Detener"):
-            backup.create(cloud, Mock(), Path("/unused"), before_upgrade=True)
-        cloud.job.assert_not_called()
+        with tempfile.TemporaryDirectory() as folder:
+            cloud = Mock()
+            cloud.state = Path(folder)
+            cloud.writers.return_value = ["analytics"]
+            with self.assertRaisesRegex(ValueError, "Detener"):
+                backup.create(cloud, Mock(), cloud.state, before_upgrade=True)
+            cloud.job.assert_not_called()
 
     def test_worker_states_recovered_when_staging_fails(self):
         with tempfile.TemporaryDirectory() as directory:
             stage = Path(directory)
             (stage / "workshop.sqlite3").touch()
             cloud = Mock()
-            cloud.data = stage
+            cloud.state = cloud.data = stage
             cloud.compose = ["docker", "compose"]
             cloud.writers.side_effect = [["app", "capture"], []]
             cloud.job.side_effect = ValueError("simulated snapshot failure")
             repo = Mock()
-            with patch.object(backup.os, "chown"), patch.object(backup, "run") as stop:
+            with patch.object(backup, "require_capacity"), patch.object(backup.os, "chown"), patch.object(backup, "run") as stop:
                 with self.assertRaisesRegex(ValueError, "simulated"):
                     backup.create(cloud, repo, stage)
                 stop.assert_called_once_with(["docker", "compose", "stop", "-t", "90", "app", "capture"])

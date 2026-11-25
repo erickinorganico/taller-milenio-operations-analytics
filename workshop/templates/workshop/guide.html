@@ -7,6 +7,7 @@
   {% if cap.manage %}
     <h2>Prepara las cuentas del equipo</h2>
     <p>En <a href="/team/">Equipo y acceso</a>, crea una cuenta individual y asigna el rol de cada persona. {% if cloud_workshop %}En el teléfono, abre la dirección HTTPS del taller y guárdala en favoritos.{% else %}Para preparar un teléfono consulta la guía <strong>infra/CELULAR.md</strong> del paquete de instalación.{% endif %}</p>
+    <p>Si se pierde un celular del equipo, abre <strong>Editar acceso</strong> de su titular, desmarca <strong>Cuenta activa</strong> y guarda. Se cierran sus sesiones y se revocan sus credenciales de agente. Cuando recupere el acceso, asígnale una contraseña nueva y activa la cuenta. Para la cuenta titular de Gerencia, cambia tu contraseña desde un equipo de confianza y revoca sus credenciales de agente por separado.</p>
   {% endif %}
   {% if cap.reception %}
     <h2>Recibe el vehículo y registra la autorización</h2>
@@ -18,6 +19,7 @@
   {% if cap.work %}
     <h2>Inspecciona y termina el trabajo</h2>
     <p>Abre el folio en <a href="/orders/?mine=1">Mis órdenes</a>. En Inspección, anota los puntos revisados y adjunta las fotos. En trabajo, registra los minutos y cualquier espera de refacciones. En Control de calidad, documenta la comprobación. Si falla, corrige y repite la revisión.</p>
+    <p>En <strong>Inspección y fotos</strong>, toma una foto o elígela de la galería. Revisa el folio y la vista previa, toca <strong>Guardar inspección</strong> y espera la confirmación. Recepción verá el punto en el mismo folio y puede tocar <strong>Actualizar</strong>. Si se interrumpe el envío, conserva la pestaña y vuelve a tocar Guardar al recuperar la conexión.</p>
     {% if cap.reception %}<p>Una vez aprobada la revisión, marca la orden lista y registra la entrega cuando el cliente reciba el vehículo.</p>{% endif %}
   {% endif %}
   {% if cap.stock %}

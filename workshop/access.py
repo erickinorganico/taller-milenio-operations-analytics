@@ -5,6 +5,8 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import redirect
 
+WORKSHOP_AGENT_PATH = "/api/taller/v1/accion"
+
 ROLES = {"manager": "Gerencia", "advisor": "Recepción", "technician": "Técnico", "parts": "Refacciones", "finance": "Administración", "viewer": "Consulta gerencial"}
 CAPABILITIES = {
     "manage": {"manager"}, "reception": {"manager", "advisor"},
@@ -55,7 +57,8 @@ class AccessMiddleware:
         cloud = getattr(settings, "MILENIO_CLOUD", False)
         if cloud and (request.path.rstrip("/") == "/setup" or request.path.startswith(("/capture/ai/", "/agent/", "/commercial/mail/"))):
             return HttpResponseNotFound()
-        if not request.path.startswith(("/static/", "/health/", "/agent/v1/")):
+        scoped_agent_request = cloud and request.path == WORKSHOP_AGENT_PATH
+        if not scoped_agent_request and not request.path.startswith(("/static/", "/health/", "/agent/v1/")):
             configured = User.objects.filter(is_superuser=True, is_active=True).exists()
             if cloud and not configured:
                 return HttpResponse("El acceso al taller se está preparando.", status=503)

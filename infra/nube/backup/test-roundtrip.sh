@@ -7,6 +7,7 @@ if [[ $EUID -ne 0 || ${MILENIO_DISPOSABLE_LINUX_RUNNER:-} != 1 ]]; then
 fi
 base=$(cd "$(dirname "$0")/.." && pwd)
 python3 -B "$base/backup/test_maintenance.py"
+python3 -B "$base/tests/test_operacion.py"
 fixture=$(mktemp -d /tmp/milenio-backup-test.XXXXXXXX)
 export COMPOSE_PROJECT_NAME="backup-test-${fixture##*.}"
 COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME,,}
@@ -17,7 +18,7 @@ MILENIO_BUILD_REVISION=$(git -C "$base" rev-parse HEAD)
 state="$fixture/state"
 install -d -m 700 -o 10001 -g 10001 "$state/app" "$state/socket"
 umask 077
-printf 'MILENIO_STATE_DIR=%s\nMILENIO_CLOUD_HOST=example.invalid\n' "$state" >"$MILENIO_NUBE_ENV"
+printf 'MILENIO_STATE_DIR=%s\nMILENIO_CLOUD_HOST=example.invalid\nMILENIO_BUILD_REVISION=%s\n' "$state" "$MILENIO_BUILD_REVISION" >"$MILENIO_NUBE_ENV"
 printf 'RESTIC_REPOSITORY=%s\nRESTIC_PASSWORD_FILE=%s\n' "$fixture/repo" "$fixture/key" >"$MILENIO_BACKUP_ENV"
 openssl rand -hex 32 >"$fixture/key"
 compose=(docker compose --env-file "$MILENIO_NUBE_ENV" -f "$base/compose.yaml")
@@ -52,6 +53,21 @@ if "${bk[@]}" restore-new "$snapshot" 2>/dev/null; then echo 'Destino ocupado ac
 "${bk[@]}" check
 "${bk[@]}" retention
 "${compose[@]}" down
+exec 9>>/run/lock/milenio-cloud.lock
+flock -x 9
+"${bk[@]}" pre-upgrade
+python3 - "$state/ultimo-respaldo.json" "$MILENIO_BUILD_REVISION" <<'PY'
+import json, sys
+assert json.load(open(sys.argv[1]))["revision"] == sys.argv[2]
+PY
+before=$(sha256sum "$state/ultimo-respaldo.json")
+absent_revision=$(printf '%s' "$fixture-missing" | sha1sum | cut -d' ' -f1)
+if MILENIO_BUILD_REVISION="$absent_revision" "${bk[@]}" pre-upgrade; then
+    echo 'Se aceptó una imagen ausente con todos los contenedores eliminados' >&2; exit 1
+fi
+[[ $(sha256sum "$state/ultimo-respaldo.json") == "$before" ]]
+flock -u 9
+exec 9>&-
 replacement="$fixture/nuevo"
 install -d -m 700 "$replacement"
 printf 'MILENIO_STATE_DIR=%s\nMILENIO_CLOUD_HOST=example.invalid\n' "$replacement" >"$MILENIO_NUBE_ENV"

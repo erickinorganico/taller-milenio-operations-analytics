@@ -32,9 +32,12 @@ receipt = json.loads((state/"ultima-importacion-windows.json").read_text())
 assert receipt["business"]["invoice"]["total"] == "116" and receipt["business"]["payment"]["total"] == "50"
 assert all(v["count"] == 1 for v in receipt["business"].values())
 assert receipt["media_files"] == 1 and "workshop.0008_reception_receipt" in receipt["migrated_forward"]
+assert "workshop.0009_inspection_submission" in receipt["migrated_forward"]
 with sqlite3.connect(state/"app/workshop.sqlite3") as db:
     assert db.execute("SELECT number FROM workshop_workorder").fetchone()[0] == "WO-PRUEBA"
     assert db.execute("SELECT count(*) FROM django_session").fetchone()[0] == 0
+    photo, key = db.execute("SELECT photo, submission_key FROM workshop_inspection").fetchone()
+    assert key is None and (state/"app/media"/photo).read_bytes().startswith(b"\x89PNG")
 assert (state/"app/.mail-recovery-hold").is_file()
 PY
 printf 'PASS: manifiesto, migración histórica, folio, factura, pago, foto y rechazo de sobrescritura.\n'

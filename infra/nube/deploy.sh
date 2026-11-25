@@ -76,6 +76,9 @@ fi
 if [[ $action == status ]]; then
     dc ps --all
     [[ ! -e $pending_file ]] || fail "Hay una migración pendiente. Revisa su respaldo y ejecuta apply con la misma revisión."
+    for service in app analytics capture caddy; do
+        [[ -n $(dc ps -q --status running "$service") ]] || fail "El servicio $service está detenido. Revisa su estado y sus registros."
+    done
     dc exec -T app python scripts/cloud_app.py healthcheck
     exit
 fi
@@ -172,7 +175,8 @@ for writer in "${writers[@]}"; do
 done
 dc stop "${writers[@]}"
 if [[ $active_revision != uninstalled && ! -e $pending_file ]]; then
-    if ! bash "$here/backup/backup.sh" pre-upgrade; then
+    # The database still belongs to the installed release, including after compose down.
+    if ! MILENIO_BUILD_REVISION="$active_revision" bash "$here/backup/backup.sh" pre-upgrade; then
         # No migration has occurred. Resume the exact old containers, not the candidate image.
         if (( ${#running_before[@]} )); then dc start "${running_before[@]}"; fi
         fail "El respaldo externo previo falló. Se conservó la versión anterior."

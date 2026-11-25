@@ -2,6 +2,7 @@
 import argparse
 import fcntl
 import json
+import math
 import os
 import re
 import signal
@@ -85,6 +86,7 @@ def exclusive_lock(path, inherited=False):
 
 class Cloud:
     def __init__(self, env_file):
+        self.env_file = env_file
         self.compose = ["docker", "compose", "--env-file", str(env_file), "-f", str(BASE / "compose.yaml")]
         config = json.loads(output([*self.compose, "config", "--format", "json"]))
         app = config["services"]["app"]
@@ -138,6 +140,17 @@ class Cloud:
         revision = output(["docker", "image", "inspect", "--format", '{{index .Config.Labels "org.opencontainers.image.revision"}}', self.image]).strip()
         if not REVISION.fullmatch(revision):
             raise ValueError("Se requiere una imagen identificada con el commit completo de Git")
+        return revision
+
+    def installed_revision(self):
+        # A container ID, or its tag after compose down, must match the on-disk deployment receipt.
+        recorded = [line.partition("=")[2] for line in private_file(self.env_file).read_text().splitlines()
+                    if line.startswith("MILENIO_BUILD_REVISION=")]
+        if len(recorded) != 1 or not REVISION.fullmatch(recorded[0]):
+            raise ValueError("Falta una revisión instalada válida en la configuración de la central")
+        revision = self.revision()
+        if revision != recorded[0]:
+            raise ValueError("La imagen disponible no coincide con la revisión instalada; conserva el respaldo anterior")
         return revision
 
     def job(self, mounts, data_dir, args):
@@ -197,14 +210,47 @@ def receipt(state, name, data):
         os.close(directory)
 
 
+def copy_footprint(data):
+    """Estimate the allocated space of the backup payload without following links."""
+    total = 0
+    entries = [data / "workshop.sqlite3", data / "workshop.sqlite3-wal", data / "media"]
+    while entries:
+        entry = entries.pop()
+        try:
+            info = entry.lstat()
+        except FileNotFoundError:
+            continue  # Optional WAL/media and files removed while the workshop is active.
+        if stat.S_ISDIR(info.st_mode):
+            entries.extend(entry.iterdir())
+        elif not stat.S_ISREG(info.st_mode):
+            raise ValueError("La base y las evidencias deben contener sólo archivos y directorios locales")
+        total += ((info.st_size + 4095) // 4096 + 1) * 4096
+    return total
+
+
+def require_capacity(directory, estimated):
+    disk = os.statvfs(directory)
+    free = disk.f_bavail * disk.f_frsize
+    reserve = max(512 * 1024**2, disk.f_blocks * disk.f_frsize // 20)
+    required = estimated + reserve
+    if free < required:
+        mib = 1024**2
+        raise ValueError(f"Espacio insuficiente: {free // mib} MiB disponibles; "
+                         f"se estiman {math.ceil(required / mib)} MiB incluidos los de reserva")
+    return free
+
+
 def create(cloud, repo, temp, before_upgrade=False):
+    if (cloud.state / ".pending-release").exists():
+        raise ValueError("La migración quedó pendiente. Conserva la última copia anterior y retoma esa revisión.")
     repo.snapshots()  # Check credentials and connectivity before interrupting the workshop.
     running = cloud.writers()
     if before_upgrade and running:
         raise ValueError("Detener app, analytics y capture antes de la copia de actualización")
     if not (cloud.data / "workshop.sqlite3").is_file():
         raise ValueError("No se encontró la base operativa")
-    revision = cloud.revision()
+    require_capacity(temp, copy_footprint(cloud.data))
+    revision = cloud.installed_revision()
     work = temp / "job"
     work.mkdir(mode=0o700)
     os.chown(work, UID, UID)
@@ -243,6 +289,12 @@ def recover(cloud, repo, temp, snapshot, fresh):
     revision = cloud.revision()
     if "git-" + revision not in row.get("tags", []):
         raise ValueError(f"Usar imagen del commit indicado en list: {row.get('tags')}")
+    # A drill downloads the snapshot and builds an independent validated copy on the same disk.
+    stats = json.loads(output(["restic", "stats", "--mode", "restore-size", "--json", row["id"]], repo.env))
+    size, files = stats.get("total_size"), stats.get("total_file_count")
+    if type(size) is not int or size <= 0 or type(files) is not int or files <= 0:
+        raise ValueError("Restic no confirmó el tamaño de la copia seleccionada")
+    require_capacity(temp, 2 * (size + files * 4096))
     downloaded = temp / "download"
     downloaded.mkdir()
     run(["restic", "--no-lock", "restore", row["id"], "--target", str(downloaded)], env=repo.env)

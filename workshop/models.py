@@ -112,6 +112,8 @@ class Inspection(models.Model):
     result = models.CharField(max_length=8, choices=Result.choices)
     notes = models.TextField(blank=True)
     photo = models.ImageField(upload_to="inspections/%Y/%m/", blank=True, null=True)
+    submission_key = models.UUIDField(null=True, blank=True, unique=True, editable=False)
+    submission_digest = models.CharField(max_length=64, blank=True, editable=False)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     created_at = models.DateTimeField(default=timezone.now)
 

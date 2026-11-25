@@ -1,0 +1,27 @@
+# ¿Podemos confiarle el taller a InterServer?
+
+Revisión del 25 de noviembre de 2026 para Autoservicio Milenio. **Recomiendo el VPS mensual para un taller que acepta una interrupción mientras se recupera el servidor y tiene quién lo administre.** La contratación empieza en el portal oficial `my.interserver.net`. Con un solo VPS, mantener la operación depende del acceso de Gerencia, los parches y una copia recuperable fuera de InterServer.
+
+| Pregunta | Qué comprobamos | Qué implica para Milenio |
+|---|---|---|
+| ¿De quién es el portal de pago? | El soporte del proveedor identifica la URL exacta de acceso y facturación. La consulta al registro público de ARIN devolvió Interserver, Inc. como titular de AS19318. Su ficha en PeeringDB vincula esa red con interserver.net. | Entrar desde el marcador del dominio oficial y revisar el total en la cuenta. La seguridad de la instalación del taller se comprueba además en el servidor asignado. [Acceso oficial](https://www.interserver.net/tips/login-access-interserver-net/) · [Registro de ARIN](https://rdap.arin.net/registry/autnum/19318) · [Red del operador](https://www.peeringdb.com/net/637) |
+| ¿Qué protege el proveedor? | Describe aislamiento KVM y protecciones en el nodo físico. La ficha vigente ofrece soporte administrado desde ocho unidades. La opción de US$3 tiene una. | Milenio administra el sistema operativo, las llaves, los permisos y las actualizaciones de la aplicación. [Controles del nodo](https://www.interserver.net/tips/understanding-network-and-node-level-security-at-interserver/) · [Alcance del plan](https://www.interserver.net/vps/faq.html) |
+| ¿Puede caerse? | El acuerdo cubre 99.9 % de disponibilidad mensual de red con exclusiones, entre ellas mantenimiento programado. El historial registró una interrupción de kvm558 el 30/oct de 11:28 a 13:59 EDT. | Esa incidencia demuestra un riesgo de disponibilidad. Es un nodo concreto y el registro no afirma una exposición de datos. Si falla el VPS, recepción espera la recuperación o usa su procedimiento de contingencia. [SLA](https://www.interserver.net/service-level-agreement.html) · [Incidencias](https://interserver.statuspage.io/history) |
+| ¿Qué pasa con los datos? | La política del portal describe cifrado en tránsito para pedidos, tratamiento de datos de cuenta y facturación en EE. UU. Las copias KVM dependen del tipo de servicio y de los puntos de recuperación disponibles. | Confirmar región al contratar. El aviso del taller y el acceso a expedientes de sus clientes los gestiona Milenio. La copia independiente se cifra antes de salir a B2. [Privacidad del proveedor](https://www.interserver.net/privacy-policy.html) · [Copias por servicio](https://www.interserver.net/tips/backup-availability-per-service/) |
+
+El 25/nov/2026 Windows validó el nombre `my.interserver.net` y su cadena de confianza al establecer una conexión TLS 1.3. El certificado presentado tenía emisor Google Trust Services WE1 y vencimiento el 30/ene/2027. Esta comprobación corresponde a esa conexión pública y se puede repetir al contratar. Los certificados se renuevan.
+
+## Qué protege las fotografías y quién puede verlas
+
+El navegador entrega la foto a la aplicación por HTTPS. El proxy pasa la solicitud por un socket privado y la aplicación comprueba sesión, rol y acceso a la orden. El servidor necesita leer la base y los archivos para trabajar. La administración del VPS y el operador del alojamiento ocupan posiciones de confianza. El cifrado del respaldo protege el contenido almacenado en B2. No se verificó cifrado del volumen activo ni una auditoría independiente de la instancia contratada. [Acceso y despliegue](README.md) · [Copia y restauración](backup/README.md)
+
+Una cuenta de infraestructura comprometida puede controlar el VPS. La llave operativa de restic guardada allí puede modificar o eliminar objetos del bucket autorizado. Guarda la recuperación de las cuentas y de restic en el gestor de Gerencia, contrasta las opciones de segundo factor dentro de cada cuenta y conserva una copia cifrada periódica fuera del alcance de esa llave. El equipo sólo necesita cuentas del taller, y sus agentes reciben permisos propios. [Acceso de los agentes](AGENTES.md) · [Límites y recuperación de B2](backup/README.md)
+
+## Comprobaciones para el primer día
+
+1. Gerencia entra por el portal oficial y comprueba el segundo factor y su vía de recuperación. Confirma la región, la IP, el cobro total mensual y el acceso a la consola. Protege también Cloudflare y Backblaze con cuentas individuales y segundo factor.
+2. Administración verifica las llaves SSH, los puertos publicados, el espacio para restaurar y las actualizaciones. Guarda la revisión exacta en el expediente privado. [Operación en el VPS](OPERACION.md)
+3. Con datos ficticios, una persona toma una foto por datos móviles. Otra abre el mismo folio. Prueba la retirada de acceso de un integrante y la revocación de una credencial de agente. [Prueba con celulares](FOTOS.md)
+4. Restaura en otro directorio un respaldo cifrado descargado del bucket real. Comprueba el folio y la foto, anota el tiempo y verifica quién recibe el aviso cuando la copia se atrasa. Con una copia diaria pueden perderse las altas posteriores al último respaldo válido. [Probar la recuperación](backup/README.md)
+
+El costo estimado parte de US$3 al mes, sin anualidad. El total final depende de impuestos, almacenamiento histórico, descargas y opciones elegidas. El presupuesto autorizado de servidor y respaldos es US$7 al mes. [Cálculo y alternativas](COSTOS.md)

@@ -63,6 +63,11 @@ ALLOWED_HOSTS = [CLOUD_HOST]
 CSRF_TRUSTED_ORIGINS = ["https://" + CLOUD_HOST]
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+# Browsers require these cookies to originate on this exact HTTPS host.
+SESSION_COOKIE_NAME = "__Host-milenio_session"
+CSRF_COOKIE_NAME = "__Host-milenio_csrf"
+# Keep confirmation messages in the private session instead of a separate cookie.
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 SECURE_SSL_REDIRECT = True
 SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = False

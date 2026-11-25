@@ -4,6 +4,13 @@ La dirección prevista es **taller.autoserviciomilenio.com**. Desde Safari o Chr
 
 **Para Gerencia.** Reutilizar un VPS de Milenio si reúne los requisitos. Como primera compra, elegir InterServer Linux KVM de un slice, con facturación mensual sin compromiso, y una copia cifrada en Backblaze B2. El presupuesto autorizado es USD 7/mes en total. [Presupuesto, cálculo y alternativas](COSTOS.md)
 
+| Si necesitas… | Abre esta guía |
+|---|---|
+| Decidir si confiarle los datos a este proveedor | [Evaluación de InterServer y verificaciones antes del alta](SEGURIDAD-PROVEEDOR.md) |
+| Tomar una foto en el celular y verla en recepción | [Fotos de inspección y reintentos](FOTOS.md) |
+| Dar a un agente acceso a un indicador o a una orden | [Permisos, ejemplos y revocación](AGENTES.md) |
+| Saber si la copia, el disco y los servicios están bien | [Diagnóstico del servidor](OPERACION.md) |
+
 ## 1. Preparar el servidor
 
 1. En la cuenta de la empresa, activa MFA y guarda sus códigos de recuperación en el gestor de contraseñas de Gerencia. Elige Ubuntu Server 24.04 LTS, disco persistente, IPv4 pública y acceso administrativo por llave SSH individual. Para el plan propuesto se esperan 2 GB de RAM y 40 GB de disco. Revisa moneda, impuestos, renovación y total mensual antes de confirmar el pedido.
@@ -40,6 +47,8 @@ sudo bash infra/nube/deploy.sh verify-url
 ```
 
 El alta inicial de Gerencia pide una contraseña en la consola privada. La URL pública de alta está cerrada incluso con la base vacía. En **Equipo y acceso**, crea cuentas individuales con el rol de Recepción, Técnico, Refacciones o Administración. El acceso web usa contraseña personal y limita intentos repetidos. El segundo factor de los paneles de alojamiento, DNS y respaldos se configura en esos paneles.
+
+Las cookies de esta versión están limitadas al dominio HTTPS exacto del taller. Al actualizar una instalación anterior de nube, el equipo debe iniciar sesión de nuevo. Si se pierde un celular del personal, Gerencia puede desactivar su cuenta desde **Equipo y acceso**. Para recuperarla, cambia la contraseña, vuelve a activar el usuario y emite sólo las credenciales de agente que todavía necesite.
 
 **Taller que ya opera en Windows.** Agenda el cambio fuera de turno. Obtén una copia portable verificada y anota una orden con foto, el número de órdenes y el saldo antes del corte. Acuerda la hora a partir de la que la instalación anterior deja de recibir escrituras. Importa la copia a un destino nuevo mediante el [procedimiento de traslado](TRASLADO.md) antes de abrir la URL al personal. Las sesiones deben renovarse. Mantén el origen disponible para consulta privada y conserva una copia que permita volver atrás.
 

@@ -1,5 +1,7 @@
 """Atomic, audited write boundary for daily workshop operations."""
 
+import hashlib
+import json
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from uuid import uuid4
 
@@ -8,6 +10,7 @@ from django.db import transaction
 from django.db.models import F, Max, Sum
 from django.utils import timezone
 
+from .inspection_images import prepare_uploaded_photo
 from .models import (
     AuditEvent, Inspection, Invoice, Part, Payment, PurchaseLine, PurchaseOrder,
     QualityCheck, Quote, QuoteLine, Reservation, StockMovement, TimeEntry,
@@ -160,16 +163,34 @@ def transition_work_order(*, actor, work_order, status, expected_version=None):
     return order
 
 
-@transaction.atomic
-def add_inspection(*, actor, work_order, area, result, notes="", photo=None):
-    order = _lock_order(work_order)
-    _work_actor(actor, order)
-    if order.status != WorkOrder.Status.INSPECTION:
-        raise DomainError("La inspección solo se registra en la etapa de inspección.")
+def add_inspection(*, actor, work_order, area, result, notes="", photo=None, submission_key=None):
+    _work_actor(actor, work_order)
+    area = _text(area, "Área")
     _choice(result, Inspection.Result, "Resultado de inspección")
-    inspection = Inspection.objects.create(work_order=order, area=_text(area, "Área"),
-                                           result=result, notes=notes, photo=photo, created_by=actor)
-    _audit(actor, inspection, "created", after={"work_order_id": order.pk, "result": result})
+    normalized, photo_digest = prepare_uploaded_photo(photo, max_side=2400, quality=88)
+    digest = hashlib.sha256(json.dumps([area, result, notes, photo_digest]).encode()).hexdigest()
+    inspection = Inspection(area=area, result=result, notes=notes, photo=normalized,
+                            created_by=actor, submission_key=submission_key,
+                            submission_digest=digest if submission_key else "")
+    try:
+        with transaction.atomic():
+            order = _lock_order(work_order)
+            _work_actor(actor, order)
+            if submission_key:
+                prior = Inspection.objects.filter(submission_key=submission_key).first()
+                if prior:
+                    if (prior.created_by_id, prior.work_order_id, prior.submission_digest) != (actor.pk, order.pk, digest):
+                        raise DomainError("Este envío ya se usó con otros datos. Revisa la orden y vuelve a abrir el formulario.")
+                    return prior
+            if order.status != WorkOrder.Status.INSPECTION:
+                raise DomainError("La inspección solo se registra en la etapa de inspección.")
+            inspection.work_order = order
+            inspection.save()
+            _audit(actor, inspection, "created", after={"work_order_id": order.pk, "result": result})
+    except Exception:
+        if inspection.photo and inspection.photo._committed:
+            inspection.photo.delete(save=False)
+        raise
     return inspection
 
 

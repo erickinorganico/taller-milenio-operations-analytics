@@ -1,3 +1,4 @@
+from uuid import uuid4
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -47,19 +48,24 @@ class PaymentForm(forms.Form):
     idempotency_key = forms.CharField(widget=forms.HiddenInput, max_length=100)
 
 class InspectionForm(forms.ModelForm):
+    submission_key = forms.UUIDField(required=False, widget=forms.HiddenInput, initial=uuid4)
+    photo = forms.FileField(required=False, label="Tomar foto",
+                            widget=forms.FileInput(attrs={"accept": "image/*", "capture": "environment"}))
+
     class Meta:
         model = m.Inspection
         fields = ["area", "result", "notes", "photo"]
         labels = LABELS
-        widgets = {"notes":forms.Textarea(attrs={"rows":3})}
-    def clean_photo(self):
-        photo = self.cleaned_data.get("photo")
-        if photo:
-            if photo.size > 5 * 1024 * 1024:
-                raise forms.ValidationError("La fotografía debe pesar como máximo 5 MB.")
-            if getattr(photo, "image", None) and (photo.image.width * photo.image.height > 20_000_000 or photo.image.format not in {"JPEG", "PNG", "WEBP"}):
-                raise forms.ValidationError("Usa una foto JPEG, PNG o WebP de hasta 20 megapíxeles.")
-        return photo
+        widgets = {"notes": forms.Textarea(attrs={"rows": 2})}
+
+    def clean(self):
+        values = super().clean()
+        gallery = self.files.get("gallery_photo")
+        if gallery and values.get("photo"):
+            raise forms.ValidationError("Elige una foto de la cámara o de la galería.")
+        if gallery:
+            values["photo"] = gallery
+        return values
 
 
 class TeamEditForm(forms.Form):

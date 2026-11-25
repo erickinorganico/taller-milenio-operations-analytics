@@ -11,6 +11,8 @@ import socket
 import ssl
 import subprocess
 import tempfile
+import uuid
+from concurrent.futures import ThreadPoolExecutor
 from http.cookies import SimpleCookie
 from pathlib import Path
 from urllib.parse import parse_qs, urlencode, urlsplit
@@ -29,7 +31,7 @@ class Session:
         self.agent = agent
         self.cookies = {}
 
-    def request(self, path, fields=None, photo=False):
+    def request(self, path, fields=None, photo=False, *, document=None, bearer=None, accept_json=False):
         # Send the real Host/SNI while physically connecting only to a random loopback port.
         conn = http.client.HTTPSConnection(HOST, timeout=12, context=self.ctx)
         raw = socket.create_connection(("127.0.0.1", self.port), timeout=12)
@@ -37,7 +39,14 @@ class Session:
         headers = {"Host": HOST, "User-Agent": self.agent,
                    "Cookie": "; ".join(f"{k}={v}" for k, v in self.cookies.items())}
         payload = None
-        if fields is not None:
+        if accept_json:
+            headers["Accept"] = "application/json"
+        if bearer is not None:
+            headers["Authorization"] = "Bearer " + bearer
+        if document is not None:
+            headers["Content-Type"] = "application/json"
+            payload = json.dumps(document).encode()
+        elif fields is not None:
             headers["Origin"] = f"https://{HOST}"
             if photo:
                 boundary = "milenio-" + secrets.token_hex(12)
@@ -49,7 +58,7 @@ class Session:
                 payload = urlencode(fields).encode()
                 headers["Content-Type"] = "application/x-www-form-urlencoded"
         try:
-            conn.request("GET" if fields is None else "POST", path, payload, headers)
+            conn.request("GET" if payload is None else "POST", path, payload, headers)
             res = conn.getresponse()
             for name, value in res.getheaders():
                 if name.lower() == "set-cookie":
@@ -58,6 +67,7 @@ class Session:
                             self.cookies.pop(cookie.key, None)
                             continue
                         assert cookie["secure"], f"cookie without Secure: {cookie.key}"
+                        assert cookie.key.startswith("__Host-") and cookie["path"] == "/" and not cookie["domain"]
                         self.cookies[cookie.key] = cookie.value
             return res.status, res.getheader("Location", ""), res.read()
         finally:
@@ -76,7 +86,7 @@ class Session:
         return location
 
 
-def exercise(port, cert, password, restart):
+def exercise(port, cert, password, restart, issue_credential, revoke):
     mobile = Session(port, cert, "Milenio-QA/Mobile")
     desk = Session(port, cert, "Milenio-QA/Desktop")
     anonymous = Session(port, cert, "Milenio-QA/Guest")
@@ -96,18 +106,58 @@ def exercise(port, cert, password, restart):
     folio = re.search(rb"WO-\d{8}-[A-Z0-9]+", page).group()
     version = re.search(rb'name="version"[^>]+value="(\d+)"', page).group(1).decode()
     mobile.form(order, target=order+"transition/", status="inspection", version=version)
-    mobile.form(order, target=order+"inspection/", photo=True, area="Frente", result="okay", notes="Prueba local")
+    status, _, page = mobile.request(order)
+    csrf = re.search(rb'name="csrfmiddlewaretoken"[^>]+value="([^"]+)"', page).group(1).decode()
+    inspection = {"area":"Frente", "result":"okay", "notes":"Prueba local",
+                  "submission_key":str(uuid.uuid4()), "csrfmiddlewaretoken":csrf}
+    ids = []
+    for _ in range(2):
+        status, _, response = mobile.request(order+"inspection/", inspection, photo=True, accept_json=True)
+        assert status in (200, 201), ("inspección móvil", status)
+        ids.append(json.loads(response)["id"])
+    assert ids[0] == ids[1]
+    status, _, feed = desk.request(order+"inspection-feed/")
+    assert status == 200 and b"Frente" in feed
     status, _, page = desk.request(order)
     assert status == 200 and folio in page
     photo_url = re.search(rb"/inspection/\d+/photo/", page).group().decode()
     assert anonymous.request(photo_url)[1].startswith("/login/")
     status, _, original = desk.request(photo_url)
-    assert status == 200 and original.startswith(b"\x89PNG")
+    assert status == 200 and original.startswith(b"\xff\xd8\xff")
+    verify_agents(anonymous, desk, order, folio.decode(), issue_credential, revoke)
     restart()
     assert folio in desk.request(order)[2]
     assert hashlib.sha256(desk.request(photo_url)[2]).digest() == hashlib.sha256(original).digest()
     return {"tls_verified": True, "public_setup_closed": True, "private_photo": True,
-            "separate_mobile_desktop_sessions": True, "order_and_photo_after_restart": True}
+            "separate_mobile_desktop_sessions": True, "order_and_photo_after_restart": True,
+            "inspection_retry_and_feed": True, "scoped_agent_over_tls": True}
+
+
+def verify_agents(agent, desk, order, folio, issue_credential, revoke):
+    endpoint = "/api/taller/v1/accion"
+    summary = {"action":"workshop.summary"}
+    def call(payload, credential):
+        return agent.request(endpoint, document=payload, bearer=credential["token"])
+    assert agent.request(endpoint, document=summary)[0] in (401, 403)
+    analyst = issue_credential("analista", "--workshop-summary")
+    status, _, aggregate = call(summary, analyst)
+    assert status == 200 and b"QA2026" not in aggregate and b"Prueba nube" not in aggregate
+    assert call({"action":"order.status"}, analyst)[0] == 403
+    writer = issue_credential("seguimiento", "--workshop-order", folio)
+    status, _, result = call({"action":"order.status"}, writer)
+    assert status == 200
+    version = json.loads(result)["version"]
+    note = "Verificar pieza de ensayo"
+    update = {"action":"order.note", "note":note, "expected_version":version, "request_id":str(uuid.uuid4())}
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        replies = [future.result() for future in [pool.submit(call, update, writer) for _ in range(2)]]
+    assert all(reply[0] == 200 for reply in replies)
+    receipts = [json.loads(reply[2]) for reply in replies]
+    assert receipts[0] == receipts[1] and receipts[0]["version"] == version + 1 and receipts[0]["event_id"]
+    assert call(dict(update, request_id=str(uuid.uuid4())), writer)[0] == 409
+    assert note.encode() in desk.request(order)[2]
+    revoke(writer["credential_id"])
+    assert call({"action":"order.status"}, writer)[0] in (401, 403)
 
 
 def main():
@@ -167,7 +217,15 @@ def main():
             def restart():
                 compose("restart","app","analytics","capture",stdout=subprocess.DEVNULL)
                 compose("up","-d","--wait","--wait-timeout","120",stdout=subprocess.DEVNULL)
-            result = exercise(port, cert, password, restart)
+            def issue_credential(label, *scope):
+                path = f"/tmp/private/{label}.json"
+                compose("exec","-T","app","python","manage.py","agent_access","--owner","prueba-gerencia",
+                        "--label",label,"--output",path,*scope,stdout=subprocess.DEVNULL)
+                return json.loads(compose("exec","-T","app","cat",path,capture_output=True).stdout)
+            def revoke(credential_id):
+                compose("exec","-T","app","python","manage.py","agent_access","--revoke",credential_id,
+                        stdout=subprocess.DEVNULL)
+            result = exercise(port, cert, password, restart, issue_credential, revoke)
         finally:
             compose("down","--volumes","--remove-orphans")
             # Only this randomly tagged synthetic app image can be removed here.

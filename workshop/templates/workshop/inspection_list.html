@@ -1,0 +1,18 @@
+{% load workshop_tags %}
+<p class="small muted">{{ inspections|length }} punto{{ inspections|length|pluralize:"s" }} de inspección</p>
+{% for item in inspections %}
+  <div class="alert-row" id="inspection-{{ item.pk }}">
+    <div>
+      <strong>{{ item.area }} <span class="pill {{ item.result }}">{{ item.get_result_display }}</span></strong>
+      {% if item.notes %}<p>{{ item.notes }}</p>{% endif %}
+      <small class="muted">{{ item.created_at|date:'d M H:i' }} · {{ item.created_by }}</small>
+    </div>
+    {% if item.photo %}
+      <a href="/inspection/{{ item.pk }}/photo/" target="_blank" rel="noopener" aria-label="Abrir foto de {{ item.area }}">
+        <img class="inspection-photo" loading="lazy" src="/inspection/{{ item.pk }}/photo/" alt="Evidencia de {{ item.area }}">
+      </a>
+    {% endif %}
+  </div>
+{% empty %}
+  <p class="muted">Aún no hay puntos de inspección registrados.</p>
+{% endfor %}
