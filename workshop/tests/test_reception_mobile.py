@@ -68,8 +68,34 @@ class ReceptionFlowTests(TestCase):
 
         # A new visit can legitimately repeat the same work on the same car.
         order_data["reception_token"] = self.token(order_path)
+        warning = self.client.post(order_path, order_data)
+        self.assertContains(warning, f'href="{detail}"')
+        self.assertEqual(WorkOrder.objects.count(), 1)
+        self.assertContains(warning, "Revisar vibración")
+        order_data["confirm_open_orders"] = warning.context["open_order_review"]["stamp"]
         self.assertNotEqual(self.client.post(order_path, order_data).url, detail)
         self.assertEqual(WorkOrder.objects.count(), 2)
+
+    def test_new_tab_and_stale_confirmation_cannot_duplicate_a_visit(self):
+        url = "/orders/new/"
+        car = Vehicle.objects.create(customer=Customer.objects.create(name="Lucía"), plate="QA-1")
+        first = {"vehicle": car.pk, "complaint": "Frenos", "reception_token": self.token(url)}
+        second = {**first, "reception_token": self.token(url)}
+        self.assertEqual(self.client.post(url, first).status_code, 302)
+        review = self.client.post(url, second)
+        second["confirm_open_orders"] = review.context["open_order_review"]["stamp"]
+        third = {**second, "reception_token": self.token(url)}
+        self.assertContains(self.client.post(url, third), "Es un trabajo distinto")
+        create_work_order(actor=self.manager, vehicle=car, complaint="Otra visita")
+        changed = self.client.post(url, second)
+        self.assertEqual(len(changed.context["open_order_review"]["orders"]), 2)
+        self.assertEqual(WorkOrder.objects.count(), 2)
+        second["confirm_open_orders"] = changed.context["open_order_review"]["stamp"]
+        result = self.client.post(url, second)
+        self.assertEqual(self.client.post(url, second).url, result.url)
+        self.assertEqual(WorkOrder.objects.count(), 3)
+        WorkOrder.objects.filter(vehicle=car).update(status="delivered")
+        self.assertEqual(self.client.post(url, third).status_code, 302)
 
     def test_token_is_scoped_to_user_and_step_and_catalog_keeps_its_destination(self):
         path = "/records/customers/new/"

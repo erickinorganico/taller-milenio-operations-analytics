@@ -1,11 +1,15 @@
 # Fotos desde el celular
 
+## Recibir un vehículo que ya está registrado
+
+En **Órdenes de trabajo → Recibir vehículo**, busca por placa, cliente o modelo y **selecciona el vehículo**. La búsqueda admite placas con o sin guion y nombres con o sin acento. Escribe el motivo de la visita y toca **Crear orden de trabajo**. Si el vehículo ya tiene trabajo abierto, aparecen los folios, sus etapas y sus motivos. Abre el folio que corresponda. Si el cliente trae otro trabajo, marca **Es un trabajo distinto para este vehículo** y toca **Crear otra orden**. Los campos que ya llenaste siguen en la pantalla. Si otra persona abrió un folio entre tanto, verás la lista actualizada. Un vehículo con todas sus órdenes entregadas o canceladas pasa directamente a la nueva visita.
+
 ## Fotografiar un hallazgo
 
 1. Entra en la dirección del taller con tu cuenta. Abre **Mis órdenes**, elige el folio y comprueba las placas. Los técnicos trabajan en sus órdenes asignadas.
 2. En **Inspección y fotos**, escribe el punto revisado, elige el resultado y añade las observaciones. La orden permite registrar puntos durante la etapa **Inspección**.
 3. Usa **Tomar foto** para abrir la cámara trasera si el navegador lo permite. **Elegir una foto de la galería** abre un archivo existente. Puedes registrar el punto sin foto o registrar otro punto para añadir más evidencia.
-4. Comprueba la vista previa y el folio. Toca **Guardar inspección** y espera **Inspección guardada en la orden**.
+4. Comprueba la vista previa y el folio. Si elegiste la foto equivocada, **Quitar foto** conserva tus observaciones y te permite elegir otra. Toca **Guardar inspección** y espera **Inspección guardada en la orden**. Si intentas salir con cambios pendientes, los navegadores compatibles permiten cancelar la salida. Mantén la página abierta hasta recibir la confirmación.
 
 Recepción puede dejar el mismo folio abierto en otro dispositivo. La lista visible consulta cambios cada 20 segundos y al volver a la pestaña. **Actualizar** consulta de inmediato. La actualización conserva el texto que alguien esté escribiendo. La miniatura abre la copia privada en tamaño completo. Para revisar el cambio en la bitácora general, vuelve a abrir el folio.
 

@@ -2,11 +2,12 @@
 
 La dirección prevista es **taller.autoserviciomilenio.com**. Desde Safari o Chrome, cada persona inicia sesión con su cuenta y puede guardar la dirección en la pantalla de inicio. La PC de recepción puede estar apagada. Ante un corte del Wi-Fi se puede usar la red móvil. Registrar órdenes requiere conexión al servicio.
 
-**Para Gerencia.** Reutilizar un VPS de Milenio si reúne los requisitos. Como primera compra, elegir InterServer Linux KVM de un slice, con facturación mensual sin compromiso, y una copia cifrada en Backblaze B2. El presupuesto autorizado es USD 7/mes en total. [Presupuesto, cálculo y alternativas](COSTOS.md)
+**Para Gerencia.** Con el presupuesto autorizado de USD 7 al mes, la propuesta es InterServer mensual y una copia cifrada en Backblaze B2. Si se amplía el presupuesto, Akamai Cloud con copias cuesta aproximadamente USD 14.78 antes de impuestos en el escenario de 50 GB retenidos en B2. El procedimiento Linux de esta guía sirve también para las otras opciones comparadas. [Presupuesto, costos de recuperación y alternativas entre USD 10 y 15](COSTOS.md)
 
 | Si necesitas… | Abre esta guía |
 |---|---|
 | Decidir si confiarle los datos a este proveedor | [Evaluación de InterServer y verificaciones antes del alta](SEGURIDAD-PROVEEDOR.md) |
+| Recibir un auto que ya visitó el taller | [Elegir el vehículo y retomar su folio](FOTOS.md#recibir-un-vehículo-que-ya-está-registrado) |
 | Tomar una foto en el celular y verla en recepción | [Fotos de inspección y reintentos](FOTOS.md) |
 | Dar a un agente acceso a un indicador o a una orden | [Permisos, ejemplos y revocación](AGENTES.md) |
 | Saber si la copia, el disco y los servicios están bien | [Diagnóstico del servidor](OPERACION.md) |

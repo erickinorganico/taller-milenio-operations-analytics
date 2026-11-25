@@ -2,6 +2,13 @@
   {{ field }}
   {% if field.errors %}<div class="notice error" role="alert">{{ field.errors }}</div>{% endif %}
 {% else %}
+  {% if order_intake and field.name == 'vehicle' %}
+    <div class="field" data-vehicle-filter hidden>
+      <label for="filter-vehicle">Buscar vehículo registrado</label>
+      <input id="filter-vehicle" type="search" placeholder="Placa, cliente o modelo" autocomplete="off" aria-controls="{{ field.id_for_label }}">
+      <small role="status" data-vehicle-count></small>
+    </div>
+  {% endif %}
   <div class="field{% if field.errors %} invalid{% endif %}">
     <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %}<span class="required" aria-hidden="true"> *</span>{% endif %}</label>
     {{ field }}

@@ -27,7 +27,7 @@ from django.views.decorators.http import require_POST
 from . import models as m, services as s
 from .access import can, require, ROLES
 from .catalog import CATALOG, SOURCE_MODELS, SOURCE_TITLES
-from .reception import reception_form
+from .reception import reception_form, review_open_orders
 from .webforms import LABELS, SetupForm, TeamForm, TeamEditForm, MoneyLineForm, PaymentForm, InspectionForm, model_form
 
 def fail(request, exc):
@@ -97,6 +97,7 @@ def sign_in(request):
 
 def static_asset(request, path):
     allowed = {"workshop/commercial.css":"text/css", "workshop/app.css":"text/css", "workshop/analytics.css":"text/css", "workshop/app.js":"text/javascript",
+               "workshop/reception.js":"text/javascript",
                "workshop/shell.css":"text/css", "workshop/shell.js":"text/javascript", "workshop/analytics.js":"text/javascript", "workshop/data.css":"text/css", "workshop/capture.js":"text/javascript", "workshop/inspection.js":"text/javascript", "workshop/capture.css":"text/css",
                "workshop/inbox.css":"text/css", "workshop/photo-ai.css":"text/css"}
     if path not in allowed:
@@ -279,11 +280,16 @@ def order_form(request):
     form.fields["assigned_to"].queryset=User.objects.filter(is_active=True).filter(Q(is_superuser=True)|Q(groups__name__in=["technician","manager","advisor"])).distinct()
     if request.GET.get("vehicle"):
         form.initial["vehicle"]=request.GET["vehicle"]
+    review = {}
     if request.method=="POST" and form.is_valid():
         try:
-            order=s.create_work_order(actor=request.user,**form.cleaned_data)
-            messages.success(request,f"{order.number}: vehículo recibido.")
-            return redirect(f"/orders/{order.pk}/")
+            with transaction.atomic():
+                vehicle = m.Vehicle.objects.select_for_update().get(pk=form.cleaned_data["vehicle"].pk)
+                review = review_open_orders(request, vehicle)
+                if not review:
+                    order=s.create_work_order(actor=request.user,**form.cleaned_data)
+                    messages.success(request,f"Vehículo recibido. Orden {order.number}.")
+                    return redirect(f"/orders/{order.pk}/")
         except (ValidationError,IntegrityError) as exc:
             fail(request,exc)
     has_vehicles = vehicles.exists()
@@ -292,7 +298,7 @@ def order_form(request):
         "intro": "Selecciona un vehículo registrado o da de alta uno nuevo." if has_vehicles
                  else "Registra el vehículo para abrir su primera orden de trabajo.",
         "form": form, "back": "/orders/", "submit": "Crear orden de trabajo",
-        "order_intake": True, "has_customers": m.Customer.objects.exists(),
+        "order_intake": True, "open_order_review": review, "has_customers": m.Customer.objects.exists(),
         "hide_form": not has_vehicles and request.method == "GET",
     })
 

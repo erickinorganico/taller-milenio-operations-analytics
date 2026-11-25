@@ -21,10 +21,11 @@
         <p class="small muted">Se guardará en {{ order.number }}. La foto es opcional.</p>
         {% if inspection_form.errors %}<p>Si llevabas foto, vuelve a seleccionarla antes de guardar.</p>{% endif %}
         <div><img data-preview class="inspection-photo" alt="Vista previa de la foto elegida" hidden></div>
+        <button type="button" class="button" data-remove-photo hidden>Quitar foto</button>
         <p role="status" data-upload-status></p>
         <button class="button primary" type="submit">Guardar inspección</button>
       </form>
     </div>
   {% endif %}
 </section>
-<script src="{% static 'workshop/inspection.js' %}" defer></script>
+<script src="{% static 'workshop/inspection.js' %}?v=2" defer></script>

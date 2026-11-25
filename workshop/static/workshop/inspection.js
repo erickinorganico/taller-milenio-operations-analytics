@@ -58,13 +58,30 @@
   const camera = form.elements.photo;
   const gallery = form.elements.gallery_photo;
   const preview = form.querySelector('[data-preview]');
+  const removePhoto = form.querySelector('[data-remove-photo]');
   const feedback = form.querySelector('[data-upload-status]');
   const button = form.querySelector('button[type=submit]');
   const key = form.elements.submission_key;
   let selection = 0;
   let prepared = null;
   let uploading = false;
-  form.addEventListener('input', () => { form.dataset.edited = 'true'; });
+  function warnBeforeLeaving(event) {
+    event.preventDefault();
+    event.returnValue = '';
+  }
+  function updateDraft() {
+    const hasDraft = camera.files.length || gallery.files.length ||
+      form.elements.area.value.trim() || form.elements.notes.value.trim() || form.elements.result.value;
+    if (hasDraft) {
+      form.dataset.edited = 'true';
+      window.addEventListener('beforeunload', warnBeforeLeaving);
+    } else {
+      delete form.dataset.edited;
+      window.removeEventListener('beforeunload', warnBeforeLeaving);
+    }
+  }
+  form.addEventListener('input', updateDraft);
+  updateDraft();
 
   async function prepare(file, version) {
     if (file.size > 25 * 1024 * 1024) throw new Error('La foto supera 25 MB. Elige una copia más pequeña.');
@@ -109,6 +126,8 @@
       if (input.files.length) other.value = '';
       const version = ++selection;
       const file = camera.files[0] || gallery.files[0];
+      removePhoto.hidden = !file;
+      updateDraft();
       preview.hidden = true;
       preview.removeAttribute('src');
       feedback.textContent = file ? 'Preparando la foto…' : '';
@@ -122,11 +141,20 @@
     });
   }
 
+  removePhoto.addEventListener('click', () => {
+    camera.value = '';
+    gallery.value = '';
+    camera.dispatchEvent(new Event('change'));
+    feedback.textContent = 'Foto retirada. Puedes elegir otra o guardar sólo el punto.';
+    camera.focus();
+  });
+
   form.addEventListener('submit', async event => {
     event.preventDefault();
     if (uploading) return;
     uploading = true;
     button.disabled = true;
+    removePhoto.disabled = true;
     const payload = new FormData(form);
     const inputs = [...form.querySelectorAll('input:not([type=hidden]), select, textarea')];
     inputs.forEach(input => { input.disabled = true; });
@@ -174,11 +202,12 @@
       }
       form.reset();
       key.value = result.next_key;
-      delete form.dataset.edited;
+      updateDraft();
       prepared = null;
       selection++;
       preview.hidden = true;
       preview.removeAttribute('src');
+      removePhoto.hidden = true;
       feedback.textContent = result.message;
       refresh(true);
     } catch {
@@ -186,6 +215,7 @@
     } finally {
       clearTimeout(timer);
       button.disabled = false;
+      removePhoto.disabled = false;
       inputs.forEach(input => { input.disabled = false; });
       uploading = false;
     }

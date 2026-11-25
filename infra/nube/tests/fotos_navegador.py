@@ -10,7 +10,7 @@ import subprocess
 import sys
 import tempfile
 import time
-from urllib.parse import urlsplit
+from urllib.parse import urlencode, urlsplit
 from urllib.request import Request, urlopen
 from uuid import uuid4
 
@@ -33,6 +33,8 @@ pw = os.environ["QA_SYNTHETIC_PASSWORD"]
 User.objects.create_superuser("mesa", password=pw)
 car = Vehicle.objects.create(customer=Customer.objects.create(name="Prueba"),
                              make="Marca", model="Modelo", plate="QA")
+Vehicle.objects.create(customer=Customer.objects.create(name="María de prueba"),
+                       make="Otra", model="Unidad", plate="QA-2026")
 role = Group.objects.create(name="technician")
 for name in ["tecnico1","tecnico2"]:
     user = User.objects.create_user(name,password=pw)
@@ -85,6 +87,50 @@ def exercise(browser, base, password):
     phone = session(browser, base, "tecnico1", password, 390)
     second = session(browser, base, "tecnico2", password, 390)
     desk = session(browser, base, "mesa", password, 1280)
+    reception = session(browser, base, "mesa", password, 390)
+    reception.goto(f"{base}/orders/new/")
+    vehicle = reception.locator("#id_vehicle")
+    lookup = reception.get_by_label("Buscar vehículo registrado")
+    lookup.fill("maria")
+    expect(vehicle.locator("option")).to_have_count(2)
+    vehicle.select_option(index=1)
+    lookup.fill("no existe")
+    expect(vehicle).to_have_value("")
+    expect(reception.locator("[data-vehicle-count]")).to_contain_text("Sin coincidencias")
+    lookup.fill("qa2026")
+    lookup.press("Enter")
+    expect(vehicle).to_be_focused()
+    expect(vehicle).to_have_value("")
+    lookup.fill("")
+    vehicle.select_option("1")
+    reception.locator("#id_complaint").fill("Visita separada de prueba")
+    reception.get_by_role("button", name="Crear orden de trabajo").click()
+    expect(reception.get_by_role("link", name="Abrir QA-tecnico1")).to_be_visible()
+    reception.get_by_role("button", name="Crear otra orden").click()
+    expect(reception.locator("[name=confirm_open_orders]")).to_be_focused()
+    reception.get_by_label("Es un trabajo distinto").check()
+    reception.get_by_role("button", name="Crear otra orden").click()
+    reception.wait_for_url(f"{base}/orders/3/")
+    # Two desks receive the same second vehicle with independently issued forms.
+    url = f"{base}/orders/new/"
+    visits = []
+    for _ in range(2):
+        reception.goto(url)
+        visits.append(urlencode({
+            "vehicle": 2, "complaint": "Revisión simultánea",
+            "reception_token": reception.locator("[name=reception_token]").input_value(),
+            "csrfmiddlewaretoken": reception.locator(".form-panel [name=csrfmiddlewaretoken]").input_value(),
+        }).encode())
+    cookies = "; ".join(f'{c["name"]}={c["value"]}' for c in reception.context.cookies())
+
+    def receive(data):
+        with urlopen(Request(url, data=data, headers={"Cookie": cookies}), timeout=30) as response:
+            return urlsplit(response.url).path, "confirm_open_orders" in response.read().decode()
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        outcomes = list(pool.map(receive, visits))
+    assert sorted(outcomes) == [("/orders/4/", False), ("/orders/new/", True)], outcomes
+    reception.context.close()
     pages = [phone, second, desk]
     errors = []
     for page, order_id in zip(pages, [1, 2, 1]):
@@ -102,6 +148,15 @@ def exercise(browser, base, password):
     preview = phone.locator("[data-preview]")
     expect(preview).to_be_visible()
     assert preview.evaluate("img => img.naturalWidth") == 2400
+    phone.get_by_role("button", name="Quitar foto").click()
+    expect(phone.locator("[data-remove-photo]")).to_be_hidden()
+    expect(preview).to_be_hidden()
+    expect(phone.locator("[name=photo]")).to_have_value("")
+    expect(phone.locator("#id_notes")).to_have_value("Hallazgo sintético")
+    assert phone.evaluate("!window.dispatchEvent(new Event('beforeunload', {cancelable:true}))")
+    phone.locator("[data-gallery] summary").click()
+    phone.locator('[name=gallery_photo]').set_input_files({"name":"otra.jpg", "mimeType":"image/jpeg", "buffer":raw.getvalue()})
+    expect(preview).to_be_visible()
     target = base + "/orders/1/inspection/"
     receipts = []
 
@@ -134,6 +189,7 @@ def exercise(browser, base, password):
             expect(phone.locator("[data-upload-status]")).to_contain_text("Cambió la cuenta")
             expect(preview).to_be_visible()
     expect(phone.locator("[data-upload-status]")).to_contain_text("Inspección guardada en la orden QA-tecnico1")
+    assert phone.evaluate("window.dispatchEvent(new Event('beforeunload', {cancelable:true}))")
     # Wait for the second session's unattended poll; it must preserve the desk draft.
     expect(desk.locator("[data-inspections] img")).to_have_count(1, timeout=35000)
     expect(desk.locator("#id_area")).to_have_value("Borrador en recepción")
@@ -151,6 +207,8 @@ def exercise(browser, base, password):
     assert retry_ids == [ids[0], ids[0]]
     assert len(set(ids + receipts)) == 3
     return {"viewport": 390, "desk": 1280, "camera_input": True, "local_preview_width": 2400,
+            "vehicle_filter": True, "separate_visit_acknowledged": True,
+            "simultaneous_reception": "one folio and one review", "photo_replaced": True,
             "retry_after_lost_confirmation": "one inspection", "automatic_desk_refresh": True,
             "desk_draft_preserved": True, "reauth_same_person": True, "account_switch_blocked": True, "concurrent_native_12MP_uploads": len(ids), "concurrent_retries_reused_id": True}
 
